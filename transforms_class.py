@@ -42,12 +42,11 @@ class VariableTransform(Transform):
         self.target_variable = acts_on_variable
 
 class DropVariable(VariableTransform):
-    def __init__(self, name: str, description: str, variable_to_drop: str):
-        super().__init__(name, description, variable_to_drop)
+    def __init__(self, variable_to_drop: str):
+        super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
     def transforms(self, tbl: MetaplusTable, tbl2: MetaplusTable = None):
         self.deleted_variables = [self.target_variable]
         self.target_table = tbl.table_name
         df = tbl.df.drop(self.target_variable)
         return df
-

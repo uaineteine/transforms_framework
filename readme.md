@@ -51,8 +51,7 @@ Drops a specified variable (column) from a [`MetaplusTable`](metaplus_table.py).
 ```python
 from transforms_class import DropVariable
 
-drop_age = DropVariable(name="drop_age", description="Drops the age column", variable_to_drop="age")
-result_df = drop_age(tbl)
+new_df = DropVariable("age")(tbl)
 ```
 
 ## Usage
