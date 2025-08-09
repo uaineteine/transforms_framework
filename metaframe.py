@@ -1,4 +1,5 @@
 import os
+import json
 from frameverifier import FrameTypeVerifier
 from pipeline_event import PipelineEvent
 
@@ -104,3 +105,19 @@ class Metaframe:
         event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})")
         tbl.events.append(event)
         return tbl
+
+    def save_events(self):
+        """
+        Save the events to a JSON file in the events_log directory.
+
+        :return: None
+        """
+        if not os.path.exists("events_log"):
+            os.makedirs("events_log")
+        
+        log_path = f"events_log/job_1/{self.table_name}_events.json"
+        for event in self.events:
+            event.log_location = log_path
+            event.log()
+        
+        print(f"Events saved to {log_path}")

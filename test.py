@@ -9,11 +9,15 @@ if __name__ == "__main__":
 
     # Wrap DataFrame in Metaframe
     tbl = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+    print("Original columns:", tbl.df.columns)
 
     # Instantiate DropVariable transform
     tbl = DropVariable("age")(tbl)
 
     # Show result
-    print("Original columns:", df.columns)
     print("Transformed columns:", tbl.df.columns)
     tbl.df.show()
+
+
+    #save table events
+    tbl.save_events()
