@@ -1,21 +1,68 @@
 import os
+import polars as pl
 from pipeline_event import PipelineEvent
-from pyspark.sql import DataFrame
+
+class FrameTypeVerifier:
+    """
+    Static class to verify that the DataFrame matches the specified frame_type.
+    """
+    SUPPORTED_TYPES = ("pyspark", "pandas", "polars")
+    polars="polars"
+    pyspark="pyspark"
+    pandas="pandas"
+
+    @staticmethod
+    def is_supported(frame_type: str) -> bool:
+        """
+        Check if the frame_type is supported.
+
+        :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
+        :return: True if supported, False otherwise.
+        """
+        return frame_type in FrameTypeVerifier.SUPPORTED_TYPES
+
+    @staticmethod
+    def verify(df, frame_type:str):
+        if frame_type not in FrameTypeVerifier.SUPPORTED_TYPES:
+            raise ValueError(f"frame_type must be one of {FrameTypeVerifier.SUPPORTED_TYPES}")
+
+        if frame_type == "pyspark":
+            try:
+                from pyspark.sql import DataFrame as SparkDataFrame
+            except ImportError:
+                SparkDataFrame = None
+            if SparkDataFrame is None or not isinstance(df, SparkDataFrame):
+                raise TypeError("df must be a PySpark DataFrame when frame_type is 'pyspark'")
+        elif frame_type == "pandas":
+            try:
+                import pandas as pd
+            except ImportError:
+                pd = None
+            if pd is None or not isinstance(df, pd.DataFrame):
+                raise TypeError("df must be a Pandas DataFrame when frame_type is 'pandas'")
+        elif frame_type == "polars":
+            if not isinstance(df, pl.DataFrame):
+                raise TypeError("df must be a Polars DataFrame when frame_type is 'polars'")
 
 class MetaplusTable:
     """
     Class to handle the MetaplusTable table.
+    Supports PySpark, Pandas, or Polars DataFrames.
     """
 
-    def __init__(self, df: DataFrame, src_path: str = "", table_name: str = ""):
+    def __init__(self, df, src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
-        Initialize the MetaplusTable with a primary DataFrame and optional src_path/table_name.
+        Initialize the MetaplusTable with a DataFrame and type.
 
-        :param df: Primary Spark DataFrame.
+        :param df: DataFrame (PySpark, Pandas, or Polars).
         :param src_path: Optional source file path.
         :param table_name: Optional table name.
+        :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
         """
+        FrameTypeVerifier.verify(df, frame_type)
+
         self.df = df
+        self.frame_type = frame_type
 
         self.table_name = ""
         if table_name:
@@ -28,31 +75,63 @@ class MetaplusTable:
 
     def __repr__(self):
         return self.table_name
-    
+
     def __str__(self):
-        return f"MetaplusTable(name={self.table_name})"
+        return f"MetaplusTable(name={self.table_name}, type={self.frame_type})"
 
     def get_pandas_frame(self):
         """
-        Convert the Spark DataFrame to a Pandas DataFrame.
+        Convert the DataFrame to a Pandas DataFrame.
 
         :return: Pandas DataFrame.
         """
-        return self.df.toPandas()
+        if self.frame_type == "pyspark":
+            return self.df.toPandas()
+        elif self.frame_type == "pandas":
+            print("WARNING: Unoptimised code, DataFrame is already a Pandas DataFrame.")
+            return self.df
+        elif self.frame_type == "polars":
+            return self.df.to_pandas()
+        else:
+            raise ValueError("Unsupported frame_type")
 
     @staticmethod
-    def load(spark, path: str, format: str = "parquet", table_name: str = ""):
+    def load(spark=None, path: str = "", format: str = "parquet", table_name: str = "", frame_type: str = "pyspark"):
         """
         Load a DataFrame from the given path and return a MetaplusTable.
 
-        :param spark: SparkSession object.
+        :param spark: SparkSession object (required for PySpark).
         :param path: Path to the data file.
         :param format: File format (default: 'parquet').
         :param table_name: Optional table name.
+        :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
         :return: MetaplusTable instance.
         """
-        df = spark.read.format(format).load(path)
-        tbl = MetaplusTable(df, src_path=path, table_name=table_name)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format}")
+        if frame_type == "pyspark":
+            if spark is None:
+                raise ValueError("SparkSession required for PySpark")
+            df = spark.read.format(format).load(path)
+        elif frame_type == "pandas":
+            import pandas as pd
+            if format == "parquet":
+                df = pd.read_parquet(path)
+            elif format == "csv":
+                df = pd.read_csv(path)
+            else:
+                raise ValueError("Unsupported format for pandas")
+        elif frame_type == "polars":
+            if pl is None:
+                raise ImportError("polars is not installed")
+            if format == "parquet":
+                df = pl.read_parquet(path)
+            elif format == "csv":
+                df = pl.read_csv(path)
+            else:
+                raise ValueError("Unsupported format for polars")
+        else:
+            raise ValueError("Unsupported frame_type")
+
+        tbl = MetaplusTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
+        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})")
         tbl.events.append(event)
         return tbl
