@@ -1,0 +1,23 @@
+{
+  "event_type": "load",
+  "message": "Loaded table from test.csv as csv (pyspark)",
+  "description": "",
+  "uuid": "dc0737fa-92e6-4a96-8795-b7a90db8fb43",
+  "timestamp": "2025-08-09T23:42:29.557463"
+}
+{
+  "event_type": "transform",
+  "message": "DropVariable",
+  "description": "Removes this variable from a dataframe",
+  "uuid": "b006c4ef-8bf7-40bf-8129-a16929ef9dc0",
+  "timestamp": "2025-08-09T23:42:29.575461",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": [
+    "age"
+  ],
+  "target_table": "test_table",
+  "target_variable": "age"
+}

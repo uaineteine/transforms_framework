@@ -4,9 +4,12 @@ from pipeline_event import PipelineEvent
 from metaframe import Metaframe
 
 class Transform(PipelineEvent):
-    def __init__(self, name: str, description: str):
+    def __init__(self, name: str, description: str, transform_type:str):
         super().__init__(event_type="transform", message=name, description=description, log_location="events_log/job_1/transforms.json")
         self.name = name  # Set name manually
+        self.transform_type = transform_type
+
+        #initalise
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None
@@ -32,13 +35,13 @@ class Transform(PipelineEvent):
 
         return result_df
 
-class VariableTransform(Transform):
+class TableTransform(Transform):
     def __init__(self, name: str, description: str, acts_on_variable: str):
-        super().__init__(name, description)
+        super().__init__(name, description, "TableTransform")
         self.target_table = "Uncalled"
         self.target_variable = acts_on_variable
 
-class DropVariable(VariableTransform):
+class DropVariable(TableTransform):
     def __init__(self, variable_to_drop: str):
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 

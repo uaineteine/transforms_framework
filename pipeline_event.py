@@ -24,6 +24,9 @@ class PipelineEvent:
     def log(self):
         if self.log_location == "":
             raise ValueError("No log location specified for the event.")
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
+        # Append the event to the log file
         with open(self.log_location, "a", encoding="utf-8") as f:
             f.write(self.__repr__() + "\n")
 
