@@ -32,11 +32,6 @@ class Transform(PipelineEvent):
 
         return result_df
 
-    def __repr__(self):
-        # Exclude 'df' from the dictionary representation
-        dict_repr = {k: v for k, v in self.__dict__.items() if k != "df"}
-        return json.dumps(dict_repr, indent=2, ensure_ascii=True)
-
 class VariableTransform(Transform):
     def __init__(self, name: str, description: str, acts_on_variable: str):
         super().__init__(name, description)

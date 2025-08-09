@@ -17,7 +17,9 @@ class PipelineEvent:
         self.log_location = log_location
 
     def __repr__(self):
-        return json.dumps(self.__dict__, indent=2, ensure_ascii=True)
+        # Exclude 'df' from the dictionary representation
+        dict_repr = {k: v for k, v in self.__dict__.items() if k != "log_location"}
+        return json.dumps(dict_repr, indent=2, ensure_ascii=True)
 
     def log(self):
         if self.log_location == "":
