@@ -74,15 +74,16 @@ class Metaframe:
             if spark is None:
                 raise ValueError("SparkSession required for PySpark")
             if format == "sas":
-                # Requires: pip install spark-sas7bdat
                 df = spark.read.format("com.github.saurfang.sas.spark").load(path)
+            elif format == "csv":
+                df = spark.read.format("csv").option("header", "true").load(path)
             else:
                 df = spark.read.format(format).load(path)
         elif frame_type == "pandas":
             if format == "parquet":
                 df = pd.read_parquet(path)
             elif format == "csv":
-                df = pd.read_csv(path)
+                df = pd.read_csv(path)  # Default: header inferred
             elif format == "sas":
                 df = pd.read_sas(path)
             else:
@@ -91,7 +92,7 @@ class Metaframe:
             if format == "parquet":
                 df = pl.read_parquet(path)
             elif format == "csv":
-                df = pl.read_csv(path)
+                df = pl.read_csv(path)  # Default: header inferred
             elif format == "sas":
                 df = sas_to_polars(path)
             else:
