@@ -96,7 +96,7 @@ class MetaplusTable:
             raise ValueError("Unsupported frame_type")
 
     @staticmethod
-    def load(spark=None, path: str = "", format: str = "parquet", table_name: str = "", frame_type: str = "pyspark"):
+    def load(spark=None, path: str = "", format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
         Load a DataFrame from the given path and return a MetaplusTable.
 
