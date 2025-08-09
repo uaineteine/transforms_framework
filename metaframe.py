@@ -72,12 +72,18 @@ class Metaframe:
         if frame_type == "pyspark":
             if spark is None:
                 raise ValueError("SparkSession required for PySpark")
-            df = spark.read.format(format).load(path)
+            if format == "sas":
+                # Requires: pip install spark-sas7bdat
+                df = spark.read.format("com.github.saurfang.sas.spark").load(path)
+            else:
+                df = spark.read.format(format).load(path)
         elif frame_type == "pandas":
             if format == "parquet":
                 df = pd.read_parquet(path)
             elif format == "csv":
                 df = pd.read_csv(path)
+            elif format == "sas":
+                df = pd.read_sas(path)
             else:
                 raise ValueError("Unsupported format for pandas")
         elif frame_type == "polars":
