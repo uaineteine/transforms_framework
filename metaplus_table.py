@@ -1,19 +1,6 @@
 import os
+from pipeline_event import PipelineEvent
 from pyspark.sql import DataFrame
-
-class PipelineEvent:
-    """
-    Class to handle events related to a table.
-    """
-
-    def __init__(self, event_type: str, message: str, description: str = ""):
-        self.event_type = event_type
-        self.message = message
-        self.description = description
-
-    def __repr__(self):
-        #to return json-like string representation
-        return f"TableEvent(type={self.event_type}, message='{self.message}, description='{self.description}')"
 
 class MetaplusTable:
     """
