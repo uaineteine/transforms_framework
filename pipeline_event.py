@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 import json
-
+import os
 
 class PipelineEvent:
     """
@@ -25,9 +25,13 @@ class PipelineEvent:
         with open(self.log_location, "a", encoding="utf-8") as f:
             f.write(self.__repr__() + "\n")
 
-
+#modular test
 if __name__ == "__main__":
-    log_path = "pipeline_event_test.json"
+    log_dir = "events_log"
+    job_name = "job_1"
+    log_path = os.path.join(log_dir, job_name, "pipeline_event_test.json")
+    if not os.path.exists(os.path.dirname(log_path)):
+        os.makedirs(os.path.dirname(log_path))
 
     event1 = PipelineEvent(
         event_type="INFO",
