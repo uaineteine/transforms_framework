@@ -48,6 +48,9 @@ class DropVariable(VariableTransform):
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
     def transforms(self, tbl: Metaframe, tbl2: Metaframe = None):
+        if self.target_variable not in tbl.df.columns:
+            raise ValueError(f"Variable '{self.target_variable}' not found in DataFrame columns: {tbl.df.columns}")
+        
         self.deleted_variables = [self.target_variable]
         self.target_table = tbl.table_name
         tbl.df = tbl.df.drop(self.target_variable)
