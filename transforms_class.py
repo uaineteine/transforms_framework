@@ -1,6 +1,7 @@
 import json
 from pyspark.sql import DataFrame
-from metaplus_table import MetaplusTable, PipelineEvent
+from pipeline_event import PipelineEvent
+from metaplus_table import MetaplusTable
 
 class Transform(PipelineEvent):
     def __init__(self, name: str, description: str):
