@@ -1,7 +1,7 @@
 import json
 from pyspark.sql import DataFrame
 from pipeline_event import PipelineEvent
-from metaplus_table import MetaplusTable
+from metaframe import Metaframe
 
 class Transform(PipelineEvent):
     def __init__(self, name: str, description: str):
@@ -14,7 +14,7 @@ class Transform(PipelineEvent):
     def transforms(self, df:DataFrame, df2:DataFrame=None):
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def __call__(self, tbl:MetaplusTable, tbl2:MetaplusTable=None):
+    def __call__(self, tbl:Metaframe, tbl2:Metaframe=None):
         """
         Call the transformation function with the provided DataFrame(s).
 
@@ -24,7 +24,7 @@ class Transform(PipelineEvent):
         """
         return self.apply(tbl, tbl2)
     
-    def apply(self, tbl:MetaplusTable, tbl2:MetaplusTable=None):
+    def apply(self, tbl:Metaframe, tbl2:Metaframe=None):
         #Apply transformation
         result_df = self.transforms(tbl, tbl2 = tbl2)
 
@@ -47,7 +47,7 @@ class DropVariable(VariableTransform):
     def __init__(self, variable_to_drop: str):
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
-    def transforms(self, tbl: MetaplusTable, tbl2: MetaplusTable = None):
+    def transforms(self, tbl: Metaframe, tbl2: Metaframe = None):
         self.deleted_variables = [self.target_variable]
         self.target_table = tbl.table_name
         df = tbl.df.drop(self.target_variable)

@@ -2,7 +2,11 @@ import os
 from frameverifier import FrameTypeVerifier
 from pipeline_event import PipelineEvent
 
-class MetaplusTable:
+#frame types
+import polars as pl
+import pandas as pd
+
+class Metaframe:
     """
     Class to handle the MetaplusTable table.
     Supports PySpark, Pandas, or Polars DataFrames.
@@ -70,7 +74,6 @@ class MetaplusTable:
                 raise ValueError("SparkSession required for PySpark")
             df = spark.read.format(format).load(path)
         elif frame_type == "pandas":
-            import pandas as pd
             if format == "parquet":
                 df = pd.read_parquet(path)
             elif format == "csv":
@@ -78,8 +81,6 @@ class MetaplusTable:
             else:
                 raise ValueError("Unsupported format for pandas")
         elif frame_type == "polars":
-            if pl is None:
-                raise ImportError("polars is not installed")
             if format == "parquet":
                 df = pl.read_parquet(path)
             elif format == "csv":
@@ -89,7 +90,7 @@ class MetaplusTable:
         else:
             raise ValueError("Unsupported frame_type")
 
-        tbl = MetaplusTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
+        tbl = Metaframe(df, src_path=path, table_name=table_name, frame_type=frame_type)
         event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})")
         tbl.events.append(event)
         return tbl
