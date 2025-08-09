@@ -5,6 +5,7 @@ from pipeline_event import PipelineEvent
 #frame types
 import polars as pl
 import pandas as pd
+from sas_to_polars import sas_to_polars
 
 class Metaframe:
     """
@@ -91,6 +92,8 @@ class Metaframe:
                 df = pl.read_parquet(path)
             elif format == "csv":
                 df = pl.read_csv(path)
+            elif format == "sas":
+                df = sas_to_polars(path)
             else:
                 raise ValueError("Unsupported format for polars")
         else:
