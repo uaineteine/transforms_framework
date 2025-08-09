@@ -4,7 +4,8 @@ from metaplus_table import MetaplusTable, PipelineEvent
 
 class Transform(PipelineEvent):
     def __init__(self, name: str, description: str):
-        super().__init__(event_type="transform", name=name, description=description)
+        super().__init__(event_type="transform", message=name, description=description)
+        self.name = name  # Set name manually
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None

@@ -22,7 +22,7 @@ if __name__ == "__main__":
     tbl = MetaplusTable(df, "people")
 
     # Instantiate DropVariable transform
-    drop_age = DropVariable(name="drop_age", description="Drops the age column", variable_to_drop="age")
+    drop_age = DropVariable("age")(tbl)
 
     # Apply transform
     result_df = drop_age(tbl)
