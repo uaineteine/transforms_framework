@@ -2,7 +2,7 @@ if __name__ == "__main__":
     from pyspark.sql import SparkSession
     from pyspark.sql import DataFrame
     from transforms_class import DropVariable
-    from metaplus_table import MetaplusTable
+    from metaframe import Metaframe
 
     # Create Spark session
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
@@ -12,14 +12,8 @@ if __name__ == "__main__":
     columns = ["name", "age"]
     df = spark.createDataFrame(data, columns)
 
-    # Mock MetaplusTable class if not available
-    class MetaplusTable:
-        def __init__(self, df: DataFrame, table_name: str):
-            self.df = df
-            self.table_name = table_name
-
-    # Wrap DataFrame in MetaplusTable
-    tbl = MetaplusTable(df, "people")
+    # Wrap DataFrame in Metaframe
+    tbl = Metaframe(df, "people")
 
     # Instantiate DropVariable transform
     drop_age = DropVariable("age")(tbl)
