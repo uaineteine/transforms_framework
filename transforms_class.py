@@ -5,7 +5,7 @@ from metaframe import Metaframe
 
 class Transform(PipelineEvent):
     def __init__(self, name: str, description: str):
-        super().__init__(event_type="transform", message=name, description=description)
+        super().__init__(event_type="transform", message=name, description=description, log_location="events_log/job_1/transforms.json")
         self.name = name  # Set name manually
         self.created_variables = None
         self.renamed_variables = None
@@ -28,14 +28,14 @@ class Transform(PipelineEvent):
         #Apply transformation
         result_df = self.transforms(tbl, tbl2 = tbl2)
 
-        self.dump_to_json()
+        self.log()
 
         return result_df
 
-    def dump_to_json(self):
-        # Auto-dump all instance variables to JSON
-        with open(f"{self.name}_transform.json", "w") as f_out:
-            json.dump(self.__dict__, f_out, indent=4)
+    def __repr__(self):
+        # Exclude 'df' from the dictionary representation
+        dict_repr = {k: v for k, v in self.__dict__.items() if k != "df"}
+        return json.dumps(dict_repr, indent=2, ensure_ascii=True)
 
 class VariableTransform(Transform):
     def __init__(self, name: str, description: str, acts_on_variable: str):
@@ -50,5 +50,6 @@ class DropVariable(VariableTransform):
     def transforms(self, tbl: Metaframe, tbl2: Metaframe = None):
         self.deleted_variables = [self.target_variable]
         self.target_table = tbl.table_name
-        df = tbl.df.drop(self.target_variable)
-        return df
+        tbl.df = tbl.df.drop(self.target_variable)
+        tbl.events.append(self)
+        return tbl

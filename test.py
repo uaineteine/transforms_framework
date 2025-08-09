@@ -13,15 +13,12 @@ if __name__ == "__main__":
     df = spark.createDataFrame(data, columns)
 
     # Wrap DataFrame in Metaframe
-    tbl = Metaframe(df, "people")
+    tbl = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
 
     # Instantiate DropVariable transform
-    drop_age = DropVariable("age")(tbl)
-
-    # Apply transform
-    result_df = drop_age(tbl)
+    tbl = DropVariable("age")(tbl)
 
     # Show result
     print("Original columns:", df.columns)
-    print("Transformed columns:", result_df.columns)
-    result_df.show()
+    print("Transformed columns:", tbl.df.columns)
+    tbl.df.show()
