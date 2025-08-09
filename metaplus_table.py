@@ -1,5 +1,5 @@
 import os
-from frametypeverifier import FrameTypeVerifier
+from frameverifier import FrameTypeVerifier
 from pipeline_event import PipelineEvent
 
 class MetaplusTable:
