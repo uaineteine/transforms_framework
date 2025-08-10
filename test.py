@@ -1,6 +1,5 @@
 if __name__ == "__main__":
     from pyspark.sql import SparkSession
-    from pyspark.sql import DataFrame
     from transforms_class import DropVariable
     from metaframe import Metaframe
 

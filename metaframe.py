@@ -102,7 +102,7 @@ class Metaframe:
             raise ValueError("Unsupported frame_type")
 
         tbl = Metaframe(df, src_path=path, table_name=table_name, frame_type=frame_type)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})")
+        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
         tbl.events.append(event)
         return tbl
 
