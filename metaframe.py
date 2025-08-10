@@ -1,5 +1,4 @@
 import os
-import json
 from frameverifier import FrameTypeVerifier
 from pipeline_event import PipelineEvent
 
