@@ -1,11 +1,11 @@
 import os
-from frameverifier import FrameTypeVerifier
 from pipeline_event import PipelineEvent
 
 #frame types
 import polars as pl
 import pandas as pd
 from sas_to_polars import sas_to_polars
+from uainepydat.frameverifier import FrameTypeVerifier
 
 class Metaframe:
     """
