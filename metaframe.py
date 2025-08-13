@@ -32,7 +32,10 @@ class Metaframe:
         if table_name:
             self.table_name = table_name
         elif src_path:
-            self.table_name = os.path.splitext(os.path.basename(src_path))[0]
+            if src_path.find(".") != -1:
+                self.table_name = os.path.basename(src_path)
+            else:
+                self.table_name = os.path.splitext(os.path.basename(src_path))[0]
 
         self.src_path = src_path
         self.events = []
