@@ -2,4 +2,5 @@ polars
 pandas
 pyspark
 sas-to-polars
+sparkpolars
 uainepydat

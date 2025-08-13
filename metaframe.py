@@ -4,6 +4,7 @@ from pipeline_event import PipelineEvent
 #frame types
 import polars as pl
 import pandas as pd
+import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 from uainepydat.frameverifier import FrameTypeVerifier
 
@@ -55,6 +56,23 @@ class Metaframe:
             return self.df
         elif self.frame_type == "polars":
             return self.df.to_pandas()
+        else:
+            raise ValueError("Unsupported frame_type")
+
+    def get_polars_lazy_frame(self):
+        """
+        Convert the DataFrame to a Polars LazyFrame.
+
+        :return: Polars LazyFrame.
+        """
+        if self.frame_type == "pyspark":
+            lf = sp.from_spark(self.df)
+            return lf.lazy()
+        elif self.frame_type == "polars":
+            return self.df.lazy()
+        elif self.frame_type == "pandas":
+            import polars as pl
+            return pl.from_pandas(self.df).lazy()
         else:
             raise ValueError("Unsupported frame_type")
 
