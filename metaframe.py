@@ -12,7 +12,7 @@ from sas_to_polars import sas_to_polars
 from tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
-def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None):
+def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:
     """
     Load a Spark DataFrame from the given path and return a Metaframe.
     """
@@ -26,7 +26,7 @@ def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spar
     else:
         return spark.read.format(format).load(path)
 
-def _load_pandas_df(path:str, format: str = "parquet", table_name: str = ""):
+def _load_pandas_df(path:str, format: str = "parquet", table_name: str = "") -> pd.DataFrame:
     """
     Load a Pandas DataFrame from the given path and return a Metaframe.
     """
@@ -38,6 +38,16 @@ def _load_pandas_df(path:str, format: str = "parquet", table_name: str = ""):
         return pd.read_sas(path)
     else:
         raise ValueError("Unsupported format for pandas")
+
+def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> pl.LazyFrame:
+    if format == "parquet":
+        return pl.scan_parquet(path)
+    elif format == "csv":
+        return pl.scan_csv(path)  # Default: header inferred
+    elif format == "sas":
+        return sas_to_polars(path)
+    else:
+       raise ValueError("Unsupported format for polars")
 
 class Metaframe: 
     """
@@ -142,16 +152,10 @@ class Metaframe:
         elif frame_type == "pandas":
             df = _load_pandas_df(path, format, table_name)
         elif frame_type == "polars":
-            if format == "parquet":
-                df = pl.read_parquet(path)
-            elif format == "csv":
-                df = pl.read_csv(path)  # Default: header inferred
-            elif format == "sas":
-                df = sas_to_polars(path)
-            else:
-                raise ValueError("Unsupported format for polars")
+            df = _load_polars_df(path, format, table_name)
         else:
             raise ValueError("Unsupported frame_type")
 
+        #package into metaframe
         tbl = Metaframe(df, src_path=path, table_name=table_name, frame_type=frame_type)
         return table
