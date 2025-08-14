@@ -74,7 +74,6 @@ class Metaframe:
         elif self.frame_type == "polars":
             return self.df.lazy()
         elif self.frame_type == "pandas":
-            import polars as pl
             return pl.from_pandas(self.df).lazy()
         else:
             raise ValueError("Unsupported frame_type")
