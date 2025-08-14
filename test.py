@@ -4,6 +4,7 @@ if __name__ == "__main__":
     from metaframe import Metaframe
 
     # Create Spark session
+    print("Creating Spark session")
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
     # Wrap DataFrame in Metaframe
