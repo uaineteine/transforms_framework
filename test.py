@@ -8,16 +8,16 @@ if __name__ == "__main__":
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
     # Wrap DataFrame in Metaframe
-    tbl = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+    mf = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
     print("Original columns:", tbl.df.columns)
 
     # Instantiate DropVariable transform
-    tbl = DropVariable("age")(tbl)
+    mf = DropVariable("age")(tbl)
 
     # Show result
     print("Transformed columns:", tbl.df.columns)
-    tbl.df.show()
+    mf.df.show()
 
 
     #save table events
-    tbl.save_events()
+    mf.save_events()
