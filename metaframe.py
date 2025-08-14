@@ -62,12 +62,12 @@ class MetaFrame:
         if src_path == "":
             raise ValueError("Source path cannot be empty")
 
-        if src_path:
-            #does it have a file extension?
-            if src_path.find(".") != -1:
-                return Tablename(os.path.basename(src_path))
-            else:
-                return Tablename(os.path.splitext(os.path.basename(src_path))[0])
+        #does it have a file extension?
+        bn = os.path.basename(src_path)
+        if bn.find(".") != -1:
+            return Tablename()
+        else:
+            return Tablename(os.path.splitext(bn)[0])
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
