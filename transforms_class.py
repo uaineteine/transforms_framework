@@ -1,7 +1,7 @@
 import json
 from pyspark.sql import DataFrame
 from pipeline_event import PipelineEvent
-from metaframe import Metaframe
+from metaframe import MetaFrame
 
 class Transform(PipelineEvent):
     def __init__(self, name: str, description: str, transform_type:str):
@@ -12,7 +12,7 @@ class Transform(PipelineEvent):
     def transforms(self, df:DataFrame, df2:DataFrame=None):
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def __call__(self, tbl:Metaframe, tbl2:Metaframe=None):
+    def __call__(self, tbl:MetaFrame, tbl2:MetaFrame=None):
         """
         Call the transformation function with the provided DataFrame(s).
 
@@ -22,7 +22,7 @@ class Transform(PipelineEvent):
         """
         return self.apply(tbl, tbl2)
     
-    def apply(self, tbl:Metaframe, tbl2:Metaframe=None):
+    def apply(self, tbl:MetaFrame, tbl2:MetaFrame=None):
         #Apply transformation
         result_df = self.transforms(tbl, tbl2 = tbl2)
 
@@ -77,7 +77,7 @@ class DropVariable(SimpleTransform):
         #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
-    def transforms(self, tbl: Metaframe, tbl2: Metaframe = None):
+    def transforms(self, tbl: MetaFrame, tbl2: MetaFrame = None):
         #PUT HERE ERROR CHECKING
         if self.var() not in tbl.df.columns:
             raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {tbl.df.columns}")
