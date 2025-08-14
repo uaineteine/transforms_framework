@@ -60,7 +60,7 @@ class Metaframe:
         return self.table_name
 
     def __str__(self):
-        return f"MetaplusTable(name={self.table_name}, type={self.frame_type})"
+        return f"Metaframe(name={self.table_name}, type={self.frame_type})"
 
     def get_pandas_frame(self):
         """
@@ -88,7 +88,8 @@ class Metaframe:
             lf = sp.from_spark(self.df)
             return lf.lazy()
         elif self.frame_type == "polars":
-            return self.df.lazy()
+            print("WARNING: Unoptimised code, DataFrame is already a polars LazyFrame.")
+            return self.df
         elif self.frame_type == "pandas":
             return pl.from_pandas(self.df).lazy()
         else:
