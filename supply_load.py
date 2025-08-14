@@ -1,5 +1,4 @@
 import json
-from metaframe import MetaFrame
 from pipeline_table import PipelineTable
 
 class SupplyLoad:
