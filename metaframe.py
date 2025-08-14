@@ -64,8 +64,9 @@ class MetaFrame:
 
         #does it have a file extension?
         bn = os.path.basename(src_path)
-        if bn.find(".") != -1:
-            return Tablename()
+        #print(bn)
+        if bn.find(".") == -1:
+            return Tablename(bn)
         else:
             return Tablename(os.path.splitext(bn)[0])
 

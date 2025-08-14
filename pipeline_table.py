@@ -43,7 +43,7 @@ class PipelineTable(MetaFrame):
         :param spark: SparkSession object (required for PySpark).
         :return: MetaFrame instance.
         """
-
+        #print(table_name)
         mf = MetaFrame.load(path, format, table_name, frame_type, spark)
 
         ptable = PipelineTable(mf)

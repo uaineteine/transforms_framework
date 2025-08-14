@@ -21,8 +21,7 @@ class SupplyLoad:
                 data = json.load(file)
                 supply = data.get("supply", [])
                 for item in supply:
-                    mf = MetaFrame.load(item["path"], format=item["format"], frame_type="pyspark", spark=spark)
-                    table = PipelineTable(mf)
+                    table = PipelineTable.load(path=item["path"], format=item["format"], frame_type="pyspark", spark=spark)
                     self.tables.append(table)
 
         except FileNotFoundError:
