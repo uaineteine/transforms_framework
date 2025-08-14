@@ -44,6 +44,7 @@ class TableTransform(Transform):
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None
+        self.hashed_variables = None
 
     
     def nvars(self):
