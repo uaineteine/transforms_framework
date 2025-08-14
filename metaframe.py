@@ -1,5 +1,4 @@
 import os
-from pipeline_event import PipelineEvent
 
 from typing import Union
 import polars as pl
@@ -49,7 +48,7 @@ def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> 
     else:
        raise ValueError("Unsupported format for polars")
 
-class Metaframe: 
+class MetaFrame: 
     """
     Class to handle the Metadata with a dataframe.
     Supports PySpark, Pandas, or Polars DataFrames.
