@@ -26,6 +26,19 @@ def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spar
     else:
         return spark.read.format(format).load(path)
 
+def _load_pandas_df(path:str, format: str = "parquet", table_name: str = ""):
+    """
+    Load a Pandas DataFrame from the given path and return a Metaframe.
+    """
+    if format == "parquet":
+        return pd.read_parquet(path)
+    elif format == "csv":
+        return pd.read_csv(path)  # Default: header inferred
+    elif format == "sas":
+        return pd.read_sas(path)
+    else:
+        raise ValueError("Unsupported format for pandas")
+
 class Metaframe: 
     """
     Class to handle the Metadata with a dataframe.
@@ -127,14 +140,7 @@ class Metaframe:
         if frame_type == "pyspark":
             df = _load_spark_df(path, format, table_name, spark)
         elif frame_type == "pandas":
-            if format == "parquet":
-                df = pd.read_parquet(path)
-            elif format == "csv":
-                df = pd.read_csv(path)  # Default: header inferred
-            elif format == "sas":
-                df = pd.read_sas(path)
-            else:
-                raise ValueError("Unsupported format for pandas")
+            df = _load_pandas_df(path, format, table_name)
         elif frame_type == "polars":
             if format == "parquet":
                 df = pl.read_parquet(path)
