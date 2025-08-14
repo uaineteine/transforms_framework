@@ -5,7 +5,7 @@ from pipeline_table import PipelineTable
 class SupplyLoad:
     """Class to handle supply load information from a JSON file."""
     def __init__(self, json_loc:str, spark=None):
-        if json_loc = "":
+        if json_loc == "":
             raise ValueError("Supply JSON path cannot be empty")
         
         self.supply_load_src = json_loc
@@ -21,7 +21,7 @@ class SupplyLoad:
                 data = json.load(file)
                 supply = data.get("supply", [])
                 for item in supply:
-                    mf = MetaFrame.load(item["path"], item["format"], "pyspark", spark)
+                    mf = MetaFrame.load(item["path"], format=item["format"], frame_type="pyspark", spark=spark)
                     table = PipelineTable(mf)
                     self.tables.append(table)
 
@@ -31,5 +31,3 @@ class SupplyLoad:
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON format in supply load file")
         
-        except Exception as e:
-            raise RuntimeError(f"An error occurred while loading supply data: {str(e)}")

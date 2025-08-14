@@ -65,9 +65,9 @@ class MetaFrame:
         if src_path:
             #does it have a file extension?
             if src_path.find(".") != -1:
-                self.table_name = Tablename(os.path.basename(src_path))
+                return Tablename(os.path.basename(src_path))
             else:
-                self.table_name = Tablename(os.path.splitext(os.path.basename(src_path))[0])
+                return Tablename(os.path.splitext(os.path.basename(src_path))[0])
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
@@ -85,7 +85,7 @@ class MetaFrame:
         self.df = df
         self.frame_type = frame_type
 
-        if table_name:
+        if table_name != "":
             self.table_name = Tablename(table_name)
         else:
             self.table_name = MetaFrame.infer_table_name(src_path)
