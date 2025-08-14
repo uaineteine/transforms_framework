@@ -4,48 +4,68 @@ This program provides a data transformation framework for working with tables (D
 
 ## Main Components
 
-### 1. Metaframe
-**Purpose:** Wraps a DataFrame and tracks its metadata and events.
+### 1. MetaFrame
+**Purpose:** Wraps a DataFrame and tracks its metadata.
 
 **Features:**
 - Supports loading tables from CSV, Parquet, or SAS files into Spark, Pandas, or Polars DataFrames.
-- Stores a list of `PipelineEvent` objects describing actions performed on the table.
-- Can convert between DataFrame types.
-- Can save all events to a JSON log file.
+- Can convert between DataFrame types (Pandas, Polars, PySpark).
+- Stores table metadata including source path, table name, and frame type.
+- Provides utility methods for DataFrame type conversion.
 
 **Example:**
 ```python
 from pyspark.sql import SparkSession
-from metaframe import Metaframe
+from metaframe import MetaFrame
 
 spark = SparkSession.builder.getOrCreate()
-tbl = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+tbl = MetaFrame.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
 ```
 
-### 2. PipelineEvent
+### 2. PipelineTable
+**Purpose:** Extends MetaFrame to include event tracking and logging capabilities.
+
+**Features:**
+- Inherits from MetaFrame and adds event tracking functionality.
+- Stores a list of `PipelineEvent` objects describing actions performed on the table.
+- Can save all events to a JSON log file.
+- Automatically logs load events when tables are loaded.
+
+**Example:**
+```python
+from pipeline_table import PipelineTable
+
+tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+```
+
+### 3. PipelineEvent
 **Purpose:** Represents an event (e.g., loading a table, applying a transform).
 
 **Features:**
 - Stores event type, message, description, timestamp, and a unique UUID.
 - Can log itself as a JSON object to a file.
+- Base class for all pipeline events.
 
 **Example JSON output for a load event:**
 ```json
 {
   "event_type": "load",
   "message": "Loaded table from test.csv as csv (pyspark)",
-  "description": "",
+  "description": "Loaded test_table from test.csv",
   "uuid": "b2e7c8e2-7d4e-4c7e-8b8e-2f6e7c8e2d4e",
   "timestamp": "2025-08-10T12:34:56.789012",
   "log_location": "events_log/job_1/test_table_events.json"
 }
 ```
 
-### 3. Transform and Subclasses
+### 4. Transform and Subclasses
 **Purpose:** Encapsulate transformations (e.g., dropping a column).
 
 **Features:**
 - Each transform is a subclass of `PipelineEvent` and logs itself when applied.
+- `Transform` is the base class for all transformations.
+- `TableTransform` handles transformations that act on specific variables.
+- `SimpleTransform` handles transformations that act on a single variable.
 - Example: `DropVariable` removes a column from the DataFrame and logs the action.
 
 **Example:**
@@ -73,7 +93,7 @@ tbl = DropVariable("age")(tbl)
 }
 ```
 
-### 4. FrameTypeVerifier
+### 5. FrameTypeVerifier
 **Purpose:** Ensures the DataFrame matches the expected type (PySpark, Pandas, Polars).
 
 ---
@@ -82,12 +102,18 @@ tbl = DropVariable("age")(tbl)
 
 1. **Load a table:**
     ```python
-    tbl = Metaframe.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+    from pyspark.sql import SparkSession
+    from pipeline_table import PipelineTable
+    
+    spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
+    tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
     ```
-    Logs a "load" event.
+    Automatically logs a "load" event.
 
 2. **Apply a transformation:**
     ```python
+    from transforms_class import DropVariable
+    
     tbl = DropVariable("age")(tbl)
     ```
     Logs a "transform" event describing the column dropped.
@@ -110,8 +136,11 @@ tbl = DropVariable("age")(tbl)
 
 ## File Structure
 
-- [`metaframe.py`](metaframe.py): Table/event classes
-- [`transforms_class.py`](transforms_class.py): Transformation classes
+- [`metaframe.py`](metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
+- [`pipeline_table.py`](pipeline_table.py): PipelineTable class that extends MetaFrame with event tracking
+- [`pipeline_event.py`](pipeline_event.py): Event and PipelineEvent classes for logging
+- [`transforms_class.py`](transforms_class.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
+- [`test.py`](test.py): Example usage demonstrating the complete workflow
 
 ---
 
@@ -119,9 +148,10 @@ tbl = DropVariable("age")(tbl)
 
 - All transformations should inherit from `Transform` and implement the `transforms` method.
 - The framework is designed for transparency and auditability in data pipelines by logging every important action as a structured JSON event.
+- The `PipelineTable` class is the main entry point for users who want event tracking functionality.
 
 ---
 
 ## Summary
 
-This framework makes your data pipeline transparent and auditable by logging every important action as a structured JSON event. You can trace exactly what happened to each table, when, and why.
+This framework makes your data pipeline transparent and auditable by logging every important action as a structured JSON event. You can trace exactly what happened to each table, when, and why. The `PipelineTable` class provides the main interface for loading tables and tracking transformations, while the `MetaFrame` class provides the underlying DataFrame management capabilities.
