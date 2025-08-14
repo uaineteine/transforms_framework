@@ -12,11 +12,26 @@ from sas_to_polars import sas_to_polars
 from tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
-class Metaframe:
+class Metaframe: 
     """
-    Class to handle the MetaplusTable table.
+    Class to handle the Metadata with a dataframe.
     Supports PySpark, Pandas, or Polars DataFrames.
     """
+
+    @staticmethod
+    def infer_table_name(src_path: str) -> str:
+        """
+        Returns the table name from the filepath, removing any file extensions
+        """
+        if src_path == "":
+            raise ValueError("Source path cannot be empty")
+
+        if src_path:
+            #does it have a file extension?
+            if src_path.find(".") != -1:
+                self.table_name = Tablename(os.path.basename(src_path))
+            else:
+                self.table_name = Tablename(os.path.splitext(os.path.basename(src_path))[0])
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
@@ -27,21 +42,19 @@ class Metaframe:
         :param table_name: Optional table name.
         :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
         """
+        #verify the frame type
         FrameTypeVerifier.verify(df, frame_type)
 
+        #store the dataframe and type
         self.df = df
         self.frame_type = frame_type
 
         if table_name:
             self.table_name = Tablename(table_name)
-        elif src_path:
-            if src_path.find(".") != -1:
-                self.table_name = Tablename(os.path.basename(src_path))
-            else:
-                self.table_name = Tablename(os.path.splitext(os.path.basename(src_path))[0])
+        else:
+            self.table_name = Metaframe.infer_table_name(src_path)
 
         self.src_path = src_path
-        self.events = []
 
     def __repr__(self):
         return self.table_name
