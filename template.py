@@ -25,4 +25,5 @@ if __name__ == "__main__":
 
 
     supply_frames = SupplyLoad("test_tables/payload.json", spark=spark)
-    print("Loaded supply tables:")
+    print("Loaded xyz supply tables:")
+    supply_frames["test_table2"].df.show()
