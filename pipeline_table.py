@@ -45,9 +45,9 @@ class PipelineTable(MetaFrame):
         """
 
         mf = MetaFrame.load(path, format, table_name, frame_type, spark)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path} with version {self.pipeline_table_version}")
 
         ptable = PipelineTable(mf)
+        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path} with version {ptable.pipeline_table_version}")
         ptable.add_event(event)
         return ptable
 
