@@ -1,8 +1,10 @@
 import os
 from pipeline_event import PipelineEvent
 
+from typing import Union
 import polars as pl
 import pandas as pd
+from pyspark.sql import DataFrame as SparkDataFrame
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 from uainepydat.frameverifier import FrameTypeVerifier
@@ -13,7 +15,7 @@ class Metaframe:
     Supports PySpark, Pandas, or Polars DataFrames.
     """
 
-    def __init__(self, df, src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
+    def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
         Initialize the MetaplusTable with a DataFrame and type.
 
