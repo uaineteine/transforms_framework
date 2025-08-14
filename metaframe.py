@@ -12,6 +12,20 @@ from sas_to_polars import sas_to_polars
 from tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
+def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None):
+    """
+    Load a Spark DataFrame from the given path and return a Metaframe.
+    """
+    if spark is None:
+        raise ValueError("SparkSession required for PySpark")
+
+    if format == "sas":
+        return spark.read.format("com.github.saurfang.sas.spark").load(path)
+    elif format == "csv":
+        return spark.read.format("csv").option("header", "true").load(path)
+    else:
+        return spark.read.format(format).load(path)
+
 class Metaframe: 
     """
     Class to handle the Metadata with a dataframe.
@@ -109,14 +123,7 @@ class Metaframe:
         :return: Metaframe instance.
         """
         if frame_type == "pyspark":
-            if spark is None:
-                raise ValueError("SparkSession required for PySpark")
-            if format == "sas":
-                df = spark.read.format("com.github.saurfang.sas.spark").load(path)
-            elif format == "csv":
-                df = spark.read.format("csv").option("header", "true").load(path)
-            else:
-                df = spark.read.format(format).load(path)
+            df = _load_spark_df(path, format, table_name, spark)
         elif frame_type == "pandas":
             if format == "parquet":
                 df = pd.read_parquet(path)
