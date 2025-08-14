@@ -1,0 +1,16 @@
+[
+    job_id = 1,
+    run_id = 2,
+    supply: [
+        {
+            "name": "test_table",
+            "format": "csv",
+            "path": "test.csv"
+        },
+        {
+            "name": "test_table2",
+            "format": "csv",
+            "path": "test2.csv"
+        }
+    ]
+]
