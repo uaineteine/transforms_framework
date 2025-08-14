@@ -33,13 +33,40 @@ class Transform(PipelineEvent):
 class TableTransform(Transform):
     def __init__(self, name: str, description: str, acts_on_variables: list[str]):
         super().__init__(name, description, "TableTransform")
+
         self.target_tables = [] #nadah to begin with
+
         self.target_variables = acts_on_variables
+        if len(acts_on_variables) == 0:
+            raise ValueError("No target variables defined for this transform.")
         
-        #initalise
+        #initalise variable lists
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None
+
+    
+    def nvars(self):
+        """
+        Get the number of target variables for this transform.
+
+        :return: Number of target variables.
+        """
+        return len(self.target_variables)
+    
+    def var(self):
+        """
+        Get the target variable for this transform.
+
+        :return: The target variable.
+        """
+    
+        if self.nvars() > 1:
+            return self.target_variables
+        elif self.nvars() == 1:
+            return self.target_variables[0]
+        else:
+            raise ValueError("No target variables defined for this transform.")
 
 class SimpleTransform(TableTransform):
     def __init__(self, name: str, description: str, acts_on_variable: str):
@@ -47,14 +74,18 @@ class SimpleTransform(TableTransform):
 
 class DropVariable(SimpleTransform):
     def __init__(self, variable_to_drop: str):
+        #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
     def transforms(self, tbl: Metaframe, tbl2: Metaframe = None):
-        if self.target_variable not in tbl.df.columns:
-            raise ValueError(f"Variable '{self.target_variables}' not found in DataFrame columns: {tbl.df.columns}")
-        
-        self.deleted_variables = [self.target_variable]
+        #PUT HERE ERROR CHECKING
+        if self.var() not in tbl.df.columns:
+            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {tbl.df.columns}")
+
+        #PUT HERE TRANSFORMATION LOGIC
+        self.deleted_variables = [self.var()]
         self.target_table = tbl.table_name
-        tbl.df = tbl.df.drop(self.target_variable)
+        tbl.df = tbl.df.drop(self.var())
+
         tbl.events.append(self)
         return tbl
