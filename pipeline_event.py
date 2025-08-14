@@ -1,19 +1,13 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import os
 
-class PipelineEvent:
-    """
-    Class to handle events related to a table.
-    """
-
-    def __init__(self, event_type: str, message: str, description: str = "", log_location: str = ""):
+class Event:
+    def __init__(self, event_type: str, log_location: str = ""):
         self.event_type = event_type
-        self.message = message
-        self.description = description
         self.uuid = str(uuid.uuid4())
-        self.timestamp = datetime.utcnow().isoformat()
+        self.timestamp = datetime.now(timezone.utc).isoformat()
         self.log_location = log_location
 
     def __repr__(self):
@@ -29,6 +23,17 @@ class PipelineEvent:
         # Append the event to the log file
         with open(self.log_location, "a", encoding="utf-8") as f:
             f.write(self.__repr__() + "\n")
+
+class PipelineEvent(Event):
+    """
+    Class to handle events related to a table.
+    """
+
+    def __init__(self, event_type: str, message: str, description: str = "", log_location: str = ""):
+        super().__init__(event_type, log_location)
+        self.sub_type = "pipeline_event"
+        self.message = message
+        self.description = description
 
 #modular test
 if __name__ == "__main__":
