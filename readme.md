@@ -4,6 +4,8 @@ This program provides a data transformation framework for working with tables (D
 
 ## Main Components
 
+![UML diagram](diagrams/plantuml.png)
+
 ### 1. MetaFrame
 **Purpose:** Wraps a DataFrame and tracks its metadata.
 

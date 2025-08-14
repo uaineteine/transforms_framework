@@ -1,0 +1,104 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class MetaFrame{
+    table_name
+    df
+    frame_type
+    src_path
+    metaframe_version
+    infer_table_name(src_path)
+    __init__(self, df, src_path, table_name, frame_type)
+    __repr__(self)
+    __str__(self)
+    get_pandas_frame(self)
+    get_polars_lazy_frame(self)
+    load(path, format, table_name, frame_type, spark)
+}
+
+class Event{
+    event_type
+    uuid
+    timestamp
+    log_location
+    __init__(self, event_type, log_location)
+    __repr__(self)
+    log(self)
+}
+
+class PipelineEvent{
+    sub_type
+    message
+    description
+    __init__(self, event_type, message, description, log_location)
+}
+
+class PipelineTable{
+    events
+    pipeline_table_version
+    __init__(self, metaframe)
+    add_event(self, event)
+    load(path, format, table_name, frame_type, spark)
+    save_events(self)
+}
+
+class Tablename{
+    acceptable_format(name)
+    __init__(self, table_name)
+}
+
+class Transform{
+    name
+    transform_type
+    __init__(self, name, description, transform_type)
+    transforms(self, df, df2)
+    __call__(self, tbl, tbl2)
+    apply(self, tbl, tbl2)
+}
+
+class TableTransform{
+    target_tables
+    target_variables
+    created_variables
+    renamed_variables
+    deleted_variables
+    __init__(self, name, description, acts_on_variables)
+    nvars(self)
+    var(self)
+}
+
+class SimpleTransform{
+    __init__(self, name, description, acts_on_variable)
+}
+
+class DropVariable{
+    deleted_variables
+    target_table
+    __init__(self, variable_to_drop)
+    transforms(self, tbl, tbl2)
+}
+
+Event <|-- PipelineEvent
+MetaFrame <|-- PipelineTable
+str <|-- Tablename
+PipelineEvent <|-- Transform
+Transform <|-- TableTransform
+TableTransform <|-- SimpleTransform
+SimpleTransform <|-- DropVariable
+
+note top of MetaFrame
+Class to handle the Metadata with a dataframe.
+Supports PySpark, Pandas, or Polars DataFrames.
+end note
+
+note top of PipelineEvent
+Class to handle events related to a table.
+end note
+
+note top of PipelineTable
+Class that holds a metaframe and a list of events to log.
+end note
+
+
+@enduml
