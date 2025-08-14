@@ -13,7 +13,7 @@ from uainepydat.frameverifier import FrameTypeVerifier
 
 def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:
     """
-    Load a Spark DataFrame from the given path and return a Metaframe.
+    Load a Spark DataFrame from the given path and return a MetaFrame.
     """
     if spark is None:
         raise ValueError("SparkSession required for PySpark")
@@ -27,7 +27,7 @@ def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spar
 
 def _load_pandas_df(path:str, format: str = "parquet", table_name: str = "") -> pd.DataFrame:
     """
-    Load a Pandas DataFrame from the given path and return a Metaframe.
+    Load a Pandas DataFrame from the given path and return a MetaFrame.
     """
     if format == "parquet":
         return pd.read_parquet(path)
@@ -88,7 +88,7 @@ class MetaFrame:
         if table_name:
             self.table_name = Tablename(table_name)
         else:
-            self.table_name = Metaframe.infer_table_name(src_path)
+            self.table_name = MetaFrame.infer_table_name(src_path)
 
         self.src_path = src_path
 
@@ -99,7 +99,7 @@ class MetaFrame:
 
     def __str__(self):
         #JSON like string representation
-        return f"Metaframe(name={self.table_name}, type={self.frame_type})"
+        return f"MetaFrame(name={self.table_name}, type={self.frame_type})"
 
     def get_pandas_frame(self):
         """
@@ -137,14 +137,14 @@ class MetaFrame:
     @staticmethod
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
-        Load a DataFrame from the given path and return a Metaframe.
+        Load a DataFrame from the given path and return a MetaFrame.
 
         :param path: Path to the data file.
         :param format: File format (default: 'parquet').
         :param table_name: Optional table name.
         :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
         :param spark: SparkSession object (required for PySpark).
-        :return: Metaframe instance.
+        :return: MetaFrame instance.
         """
         if frame_type == "pyspark":
             df = _load_spark_df(path, format, table_name, spark)
