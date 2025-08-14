@@ -5,7 +5,7 @@ from pipeline_event import PipelineEvent
 from metaframe import MetaFrame
 from uainepydat.frameverifier import FrameTypeVerifier
 
-class PipelineTable(Metaframe): 
+class PipelineTable(MetaFrame): 
     """
     Class that holds a metaframe and a list of events to log.
     """
@@ -35,10 +35,10 @@ class PipelineTable(Metaframe):
         :param table_name: Optional table name.
         :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
         :param spark: SparkSession object (required for PySpark).
-        :return: Metaframe instance.
+        :return: MetaFrame instance.
         """
 
-        mf = Metaframe.load(path, format, table_name,, frame_type, spark)
+        mf = MetaFrame.load(path, format, table_name, frame_type, spark)
         event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
         mf.events.append(event)
         return mf
