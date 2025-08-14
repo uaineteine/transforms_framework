@@ -7,6 +7,9 @@ import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
+
+#module imports
+from tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
 class Metaframe:
@@ -29,14 +32,13 @@ class Metaframe:
         self.df = df
         self.frame_type = frame_type
 
-        self.table_name = ""
         if table_name:
-            self.table_name = table_name
+            self.table_name = Tablename(table_name)
         elif src_path:
             if src_path.find(".") != -1:
-                self.table_name = os.path.basename(src_path)
+                self.table_name = Tablename(os.path.basename(src_path))
             else:
-                self.table_name = os.path.splitext(os.path.basename(src_path))[0]
+                self.table_name = Tablename(os.path.splitext(os.path.basename(src_path))[0])
 
         self.src_path = src_path
         self.events = []
