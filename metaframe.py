@@ -156,5 +156,5 @@ class MetaFrame:
             raise ValueError("Unsupported frame_type")
 
         #package into metaframe
-        tbl = Metaframe(df, src_path=path, table_name=table_name, frame_type=frame_type)
+        tbl = MetaFrame(df, src_path=path, table_name=table_name, frame_type=frame_type)
         return table
