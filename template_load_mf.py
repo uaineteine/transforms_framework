@@ -23,7 +23,3 @@ if __name__ == "__main__":
     #save table events
     mf.save_events()
 
-
-    supply_frames = SupplyLoad("test_tables/payload.json", spark=spark)
-    print("Loaded xyz supply tables:")
-    supply_frames["test_table2"].df.show()

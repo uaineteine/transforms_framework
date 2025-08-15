@@ -47,3 +47,33 @@ class SupplyLoad:
     def __getitem__(self, name: str):
         """Allow dictionary-style access to tables by name."""
         return self.get_table(name)
+
+    def __setitem__(self, name: str, table):
+        """Allow dictionary-style assignment of tables by name."""
+        if not name:
+            raise ValueError("Table name cannot be empty")
+        
+        # If the table already exists, update it
+        if name in self.named_tables:
+            # Remove the old table from the tables list
+            old_table = self.named_tables[name]
+            if old_table in self.tables:
+                self.tables.remove(old_table)
+        
+        # Add the new table
+        self.named_tables[name] = table
+        self.tables.append(table)
+
+    def __delitem__(self, name: str):
+        """Allow dictionary-style deletion of tables by name."""
+        if name not in self.named_tables:
+            raise KeyError(f"Table '{name}' not found in supply load")
+        
+        table = self.named_tables[name]
+        if table in self.tables:
+            self.tables.remove(table)
+        del self.named_tables[name]
+
+    def __contains__(self, name: str):
+        """Check if a table with the given name exists."""
+        return name in self.named_tables

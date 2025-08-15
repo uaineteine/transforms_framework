@@ -1,22 +1,10 @@
 {
-  "event_type": "transform",
-  "uuid": "fff945d7-c844-4280-8dfd-d747d6fac70c",
-  "timestamp": "2025-08-14T12:55:11.909272+00:00",
+  "event_type": "load",
+  "uuid": "b27080ed-02be-437f-ab5c-291f5e478ece",
+  "timestamp": "2025-08-15T00:55:06.299300+00:00",
   "sub_type": "pipeline_event",
-  "message": "DropVariable",
-  "description": "Removes this variable from a dataframe",
-  "name": "DropVariable",
-  "transform_type": "TableTransform",
-  "target_tables": [],
-  "target_variables": [
-    "age"
-  ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": [
-    "age"
-  ],
-  "target_table": "test_table"
+  "message": "Loaded table from test_tables/test.csv as csv (pyspark)",
+  "description": "Loaded  from test_tables/test.csv with version 0.1.0"
 }
 {
   "event_type": "transform",
