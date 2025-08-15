@@ -1,4 +1,5 @@
 import os
+from typing import List
 from pipeline_event import PipelineEvent
 
 #module imports
@@ -29,14 +30,16 @@ class PipelineTable(MetaFrame):
         >>> pt.save_events()
     """
 
-    def __init__(self, metaframe: MetaFrame):
+    def __init__(self, metaframe: MetaFrame, inherit_events: List[PipelineEvent] = None):
         """
-        Initialize a PipelineTable with a MetaFrame and an empty event log.
+        Initialize a PipelineTable with a MetaFrame and optional event log.
 
         Args:
             metaframe (MetaFrame): A MetaFrame object containing the DataFrame and metadata.
                                  Must be a valid MetaFrame instance with df, src_path, 
                                  table_name, and frame_type attributes.
+            inherit_events (List[PipelineEvent], optional): List of events to inherit from
+                                 another PipelineTable. Defaults to None.
 
         Raises:
             TypeError: If metaframe is not a MetaFrame instance.
@@ -45,12 +48,14 @@ class PipelineTable(MetaFrame):
         Example:
             >>> mf = MetaFrame(df, "path/to/data.parquet", "my_table", "pyspark")
             >>> pt = PipelineTable(mf)
+            >>> # With inherited events
+            >>> pt_with_events = PipelineTable(mf, inherit_events=existing_events)
         """
         #call metaframe constructor
         super().__init__(metaframe.df, metaframe.src_path, metaframe.table_name, metaframe.frame_type)
 
-        #intialise events as a list
-        self.events: List[PipelineEvent] = []
+        #initialize events as a list, optionally inheriting from existing events
+        self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
 
         #store a version number
         self.pipeline_table_version = "0.1.0"
