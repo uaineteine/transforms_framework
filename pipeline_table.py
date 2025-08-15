@@ -8,7 +8,7 @@ from uainepydat.frameverifier import FrameTypeVerifier
 
 class PipelineTable(MetaFrame): 
     """
-    A specialized class that extends MetaFrame to include event logging capabilities for data pipeline operations.
+    A specialised class that extends MetaFrame to include event logging capabilities for data pipeline operations.
     
     This class combines the functionality of a MetaFrame (which handles different DataFrame types like PySpark, 
     Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
@@ -126,7 +126,7 @@ class PipelineTable(MetaFrame):
         Save all logged events to a JSON file in the events_log directory.
 
         This method creates the events_log directory structure and saves each event
-        as a separate JSON file. The events are organized by job and table name.
+        as a separate JSON file. The events are organised by job and table name.
 
         Returns:
             None

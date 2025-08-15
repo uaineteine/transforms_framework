@@ -2,7 +2,7 @@ import re
 
 class Tablename(str):
     """
-    A specialized string class for validating and managing table names.
+    A specialised string class for validating and managing table names.
     
     This class extends the built-in str class to provide validation and formatting
     for table names. It ensures that table names follow proper naming conventions

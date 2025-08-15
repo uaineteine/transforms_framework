@@ -9,7 +9,7 @@ class Event:
     
     This class provides the foundation for event logging functionality, including
     automatic generation of unique identifiers, timestamps, and JSON serialization
-    capabilities. It serves as the parent class for more specialized event types.
+    capabilities. It serves as the parent class for more specialised event types.
     
     Attributes:
         event_type (str): The type/category of the event.
@@ -86,7 +86,7 @@ class Event:
 
 class PipelineEvent(Event):
     """
-    Specialized event class for pipeline operations with additional metadata.
+    Specialised event class for pipeline operations with additional metadata.
     
     This class extends the base Event class to include pipeline-specific information
     such as descriptive messages and detailed descriptions. It's designed for logging

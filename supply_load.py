@@ -3,7 +3,7 @@ from pipeline_table import PipelineTable, PipelineTables
 
 class SupplyLoad(PipelineTables):
     """
-    A specialized collection manager for loading and managing supply data from JSON configuration files.
+    A specialised collection manager for loading and managing supply data from JSON configuration files.
     
     This class extends PipelineTables to provide automated loading of multiple data sources
     from a JSON configuration file. It's designed for scenarios where you need to load

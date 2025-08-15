@@ -118,7 +118,7 @@ class Transform(PipelineEvent):
 
 class TableTransform(Transform):
     """
-    Specialized transform class for operations that act on specific table variables.
+    Specialised transform class for operations that act on specific table variables.
     
     This class extends Transform to provide variable-level tracking and management
     for transformations that operate on specific columns or variables within a table.
