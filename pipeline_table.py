@@ -119,6 +119,19 @@ class PipelineTables:
         """Check if a table with the given name exists."""
         return name in self.named_tables
 
+    def __len__(self):
+        """Return the number of tables in the collection."""
+        return len(self.tables)
+
+    @property
+    def ntables(self):
+        """
+        Get the number of tables in the collection.
+        
+        :return: Number of tables.
+        """
+        return len(self.tables)
+
     def save_events(self, table_names: list[str] = None):
         """
         Save events for all tables or specific tables.

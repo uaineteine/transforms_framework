@@ -134,6 +134,22 @@ class MetaFrame:
         else:
             raise ValueError("Unsupported frame_type")
 
+    @property
+    def nrow(self):
+        """
+        Get the number of rows in the DataFrame.
+        
+        :return: Number of rows.
+        """
+        if self.frame_type == "pyspark":
+            return self.df.count()
+        elif self.frame_type == "pandas":
+            return len(self.df)
+        elif self.frame_type == "polars":
+            return self.df.height
+        else:
+            raise ValueError("Unsupported frame_type")
+
     def get_pandas_frame(self):
         """
         Convert the DataFrame to a Pandas DataFrame.
