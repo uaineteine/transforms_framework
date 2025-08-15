@@ -310,6 +310,41 @@ class MetaFrame:
         else:
             raise ValueError("Unsupported frame_type")
 
+    def show(self, n: int = 20, truncate: bool = True):
+        """
+        Display the DataFrame content in a formatted way.
+        
+        This method provides a unified way to display DataFrame content across different
+        frameworks. It handles the different display behaviors of PySpark, Pandas, and Polars.
+
+        Args:
+            n (int, optional): Number of rows to display. Defaults to 20.
+            truncate (bool, optional): Whether to truncate long strings. Defaults to True.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> mf.show()  # Display first 20 rows
+            >>> mf.show(10)  # Display first 10 rows
+            >>> mf.show(50, truncate=False)  # Display first 50 rows without truncation
+        """
+        if self.frame_type == "pyspark":
+            self.df.show(n=n, truncate=truncate)
+        elif self.frame_type == "pandas":
+            print(f"MetaFrame: {self.table_name} ({self.frame_type})")
+            print(f"Shape: {self.df.shape[0]} rows × {self.df.shape[1]} columns")
+            print(self.df.head(n))
+        elif self.frame_type == "polars":
+            print(f"MetaFrame: {self.table_name} ({self.frame_type})")
+            # For Polars LazyFrame, we need to collect first
+            collected_df = self.df.collect()
+            print(f"Shape: {collected_df.shape[0]} rows × {collected_df.shape[1]} columns")
+            print(collected_df.head(n))
+        else:
+            raise ValueError("Unsupported frame_type")
+
     @staticmethod
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """

@@ -1,7 +1,7 @@
 import json
-from pyspark.sql import DataFrame
 from pipeline_event import PipelineEvent
-from metaframe import MetaFrame
+from pipeline_table import PipelineTables
+from supply_load import SupplyLoad
 
 class Transform(PipelineEvent):
     """
@@ -20,12 +20,12 @@ class Transform(PipelineEvent):
         ...     def __init__(self):
         ...         super().__init__("MyTransform", "Custom transformation", "custom")
         ...     
-        ...     def transforms(self, df, df2=None):
+        ...     def transforms(self, supply_frames, **kwargs):
         ...         # Implementation here
         ...         return transformed_df
         >>> 
         >>> transform = MyTransform()
-        >>> result = transform(metaframe)  # Automatically logs the transformation
+        >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
     """
 
     def __init__(self, name: str, description: str, transform_type: str):
@@ -46,15 +46,16 @@ class Transform(PipelineEvent):
         self.name = name  # Set name manually
         self.transform_type = transform_type
     
-    def transforms(self, df: DataFrame, df2: DataFrame = None):
+    def transforms(self, supply_frames: SupplyLoad, **kwargs) -> PipelineTables:
         """
         Abstract method that must be implemented by subclasses.
         
         This method should contain the actual transformation logic for the data.
 
         Args:
-            df (DataFrame): The primary DataFrame to transform.
-            df2 (DataFrame, optional): A secondary DataFrame for operations that require two inputs.
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc. where
+                     the keys are dataframe parameter names and values are table names in supply_frames.
 
         Returns:
             DataFrame: The transformed DataFrame.
@@ -64,53 +65,56 @@ class Transform(PipelineEvent):
 
         Example:
             >>> class MyTransform(Transform):
-            ...     def transforms(self, df, df2=None):
+            ...     def transforms(self, supply_frames, **kwargs):
+            ...         # Get dataframes by name
+            ...         df1 = supply_frames[kwargs.get('df1')]
+            ...         df2 = supply_frames[kwargs.get('df2')]
             ...         # Custom transformation logic
-            ...         return df.filter(df.age > 18)
+            ...         return df1.join(df2, on='id')
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def __call__(self, tbl: MetaFrame, tbl2: MetaFrame = None):
+    def __call__(self, supply_frames: SupplyLoad, **kwargs):
         """
-        Call the transformation function with the provided MetaFrame(s).
+        Call the transformation function with the provided supply frames and keyword arguments.
         
         This method provides a convenient callable interface for applying transformations.
         It automatically logs the transformation event after execution.
 
         Args:
-            tbl (MetaFrame): Primary MetaFrame to transform.
-            tbl2 (MetaFrame, optional): Secondary MetaFrame for operations requiring two inputs.
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
             MetaFrame: The transformed MetaFrame.
 
         Example:
             >>> transform = MyTransform()
-            >>> result = transform(metaframe)  # Same as transform.apply(metaframe)
+            >>> result = transform(supply_loader, df1="customers", df2="orders")  # Same as transform.apply(supply_loader, df1="customers", df2="orders")
         """
-        return self.apply(tbl, tbl2)
+        return self.apply(supply_frames, **kwargs)
     
-    def apply(self, tbl: MetaFrame, tbl2: MetaFrame = None):
+    def apply(self, supply_frames: SupplyLoad, **kwargs):
         """
-        Apply the transformation to the provided MetaFrame(s).
+        Apply the transformation to the provided supply frames with keyword arguments.
         
         This method executes the transformation and automatically logs the operation
         as a pipeline event.
 
         Args:
-            tbl (MetaFrame): Primary MetaFrame to transform.
-            tbl2 (MetaFrame, optional): Secondary MetaFrame for operations requiring two inputs.
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
             MetaFrame: The transformed MetaFrame.
 
         Example:
             >>> transform = MyTransform()
-            >>> result = transform.apply(metaframe)
+            >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
             >>> # Transformation is automatically logged
         """
         #Apply transformation
-        result_df = self.transforms(tbl, tbl2 = tbl2)
+        result_df = self.transforms(supply_frames, **kwargs)
 
         self.log()
 
@@ -137,11 +141,12 @@ class TableTransform(Transform):
         ...     def __init__(self, columns):
         ...         super().__init__("ColumnFilter", "Filter specific columns", columns)
         ...     
-        ...     def transforms(self, df, df2=None):
+        ...     def transforms(self, supply_frames, **kwargs):
+        ...         df = supply_frames[kwargs.get('df')]
         ...         return df.select(self.target_variables)
         >>> 
         >>> filter_transform = ColumnFilter(["col1", "col2"])
-        >>> result = filter_transform(metaframe)
+        >>> result = filter_transform(supply_loader, df="table_name")
     """
 
     def __init__(self, name: str, description: str, acts_on_variables: list[str]):
@@ -228,11 +233,12 @@ class SimpleTransform(TableTransform):
         ...     def __init__(self, column_name):
         ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
         ...     
-        ...     def transforms(self, df, df2=None):
+        ...     def transforms(self, supply_frames, **kwargs):
+        ...         df = supply_frames[kwargs.get('df')]
         ...         return df.drop(self.var())
         >>> 
         >>> drop_transform = DropColumn("unwanted_column")
-        >>> result = drop_transform(metaframe)
+        >>> result = drop_transform(supply_loader, df="table_name")
     """
 
     def __init__(self, name: str, description: str, acts_on_variable: str):
@@ -259,7 +265,7 @@ class DropVariable(SimpleTransform):
 
     Example:
         >>> drop_transform = DropVariable("unwanted_column")
-        >>> result = drop_transform(metaframe)
+        >>> result = drop_transform(supply_loader, df="table_name")
         >>> # The column is removed and the operation is logged
     """
 
@@ -278,7 +284,7 @@ class DropVariable(SimpleTransform):
         #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
-    def transforms(self, tbl: MetaFrame, tbl2: MetaFrame = None):
+    def transforms(self, supply_frames: SupplyLoad, **kwargs):
         """
         Remove the specified variable from the DataFrame.
         
@@ -286,28 +292,34 @@ class DropVariable(SimpleTransform):
         removes it, and updates the tracking information.
 
         Args:
-            tbl (MetaFrame): The MetaFrame containing the variable to drop.
-            tbl2 (MetaFrame, optional): Not used in this transformation.
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
             MetaFrame: The MetaFrame with the variable removed.
 
         Raises:
             ValueError: If the target variable is not found in the DataFrame columns.
+            KeyError: If the specified table name is not found in supply_frames.
 
         Example:
             >>> drop_transform = DropVariable("unwanted_column")
-            >>> result = drop_transform.transforms(metaframe)
-            >>> # The column is removed from metaframe.df
+            >>> result = drop_transform.transforms(supply_loader, df="table_name")
+            >>> # The column is removed from the specified table
         """
+        # Get the table from supply_frames
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        
         #PUT HERE ERROR CHECKING
-        if self.var() not in tbl.columns:
-            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {tbl.columns}")
+        if self.var() not in supply_frames[table_name].columns:
+            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {supply_frames[table_name].columns}")
 
         #PUT HERE TRANSFORMATION LOGIC
         self.deleted_variables = [self.var()]
-        self.target_table = tbl.table_name
-        tbl.df = tbl.df.drop(self.var())
+        self.target_tables = [table_name]
+        supply_frames[table_name].df = supply_frames[table_name].df.drop(self.var())
 
-        tbl.events.append(self)
-        return tbl
+        supply_frames[table_name].events.append(self)
+        return supply_frames

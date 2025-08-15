@@ -11,13 +11,12 @@ if __name__ == "__main__":
     supply_frames = SupplyLoad("test_tables/payload.json", spark=spark)
     print("Original columns:", supply_frames["test_table"].columns)
 
-    # Instantiate DropVariable transform
-    supply_frames["test_table"] = DropVariable("age")(supply_frames["test_table"])
+    # Instantiate DropVariable transform with new syntax
+    supply_frames = DropVariable("age")(supply_frames, df="test_table")
 
     # Show result
     print("Transformed columns:", supply_frames["test_table"].columns)
-    supply_frames["test_table"].df.show()
-
+    supply_frames["test_table"].show()
 
     #save table events
     supply_frames.save_events()
