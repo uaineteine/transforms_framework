@@ -102,6 +102,22 @@ class MetaFrame:
         #JSON like string representation
         return f"MetaFrame(name={self.table_name}, type={self.frame_type})"
 
+    @property
+    def columns(self):
+        """
+        Get the column names of the DataFrame.
+        
+        :return: List of column names.
+        """
+        if self.frame_type == "pyspark":
+            return self.df.columns
+        elif self.frame_type == "pandas":
+            return list(self.df.columns)
+        elif self.frame_type == "polars":
+            return self.df.columns
+        else:
+            raise ValueError("Unsupported frame_type")
+
     def get_pandas_frame(self):
         """
         Convert the DataFrame to a Pandas DataFrame.

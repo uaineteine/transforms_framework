@@ -9,13 +9,13 @@ if __name__ == "__main__":
 
     # load pipeline tables
     supply_frames = SupplyLoad("test_tables/payload.json", spark=spark)
-    print("Original columns:", supply_frames["test_table"].df.columns)
+    print("Original columns:", supply_frames["test_table"].columns)
 
     # Instantiate DropVariable transform
     supply_frames["test_table"] = DropVariable("age")(supply_frames["test_table"])
 
     # Show result
-    print("Transformed columns:", supply_frames["test_table"].df.columns)
+    print("Transformed columns:", supply_frames["test_table"].columns)
     supply_frames["test_table"].df.show()
 
 

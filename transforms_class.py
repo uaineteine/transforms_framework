@@ -80,8 +80,8 @@ class DropVariable(SimpleTransform):
 
     def transforms(self, tbl: MetaFrame, tbl2: MetaFrame = None):
         #PUT HERE ERROR CHECKING
-        if self.var() not in tbl.df.columns:
-            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {tbl.df.columns}")
+        if self.var() not in tbl.columns:
+            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {tbl.columns}")
 
         #PUT HERE TRANSFORMATION LOGIC
         self.deleted_variables = [self.var()]

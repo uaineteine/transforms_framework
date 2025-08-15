@@ -10,13 +10,13 @@ if __name__ == "__main__":
 
     # load pipeline table
     mf = PipelineTable.load(spark=spark, path="test_tables/test.csv", format="csv", table_name="test_table", frame_type="pyspark")
-    print("Original columns:", mf.df.columns)
+    print("Original columns:", mf.columns)
 
     # Instantiate DropVariable transform
     mf = DropVariable("age")(mf)
 
     # Show result
-    print("Transformed columns:", mf.df.columns)
+    print("Transformed columns:", mf.columns)
     mf.df.show()
 
 
