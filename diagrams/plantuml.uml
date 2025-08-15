@@ -12,6 +12,8 @@ class MetaFrame{
     __init__(self, df, src_path, table_name, frame_type)
     __repr__(self)
     __str__(self)
+    columns(self)
+    nvars(self)
     get_pandas_frame(self)
     get_polars_lazy_frame(self)
     load(path, format, table_name, frame_type, spark)
@@ -54,6 +56,7 @@ class SupplyLoad{
     __setitem__(self, name, table)
     __delitem__(self, name)
     __contains__(self, name)
+    save_events(self, table_names)
 }
 
 class Tablename{
