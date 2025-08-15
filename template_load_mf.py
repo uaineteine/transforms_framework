@@ -36,11 +36,10 @@ if __name__ == "__main__":
     print("\n--- Applying Transforms ---")
     
     # Apply DropVariable transform to first table
-    transformed_table = DropVariable("age")(first_table)
-    pt_collection["test_table"] = transformed_table
+    pt_collection = DropVariable("age")(pt_collection["test_table"])
     
-    print(f"Transformed table columns: {transformed_table.columns}")
-    transformed_table.df.show()
+    print(f"Transformed table columns: {pt_collection['test_table'].columns}")
+    pt_collection["test_table"].show()
     
     # Show all tables in collection
     print("\n--- All Tables in Collection ---")
@@ -51,9 +50,6 @@ if __name__ == "__main__":
     # Save events for all tables in the collection
     print("\n--- Saving Events ---")
     pt_collection.save_events()
-    
-    # Demonstrate saving events for specific tables only
-    pt_collection.save_events(["test_table"])
     
     print("PipelineTables collection test completed!")
 
