@@ -102,6 +102,8 @@ tbl = DropVariable("age")(tbl)
 
 ## Example Workflow
 
+### Method 1: Direct Table Loading
+
 1. **Load a table:**
     ```python
     from pyspark.sql import SparkSession
@@ -125,6 +127,60 @@ tbl = DropVariable("age")(tbl)
     tbl.save_events()
     ```
     Writes all events to a JSON file for auditing.
+
+### Method 2: Payload-Based Loading (Alternative Approach)
+
+For scenarios where you need to load multiple tables from a configuration file, you can use the `SupplyLoad` class with a JSON payload:
+
+1. **Create a payload configuration file** (`test_tables/payload.json`):
+    ```json
+    {
+      "job_id": 1,
+      "run_id": 2,
+      "supply": [
+        {
+          "name": "test_table",
+          "format": "csv",
+          "path": "test_tables/test.csv"
+        },
+        {
+          "name": "test_table2",
+          "format": "csv",
+          "path": "test_tables/test2.csv"
+        }
+      ]
+    }
+    ```
+
+2. **Load multiple tables using the payload:**
+    ```python
+    from pyspark.sql import SparkSession
+    from transforms_class import DropVariable
+    from supply_load import SupplyLoad
+
+    # Create Spark session
+    spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
+
+    # Load pipeline tables from payload
+    supply_frames = SupplyLoad("test_tables/payload.json", spark=spark)
+    print("Original columns:", supply_frames["test_table"].columns)
+
+    # Apply transformations to specific tables
+    supply_frames["test_table"] = DropVariable("age")(supply_frames["test_table"])
+
+    # Show results
+    print("Transformed columns:", supply_frames["test_table"].columns)
+    supply_frames["test_table"].df.show()
+
+    # Save events for all tables
+    supply_frames.save_events()
+    ```
+
+This approach is particularly useful when:
+- You need to load multiple related datasets
+- You want to configure your data sources externally
+- You need to manage complex data pipelines with many input sources
+- You want to version control your data source configurations separately from your code
 
 ---
 
