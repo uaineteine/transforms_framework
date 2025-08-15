@@ -77,3 +77,21 @@ class SupplyLoad:
     def __contains__(self, name: str):
         """Check if a table with the given name exists."""
         return name in self.named_tables
+
+    def save_events(self, table_names: list[str] = None):
+        """
+        Save events for all tables or specific tables.
+        
+        :param table_names: List of table names to save events for. If None, saves events for all tables.
+        :return: None
+        """
+        if table_names is None:
+            # Save events for all tables
+            for table in self.tables:
+                table.save_events()
+        else:
+            # Save events for specific tables
+            for name in table_names:
+                if name not in self.named_tables:
+                    raise KeyError(f"Table '{name}' not found in supply load")
+                self.named_tables[name].save_events()

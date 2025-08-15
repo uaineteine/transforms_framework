@@ -1,15 +1,15 @@
 {
   "event_type": "load",
-  "uuid": "b27080ed-02be-437f-ab5c-291f5e478ece",
-  "timestamp": "2025-08-15T00:55:06.299300+00:00",
+  "uuid": "b6a8c3c4-34f1-4e60-aff3-2117cdf51431",
+  "timestamp": "2025-08-15T01:03:39.480463+00:00",
   "sub_type": "pipeline_event",
   "message": "Loaded table from test_tables/test.csv as csv (pyspark)",
   "description": "Loaded  from test_tables/test.csv with version 0.1.0"
 }
 {
   "event_type": "transform",
-  "uuid": "d392b888-24c3-4b5f-b593-39fe0edba301",
-  "timestamp": "2025-08-15T00:55:06.555817+00:00",
+  "uuid": "8d8fe068-8b6f-4d63-8d8e-1e9c0a91f671",
+  "timestamp": "2025-08-15T01:03:39.771464+00:00",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
   "description": "Removes this variable from a dataframe",

@@ -1,27 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "fff945d7-c844-4280-8dfd-d747d6fac70c",
-  "timestamp": "2025-08-14T12:55:11.909272+00:00",
-  "sub_type": "pipeline_event",
-  "message": "DropVariable",
-  "description": "Removes this variable from a dataframe",
-  "name": "DropVariable",
-  "transform_type": "TableTransform",
-  "target_tables": [],
-  "target_variables": [
-    "age"
-  ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": [
-    "age"
-  ],
-  "target_table": "test_table"
-}
-{
-  "event_type": "transform",
-  "uuid": "d392b888-24c3-4b5f-b593-39fe0edba301",
-  "timestamp": "2025-08-15T00:55:06.555817+00:00",
+  "uuid": "8d8fe068-8b6f-4d63-8d8e-1e9c0a91f671",
+  "timestamp": "2025-08-15T01:03:39.771464+00:00",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
   "description": "Removes this variable from a dataframe",

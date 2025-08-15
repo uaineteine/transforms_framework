@@ -20,6 +20,5 @@ if __name__ == "__main__":
 
 
     #save table events
-    supply_frames["test_table"].save_events()
-    supply_frames["test_table2"].save_events()
+    supply_frames.save_events()
     
