@@ -72,7 +72,7 @@ tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name=
 
 **Example:**
 ```python
-from transforms_class import DropVariable
+from transforms import DropVariable
 
 tbl = DropVariable("age")(tbl)
 ```
@@ -116,7 +116,7 @@ tbl = DropVariable("age")(tbl)
 
 2. **Apply a transformation:**
     ```python
-    from transforms_class import DropVariable
+    from transforms import DropVariable
     
     tbl = DropVariable("age")(tbl)
     ```
@@ -155,7 +155,7 @@ For scenarios where you need to load multiple tables from a configuration file, 
 2. **Load multiple tables using the payload:**
     ```python
     from pyspark.sql import SparkSession
-    from transforms_class import DropVariable
+    from transforms import DropVariable
     from supply_load import SupplyLoad
 
     # Create Spark session
@@ -197,7 +197,7 @@ This approach is particularly useful when:
 - [`metaframe.py`](metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
 - [`pipeline_table.py`](pipeline_table.py): PipelineTable class that extends MetaFrame with event tracking
 - [`pipeline_event.py`](pipeline_event.py): Event and PipelineEvent classes for logging
-- [`transforms_class.py`](transforms_class.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
+- [`transforms.py`](transforms.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
 - [`test.py`](test.py): Example usage demonstrating the complete workflow
 
 ---

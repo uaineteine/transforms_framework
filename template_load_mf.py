@@ -1,6 +1,6 @@
 if __name__ == "__main__":
     from pyspark.sql import SparkSession
-    from transforms_class import DropVariable
+    from transforms import DropVariable
     from pipeline_table import PipelineTable
     from supply_load import SupplyLoad
 
