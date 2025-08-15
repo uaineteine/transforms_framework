@@ -50,14 +50,57 @@ def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> 
 
 class MetaFrame: 
     """
-    Class to handle the Metadata with a dataframe.
-    Supports PySpark, Pandas, or Polars DataFrames.
+    A unified wrapper class for handling DataFrames with metadata across different frameworks.
+    
+    This class provides a consistent interface for working with DataFrames from PySpark, Pandas, 
+    and Polars, while maintaining metadata about the source, table name, and framework type.
+    It includes utility methods for accessing DataFrame properties and converting between formats.
+    
+    Attributes:
+        df: The underlying DataFrame (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
+        frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
+        table_name (Tablename): The name of the table, validated and formatted.
+        src_path (str): The source file path where the data was loaded from.
+        metaframe_version (str): Version identifier for the MetaFrame implementation.
+        
+    Example:
+        >>> # Create from existing DataFrame
+        >>> import pandas as pd
+        >>> df = pd.DataFrame({'A': [1, 2, 3], 'B': ['a', 'b', 'c']})
+        >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+        >>> 
+        >>> # Load from file
+        >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+        >>> 
+        >>> # Access properties
+        >>> print(f"Columns: {mf.columns}")
+        >>> print(f"Rows: {mf.nrow}")
+        >>> print(f"Variables: {mf.nvars}")
     """
 
     @staticmethod
     def infer_table_name(src_path: str) -> str:
         """
-        Returns the table name from the filepath, removing any file extensions
+        Infer a table name from a file path by extracting the filename without extension.
+        
+        This method takes a file path and extracts the base filename, removing any file
+        extensions to create a valid table name.
+
+        Args:
+            src_path (str): The source file path to extract the table name from.
+
+        Returns:
+            str: A Tablename object representing the inferred table name.
+
+        Raises:
+            ValueError: If the source path is empty.
+
+        Example:
+            >>> name = MetaFrame.infer_table_name("/path/to/my_data.csv")
+            >>> print(name)  # "my_data"
+            >>> 
+            >>> name = MetaFrame.infer_table_name("/path/to/data.parquet")
+            >>> print(name)  # "data"
         """
         if src_path == "":
             raise ValueError("Source path cannot be empty")
@@ -72,12 +115,27 @@ class MetaFrame:
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
-        Initialize the MetaplusTable with a DataFrame and type.
+        Initialize a MetaFrame with a DataFrame and metadata.
 
-        :param df: DataFrame (PySpark, Pandas, or Polars).
-        :param src_path: Optional source file path.
-        :param table_name: Optional table name.
-        :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
+        Args:
+            df: The DataFrame to wrap (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
+            src_path (str, optional): The source file path. Defaults to "".
+            table_name (str, optional): The name for the table. If empty, will be inferred from src_path.
+                                      Defaults to "".
+            frame_type (str, optional): The type of DataFrame framework. Defaults to "pyspark".
+                                      Supported types: "pyspark", "pandas", "polars".
+
+        Raises:
+            ValueError: If the DataFrame type doesn't match the specified frame_type.
+            ValueError: If table_name is invalid when provided.
+
+        Example:
+            >>> import pandas as pd
+            >>> df = pd.DataFrame({'A': [1, 2, 3]})
+            >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+            >>> 
+            >>> # Let table name be inferred
+            >>> mf = MetaFrame(df, "data.csv", frame_type="pandas")
         """
         #verify the frame type
         FrameTypeVerifier.verify(df, frame_type)
@@ -96,9 +154,21 @@ class MetaFrame:
         self.metaframe_version = "0.1.0"
 
     def __repr__(self):
+        """
+        Return a string representation of the MetaFrame.
+        
+        Returns:
+            str: The table name as a string representation.
+        """
         return self.table_name
 
     def __str__(self):
+        """
+        Return a detailed string representation of the MetaFrame.
+        
+        Returns:
+            str: A JSON-like string with MetaFrame metadata.
+        """
         #JSON like string representation
         return f"MetaFrame(name={self.table_name}, type={self.frame_type})"
 
@@ -107,7 +177,18 @@ class MetaFrame:
         """
         Get the column names of the DataFrame.
         
-        :return: List of column names.
+        This property provides a unified way to access column names across different
+        DataFrame frameworks.
+
+        Returns:
+            list: List of column names.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> print(mf.columns)  # ['col1', 'col2', 'col3']
         """
         if self.frame_type == "pyspark":
             return self.df.columns
@@ -123,7 +204,18 @@ class MetaFrame:
         """
         Get the number of variables (columns) in the DataFrame.
         
-        :return: Number of columns.
+        This property provides a unified way to get the column count across different
+        DataFrame frameworks.
+
+        Returns:
+            int: Number of columns in the DataFrame.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> print(f"Number of variables: {mf.nvars}")
         """
         if self.frame_type == "pyspark":
             return len(self.df.columns)
@@ -139,7 +231,18 @@ class MetaFrame:
         """
         Get the number of rows in the DataFrame.
         
-        :return: Number of rows.
+        This property provides a unified way to get the row count across different
+        DataFrame frameworks. Note that for PySpark, this triggers an action.
+
+        Returns:
+            int: Number of rows in the DataFrame.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> print(f"Number of rows: {mf.nrow}")
         """
         if self.frame_type == "pyspark":
             return self.df.count()
@@ -153,8 +256,20 @@ class MetaFrame:
     def get_pandas_frame(self):
         """
         Convert the DataFrame to a Pandas DataFrame.
+        
+        This method provides a unified way to convert any supported DataFrame type
+        to a Pandas DataFrame for analysis or processing.
 
-        :return: Pandas DataFrame.
+        Returns:
+            pd.DataFrame: A Pandas DataFrame representation of the data.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+            >>> pandas_df = mf.get_pandas_frame()
+            >>> print(type(pandas_df))  # <class 'pandas.core.frame.DataFrame'>
         """
         if self.frame_type == "pyspark":
             return self.df.toPandas()
@@ -169,8 +284,20 @@ class MetaFrame:
     def get_polars_lazy_frame(self):
         """
         Convert the DataFrame to a Polars LazyFrame.
+        
+        This method provides a unified way to convert any supported DataFrame type
+        to a Polars LazyFrame for lazy evaluation and optimization.
 
-        :return: Polars LazyFrame.
+        Returns:
+            pl.LazyFrame: A Polars LazyFrame representation of the data.
+
+        Raises:
+            ValueError: If the frame_type is not supported.
+
+        Example:
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> lazy_frame = mf.get_polars_lazy_frame()
+            >>> print(type(lazy_frame))  # <class 'polars.lazyframe.frame.LazyFrame'>
         """
         if self.frame_type == "pyspark":
             lf = sp.from_spark(self.df)
@@ -186,14 +313,40 @@ class MetaFrame:
     @staticmethod
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
-        Load a DataFrame from the given path and return a MetaFrame.
+        Load a DataFrame from a file and return a MetaFrame instance.
+        
+        This static method provides a convenient way to load data from various file formats
+        and create a MetaFrame with appropriate metadata. It supports multiple file formats
+        and DataFrame frameworks.
 
-        :param path: Path to the data file.
-        :param format: File format (default: 'parquet').
-        :param table_name: Optional table name.
-        :param frame_type: Type of DataFrame ('pyspark', 'pandas', 'polars').
-        :param spark: SparkSession object (required for PySpark).
-        :return: MetaFrame instance.
+        Args:
+            path (str): Path to the data file to load.
+            format (str, optional): File format of the data. Defaults to "parquet".
+                                  Supported formats: "parquet", "csv", "sas".
+            table_name (str, optional): Name to assign to the table. If empty, will be
+                                      inferred from the file path. Defaults to "".
+            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
+                                      Supported types: "pyspark", "pandas", "polars".
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+
+        Returns:
+            MetaFrame: A new MetaFrame instance with the loaded data and metadata.
+
+        Raises:
+            FileNotFoundError: If the specified path does not exist.
+            ValueError: If the format or frame_type is not supported.
+            ValueError: If spark is None when frame_type is "pyspark".
+            Exception: If there are issues loading the data.
+
+        Example:
+            >>> # Load a PySpark DataFrame
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+            >>> 
+            >>> # Load a Pandas DataFrame
+            >>> mf = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
+            >>> 
+            >>> # Load a Polars DataFrame
+            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "polars")
         """
         if frame_type == "pyspark":
             df = _load_spark_df(path, format, table_name, spark)

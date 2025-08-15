@@ -14,6 +14,7 @@ class MetaFrame{
     __str__(self)
     columns(self)
     nvars(self)
+    nrow(self)
     get_pandas_frame(self)
     get_polars_lazy_frame(self)
     load(path, format, table_name, frame_type, spark)
@@ -45,18 +46,24 @@ class PipelineTable{
     save_events(self)
 }
 
-class SupplyLoad{
-    supply_load_src
+class PipelineTables{
     tables
     named_tables
-    __init__(self, json_loc, spark)
-    load_supplies(self, spark)
+    __init__(self, tables)
     get_table(self, name)
     __getitem__(self, name)
     __setitem__(self, name, table)
     __delitem__(self, name)
     __contains__(self, name)
+    __len__(self)
+    ntables(self)
     save_events(self, table_names)
+}
+
+class SupplyLoad{
+    supply_load_src
+    __init__(self, json_loc, spark)
+    load_supplies(self, spark)
 }
 
 class Tablename{
@@ -98,6 +105,7 @@ class DropVariable{
 
 Event <|-- PipelineEvent
 MetaFrame <|-- PipelineTable
+PipelineTables <|-- SupplyLoad
 str <|-- Tablename
 PipelineEvent <|-- Transform
 Transform <|-- TableTransform
@@ -105,20 +113,270 @@ TableTransform <|-- SimpleTransform
 SimpleTransform <|-- DropVariable
 
 note top of MetaFrame
-Class to handle the Metadata with a dataframe.
-Supports PySpark, Pandas, or Polars DataFrames.
+A unified wrapper class for handling DataFrames with metadata across different frameworks.
+
+This class provides a consistent interface for working with DataFrames from PySpark, Pandas, 
+and Polars, while maintaining metadata about the source, table name, and framework type.
+It includes utility methods for accessing DataFrame properties and converting between formats.
+
+Attributes:
+    df: The underlying DataFrame (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
+    frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
+    table_name (Tablename): The name of the table, validated and formatted.
+    src_path (str): The source file path where the data was loaded from.
+    metaframe_version (str): Version identifier for the MetaFrame implementation.
+    
+Example:
+    >>> # Create from existing DataFrame
+    >>> import pandas as pd
+    >>> df = pd.DataFrame({'A': [1, 2, 3], 'B': ['a', 'b', 'c']})
+    >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+    >>> 
+    >>> # Load from file
+    >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+    >>> 
+    >>> # Access properties
+    >>> print(f"Columns: {mf.columns}")
+    >>> print(f"Rows: {mf.nrow}")
+    >>> print(f"Variables: {mf.nvars}")
+end note
+
+note top of Event
+Base class for logging events with unique identifiers and timestamps.
+
+This class provides the foundation for event logging functionality, including
+automatic generation of unique identifiers, timestamps, and JSON serialization
+capabilities. It serves as the parent class for more specialized event types.
+
+Attributes:
+    event_type (str): The type/category of the event.
+    uuid (str): A unique identifier for the event.
+    timestamp (str): ISO format timestamp when the event was created.
+    log_location (str): The file path where the event should be logged.
+    
+Example:
+    >>> event = Event("INFO", "events_log/job_1/events.json")
+    >>> event.log()  # Writes event to the specified log file
 end note
 
 note top of PipelineEvent
-Class to handle events related to a table.
+Specialized event class for pipeline operations with additional metadata.
+
+This class extends the base Event class to include pipeline-specific information
+such as descriptive messages and detailed descriptions. It's designed for logging
+data pipeline operations like data loading, transformations, and processing steps.
+
+Attributes:
+    sub_type (str): The subtype identifier for pipeline events.
+    message (str): A brief message describing the pipeline operation.
+    description (str): A detailed description of the pipeline operation.
+    
+Example:
+    >>> event = PipelineEvent(
+    ...     event_type="transform",
+    ...     message="Data cleaning completed",
+    ...     description="Removed 150 null values from column 'age'",
+    ...     log_location="events_log/job_1/pipeline_events.json"
+    ... )
+    >>> event.log()
 end note
 
 note top of PipelineTable
-Class that holds a metaframe and a list of events to log.
+A specialized class that extends MetaFrame to include event logging capabilities for data pipeline operations.
+
+This class combines the functionality of a MetaFrame (which handles different DataFrame types like PySpark, 
+Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
+
+Attributes:
+    events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
+    pipeline_table_version (str): Version identifier for the pipeline table implementation.
+    
+Example:
+    >>> # Create a PipelineTable from an existing MetaFrame
+    >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+    >>> pt = PipelineTable(mf)
+    >>> 
+    >>> # Add custom events
+    >>> event = PipelineEvent("transform", "Applied filter", "Filtered rows where column > 10")
+    >>> pt.add_event(event)
+    >>> 
+    >>> # Save all events to log files
+    >>> pt.save_events()
+end note
+
+note top of PipelineTables
+A collection manager for multiple PipelineTable objects with dictionary-like access.
+
+This class provides a convenient way to manage multiple PipelineTable instances,
+allowing access by name through dictionary-style operations. It maintains both
+a list of tables and a dictionary for named access, ensuring consistency between
+the two data structures.
+
+Attributes:
+    tables (list[PipelineTable]): List of all PipelineTable instances in the collection.
+    named_tables (dict): Dictionary mapping table names to PipelineTable instances.
+    
+Example:
+    >>> # Create an empty collection
+    >>> pt_collection = PipelineTables()
+    >>> 
+    >>> # Add tables
+    >>> pt1 = PipelineTable.load("data1.parquet", "parquet", "table1")
+    >>> pt2 = PipelineTable.load("data2.parquet", "parquet", "table2")
+    >>> pt_collection["table1"] = pt1
+    >>> pt_collection["table2"] = pt2
+    >>> 
+    >>> # Access tables
+    >>> table = pt_collection["table1"]
+    >>> table_count = len(pt_collection)
+    >>> 
+    >>> # Save all events
+    >>> pt_collection.save_events()
 end note
 
 note top of SupplyLoad
-Class to handle supply load information from a JSON file.
+A specialized collection manager for loading and managing supply data from JSON configuration files.
+
+This class extends PipelineTables to provide automated loading of multiple data sources
+from a JSON configuration file. It's designed for scenarios where you need to load
+multiple related datasets (supplies) from a single configuration source.
+
+The JSON configuration should follow this structure:
+{
+    "supply": [
+        {
+            "name": "table_name",
+            "path": "path/to/data.parquet",
+            "format": "parquet"
+        },
+        ...
+    ]
+}
+
+Attributes:
+    supply_load_src (str): The path to the JSON configuration file.
+    
+Example:
+    >>> # JSON file: supply_config.json
+    >>> # {
+    >>> #     "supply": [
+    >>> #         {"name": "customers", "path": "data/customers.parquet", "format": "parquet"},
+    >>> #         {"name": "orders", "path": "data/orders.parquet", "format": "parquet"}
+    >>> #     ]
+    >>> # }
+    >>> 
+    >>> supply_loader = SupplyLoad("supply_config.json", spark)
+    >>> customers_table = supply_loader["customers"]
+    >>> orders_table = supply_loader["orders"]
+    >>> 
+    >>> # Save events for all loaded tables
+    >>> supply_loader.save_events()
+end note
+
+note top of Tablename
+A specialized string class for validating and managing table names.
+
+This class extends the built-in str class to provide validation and formatting
+for table names. It ensures that table names follow proper naming conventions
+and provides a clean interface for working with table identifiers.
+
+The class validates that table names:
+- Start with a letter or underscore
+- Contain only alphanumeric characters and underscores
+- Are not empty
+- Can be purely numeric (special case)
+
+Example:
+    >>> # Valid table names
+    >>> name1 = Tablename("my_table")
+    >>> name2 = Tablename("_private_table")
+    >>> name3 = Tablename("123")  # Numeric names are allowed
+    >>> 
+    >>> # Invalid table names (will raise ValueError)
+    >>> # Tablename("1table")  # Starts with number
+    >>> # Tablename("table-name")  # Contains hyphen
+    >>> # Tablename("")  # Empty string
+end note
+
+note top of Transform
+Base class for data transformation operations with automatic event logging.
+
+This class provides the foundation for implementing data transformations in the pipeline.
+It extends PipelineEvent to automatically log transformation operations and provides
+a consistent interface for applying transformations to MetaFrame objects.
+
+Attributes:
+    name (str): The name of the transformation.
+    transform_type (str): The type/category of the transformation.
+    
+Example:
+    >>> class MyTransform(Transform):
+    ...     def __init__(self):
+    ...         super().__init__("MyTransform", "Custom transformation", "custom")
+    ...     
+    ...     def transforms(self, df, df2=None):
+    ...         # Implementation here
+    ...         return transformed_df
+    >>> 
+    >>> transform = MyTransform()
+    >>> result = transform(metaframe)  # Automatically logs the transformation
+end note
+
+note top of TableTransform
+Specialized transform class for operations that act on specific table variables.
+
+This class extends Transform to provide variable-level tracking and management
+for transformations that operate on specific columns or variables within a table.
+It maintains lists of target variables and tracks changes made during transformation.
+
+Attributes:
+    target_variables (list[str]): List of variables that the transform operates on.
+    target_tables (list): List of target tables (currently unused).
+    created_variables (list): Variables created by the transformation.
+    renamed_variables (list): Variables renamed by the transformation.
+    deleted_variables (list): Variables deleted by the transformation.
+    hashed_variables (list): Variables that were hashed during transformation.
+    
+Example:
+    >>> class ColumnFilter(TableTransform):
+    ...     def __init__(self, columns):
+    ...         super().__init__("ColumnFilter", "Filter specific columns", columns)
+    ...     
+    ...     def transforms(self, df, df2=None):
+    ...         return df.select(self.target_variables)
+    >>> 
+    >>> filter_transform = ColumnFilter(["col1", "col2"])
+    >>> result = filter_transform(metaframe)
+end note
+
+note top of SimpleTransform
+Simplified transform class for operations that act on a single variable.
+
+This class provides a convenient wrapper for TableTransform when working with
+single-variable operations, automatically wrapping the variable in a list.
+
+Example:
+    >>> class DropColumn(SimpleTransform):
+    ...     def __init__(self, column_name):
+    ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
+    ...     
+    ...     def transforms(self, df, df2=None):
+    ...         return df.drop(self.var())
+    >>> 
+    >>> drop_transform = DropColumn("unwanted_column")
+    >>> result = drop_transform(metaframe)
+end note
+
+note top of DropVariable
+Transform class for removing variables/columns from a DataFrame.
+
+This class provides a specific implementation for dropping columns from a DataFrame.
+It automatically validates that the target variable exists before attempting to drop it.
+
+Example:
+    >>> drop_transform = DropVariable("unwanted_column")
+    >>> result = drop_transform(metaframe)
+    >>> # The column is removed and the operation is logged
 end note
 
 
