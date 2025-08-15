@@ -3,9 +3,9 @@
 skinparam classAttributeIconSize 0
 
 class MetaFrame{
-    table_name
     df
     frame_type
+    table_name
     src_path
     metaframe_version
     infer_table_name(src_path)
@@ -43,6 +43,19 @@ class PipelineTable{
     save_events(self)
 }
 
+class SupplyLoad{
+    supply_load_src
+    tables
+    named_tables
+    __init__(self, json_loc, spark)
+    load_supplies(self, spark)
+    get_table(self, name)
+    __getitem__(self, name)
+    __setitem__(self, name, table)
+    __delitem__(self, name)
+    __contains__(self, name)
+}
+
 class Tablename{
     acceptable_format(name)
     __init__(self, table_name)
@@ -63,6 +76,7 @@ class TableTransform{
     created_variables
     renamed_variables
     deleted_variables
+    hashed_variables
     __init__(self, name, description, acts_on_variables)
     nvars(self)
     var(self)
@@ -98,6 +112,10 @@ end note
 
 note top of PipelineTable
 Class that holds a metaframe and a list of events to log.
+end note
+
+note top of SupplyLoad
+Class to handle supply load information from a JSON file.
 end note
 
 
