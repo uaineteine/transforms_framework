@@ -17,6 +17,7 @@ class MetaFrame{
     nrow(self)
     get_pandas_frame(self)
     get_polars_lazy_frame(self)
+    show(self, n, truncate)
     load(path, format, table_name, frame_type, spark)
 }
 
@@ -40,7 +41,7 @@ class PipelineEvent{
 class PipelineTable{
     events
     pipeline_table_version
-    __init__(self, metaframe)
+    __init__(self, metaframe, inherit_events)
     add_event(self, event)
     load(path, format, table_name, frame_type, spark)
     save_events(self)
@@ -75,9 +76,9 @@ class Transform{
     name
     transform_type
     __init__(self, name, description, transform_type)
-    transforms(self, df, df2)
-    __call__(self, tbl, tbl2)
-    apply(self, tbl, tbl2)
+    transforms(self, supply_frames)
+    __call__(self, supply_frames)
+    apply(self, supply_frames)
 }
 
 class TableTransform{
@@ -98,9 +99,9 @@ class SimpleTransform{
 
 class DropVariable{
     deleted_variables
-    target_table
+    target_tables
     __init__(self, variable_to_drop)
-    transforms(self, tbl, tbl2)
+    transforms(self, supply_frames)
 }
 
 Event <|-- PipelineEvent
@@ -146,7 +147,7 @@ Base class for logging events with unique identifiers and timestamps.
 
 This class provides the foundation for event logging functionality, including
 automatic generation of unique identifiers, timestamps, and JSON serialization
-capabilities. It serves as the parent class for more specialized event types.
+capabilities. It serves as the parent class for more specialised event types.
 
 Attributes:
     event_type (str): The type/category of the event.
@@ -160,7 +161,7 @@ Example:
 end note
 
 note top of PipelineEvent
-Specialized event class for pipeline operations with additional metadata.
+Specialised event class for pipeline operations with additional metadata.
 
 This class extends the base Event class to include pipeline-specific information
 such as descriptive messages and detailed descriptions. It's designed for logging
@@ -182,7 +183,7 @@ Example:
 end note
 
 note top of PipelineTable
-A specialized class that extends MetaFrame to include event logging capabilities for data pipeline operations.
+A specialised class that extends MetaFrame to include event logging capabilities for data pipeline operations.
 
 This class combines the functionality of a MetaFrame (which handles different DataFrame types like PySpark, 
 Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
@@ -235,7 +236,7 @@ Example:
 end note
 
 note top of SupplyLoad
-A specialized collection manager for loading and managing supply data from JSON configuration files.
+A specialised collection manager for loading and managing supply data from JSON configuration files.
 
 This class extends PipelineTables to provide automated loading of multiple data sources
 from a JSON configuration file. It's designed for scenarios where you need to load
@@ -274,7 +275,7 @@ Example:
 end note
 
 note top of Tablename
-A specialized string class for validating and managing table names.
+A specialised string class for validating and managing table names.
 
 This class extends the built-in str class to provide validation and formatting
 for table names. It ensures that table names follow proper naming conventions
@@ -314,16 +315,16 @@ Example:
     ...     def __init__(self):
     ...         super().__init__("MyTransform", "Custom transformation", "custom")
     ...     
-    ...     def transforms(self, df, df2=None):
+    ...     def transforms(self, supply_frames, **kwargs):
     ...         # Implementation here
     ...         return transformed_df
     >>> 
     >>> transform = MyTransform()
-    >>> result = transform(metaframe)  # Automatically logs the transformation
+    >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
 end note
 
 note top of TableTransform
-Specialized transform class for operations that act on specific table variables.
+Specialised transform class for operations that act on specific table variables.
 
 This class extends Transform to provide variable-level tracking and management
 for transformations that operate on specific columns or variables within a table.
@@ -342,11 +343,12 @@ Example:
     ...     def __init__(self, columns):
     ...         super().__init__("ColumnFilter", "Filter specific columns", columns)
     ...     
-    ...     def transforms(self, df, df2=None):
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         df = supply_frames[kwargs.get('df')]
     ...         return df.select(self.target_variables)
     >>> 
     >>> filter_transform = ColumnFilter(["col1", "col2"])
-    >>> result = filter_transform(metaframe)
+    >>> result = filter_transform(supply_loader, df="table_name")
 end note
 
 note top of SimpleTransform
@@ -360,11 +362,12 @@ Example:
     ...     def __init__(self, column_name):
     ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
     ...     
-    ...     def transforms(self, df, df2=None):
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         df = supply_frames[kwargs.get('df')]
     ...         return df.drop(self.var())
     >>> 
     >>> drop_transform = DropColumn("unwanted_column")
-    >>> result = drop_transform(metaframe)
+    >>> result = drop_transform(supply_loader, df="table_name")
 end note
 
 note top of DropVariable
@@ -375,7 +378,7 @@ It automatically validates that the target variable exists before attempting to 
 
 Example:
     >>> drop_transform = DropVariable("unwanted_column")
-    >>> result = drop_transform(metaframe)
+    >>> result = drop_transform(supply_loader, df="table_name")
     >>> # The column is removed and the operation is logged
 end note
 
