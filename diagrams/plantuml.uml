@@ -51,6 +51,12 @@ class PipelineTables{
     tables
     named_tables
     __init__(self, tables)
+    select_by_names(self)
+    select_by_prefix(self, prefix)
+    select_by_suffix(self, suffix)
+    select_by_range(self, start_name, end_name)
+    get_table_names(self)
+    filter_tables(self, filter_func)
     get_table(self, name)
     __getitem__(self, name)
     __setitem__(self, name, table)
@@ -230,6 +236,12 @@ Example:
     >>> # Access tables
     >>> table = pt_collection["table1"]
     >>> table_count = len(pt_collection)
+    >>> 
+    >>> # Select tables by prefix
+    >>> clus_tables = pt_collection.select_by_names("clus_*")
+    >>> 
+    >>> # Select tables by range
+    >>> specific_tables = pt_collection.select_by_names("table1", "table3")
     >>> 
     >>> # Save all events
     >>> pt_collection.save_events()
