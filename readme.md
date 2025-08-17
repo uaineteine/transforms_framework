@@ -69,6 +69,8 @@ tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name=
 - Supports adding, removing, and checking for tables.
 - Can save events for all tables in the collection at once.
 - Maintains both a list of tables and a dictionary for named access.
+- **NEW:** Advanced table selection by patterns, prefixes, suffixes, and ranges.
+- **NEW:** Returns references to the same table objects, so modifications are reflected across collections.
 
 **Example:**
 ```python
@@ -77,15 +79,29 @@ from pipeline_table import PipelineTable, PipelineTables
 # Load multiple tables
 test_table = PipelineTable.load(spark=spark, path="test_tables/test.csv", format="csv", table_name="test_table", frame_type="pyspark")
 test2_table = PipelineTable.load(spark=spark, path="test_tables/test2.csv", format="csv", table_name="test2_table", frame_type="pyspark")
+clus_table = PipelineTable.load(spark=spark, path="test_tables/clus_data.csv", format="csv", table_name="clus_data", frame_type="pyspark")
 
 # Create collection
-tables_list = [test_table, test2_table]
+tables_list = [test_table, test2_table, clus_table]
 pt_collection = PipelineTables(tables_list)
 
 # Access tables by name
 first_table = pt_collection["test_table"]
 print(f"Collection has {pt_collection.ntables} tables")
 print(f"Available tables: {list(pt_collection.named_tables.keys())}")
+
+# NEW: Select tables by patterns
+clus_tables = pt_collection.select_by_names("clus_*")  # All tables starting with "clus_"
+specific_tables = pt_collection.select_by_names("test_table", "test2_table")  # Specific tables
+mixed_tables = pt_collection.select_by_names("clus_*", "test_table")  # Multiple patterns
+
+# NEW: Convenience methods
+prefix_tables = pt_collection.select_by_prefix("clus_")  # Same as "clus_*"
+suffix_tables = pt_collection.select_by_suffix("_data")  # All tables ending with "_data"
+range_tables = pt_collection.select_by_range("test_table", "test2_table")  # Tables in lexicographic range
+
+# NEW: Custom filtering
+large_tables = pt_collection.filter_tables(lambda t: len(t.df) > 1000)  # Tables with >1000 rows
 
 # Save events for all tables
 pt_collection.save_events()
@@ -253,9 +269,10 @@ For managing multiple tables with more control and flexibility, use the `Pipelin
     # Load multiple tables
     test_table = PipelineTable.load(spark=spark, path="test_tables/test.csv", format="csv", table_name="test_table", frame_type="pyspark")
     test2_table = PipelineTable.load(spark=spark, path="test_tables/test2.csv", format="csv", table_name="test2_table", frame_type="pyspark")
+    clus_table = PipelineTable.load(spark=spark, path="test_tables/clus_data.csv", format="csv", table_name="clus_data", frame_type="pyspark")
     
     # Create collection with initial tables
-    tables_list = [test_table, test2_table]
+    tables_list = [test_table, test2_table, clus_table]
     pt_collection = PipelineTables(tables_list)
     
     print(f"Collection created with {pt_collection.ntables} tables")
@@ -279,7 +296,26 @@ For managing multiple tables with more control and flexibility, use the `Pipelin
     pt_collection["test_table"].show()
     ```
 
-3. **Show all tables and save events:**
+3. **NEW: Advanced table selection:**
+    ```python
+    # Select tables by patterns (returns references to same objects)
+    clus_tables = pt_collection.select_by_names("clus_*")
+    specific_tables = pt_collection.select_by_names("test_table", "test2_table")
+    
+    # Modifications in selected collection affect original
+    clus_tables["clus_data"] = DropVariable("unwanted_column")(clus_tables["clus_data"])
+    # This change is also reflected in pt_collection["clus_data"]
+    
+    # Convenience methods
+    prefix_tables = pt_collection.select_by_prefix("clus_")
+    suffix_tables = pt_collection.select_by_suffix("_data")
+    range_tables = pt_collection.select_by_range("test_table", "test2_table")
+    
+    # Custom filtering
+    large_tables = pt_collection.filter_tables(lambda t: len(t.df) > 1000)
+    ```
+
+4. **Show all tables and save events:**
     ```python
     # Show all tables in collection
     for i, table in enumerate(pt_collection.tables):
@@ -296,6 +332,100 @@ This approach provides:
 - Easy iteration over all tables in the collection
 - Bulk event saving for all tables
 - Flexibility to add/remove tables dynamically
+- **NEW:** Advanced table selection with pattern matching, wildcards, and custom filters
+- **NEW:** Shared object references ensuring modifications propagate across collections
+
+---
+
+## Advanced Table Selection Features
+
+The `PipelineTables` class now includes powerful table selection capabilities that return references to the same table objects, ensuring modifications propagate across collections.
+
+### Table Selection Methods
+
+#### `select_by_names(*name_patterns)`
+Select tables by name patterns, supporting wildcards and exact matches:
+
+```python
+# Wildcard patterns
+clus_tables = pt.select_by_names("clus_*")  # All tables starting with "clus_"
+year_tables = pt.select_by_names("*_2023")  # All tables ending with "_2023"
+table_tables = pt.select_by_names("table*")  # All tables starting with "table"
+
+# Exact matches
+specific_tables = pt.select_by_names("table1", "table3", "clus_data")
+
+# Multiple patterns
+mixed_tables = pt.select_by_names("clus_*", "table1", "*_2023")
+```
+
+#### `select_by_prefix(prefix)`
+Convenience method for selecting tables that start with a specific prefix:
+
+```python
+clus_tables = pt.select_by_prefix("clus_")  # Same as "clus_*"
+```
+
+#### `select_by_suffix(suffix)`
+Convenience method for selecting tables that end with a specific suffix:
+
+```python
+year_tables = pt.select_by_suffix("_2023")  # Same as "*_2023"
+```
+
+#### `select_by_range(start_name, end_name)`
+Select tables with names that fall within a lexicographic range:
+
+```python
+range_tables = pt.select_by_range("table1", "table5")  # Tables with names between table1 and table5
+```
+
+#### `filter_tables(filter_func)`
+Advanced filtering using custom functions:
+
+```python
+# Filter tables with more than 1000 rows
+large_tables = pt.filter_tables(lambda t: len(t.df) > 1000)
+
+# Filter tables with specific column
+tables_with_age = pt.filter_tables(lambda t: "age" in t.columns)
+
+# Filter tables by custom criteria
+recent_tables = pt.filter_tables(lambda t: "2023" in t.table_name)
+```
+
+### Shared Object References
+
+**Important:** All selection methods return references to the same `PipelineTable` objects. This means:
+
+```python
+# Create a collection
+pt_collection = PipelineTables([table1, table2, clus_data])
+
+# Select a subset
+clus_tables = pt_collection.select_by_names("clus_*")
+
+# Modify a table in the subset
+clus_tables["clus_data"] = DropVariable("unwanted_column")(clus_tables["clus_data"])
+
+# The change is reflected in the original collection
+print(pt_collection["clus_data"].columns)  # Shows the modified columns
+```
+
+This behavior ensures that:
+- Modifications to tables in selected collections affect the original collection
+- Memory efficiency (no copying of table objects)
+- Consistent state across all collections referencing the same tables
+
+### Utility Methods
+
+#### `get_table_names()`
+Get a list of all table names in the collection:
+
+```python
+names = pt.get_table_names()
+print(names)  # ['table1', 'table2', 'clus_data', ...]
+```
 
 ---
 

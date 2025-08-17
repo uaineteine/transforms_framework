@@ -178,7 +178,7 @@ class PipelineTables:
         >>> table_count = len(pt_collection)
         >>> 
         >>> # Select tables by prefix
-        >>> ccd_tables = pt_collection.select_by_names("ccd_*")
+        >>> clus_tables = pt_collection.select_by_names("clus_*")
         >>> 
         >>> # Select tables by range
         >>> specific_tables = pt_collection.select_by_names("table1", "table3")
@@ -219,8 +219,8 @@ class PipelineTables:
         This method creates a new PipelineTables instance containing only the tables
         that match the specified name patterns. It supports:
         - Exact name matches: "table1", "table2"
-        - Wildcard patterns: "ccd_*", "*_2023", "table*"
-        - Multiple patterns: "ccd_*", "table1", "table3"
+        - Wildcard patterns: "clus_*", "*_2023", "table*"
+        - Multiple patterns: "clus_*", "table1", "table3"
         
         Args:
             *name_patterns (str): Variable number of name patterns to match against.
@@ -234,13 +234,13 @@ class PipelineTables:
         
         Example:
             >>> # Select tables by prefix
-            >>> ccd_tables = pt.select_by_names("ccd_*")
+            >>> clus_tables = pt.select_by_names("clus_*")
             >>> 
             >>> # Select specific tables
             >>> specific_tables = pt.select_by_names("table1", "table3")
             >>> 
             >>> # Select tables by multiple patterns
-            >>> mixed_tables = pt.select_by_names("ccd_*", "table1", "*_2023")
+            >>> mixed_tables = pt.select_by_names("clus_*", "table1", "*_2023")
         """
         if not name_patterns:
             raise ValueError("At least one name pattern must be provided")
@@ -273,8 +273,8 @@ class PipelineTables:
             PipelineTables: A new PipelineTables instance containing only tables with matching prefix.
         
         Example:
-            >>> # Select all tables starting with "ccd_"
-            >>> ccd_tables = pt.select_by_prefix("ccd_")
+            >>> # Select all tables starting with "clus_"
+            >>> clus_tables = pt.select_by_prefix("clus_")
         """
         return self.select_by_names(f"{prefix}*")
 
@@ -332,7 +332,7 @@ class PipelineTables:
         
         Example:
             >>> names = pt.get_table_names()
-            >>> print(names)  # ['table1', 'table2', 'ccd_data', ...]
+            >>> print(names)  # ['table1', 'table2', 'clus_data', ...]
         """
         return list(self.named_tables.keys())
 
