@@ -1,5 +1,6 @@
 import os
-from typing import List
+import fnmatch
+from typing import List, Union
 from pipeline_event import PipelineEvent
 
 #module imports
@@ -176,6 +177,12 @@ class PipelineTables:
         >>> table = pt_collection["table1"]
         >>> table_count = len(pt_collection)
         >>> 
+        >>> # Select tables by prefix
+        >>> ccd_tables = pt_collection.select_by_names("ccd_*")
+        >>> 
+        >>> # Select tables by range
+        >>> specific_tables = pt_collection.select_by_names("table1", "table3")
+        >>> 
         >>> # Save all events
         >>> pt_collection.save_events()
     """
@@ -202,8 +209,149 @@ class PipelineTables:
         # Initialize named_tables if tables are provided
         if tables:
             for table in tables:
-                if hasattr(table, 'name') and table.name:
-                    self.named_tables[table.name] = table
+                if hasattr(table, 'table_name') and table.table_name:
+                    self.named_tables[table.table_name] = table
+
+    def select_by_names(self, *name_patterns: str) -> 'PipelineTables':
+        """
+        Select tables by name patterns, supporting wildcards and exact matches.
+        
+        This method creates a new PipelineTables instance containing only the tables
+        that match the specified name patterns. It supports:
+        - Exact name matches: "table1", "table2"
+        - Wildcard patterns: "ccd_*", "*_2023", "table*"
+        - Multiple patterns: "ccd_*", "table1", "table3"
+        
+        Args:
+            *name_patterns (str): Variable number of name patterns to match against.
+                                Can be exact names or wildcard patterns.
+        
+        Returns:
+            PipelineTables: A new PipelineTables instance containing only the matching tables.
+        
+        Raises:
+            ValueError: If no name patterns are provided.
+        
+        Example:
+            >>> # Select tables by prefix
+            >>> ccd_tables = pt.select_by_names("ccd_*")
+            >>> 
+            >>> # Select specific tables
+            >>> specific_tables = pt.select_by_names("table1", "table3")
+            >>> 
+            >>> # Select tables by multiple patterns
+            >>> mixed_tables = pt.select_by_names("ccd_*", "table1", "*_2023")
+        """
+        if not name_patterns:
+            raise ValueError("At least one name pattern must be provided")
+        
+        matching_tables = []
+        
+        for table in self.tables:
+            table_name = getattr(table, 'table_name', '')
+            if not table_name:
+                continue
+                
+            # Check if table name matches any of the patterns
+            for pattern in name_patterns:
+                if fnmatch.fnmatch(table_name, pattern):
+                    matching_tables.append(table)
+                    break  # Once matched, no need to check other patterns
+        
+        return PipelineTables(matching_tables)
+
+    def select_by_prefix(self, prefix: str) -> 'PipelineTables':
+        """
+        Select tables that start with the specified prefix.
+        
+        This is a convenience method that uses select_by_names internally.
+        
+        Args:
+            prefix (str): The prefix to match against table names.
+        
+        Returns:
+            PipelineTables: A new PipelineTables instance containing only tables with matching prefix.
+        
+        Example:
+            >>> # Select all tables starting with "ccd_"
+            >>> ccd_tables = pt.select_by_prefix("ccd_")
+        """
+        return self.select_by_names(f"{prefix}*")
+
+    def select_by_suffix(self, suffix: str) -> 'PipelineTables':
+        """
+        Select tables that end with the specified suffix.
+        
+        This is a convenience method that uses select_by_names internally.
+        
+        Args:
+            suffix (str): The suffix to match against table names.
+        
+        Returns:
+            PipelineTables: A new PipelineTables instance containing only tables with matching suffix.
+        
+        Example:
+            >>> # Select all tables ending with "_2023"
+            >>> tables_2023 = pt.select_by_suffix("_2023")
+        """
+        return self.select_by_names(f"*{suffix}")
+
+    def select_by_range(self, start_name: str, end_name: str) -> 'PipelineTables':
+        """
+        Select tables with names that fall within a lexicographic range.
+        
+        Args:
+            start_name (str): The starting name (inclusive).
+            end_name (str): The ending name (inclusive).
+        
+        Returns:
+            PipelineTables: A new PipelineTables instance containing only tables within the range.
+        
+        Example:
+            >>> # Select tables with names between "table1" and "table5"
+            >>> range_tables = pt.select_by_range("table1", "table5")
+        """
+        matching_tables = []
+        
+        for table in self.tables:
+            table_name = getattr(table, 'table_name', '')
+            if not table_name:
+                continue
+                
+            if start_name <= table_name <= end_name:
+                matching_tables.append(table)
+        
+        return PipelineTables(matching_tables)
+
+    def get_table_names(self) -> List[str]:
+        """
+        Get a list of all table names in the collection.
+        
+        Returns:
+            List[str]: List of all table names.
+        
+        Example:
+            >>> names = pt.get_table_names()
+            >>> print(names)  # ['table1', 'table2', 'ccd_data', ...]
+        """
+        return list(self.named_tables.keys())
+
+    def filter_tables(self, filter_func) -> 'PipelineTables':
+        """
+        Filter tables using a custom filter function.
+        
+        Args:
+            filter_func (callable): A function that takes a PipelineTable and returns True/False.
+        
+        Returns:
+            PipelineTables: A new PipelineTables instance containing only tables that pass the filter.
+        
+        Example:
+            >>> # Filter tables with more than 1000 rows
+            >>> large_tables = pt.filter_tables(lambda t: len(t.df) > 1000)
+        """
+        matching_tables = [table for table in self.tables if filter_func(table)]
+        return PipelineTables(matching_tables)
 
     def get_table(self, name: str):
         """
