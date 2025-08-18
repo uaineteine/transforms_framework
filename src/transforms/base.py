@@ -1,6 +1,6 @@
-from pipeline_event import PipelineEvent
-from pipeline_table import PipelineTables
-from supply_load import SupplyLoad
+from events.pipeline_event import PipelineEvent
+from tables.collections.collection import TableCollection
+from tables.collections.supply_load import SupplyLoad
 
 class Transform(PipelineEvent):
     """
@@ -47,7 +47,7 @@ class Transform(PipelineEvent):
         self.transform_type = transform_type
         self.testable_transform = testable_transform
     
-    def transforms(self, supply_frames: SupplyLoad, **kwargs) -> PipelineTables:
+    def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
         """
         Abstract method that must be implemented by subclasses.
         

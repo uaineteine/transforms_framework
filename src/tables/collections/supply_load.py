@@ -1,11 +1,12 @@
 import json
-from pipeline_table import PipelineTable, PipelineTables
+from tables.pipeline_table import PipelineTable
+from tables.collections.collection import TableCollection
 
-class SupplyLoad(PipelineTables):
+class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
     
-    This class extends PipelineTables to provide automated loading of multiple data sources
+    This class extends TableCollection to provide automated loading of multiple data sources
     from a JSON configuration file. It's designed for scenarios where you need to load
     multiple related datasets (supplies) from a single configuration source.
     

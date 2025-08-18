@@ -1,5 +1,5 @@
-from transforms import Transform, SimpleTransform
-from supply_load import SupplyLoad
+from transforms.base import Transform, SimpleTransform
+from tables.collections.collection import TableCollection
 
 class DropVariable(SimpleTransform):
     """
@@ -29,7 +29,7 @@ class DropVariable(SimpleTransform):
         #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop, "DropVar", testable_transform=True)
 
-    def error_check(self, supply_frames: SupplyLoad, **kwargs):
+    def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Validate that the variable to drop exists in the DataFrame.
         
@@ -37,7 +37,7 @@ class DropVariable(SimpleTransform):
         before attempting to drop it.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Raises:
@@ -57,14 +57,14 @@ class DropVariable(SimpleTransform):
         if self.var not in supply_frames[table_name].columns:
             raise ValueError(f"Variable '{self.var}' not found in DataFrame columns: {supply_frames[table_name].columns}")
 
-    def transforms(self, supply_frames: SupplyLoad, **kwargs):
+    def transforms(self, supply_frames: TableCollection, **kwargs):
         """
         Remove the specified variable from the DataFrame.
         
         This method removes the target variable and updates the tracking information.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
@@ -86,7 +86,7 @@ class DropVariable(SimpleTransform):
         supply_frames[table_name].events.append(self)
         return supply_frames
     
-    def test(self, supply_frames: SupplyLoad, **kwargs) -> bool:
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
         """
         Test that the variable was successfully removed from the DataFrame.
         
@@ -94,7 +94,7 @@ class DropVariable(SimpleTransform):
         specified table after the transformation.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:

@@ -8,7 +8,7 @@ import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
 #module imports
-from tablename import Tablename
+from tables.tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
 def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:
@@ -48,13 +48,12 @@ def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> 
     else:
        raise ValueError("Unsupported format for polars")
 
-class MetaFrame: 
+class MultiTable: 
     """
-    A unified wrapper class for handling DataFrames with metadata across different frameworks.
+    A unified wrapper class for handling DataFrames across different frameworks.
     
     This class provides a consistent interface for working with DataFrames from PySpark, Pandas, 
-    and Polars, while maintaining metadata about the source, table name, and framework type.
-    It includes utility methods for accessing DataFrame properties and converting between formats.
+    and Polars. It includes utility methods for accessing DataFrame properties and converting between formats.
     
     Attributes:
         df: The underlying DataFrame (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
@@ -115,7 +114,7 @@ class MetaFrame:
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
-        Initialize a MetaFrame with a DataFrame and metadata.
+        Initialize a MultiTable with a DataFrame and metadata.
 
         Args:
             df: The DataFrame to wrap (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
@@ -132,10 +131,10 @@ class MetaFrame:
         Example:
             >>> import pandas as pd
             >>> df = pd.DataFrame({'A': [1, 2, 3]})
-            >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+            >>> mf = MultiTable(df, "data.csv", "my_table", "pandas")
             >>> 
             >>> # Let table name be inferred
-            >>> mf = MetaFrame(df, "data.csv", frame_type="pandas")
+            >>> mf = MultiTable(df, "data.csv", frame_type="pandas")
         """
         #verify the frame type
         FrameTypeVerifier.verify(df, frame_type)
@@ -147,15 +146,13 @@ class MetaFrame:
         if table_name != "":
             self.table_name = Tablename(table_name)
         else:
-            self.table_name = MetaFrame.infer_table_name(src_path)
+            self.table_name = MultiTable.infer_table_name(src_path)
 
         self.src_path = src_path
 
-        self.metaframe_version = "0.1.0"
-
     def __repr__(self):
         """
-        Return a string representation of the MetaFrame.
+        Return a string representation of the MultiTable.
         
         Returns:
             str: The table name as a string representation.
@@ -164,13 +161,13 @@ class MetaFrame:
 
     def __str__(self):
         """
-        Return a detailed string representation of the MetaFrame.
+        Return a detailed string representation of the MultiTable.
         
         Returns:
-            str: A JSON-like string with MetaFrame metadata.
+            str: A JSON-like string with MultiTable metadata.
         """
         #JSON like string representation
-        return f"MetaFrame(name={self.table_name}, type={self.frame_type})"
+        return f"MultiTable(name={self.table_name}, type={self.frame_type})"
 
     @property
     def columns(self):
@@ -214,7 +211,7 @@ class MetaFrame:
             ValueError: If the frame_type is not supported.
 
         Example:
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pandas")
             >>> print(f"Number of variables: {mf.nvars}")
         """
         if self.frame_type == "pyspark":
@@ -241,7 +238,7 @@ class MetaFrame:
             ValueError: If the frame_type is not supported.
 
         Example:
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pandas")
+            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pandas")
             >>> print(f"Number of rows: {mf.nrow}")
         """
         if self.frame_type == "pyspark":
@@ -333,11 +330,11 @@ class MetaFrame:
         if self.frame_type == "pyspark":
             self.df.show(n=n, truncate=truncate)
         elif self.frame_type == "pandas":
-            print(f"MetaFrame: {self.table_name} ({self.frame_type})")
+            print(f"MultiTable: {self.table_name} ({self.frame_type})")
             print(f"Shape: {self.df.shape[0]} rows × {self.df.shape[1]} columns")
             print(self.df.head(n))
         elif self.frame_type == "polars":
-            print(f"MetaFrame: {self.table_name} ({self.frame_type})")
+            print(f"MultiTable: {self.table_name} ({self.frame_type})")
             # For Polars LazyFrame, we need to collect first
             collected_df = self.df.collect()
             print(f"Shape: {collected_df.shape[0]} rows × {collected_df.shape[1]} columns")
@@ -348,10 +345,10 @@ class MetaFrame:
     @staticmethod
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
-        Load a DataFrame from a file and return a MetaFrame instance.
+        Load a DataFrame from a file and return a MultiTable instance.
         
         This static method provides a convenient way to load data from various file formats
-        and create a MetaFrame with appropriate metadata. It supports multiple file formats
+        and create a MultiTable with appropriate metadata. It supports multiple file formats
         and DataFrame frameworks.
 
         Args:
@@ -365,7 +362,7 @@ class MetaFrame:
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
-            MetaFrame: A new MetaFrame instance with the loaded data and metadata.
+            MultiTable: A new MultiTable instance with the loaded data and metadata.
 
         Raises:
             FileNotFoundError: If the specified path does not exist.
@@ -375,13 +372,13 @@ class MetaFrame:
 
         Example:
             >>> # Load a PySpark DataFrame
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pyspark", spark)
             >>> 
             >>> # Load a Pandas DataFrame
-            >>> mf = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
+            >>> mf = MultiTable.load("data.csv", "csv", "my_table", "pandas")
             >>> 
             >>> # Load a Polars DataFrame
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "polars")
+            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "polars")
         """
         if frame_type == "pyspark":
             df = _load_spark_df(path, format, table_name, spark)
@@ -393,5 +390,5 @@ class MetaFrame:
             raise ValueError("Unsupported frame_type")
 
         #package into metaframe
-        mf = MetaFrame(df, src_path=path, table_name=table_name, frame_type=frame_type)
+        mf = MultiTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
         return mf

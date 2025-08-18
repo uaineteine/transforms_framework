@@ -1,2 +1,7 @@
-__pycache__/*.pyc
+/__pycache__/*.pyc
+src/events/__pycache__/*.pyc
+src/tables/__pycache__/*.pyc
+src/tables/collections/__pycache__/*.pyc
+src/templates/__pycache__/*.pyc
+src/transforms/__pycache__/*.pyc
 template_load_pipe.ipynb
