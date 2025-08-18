@@ -184,3 +184,13 @@ class FilterTransform:
             return "spark"
         else:
             raise TypeError(f"Unsupported DataFrame type: {type(df)}")
+
+# from pyspark.sql.functions import col
+
+filter_transform = FilterTransform(condition_map={
+    "pandas": lambda df: df[df["age"] > 30],
+    "polars": lambda df: df.filter(df["age"] > 30),
+    "spark": lambda df: df.filter(col("age") > 30)
+})
+
+#result = filter_transform.transforms(supply_frames, df="users_table")
