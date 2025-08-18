@@ -1,4 +1,3 @@
-import json
 from pipeline_event import PipelineEvent
 from pipeline_table import PipelineTables
 from supply_load import SupplyLoad
