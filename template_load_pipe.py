@@ -1,6 +1,6 @@
 if __name__ == "__main__":
     from pyspark.sql import SparkSession
-    from transforms import DropVariable
+    from transformslib import DropVariable
     from supply_load import SupplyLoad
 
     # Create Spark session
