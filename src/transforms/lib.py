@@ -1,6 +1,8 @@
 from transforms.base import Transform, SimpleTransform
 from tables.collections.collection import TableCollection
 
+from pyspark.sql.functions import col
+
 class DropVariable(SimpleTransform):
     """
     Transform class for removing variables/columns from a DataFrame.
@@ -158,34 +160,6 @@ class FilterTransform:
         supply_frames[table_name].events.append(self)
 
         return supply_frames
-
-    def _detect_backend(self, df):
-        """
-        Detect the backend type of the DataFrame.
-
-        Returns:
-            str: One of 'pandas', 'polars', or 'spark'.
-        """
-        import pandas as pd
-        try:
-            import polars as pl
-        except ImportError:
-            pl = None
-        try:
-            from pyspark.sql import DataFrame as SparkDF
-        except ImportError:
-            SparkDF = None
-
-        if isinstance(df, pd.DataFrame):
-            return "pandas"
-        elif pl and isinstance(df, pl.DataFrame):
-            return "polars"
-        elif SparkDF and isinstance(df, SparkDF):
-            return "spark"
-        else:
-            raise TypeError(f"Unsupported DataFrame type: {type(df)}")
-
-# from pyspark.sql.functions import col
 
 filter_transform = FilterTransform(condition_map={
     "pandas": lambda df: df[df["age"] > 30],
