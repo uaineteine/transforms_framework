@@ -81,8 +81,11 @@ class Tablename{
 class Transform{
     name
     transform_type
-    __init__(self, name, description, transform_type)
+    testable_transform
+    __init__(self, name, description, transform_type, testable_transform)
     transforms(self, supply_frames)
+    error_check(self, supply_frames)
+    test(self, supply_frames)
     __call__(self, supply_frames)
     apply(self, supply_frames)
 }
@@ -94,20 +97,23 @@ class TableTransform{
     renamed_variables
     deleted_variables
     hashed_variables
-    __init__(self, name, description, acts_on_variables)
+    __init__(self, name, description, acts_on_variables, testable_transform)
     nvars(self)
-    var(self)
+    vars(self)
 }
 
 class SimpleTransform{
-    __init__(self, name, description, acts_on_variable)
+    __init__(self, name, description, acts_on_variable, testable_transform)
+    var(self)
 }
 
 class DropVariable{
     deleted_variables
     target_tables
     __init__(self, variable_to_drop)
+    error_check(self, supply_frames)
     transforms(self, supply_frames)
+    test(self, supply_frames)
 }
 
 Event <|-- PipelineEvent
@@ -376,7 +382,7 @@ Example:
     ...     
     ...     def transforms(self, supply_frames, **kwargs):
     ...         df = supply_frames[kwargs.get('df')]
-    ...         return df.drop(self.var())
+    ...         return df.drop(self.var)
     >>> 
     >>> drop_transform = DropColumn("unwanted_column")
     >>> result = drop_transform(supply_loader, df="table_name")
