@@ -28,7 +28,7 @@ class Transform(PipelineEvent):
         >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
     """
 
-    def __init__(self, name: str, description: str, transform_type: str):
+    def __init__(self, name: str, description: str, transform_type: str, testable_transform: bool = True):
         """
         Initialize a Transform with name, description, and type.
 
@@ -36,6 +36,7 @@ class Transform(PipelineEvent):
             name (str): The name of the transformation operation.
             description (str): A detailed description of what the transformation does.
             transform_type (str): The category or type of transformation.
+            testable_transform (bool): Whether this transform can be tested. Defaults to True.
 
         Example:
             >>> transform = Transform("DataClean", "Remove null values", "cleaning")
@@ -45,6 +46,7 @@ class Transform(PipelineEvent):
         super().__init__(event_type="transform", message=name, description=description, log_location="events_log/job_1/transforms.json")
         self.name = name  # Set name manually
         self.transform_type = transform_type
+        self.testable_transform = testable_transform
     
     def transforms(self, supply_frames: SupplyLoad, **kwargs) -> PipelineTables:
         """
@@ -149,7 +151,7 @@ class TableTransform(Transform):
         >>> result = filter_transform(supply_loader, df="table_name")
     """
 
-    def __init__(self, name: str, description: str, acts_on_variables: list[str]):
+    def __init__(self, name: str, description: str, acts_on_variables: list[str], testable_transform: bool = False):
         """
         Initialize a TableTransform with target variables.
 
@@ -157,6 +159,7 @@ class TableTransform(Transform):
             name (str): The name of the transformation.
             description (str): Description of what the transformation does.
             acts_on_variables (list[str]): List of variable names that the transform operates on.
+            testable_transform (bool): Whether this transform can be tested. Defaults to False.
 
         Raises:
             ValueError: If no target variables are provided.
@@ -165,7 +168,7 @@ class TableTransform(Transform):
             >>> transform = TableTransform("ColumnSelect", "Select specific columns", ["col1", "col2"])
             >>> print(transform.target_variables)  # ["col1", "col2"]
         """
-        super().__init__(name, description, "TableTransform")
+        super().__init__(name, description, "TableTransform", testable_transform=testable_transform)
 
         self.target_tables = [] #nadah to begin with
 
@@ -243,7 +246,7 @@ class SimpleTransform(TableTransform):
         >>> result = drop_transform(supply_loader, df="table_name")
     """
 
-    def __init__(self, name: str, description: str, acts_on_variable: str):
+    def __init__(self, name: str, description: str, acts_on_variable: str, testable_transform: bool = False):
         """
         Initialize a SimpleTransform with a single target variable.
 
@@ -251,12 +254,13 @@ class SimpleTransform(TableTransform):
             name (str): The name of the transformation.
             description (str): Description of what the transformation does.
             acts_on_variable (str): The single variable that the transform operates on.
+            testable_transform (bool): Whether this transform can be tested. Defaults to False.
 
         Example:
             >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
             >>> print(transform.var)  # "column_name"
         """
-        super().__init__(name, description, [acts_on_variable])
+        super().__init__(name, description, [acts_on_variable], testable_transform=testable_transform)
     
     @property
     def var(self):
