@@ -76,6 +76,55 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
+    def error_check(self, supply_frames: SupplyLoad, **kwargs):
+        """
+        Abstract method for error checking before transformation.
+        
+        This method should contain validation logic to ensure the transformation
+        can be safely applied to the provided data.
+
+        Args:
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+
+        Raises:
+            NotImplementedError: This method must be implemented by subclasses.
+            ValueError: If validation fails.
+
+        Example:
+            >>> class MyTransform(Transform):
+            ...     def error_check(self, supply_frames, **kwargs):
+            ...         # Validate that required columns exist
+            ...         df = supply_frames[kwargs.get('df')]
+            ...         if 'required_column' not in df.columns:
+            ...             raise ValueError("Required column not found")
+        """
+        raise NotImplementedError("Subclasses should implement this method.")
+    
+    def test(self, supply_frames: SupplyLoad, **kwargs) -> bool:
+        """
+        Test method for validating transformation results.
+        
+        This method can be used to verify that the transformation was applied
+        correctly and the results meet expected criteria.
+
+        Args:
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+
+        Returns:
+            bool: True if test passes, False otherwise.
+
+        Example:
+            >>> class MyTransform(Transform):
+            ...     def test(self, supply_frames, **kwargs):
+            ...         # Verify transformation results
+            ...         df = supply_frames[kwargs.get('df')]
+            ...         return len(df.columns) > 0
+        """
+        raise NotImplemented("Child classes to override this method")
+        return True  # Default implementation always passes
+    
     def __call__(self, supply_frames: SupplyLoad, **kwargs):
         """
         Call the transformation function with the provided supply frames and keyword arguments.
@@ -101,7 +150,8 @@ class Transform(PipelineEvent):
         Apply the transformation to the provided supply frames with keyword arguments.
         
         This method executes the transformation and automatically logs the operation
-        as a pipeline event.
+        as a pipeline event. It also performs error checking before transformation
+        and testing after transformation if the transform is testable.
 
         Args:
             supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
@@ -115,8 +165,17 @@ class Transform(PipelineEvent):
             >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
             >>> # Transformation is automatically logged
         """
-        #Apply transformation
+        # Perform error checking before transformation
+        self.error_check(supply_frames, **kwargs)
+        
+        # Apply transformation
         result_df = self.transforms(supply_frames, **kwargs)
+        
+        # Perform testing after transformation
+        if self.testable_transform:
+            res = self.test(supply_frames, **kwargs)
+            if not res:
+                raise ValueError(f"Transform test failed for {self.name}") 
 
         self.log()
 
@@ -304,12 +363,39 @@ class DropVariable(SimpleTransform):
         #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
 
+    def error_check(self, supply_frames: SupplyLoad, **kwargs):
+        """
+        Validate that the variable to drop exists in the DataFrame.
+        
+        This method checks that the target variable exists in the specified table
+        before attempting to drop it.
+
+        Args:
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+
+        Raises:
+            ValueError: If the target variable is not found in the DataFrame columns.
+            KeyError: If the specified table name is not found in supply_frames.
+
+        Example:
+            >>> drop_transform = DropVariable("unwanted_column")
+            >>> drop_transform.error_check(supply_loader, df="table_name")
+        """
+        # Get the table from supply_frames
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        
+        # Check if the variable exists in the DataFrame
+        if self.var not in supply_frames[table_name].columns:
+            raise ValueError(f"Variable '{self.var}' not found in DataFrame columns: {supply_frames[table_name].columns}")
+
     def transforms(self, supply_frames: SupplyLoad, **kwargs):
         """
         Remove the specified variable from the DataFrame.
         
-        This method validates that the target variable exists in the DataFrame,
-        removes it, and updates the tracking information.
+        This method removes the target variable and updates the tracking information.
 
         Args:
             supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
@@ -318,10 +404,6 @@ class DropVariable(SimpleTransform):
         Returns:
             MetaFrame: The MetaFrame with the variable removed.
 
-        Raises:
-            ValueError: If the target variable is not found in the DataFrame columns.
-            KeyError: If the specified table name is not found in supply_frames.
-
         Example:
             >>> drop_transform = DropVariable("unwanted_column")
             >>> result = drop_transform.transforms(supply_loader, df="table_name")
@@ -329,17 +411,36 @@ class DropVariable(SimpleTransform):
         """
         # Get the table from supply_frames
         table_name = kwargs.get('df')
-        if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
         
-        #PUT HERE ERROR CHECKING
-        if self.var not in supply_frames[table_name].columns:
-            raise ValueError(f"Variable '{self.var}' not found in DataFrame columns: {supply_frames[table_name].columns}")
-
-        #PUT HERE TRANSFORMATION LOGIC
+        # Apply transformation logic
         self.deleted_variables = [self.var]
         self.target_tables = [table_name]
         supply_frames[table_name].df = supply_frames[table_name].df.drop(self.var)
 
         supply_frames[table_name].events.append(self)
         return supply_frames
+    
+    def test(self, supply_frames: SupplyLoad, **kwargs) -> bool:
+        """
+        Test that the variable was successfully removed from the DataFrame.
+        
+        This method verifies that the target variable no longer exists in the
+        specified table after the transformation.
+
+        Args:
+            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+
+        Returns:
+            bool: True if the variable was successfully removed, False otherwise.
+
+        Example:
+            >>> drop_transform = DropVariable("unwanted_column")
+            >>> result = drop_transform.test(supply_loader, df="table_name")
+        """
+        table_name = kwargs.get('df')
+        if not table_name:
+            return False
+        
+        # Check that the variable is no longer in the DataFrame
+        return self.var not in supply_frames[table_name].columns
