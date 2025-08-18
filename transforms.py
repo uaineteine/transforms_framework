@@ -180,6 +180,7 @@ class TableTransform(Transform):
         self.hashed_variables = None
 
     
+    @property
     def nvars(self):
         """
         Get the number of target variables for this transform.
@@ -189,11 +190,12 @@ class TableTransform(Transform):
 
         Example:
             >>> transform = TableTransform("MyTransform", "Description", ["col1", "col2", "col3"])
-            >>> print(transform.nvars())  # 3
+            >>> print(transform.nvars)  # 3
         """
         return len(self.target_variables)
     
-    def var(self):
+    @property
+    def vars(self):
         """
         Get the target variable(s) for this transform.
         
@@ -208,15 +210,15 @@ class TableTransform(Transform):
         Example:
             >>> # Single variable
             >>> transform = TableTransform("MyTransform", "Description", ["col1"])
-            >>> print(transform.var())  # "col1"
+            >>> print(transform.vars)  # "col1"
             >>> 
             >>> # Multiple variables
             >>> transform = TableTransform("MyTransform", "Description", ["col1", "col2"])
-            >>> print(transform.var())  # ["col1", "col2"]
+            >>> print(transform.vars)  # ["col1", "col2"]
         """
-        if self.nvars() > 1:
+        if self.nvars > 1:
             return self.target_variables
-        elif self.nvars() == 1:
+        elif self.nvars == 1:
             return self.target_variables[0]
         else:
             raise ValueError("No target variables defined for this transform.")
@@ -235,7 +237,7 @@ class SimpleTransform(TableTransform):
         ...     
         ...     def transforms(self, supply_frames, **kwargs):
         ...         df = supply_frames[kwargs.get('df')]
-        ...         return df.drop(self.var())
+        ...         return df.drop(self.var)
         >>> 
         >>> drop_transform = DropColumn("unwanted_column")
         >>> result = drop_transform(supply_loader, df="table_name")
@@ -252,9 +254,23 @@ class SimpleTransform(TableTransform):
 
         Example:
             >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
-            >>> print(transform.var())  # "column_name"
+            >>> print(transform.var)  # "column_name"
         """
         super().__init__(name, description, [acts_on_variable])
+    
+    @property
+    def var(self):
+        """
+        Get the single target variable for this transform.
+
+        Returns:
+            str: The target variable.
+
+        Example:
+            >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
+            >>> print(transform.var)  # "column_name"
+        """
+        return self.target_variables[0]
 
 class DropVariable(SimpleTransform):
     """
@@ -279,7 +295,7 @@ class DropVariable(SimpleTransform):
         Example:
             >>> drop_transform = DropVariable("old_column")
             >>> print(drop_transform.name)  # "DropVariable"
-            >>> print(drop_transform.var())  # "old_column"
+            >>> print(drop_transform.var)  # "old_column"
         """
         #REPLACE HERE WITH YOUR OWN MESSAGE
         super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop)
@@ -313,13 +329,13 @@ class DropVariable(SimpleTransform):
             raise ValueError("Must specify 'df' parameter with table name")
         
         #PUT HERE ERROR CHECKING
-        if self.var() not in supply_frames[table_name].columns:
-            raise ValueError(f"Variable '{self.var()}' not found in DataFrame columns: {supply_frames[table_name].columns}")
+        if self.var not in supply_frames[table_name].columns:
+            raise ValueError(f"Variable '{self.var}' not found in DataFrame columns: {supply_frames[table_name].columns}")
 
         #PUT HERE TRANSFORMATION LOGIC
-        self.deleted_variables = [self.var()]
+        self.deleted_variables = [self.var]
         self.target_tables = [table_name]
-        supply_frames[table_name].df = supply_frames[table_name].df.drop(self.var())
+        supply_frames[table_name].df = supply_frames[table_name].df.drop(self.var)
 
         supply_frames[table_name].events.append(self)
         return supply_frames
