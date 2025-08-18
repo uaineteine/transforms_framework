@@ -205,7 +205,7 @@ class TableCollection:
             >>> large_tables = pt.filter_tables(lambda t: len(t.df) > 1000)
         """
         matching_tables = [table for table in self.tables if filter_func(table)]
-        return PipelineTables(matching_tables)
+        return TableCollection(matching_tables)
 
     def get_table(self, name: str):
         """
