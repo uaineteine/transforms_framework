@@ -1,13 +1,14 @@
 {
   "event_type": "transform",
-  "uuid": "87ffc7cc-8574-44e5-9747-433d1294ffb4",
-  "timestamp": "2025-08-18T02:18:35.512052+00:00",
+  "uuid": "c697bfb3-9ff8-4fec-b898-a9dfe7681dec",
+  "timestamp": "2025-08-18T05:39:58.725630+00:00",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
   "description": "Removes this variable from a dataframe",
   "name": "DropVariable",
   "transform_type": "TableTransform",
   "testable_transform": true,
+  "transform_id": "DropVar",
   "target_tables": [
     "test_table"
   ],

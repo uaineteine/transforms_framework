@@ -209,7 +209,7 @@ class TableTransform(Transform):
         >>> result = filter_transform(supply_loader, df="table_name")
     """
 
-    def __init__(self, name: str, description: str, acts_on_variables: list[str], testable_transform: bool = False):
+    def __init__(self, name: str, description: str, acts_on_variables: list[str], transform_id:str, testable_transform: bool = False):
         """
         Initialize a TableTransform with target variables.
 
@@ -227,6 +227,11 @@ class TableTransform(Transform):
             >>> print(transform.target_variables)  # ["col1", "col2"]
         """
         super().__init__(name, description, "TableTransform", testable_transform=testable_transform)
+        
+        if len(transform_id) > 0:
+            self.transform_id = transform_id
+        else:
+            raise ValueError("Transform ID must be non-blank")
 
         self.target_tables = [] #nadah to begin with
 
@@ -304,7 +309,7 @@ class SimpleTransform(TableTransform):
         >>> result = drop_transform(supply_loader, df="table_name")
     """
 
-    def __init__(self, name: str, description: str, acts_on_variable: str, testable_transform: bool = False):
+    def __init__(self, name: str, description: str, acts_on_variable: str, transform_id:str, testable_transform: bool = False):
         """
         Initialize a SimpleTransform with a single target variable.
 
@@ -318,7 +323,7 @@ class SimpleTransform(TableTransform):
             >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
             >>> print(transform.var)  # "column_name"
         """
-        super().__init__(name, description, [acts_on_variable], testable_transform=testable_transform)
+        super().__init__(name, description, [acts_on_variable], transform_id, testable_transform=testable_transform)
     
     @property
     def var(self):

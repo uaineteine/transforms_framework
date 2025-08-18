@@ -27,7 +27,7 @@ class DropVariable(SimpleTransform):
             >>> print(drop_transform.var)  # "old_column"
         """
         #REPLACE HERE WITH YOUR OWN MESSAGE
-        super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop, testable_transform=True)
+        super().__init__("DropVariable", "Removes this variable from a dataframe", variable_to_drop, "DropVar", testable_transform=True)
 
     def error_check(self, supply_frames: SupplyLoad, **kwargs):
         """
