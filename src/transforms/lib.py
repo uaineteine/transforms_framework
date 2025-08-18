@@ -110,3 +110,77 @@ class DropVariable(SimpleTransform):
         
         # Check that the variable is no longer in the DataFrame
         return self.var not in supply_frames[table_name].columns
+
+class FilterTransform:
+    def __init__(self, condition_map: dict):
+        """
+        Initialize with a dictionary of backend-specific filter functions.
+
+        Args:
+            condition_map (dict): A dictionary with keys 'pandas', 'polars', 'spark',
+                                  and values as callables that take a DataFrame and return a filtered one.
+        """
+        self.condition_map = condition_map
+        self.target_tables = []
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Apply the appropriate filter based on the DataFrame backend.
+
+        Args:
+            supply_frames (TableCollection): The supply frames collection.
+            **kwargs:
+                - df (str): The name of the table to apply the filter to.
+
+        Returns:
+            MetaFrame: The MetaFrame with filtered rows.
+        """
+        table_name = kwargs.get('df')
+        if table_name not in supply_frames:
+            raise ValueError(f"Table '{table_name}' not found in supply_frames.")
+
+        df = supply_frames[table_name].df
+        backend = self._detect_backend(df)
+
+        if backend not in self.condition_map:
+            raise ValueError(f"No filter condition provided for backend '{backend}'.")
+
+        condition = self.condition_map[backend]
+
+        try:
+            df_filtered = condition(df)
+        except Exception as e:
+            raise RuntimeError(f"Failed to apply filter for backend '{backend}': {e}")
+
+        # Update the table and tracking
+        supply_frames[table_name].df = df_filtered
+        self.target_tables = [table_name]
+        supply_frames[table_name].events.append(self)
+
+        return supply_frames
+
+    def _detect_backend(self, df):
+        """
+        Detect the backend type of the DataFrame.
+
+        Returns:
+            str: One of 'pandas', 'polars', or 'spark'.
+        """
+        import pandas as pd
+        try:
+            import polars as pl
+        except ImportError:
+            pl = None
+        try:
+            from pyspark.sql import DataFrame as SparkDF
+        except ImportError:
+            SparkDF = None
+
+        if isinstance(df, pd.DataFrame):
+            return "pandas"
+        elif pl and isinstance(df, pl.DataFrame):
+            return "polars"
+        elif SparkDF and isinstance(df, SparkDF):
+            return "spark"
+        else:
+            raise TypeError(f"Unsupported DataFrame type: {type(df)}")
