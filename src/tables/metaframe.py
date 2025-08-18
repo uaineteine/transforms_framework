@@ -102,14 +102,7 @@ class MetaFrame(MultiTable):
             >>> # Load a Polars DataFrame
             >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "polars")
         """
-        if frame_type == "pyspark":
-            df = _load_spark_df(path, format, table_name, spark)
-        elif frame_type == "pandas":
-            df = _load_pandas_df(path, format, table_name)
-        elif frame_type == "polars":
-            df = _load_polars_df(path, format, table_name)
-        else:
-            raise ValueError("Unsupported frame_type")
+        df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
 
         #package into metaframe
         mf = MetaFrame(df, src_path=path, table_name=table_name, frame_type=frame_type)

@@ -343,6 +343,45 @@ class MultiTable:
             raise ValueError("Unsupported frame_type")
 
     @staticmethod
+    def load_native_df(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
+        """
+        Load a DataFrame from a file and return a MultiTable instance.
+        
+        This static method provides a convenient way to load data from various file formats
+        and create a dataframe. It supports multiple file formats
+        and DataFrame frameworks.
+
+        Args:
+            path (str): Path to the data file to load.
+            format (str, optional): File format of the data. Defaults to "parquet".
+                                  Supported formats: "parquet", "csv", "sas".
+            table_name (str, optional): Name to assign to the table. If empty, will be
+                                      inferred from the file path. Defaults to "".
+            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
+                                      Supported types: "pyspark", "pandas", "polars".
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+
+        Returns:
+            dataframe: A pyspark, polars or pandas dataframe.
+
+        Raises:
+            FileNotFoundError: If the specified path does not exist.
+            ValueError: If the format or frame_type is not supported.
+            ValueError: If spark is None when frame_type is "pyspark".
+            Exception: If there are issues loading the data.
+
+        """
+        if frame_type == "pyspark":
+            df = _load_spark_df(path, format, table_name, spark)
+        elif frame_type == "pandas":
+            df = _load_pandas_df(path, format, table_name)
+        elif frame_type == "polars":
+            df = _load_polars_df(path, format, table_name)
+        else:
+            raise ValueError("Unsupported frame_type")
+        return df
+
+    @staticmethod
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
         Load a DataFrame from a file and return a MultiTable instance.
@@ -380,15 +419,7 @@ class MultiTable:
             >>> # Load a Polars DataFrame
             >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "polars")
         """
-        if frame_type == "pyspark":
-            df = _load_spark_df(path, format, table_name, spark)
-        elif frame_type == "pandas":
-            df = _load_pandas_df(path, format, table_name)
-        elif frame_type == "polars":
-            df = _load_polars_df(path, format, table_name)
-        else:
-            raise ValueError("Unsupported frame_type")
-
+        df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
         #package into metaframe
         mf = MultiTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
         return mf
