@@ -5,6 +5,7 @@ import os
 from typing import List
 from uainepydat.frameverifier import FrameTypeVerifier
 
+#structure type
 class Meta:
     def __init__(self, inherit_events: List[PipelineEvent] = None):
         #store a version number
@@ -81,7 +82,7 @@ class MetaFrame(MultiTable):
             >>> event = PipelineEvent("transform", "Data cleaning", "Removed null values")
             >>> pt.add_event(event)
         """
-        self.events.append(event)
+        self.meta.events.append(event)
 
     @staticmethod
     def load(path: str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
@@ -145,7 +146,7 @@ class MetaFrame(MultiTable):
         os.makedirs("events_log", exist_ok=True)
         
         log_path = f"events_log/job_1/{self.table_name}_events.json"
-        for event in self.events:
+        for event in self.meta.events:
             event.log_location = log_path
             event.log()
         

@@ -1,4 +1,4 @@
-from tables.pipeline_table import MetaFrame
+from tables.metaframe import MetaFrame
 import fnmatch
 from typing import List
 

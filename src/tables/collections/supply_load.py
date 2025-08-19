@@ -1,5 +1,5 @@
 import json
-from tables.pipeline_table import MetaFrame
+from tables.metaframe import MetaFrame
 from tables.collections.collection import TableCollection
 
 class SupplyLoad(TableCollection):
