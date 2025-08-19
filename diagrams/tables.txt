@@ -1,0 +1,227 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Meta{
+    meta_version
+    events
+    __init__(self, inherit_events)
+}
+
+class MetaFrame{
+    meta
+    __init__(self, MultiTable, inherit_events)
+    add_event(self, event)
+    load(path, format, table_name, frame_type, spark)
+    save_events(self)
+}
+
+class MultiTable{
+    df
+    frame_type
+    table_name
+    src_path
+    infer_table_name(src_path)
+    __init__(self, df, src_path, table_name, frame_type)
+    __repr__(self)
+    __str__(self)
+    columns(self)
+    nvars(self)
+    nrow(self)
+    get_pandas_frame(self)
+    get_polars_lazy_frame(self)
+    show(self, n, truncate)
+    load_native_df(path, format, table_name, frame_type, spark)
+    load(path, format, table_name, frame_type, spark)
+}
+
+class Tablename{
+    acceptable_format(name)
+    __init__(self, table_name)
+}
+
+class TableCollection{
+    tables
+    named_tables
+    collection_version
+    __init__(self, tables)
+    select_by_names(self)
+    select_by_prefix(self, prefix)
+    select_by_suffix(self, suffix)
+    select_by_range(self, start_name, end_name)
+    get_table_names(self)
+    filter_tables(self, filter_func)
+    get_table(self, name)
+    __getitem__(self, name)
+    __setitem__(self, name, table)
+    __delitem__(self, name)
+    __contains__(self, name)
+    __len__(self)
+    ntables(self)
+    save_events(self, table_names)
+}
+
+class SupplyLoad{
+    supply_load_src
+    __init__(self, json_loc, spark)
+    load_supplies(self, spark)
+}
+
+MultiTable <|-- MetaFrame
+str <|-- Tablename
+TableCollection <|-- SupplyLoad
+
+note top of MetaFrame
+A specialised class that extends multitable to include event logging capabilities for data pipeline operations.
+
+This class combines the functionality of a MultiTable (which handles different DataFrame types like PySpark, 
+Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
+
+Attributes:
+    meta
+        events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
+        version
+        
+Example:
+    >>> # Create a MetaFrame from an existing MultiTable
+    >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+    >>> pt = MetaFrame(mf)
+    >>> 
+    >>> # Add custom events
+    >>> event = PipelineEvent("transform", "Applied filter", "Filtered rows where column > 10")
+    >>> pt.add_event(event)
+    >>> 
+    >>> # Save all events to log files
+    >>> pt.save_events()
+end note
+
+note top of MultiTable
+A unified wrapper class for handling DataFrames across different frameworks.
+
+This class provides a consistent interface for working with DataFrames from PySpark, Pandas, 
+and Polars. It includes utility methods for accessing DataFrame properties and converting between formats.
+
+Attributes:
+    df: The underlying DataFrame (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
+    frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
+    table_name (Tablename): The name of the table, validated and formatted.
+    src_path (str): The source file path where the data was loaded from.
+    metaframe_version (str): Version identifier for the MetaFrame implementation.
+    
+Example:
+    >>> # Create from existing DataFrame
+    >>> import pandas as pd
+    >>> df = pd.DataFrame({'A': [1, 2, 3], 'B': ['a', 'b', 'c']})
+    >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+    >>> 
+    >>> # Load from file
+    >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+    >>> 
+    >>> # Access properties
+    >>> print(f"Columns: {mf.columns}")
+    >>> print(f"Rows: {mf.nrow}")
+    >>> print(f"Variables: {mf.nvars}")
+end note
+
+note top of Tablename
+A specialised string class for validating and managing table names.
+
+This class extends the built-in str class to provide validation and formatting
+for table names. It ensures that table names follow proper naming conventions
+and provides a clean interface for working with table identifiers.
+
+The class validates that table names:
+- Start with a letter or underscore
+- Contain only alphanumeric characters and underscores
+- Are not empty
+- Can be purely numeric (special case)
+
+Example:
+    >>> # Valid table names
+    >>> name1 = Tablename("my_table")
+    >>> name2 = Tablename("_private_table")
+    >>> name3 = Tablename("123")  # Numeric names are allowed
+    >>> 
+    >>> # Invalid table names (will raise ValueError)
+    >>> # Tablename("1table")  # Starts with number
+    >>> # Tablename("table-name")  # Contains hyphen
+    >>> # Tablename("")  # Empty string
+end note
+
+note top of TableCollection
+A collection manager for multiple MetaFrame objects with dictionary-like access.
+
+This class provides a convenient way to manage multiple MetaFrame instances,
+allowing access by name through dictionary-style operations. It maintains both
+a list of tables and a dictionary for named access, ensuring consistency between
+the two data structures.
+
+Attributes:
+    tables (list[MetaFrame]): List of all MetaFrame instances in the collection.
+    named_tables (dict): Dictionary mapping table names to MetaFrame instances.
+    
+Example:
+    >>> # Create an empty collection
+    >>> pt_collection = TableCollection()
+    >>> 
+    >>> # Add tables
+    >>> pt1 = MetaFrame.load("data1.parquet", "parquet", "table1")
+    >>> pt2 = MetaFrame.load("data2.parquet", "parquet", "table2")
+    >>> pt_collection["table1"] = pt1
+    >>> pt_collection["table2"] = pt2
+    >>> 
+    >>> # Access tables
+    >>> table = pt_collection["table1"]
+    >>> table_count = len(pt_collection)
+    >>> 
+    >>> # Select tables by prefix
+    >>> clus_tables = pt_collection.select_by_names("clus_*")
+    >>> 
+    >>> # Select tables by range
+    >>> specific_tables = pt_collection.select_by_names("table1", "table3")
+    >>> 
+    >>> # Save all events
+    >>> pt_collection.save_events()
+end note
+
+note top of SupplyLoad
+A specialised collection manager for loading and managing supply data from JSON configuration files.
+
+This class extends TableCollection to provide automated loading of multiple data sources
+from a JSON configuration file. It's designed for scenarios where you need to load
+multiple related datasets (supplies) from a single configuration source.
+
+The JSON configuration should follow this structure:
+{
+    "supply": [
+        {
+            "name": "table_name",
+            "path": "path/to/data.parquet",
+            "format": "parquet"
+        },
+        ...
+    ]
+}
+
+Attributes:
+    supply_load_src (str): The path to the JSON configuration file.
+    
+Example:
+    >>> # JSON file: supply_config.json
+    >>> # {
+    >>> #     "supply": [
+    >>> #         {"name": "customers", "path": "data/customers.parquet", "format": "parquet"},
+    >>> #         {"name": "orders", "path": "data/orders.parquet", "format": "parquet"}
+    >>> #     ]
+    >>> # }
+    >>> 
+    >>> supply_loader = SupplyLoad("supply_config.json", spark)
+    >>> customers_table = supply_loader["customers"]
+    >>> orders_table = supply_loader["orders"]
+    >>> 
+    >>> # Save events for all loaded tables
+    >>> supply_loader.save_events()
+end note
+
+
+@enduml

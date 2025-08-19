@@ -2,9 +2,7 @@
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
-## Main Components
-
-![UML diagram](diagrams/plantuml.png)
+# Main Components
 
 ```
 .
@@ -28,23 +26,12 @@ This program provides a data transformation framework for working with tables (D
     `-- 🐍 template_load_pipe.py
 ```
 
-### 1. MetaFrame
-**Purpose:** Wraps a DataFrame and tracks its metadata.
+## Events
 
-**Features:**
-- Supports loading tables from CSV, Parquet, or SAS files into Spark, Pandas, or Polars DataFrames.
-- Can convert between DataFrame types (Pandas, Polars, PySpark).
-- Stores table metadata including source path, table name, and frame type.
-- Provides utility methods for DataFrame type conversion.
+### 1. EventLog
+#TODO
 
-**Example:**
-```python
-from pyspark.sql import SparkSession
-from metaframe import MetaFrame
-
-spark = SparkSession.builder.getOrCreate()
-tbl = MetaFrame.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
-```
+![UML diagram](diagrams/events.png)
 
 ### 2. PipelineEvent
 **Purpose:** Represents an event (e.g., loading a table, applying a transform).
@@ -66,6 +53,34 @@ tbl = MetaFrame.load(spark=spark, path="test.csv", format="csv", table_name="tes
 }
 ```
 
+## Tables
+
+![UML diagram](diagrams/tables.png)
+
+### 1. TableName
+#todo
+
+### 2. MultiTable
+#todo
+
+### 3. Metaframe
+**Purpose:** Wraps a DataFrame and tracks its metadata.
+
+**Features:**
+- Supports loading tables from CSV, Parquet, or SAS files into Spark, Pandas, or Polars DataFrames.
+- Can convert between DataFrame types (Pandas, Polars, PySpark).
+- Stores table metadata including source path, table name, and frame type.
+- Provides utility methods for DataFrame type conversion.
+
+**Example:**
+```python
+from pyspark.sql import SparkSession
+from metaframe import MetaFrame
+
+spark = SparkSession.builder.getOrCreate()
+tbl = MetaFrame.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+```
+
 ### 3. PipelineTable
 **Purpose:** Extends MetaFrame to include event tracking and logging capabilities.
 
@@ -82,7 +97,7 @@ from pipeline_table import PipelineTable
 tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
 ```
 
-### 4. PipelineTables
+### 4. TableCollection
 **Purpose:** A collection manager for multiple PipelineTable objects with dictionary-like access.
 
 **Features:**
@@ -153,7 +168,11 @@ supply_frames = DropVariable("age")(supply_frames, df="test_table")
 supply_frames.save_events()
 ```
 
-### 6. Transform and Subclasses
+## Transforms
+
+![UML diagram](diagrams/transforms.png)
+
+### 1. Transform and Subclasses
 **Purpose:** Encapsulate transformations (e.g., dropping a column).
 
 **Features:**
@@ -187,11 +206,6 @@ tbl = DropVariable("age")(tbl)
   "target_variable": "age"
 }
 ```
-
-### 7. FrameTypeVerifier
-**Purpose:** Ensures the DataFrame matches the expected type (PySpark, Pandas, Polars).
-
----
 
 ## Example Workflows
 

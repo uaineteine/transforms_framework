@@ -1,0 +1,140 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Transform{
+    name
+    transform_type
+    testable_transform
+    __init__(self, name, description, transform_type, testable_transform)
+    transforms(self, supply_frames)
+    error_check(self, supply_frames)
+    test(self, supply_frames)
+    __call__(self, supply_frames)
+    apply(self, supply_frames)
+}
+
+class TableTransform{
+    transform_id
+    target_tables
+    target_variables
+    created_variables
+    renamed_variables
+    deleted_variables
+    hashed_variables
+    __init__(self, name, description, acts_on_variables, transform_id, testable_transform)
+    nvars(self)
+    vars(self)
+}
+
+class SimpleTransform{
+    __init__(self, name, description, acts_on_variable, transform_id, testable_transform)
+    var(self)
+}
+
+class DropVariable{
+    deleted_variables
+    target_tables
+    __init__(self, variable_to_drop)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class FilterTransform{
+    condition_map
+    target_tables
+    __init__(self, condition_map)
+    transforms(self, supply_frames)
+}
+
+PipelineEvent <|-- Transform
+Transform <|-- TableTransform
+TableTransform <|-- SimpleTransform
+SimpleTransform <|-- DropVariable
+
+note top of Transform
+Base class for data transformation operations with automatic event logging.
+
+This class provides the foundation for implementing data transformations in the pipeline.
+It extends PipelineEvent to automatically log transformation operations and provides
+a consistent interface for applying transformations to MetaFrame objects.
+
+Attributes:
+    name (str): The name of the transformation.
+    transform_type (str): The type/category of the transformation.
+    
+Example:
+    >>> class MyTransform(Transform):
+    ...     def __init__(self):
+    ...         super().__init__("MyTransform", "Custom transformation", "custom")
+    ...     
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         # Implementation here
+    ...         return transformed_df
+    >>> 
+    >>> transform = MyTransform()
+    >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
+end note
+
+note top of TableTransform
+Specialised transform class for operations that act on specific table variables.
+
+This class extends Transform to provide variable-level tracking and management
+for transformations that operate on specific columns or variables within a table.
+It maintains lists of target variables and tracks changes made during transformation.
+
+Attributes:
+    target_variables (list[str]): List of variables that the transform operates on.
+    target_tables (list): List of target tables (currently unused).
+    created_variables (list): Variables created by the transformation.
+    renamed_variables (list): Variables renamed by the transformation.
+    deleted_variables (list): Variables deleted by the transformation.
+    hashed_variables (list): Variables that were hashed during transformation.
+    
+Example:
+    >>> class ColumnFilter(TableTransform):
+    ...     def __init__(self, columns):
+    ...         super().__init__("ColumnFilter", "Filter specific columns", columns)
+    ...     
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         df = supply_frames[kwargs.get('df')]
+    ...         return df.select(self.target_variables)
+    >>> 
+    >>> filter_transform = ColumnFilter(["col1", "col2"])
+    >>> result = filter_transform(supply_loader, df="table_name")
+end note
+
+note top of SimpleTransform
+Simplified transform class for operations that act on a single variable.
+
+This class provides a convenient wrapper for TableTransform when working with
+single-variable operations, automatically wrapping the variable in a list.
+
+Example:
+    >>> class DropColumn(SimpleTransform):
+    ...     def __init__(self, column_name):
+    ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
+    ...     
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         df = supply_frames[kwargs.get('df')]
+    ...         return df.drop(self.var)
+    >>> 
+    >>> drop_transform = DropColumn("unwanted_column")
+    >>> result = drop_transform(supply_loader, df="table_name")
+end note
+
+note top of DropVariable
+Transform class for removing variables/columns from a DataFrame.
+
+This class provides a specific implementation for dropping columns from a DataFrame.
+It automatically validates that the target variable exists before attempting to drop it.
+
+Example:
+    >>> drop_transform = DropVariable("unwanted_column")
+    >>> result = drop_transform(supply_loader, df="table_name")
+    >>> # The column is removed and the operation is logged
+end note
+
+
+@enduml
