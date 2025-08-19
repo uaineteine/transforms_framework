@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "92e97415-244f-4df3-a12a-9dfc4d818306",
-  "timestamp": "2025-08-18T12:02:48.211150+00:00",
+  "uuid": "24a18c7e-01e3-46d8-ab0a-33a9ff72a8e4",
+  "timestamp": "2025-08-19T03:25:26.988826+00:00",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
   "description": "Removes this variable from a dataframe",

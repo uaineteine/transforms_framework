@@ -1,8 +1,8 @@
 {
   "event_type": "load",
-  "uuid": "2b948a6d-13bd-42d2-8027-eea085073731",
-  "timestamp": "2025-08-18T12:02:48.189152+00:00",
+  "uuid": "a5dc246d-9e86-431b-afe6-b9583ca30884",
+  "timestamp": "2025-08-19T03:25:26.961826+00:00",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
-  "description": "Loaded  from ../test_tables/test2.csv with version 0.1.0"
+  "description": "Loaded  from ../test_tables/test2.csv"
 }
