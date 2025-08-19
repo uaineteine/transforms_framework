@@ -499,8 +499,8 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
 
 This framework makes your data pipeline transparent and auditable by logging every important action as a structured JSON event. You can trace exactly what happened to each table, when, and why. The framework provides three main approaches for managing tables:
 
-1. **Direct table loading** with `PipelineTable` for single table operations
+1. **Direct table loading** with `MetaFrame` for single table operations
 2. **Payload-based loading** with `SupplyLoad` for configuration-driven multi-table loading
-3. **Collection management** with `PipelineTables` for flexible multi-table operations
+3. **Collection management** with `Tablecollection` for flexible multi-table operations
 
 Each approach provides the same event tracking and audit capabilities while offering different levels of control and automation for your specific use case.
