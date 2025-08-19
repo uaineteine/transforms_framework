@@ -1,109 +1,152 @@
 from tables.multitable import MultiTable
+from events.pipeline_event import PipelineEvent
 
-from typing import Union
-import polars as pl
-import pandas as pd
-from pyspark.sql import DataFrame as SparkDataFrame
+import os
+from typing import List
 from uainepydat.frameverifier import FrameTypeVerifier
 
-class MetaFrame(MultiTable): 
+class Meta:
+    def __init__(self, inherit_events: List[PipelineEvent] = None):
+        #store a version number
+        self.meta_version = "0.1.0"
+        #initialize events as a list, optionally inheriting from existing events
+        self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
+
+class MetaFrame(MultiTable):
     """
-    A unified wrapper class for handling DataFrames with metadata across different frameworks.
+    A specialised class that extends multitable to include event logging capabilities for data pipeline operations.
     
-    This class provides a consistent interface for working with DataFrames from PySpark, Pandas, 
-    and Polars, while maintaining metadata about the source, table name, and framework type.
-    It includes utility methods for accessing DataFrame properties and converting between formats.
+    This class combines the functionality of a MultiTable (which handles different DataFrame types like PySpark, 
+    Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
     
     Attributes:
-        df: The underlying DataFrame (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
-        frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
-        table_name (Tablename): The name of the table, validated and formatted.
-        src_path (str): The source file path where the data was loaded from.
-        metaframe_version (str): Version identifier for the MetaFrame implementation.
+        events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
+        pipeline_table_version (str): Version identifier for the pipeline table implementation.
         
     Example:
-        >>> # Create from existing DataFrame
-        >>> import pandas as pd
-        >>> df = pd.DataFrame({'A': [1, 2, 3], 'B': ['a', 'b', 'c']})
-        >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
+        >>> # Create a MetaFrame from an existing MultiTable
+        >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+        >>> pt = MetaFrame(mf)
         >>> 
-        >>> # Load from file
-        >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+        >>> # Add custom events
+        >>> event = PipelineEvent("transform", "Applied filter", "Filtered rows where column > 10")
+        >>> pt.add_event(event)
         >>> 
-        >>> # Access properties
-        >>> print(f"Columns: {mf.columns}")
-        >>> print(f"Rows: {mf.nrow}")
-        >>> print(f"Variables: {mf.nvars}")
+        >>> # Save all events to log files
+        >>> pt.save_events()
     """
 
-    def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None):
         """
-        Initialize a MetaFrame with a DataFrame and metadata.
+        Initialize a MetaFrame with a MultiTable and optional event log.
 
         Args:
-            df: The DataFrame to wrap (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).
-            src_path (str, optional): The source file path. Defaults to "".
-            table_name (str, optional): The name for the table. If empty, will be inferred from src_path.
-                                      Defaults to "".
-            frame_type (str, optional): The type of DataFrame framework. Defaults to "pyspark".
-                                      Supported types: "pyspark", "pandas", "polars".
+            MultiTable (MultiTable): A MultiTable object containing the DataFrame and metadata.
+                                 Must be a valid MultiTable instance with df, src_path, 
+                                 table_name, and frame_type attributes.
+            inherit_events (List[PipelineEvent], optional): List of events to inherit from
+                                 another MetaFrame. Defaults to None.
 
         Raises:
-            ValueError: If the DataFrame type doesn't match the specified frame_type.
-            ValueError: If table_name is invalid when provided.
+            TypeError: If MultiTable is not a MultiTable instance.
+            AttributeError: If MultiTable is missing required attributes.
 
         Example:
-            >>> import pandas as pd
-            >>> df = pd.DataFrame({'A': [1, 2, 3]})
-            >>> mf = MetaFrame(df, "data.csv", "my_table", "pandas")
-            >>> 
-            >>> # Let table name be inferred
-            >>> mf = MetaFrame(df, "data.csv", frame_type="pandas")
+            >>> mf = MultiTable(df, "path/to/data.parquet", "my_table", "pyspark")
+            >>> pt = MetaFrame(mf)
+            >>> # With inherited events
+            >>> pt_with_events = MetaFrame(mf, inherit_events=existing_events)
         """
-        super().__init__(df, src_path=src_path, table_name=table_name, frame_type=frame_type)
+        #call MultiTable constructor
+        super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
-        self.metaframe_version = "0.1.0"
+        self.meta = Meta(inherit_events=inherit_events)
+    
+    def add_event(self, event: PipelineEvent):
+        """
+        Append an event to the internal events list for logging purposes.
+        
+        This method adds a PipelineEvent to the tracking system, which will be saved
+        when save_events() is called.
+
+        Args:
+            event (PipelineEvent): The event object to add to the log. Must be a valid
+                                 PipelineEvent instance with event_type, message, and
+                                 description attributes.
+
+        Raises:
+            TypeError: If event is not a PipelineEvent instance.
+
+        Example:
+            >>> event = PipelineEvent("transform", "Data cleaning", "Removed null values")
+            >>> pt.add_event(event)
+        """
+        self.events.append(event)
 
     @staticmethod
-    def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
+    def load(path: str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
-        Load a DataFrame from a file and return a MetaFrame instance.
-        
-        This static method provides a convenient way to load data from various file formats
-        and create a MetaFrame with appropriate metadata. It supports multiple file formats
-        and DataFrame frameworks.
+        Load a DataFrame from the given path and return a MetaFrame with an initial load event.
+
+        This static method creates a MetaFrame from a data file, automatically logging
+        the load operation as the first event in the pipeline.
 
         Args:
             path (str): Path to the data file to load.
             format (str, optional): File format of the data. Defaults to "parquet".
-                                  Supported formats: "parquet", "csv", "sas".
-            table_name (str, optional): Name to assign to the table. If empty, will be
-                                      inferred from the file path. Defaults to "".
+                                  Supported formats: "parquet", "csv", "json", etc.
+            table_name (str, optional): Name to assign to the table. Defaults to "".
             frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
                                       Supported types: "pyspark", "pandas", "polars".
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
-            MetaFrame: A new MetaFrame instance with the loaded data and metadata.
+            MetaFrame: A new MetaFrame instance with the loaded data and an initial load event.
 
         Raises:
             FileNotFoundError: If the specified path does not exist.
             ValueError: If the format or frame_type is not supported.
-            ValueError: If spark is None when frame_type is "pyspark".
-            Exception: If there are issues loading the data.
+            Exception: If there are issues loading the data or creating the MultiTable.
 
         Example:
             >>> # Load a PySpark DataFrame
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+            >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table", "pyspark", spark)
             >>> 
             >>> # Load a Pandas DataFrame
-            >>> mf = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
-            >>> 
-            >>> # Load a Polars DataFrame
-            >>> mf = MetaFrame.load("data.parquet", "parquet", "my_table", "polars")
+            >>> pt = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
         """
-        df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
+        #print(table_name)
+        mf = MultiTable.load(path, format, table_name, frame_type, spark)
 
-        #package into metaframe
-        mf = MetaFrame(df, src_path=path, table_name=table_name, frame_type=frame_type)
-        return mf
+        ptable = MetaFrame(mf)
+        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path} with version {ptable.pipeline_table_version}")
+        ptable.add_event(event)
+        return ptable
+
+    def save_events(self) -> None:
+        """
+        Save all logged events to a JSON file in the events_log directory.
+
+        This method creates the events_log directory structure and saves each event
+        as a separate JSON file. The events are organised by job and table name.
+
+        Returns:
+            None
+
+        Raises:
+            OSError: If there are issues creating directories or writing files.
+            Exception: If there are issues serializing events to JSON.
+
+        Example:
+            >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
+            >>> pt.add_event(PipelineEvent("transform", "Filtered data", "Applied age > 18 filter"))
+            >>> pt.save_events()  # Saves to events_log/job_1/my_table_events.json
+        """
+        os.makedirs("events_log", exist_ok=True)
+        
+        log_path = f"events_log/job_1/{self.table_name}_events.json"
+        for event in self.events:
+            event.log_location = log_path
+            event.log()
+        
+        print(f"Events saved to {log_path}")

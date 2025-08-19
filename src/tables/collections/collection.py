@@ -1,27 +1,27 @@
-from tables.pipeline_table import PipelineTable
+from tables.pipeline_table import MetaFrame
 import fnmatch
 from typing import List
 
 class TableCollection:
     """
-    A collection manager for multiple PipelineTable objects with dictionary-like access.
+    A collection manager for multiple MetaFrame objects with dictionary-like access.
     
-    This class provides a convenient way to manage multiple PipelineTable instances,
+    This class provides a convenient way to manage multiple MetaFrame instances,
     allowing access by name through dictionary-style operations. It maintains both
     a list of tables and a dictionary for named access, ensuring consistency between
     the two data structures.
     
     Attributes:
-        tables (list[PipelineTable]): List of all PipelineTable instances in the collection.
-        named_tables (dict): Dictionary mapping table names to PipelineTable instances.
+        tables (list[MetaFrame]): List of all MetaFrame instances in the collection.
+        named_tables (dict): Dictionary mapping table names to MetaFrame instances.
         
     Example:
         >>> # Create an empty collection
         >>> pt_collection = TableCollection()
         >>> 
         >>> # Add tables
-        >>> pt1 = PipelineTable.load("data1.parquet", "parquet", "table1")
-        >>> pt2 = PipelineTable.load("data2.parquet", "parquet", "table2")
+        >>> pt1 = MetaFrame.load("data1.parquet", "parquet", "table1")
+        >>> pt2 = MetaFrame.load("data2.parquet", "parquet", "table2")
         >>> pt_collection["table1"] = pt1
         >>> pt_collection["table2"] = pt2
         >>> 
@@ -39,21 +39,21 @@ class TableCollection:
         >>> pt_collection.save_events()
     """
     
-    def __init__(self, tables: list[PipelineTable] = None):
+    def __init__(self, tables: list[MetaFrame] = None):
         """
-        Initialize a PipelineTables collection.
+        Initialize a MetaFrames collection.
 
         Args:
-            tables (list[PipelineTable], optional): Initial list of PipelineTable instances.
+            tables (list[MetaFrame], optional): Initial list of MetaFrame instances.
                                                    Defaults to None (empty collection).
 
         Example:
             >>> # Empty collection
-            >>> pt_collection = PipelineTables()
+            >>> pt_collection = MetaFrames()
             >>> 
             >>> # Collection with initial tables
             >>> tables = [pt1, pt2, pt3]
-            >>> pt_collection = PipelineTables(tables)
+            >>> pt_collection = MetaFrames(tables)
         """
         self.tables = tables if tables is not None else []
         self.named_tables = {}        # Dict to access tables by name
@@ -142,7 +142,7 @@ class TableCollection:
             suffix (str): The suffix to match against table names.
         
         Returns:
-            PipelineTables: A new PipelineTables instance containing only tables with matching suffix.
+            MetaFrames: A new MetaFrames instance containing only tables with matching suffix.
         
         Example:
             >>> # Select all tables ending with "_2023"
@@ -159,7 +159,7 @@ class TableCollection:
             end_name (str): The ending name (inclusive).
         
         Returns:
-            PipelineTables: A new PipelineTables instance containing only tables within the range.
+            MetaFrames: A new MetaFrames instance containing only tables within the range.
         
         Example:
             >>> # Select tables with names between "table1" and "table5"
@@ -195,10 +195,10 @@ class TableCollection:
         Filter tables using a custom filter function.
         
         Args:
-            filter_func (callable): A function that takes a PipelineTable and returns True/False.
+            filter_func (callable): A function that takes a MetaFrame and returns True/False.
         
         Returns:
-            PipelineTables: A new PipelineTables instance containing only tables that pass the filter.
+            MetaFrames: A new MetaFrames instance containing only tables that pass the filter.
         
         Example:
             >>> # Filter tables with more than 1000 rows
@@ -209,13 +209,13 @@ class TableCollection:
 
     def get_table(self, name: str):
         """
-        Retrieve a PipelineTable by its name.
+        Retrieve a MetaFrame by its name.
 
         Args:
             name (str): The name of the table to retrieve.
 
         Returns:
-            PipelineTable: The table with the specified name.
+            MetaFrame: The table with the specified name.
 
         Raises:
             KeyError: If no table with the specified name exists.
@@ -235,7 +235,7 @@ class TableCollection:
             name (str): The name of the table to retrieve.
 
         Returns:
-            PipelineTable: The table with the specified name.
+            MetaFrame: The table with the specified name.
 
         Raises:
             KeyError: If no table with the specified name exists.
@@ -254,11 +254,11 @@ class TableCollection:
 
         Args:
             name (str): The name to assign to the table.
-            table (PipelineTable): The PipelineTable instance to add.
+            table (MetaFrame): The MetaFrame instance to add.
 
         Raises:
             ValueError: If the table name is empty.
-            TypeError: If table is not a PipelineTable instance.
+            TypeError: If table is not a MetaFrame instance.
 
         Example:
             >>> pt_collection["new_table"] = my_pipeline_table

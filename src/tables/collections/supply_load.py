@@ -1,5 +1,5 @@
 import json
-from tables.pipeline_table import PipelineTable
+from tables.pipeline_table import MetaFrame
 from tables.collections.collection import TableCollection
 
 class SupplyLoad(TableCollection):
@@ -47,7 +47,7 @@ class SupplyLoad(TableCollection):
         Initialize a SupplyLoad instance with a JSON configuration file.
         
         This constructor loads the JSON configuration file and automatically creates
-        PipelineTable instances for each supply item defined in the configuration.
+        MetaFrame instances for each supply item defined in the configuration.
         All tables are loaded as PySpark DataFrames by default.
 
         Args:
@@ -80,7 +80,7 @@ class SupplyLoad(TableCollection):
         """
         Load supply data from the JSON configuration file.
         
-        This method reads the JSON configuration file and creates PipelineTable instances
+        This method reads the JSON configuration file and creates MetaFrame instances
         for each supply item. It validates that each supply item has the required fields
         and loads the data using the specified format and path.
 
@@ -107,7 +107,7 @@ class SupplyLoad(TableCollection):
                     if not name:
                         raise ValueError("Each supply item must have a 'name' field")
 
-                    table = PipelineTable.load(
+                    table = MetaFrame.load(
                         path=item["path"],
                         format=item["format"],
                         frame_type="pyspark",

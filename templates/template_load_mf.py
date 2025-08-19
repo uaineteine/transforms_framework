@@ -1,22 +1,22 @@
 if __name__ == "__main__":
     from pyspark.sql import SparkSession
     from transforms import DropVariable
-    from pipeline_table import PipelineTable, PipelineTables
+    from pipeline_table import MetaFrame, MetaFrames
 
     # Create Spark session
     print("Creating Spark session")
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
-    # Create a collection of PipelineTables using the new syntax
-    print("Creating PipelineTables collection...")
+    # Create a collection of MetaFrames using the new syntax
+    print("Creating MetaFrames collection...")
     
     # Load multiple tables
-    test_table = PipelineTable.load(spark=spark, path="test_tables/test.csv", format="csv", table_name="test_table", frame_type="pyspark")
-    test2_table = PipelineTable.load(spark=spark, path="test_tables/test2.csv", format="csv", table_name="test2_table", frame_type="pyspark")
+    test_table = MetaFrame.load(spark=spark, path="test_tables/test.csv", format="csv", table_name="test_table", frame_type="pyspark")
+    test2_table = MetaFrame.load(spark=spark, path="test_tables/test2.csv", format="csv", table_name="test2_table", frame_type="pyspark")
     
     # Create collection with initial tables
     tables_list = [test_table, test2_table]
-    pt_collection = PipelineTables(tables_list)
+    pt_collection = MetaFrames(tables_list)
     
     print(f"Collection created with {pt_collection.ntables} tables")
     print(f"Available tables: {list(pt_collection.named_tables.keys())}")
@@ -51,5 +51,5 @@ if __name__ == "__main__":
     print("\n--- Saving Events ---")
     pt_collection.save_events()
     
-    print("PipelineTables collection test completed!")
+    print("MetaFrames collection test completed!")
 
