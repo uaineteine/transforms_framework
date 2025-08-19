@@ -6,6 +6,28 @@ This program provides a data transformation framework for working with tables (D
 
 ![UML diagram](diagrams/plantuml.png)
 
+```
+.
+|-- filetree.py
+|-- 📁 src/
+|   |-- 📁 events/
+|   |   |-- 🐍 eventlog.py
+|   |   `-- 🐍 pipeline_event.py
+|   |-- 📁 tables/
+|   |   |-- 📁 collections/
+|   |   |   |-- 🐍 collection.py
+|   |   |   `-- 🐍 supply_load.py
+|   |   |-- 🐍 metaframe.py
+|   |   |-- 🐍 multitable.py
+|   |   `-- 🐍 tablename.py
+|   `-- 📁 transforms/
+|       |-- 🐍 base.py
+|       `-- 🐍 lib.py
+`-- 📁 templates/
+    |-- 🐍 template_load_mf.py
+    `-- 🐍 template_load_pipe.py
+```
+
 ### 1. MetaFrame
 **Purpose:** Wraps a DataFrame and tracks its metadata.
 
