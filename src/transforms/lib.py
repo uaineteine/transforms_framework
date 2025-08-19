@@ -85,7 +85,7 @@ class DropVariable(SimpleTransform):
         self.target_tables = [table_name]
         supply_frames[table_name].df = supply_frames[table_name].df.drop(self.var)
 
-        supply_frames[table_name].events.append(self)
+        supply_frames[table_name].add_event(self)
         return supply_frames
     
     def test(self, supply_frames: TableCollection, **kwargs) -> bool:

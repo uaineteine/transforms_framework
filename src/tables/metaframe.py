@@ -21,9 +21,10 @@ class MetaFrame(MultiTable):
     Pandas, or Polars) with an event logging system that tracks all operations performed on the data.
     
     Attributes:
-        events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
-        pipeline_table_version (str): Version identifier for the pipeline table implementation.
-        
+        meta
+            events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
+            version
+            
     Example:
         >>> # Create a MetaFrame from an existing MultiTable
         >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pyspark", spark)
@@ -120,7 +121,7 @@ class MetaFrame(MultiTable):
         mf = MultiTable.load(path, format, table_name, frame_type, spark)
 
         ptable = MetaFrame(mf)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path} with version {ptable.pipeline_table_version}")
+        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
         ptable.add_event(event)
         return ptable
 
