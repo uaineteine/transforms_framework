@@ -3,7 +3,7 @@ from tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col
 
-class DropVariable(SimpleTransform):
+class DropVariable(TableTransform):
     """
     Transform class for removing variables/columns from a DataFrame.
     
@@ -16,7 +16,7 @@ class DropVariable(SimpleTransform):
         >>> # The column is removed and the operation is logged
     """
 
-    def __init__(self, variable_to_drop: str):
+    def __init__(self, variables_to_drop: str):
         """
         Initialize a DropVariable transform.
 
