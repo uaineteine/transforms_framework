@@ -13,6 +13,7 @@ auto_libs_loc = str(Path('..', '..', "src").resolve())
 sys.path.insert(0,auto_libs_loc)
 
 project = 'Metadata Integration Framework'
+copyright = "None"
 author = ''
 release = '2025'
 # The short X.Y version.
@@ -24,7 +25,7 @@ with open(version_file_path, 'r') as file:
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.plantuml']
 
 templates_path = ['_templates']
 exclude_patterns = []
