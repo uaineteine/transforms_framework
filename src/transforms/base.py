@@ -2,6 +2,7 @@ from events.pipeline_event import PipelineEvent
 from tables.collections.collection import TableCollection
 from tables.collections.supply_load import SupplyLoad
 from tables.names.lists import VarList
+from tables.names.headername import Headername
 
 class Transform(PipelineEvent):
     """
@@ -211,14 +212,14 @@ class TableTransform(Transform):
     """
 
     def update_target_variables(self, acts_on_variables: str | list[str]):
-        """
-        Update the target variables on a string or list type
-        """
-         # Normalise input to a list
+        if isinstance(acts_on_variables, list) and len(acts_on_variables) == 1 and isinstance(acts_on_variables[0], str):
+            # Unwrap single-element lists
+            acts_on_variables = acts_on_variables[0]
+
         if isinstance(acts_on_variables, str):
-            self.target_variables = [acts_on_variables]
+            self.target_variables = [Headername(acts_on_variables)]
         elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
-            self.target_variables = acts_on_variables
+            self.target_variables = [Headername(var) for var in acts_on_variables]
         else:
             raise ValueError("acts_on_variables must be a string or a list of strings")
 

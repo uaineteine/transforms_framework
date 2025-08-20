@@ -20,7 +20,7 @@ if __name__ == "__main__":
     print("Original columns:", supply_frames["test_table"].columns)
 
     # Instantiate DropVariable transform with new syntax
-    supply_frames = DropVariable("age")(supply_frames, df="test_table")
+    supply_frames = DropVariable("AGE")(supply_frames, df="test_table")
 
     # Show result
     print("Transformed columns:", supply_frames["test_table"].columns)

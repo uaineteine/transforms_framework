@@ -32,18 +32,15 @@ class Headername(str):
         return bool(re.match(pattern, name))
 
     def __new__(cls, header_name: str):
-        """
-        Create a new Headername instance with validation.
+        if not header_name:
+            raise ValueError("Header name cannot be empty.")
 
-        Args:
-            header_name (str): The header name to validate.
+        header_name = header_name.upper()  # normalize
 
-        Raises:
-            ValueError: If the header name is empty or improperly formatted.
-        """
         if not cls.acceptable_format(header_name):
             raise ValueError(
                 f"Invalid header name format: '{header_name}'. "
                 "Headers must be ALL CAPS and contain only letters and digits—no spaces or symbols."
             )
         return str.__new__(cls, header_name)
+
