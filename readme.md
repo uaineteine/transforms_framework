@@ -15,8 +15,11 @@ This program provides a data transformation framework for working with tables (D
 |   |   |   |-- 🐍 collection.py
 |   |   |   `-- 🐍 supply_load.py
 |   |   |-- 🐍 metaframe.py
-|   |   |-- 🐍 multitable.py
-|   |   `-- 🐍 tablename.py
+|   |   |-- 📁 names/
+|   |   |   |-- 🐍 headername.py
+|   |   |   |-- 🐍 lists.py
+|   |   |   `-- 🐍 tablename.py
+|   |   `-- 🐍 multitable.py
 |   `-- 📁 transforms/
 |       |-- 🐍 base.py
 |       `-- 🐍 lib.py
@@ -474,13 +477,13 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
 
 ## File Structure
 
-- [`metaframe.py`](metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
-- [`pipeline_table.py`](pipeline_table.py): PipelineTable and PipelineTables classes for event tracking and collection management
-- [`pipeline_event.py`](pipeline_event.py): Event and PipelineEvent classes for logging
-- [`transforms.py`](transforms.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
-- [`supply_load.py`](supply_load.py): SupplyLoad class for loading multiple tables from JSON configuration
-- [`template_load_mf.py`](template_load_mf.py): Example demonstrating PipelineTables collection usage
-- [`template_load_pipe.py`](template_load_pipe.py): Example demonstrating SupplyLoad usage
+- [`src/tables/metaframe.py`](src/tables/metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
+- [`src/events/pipeline_event.py`](src/events/pipeline_event.py): PipelineTable and PipelineTables classes for event tracking and collection management
+- [`src/events/eventlog.py`](src/events/eventlog.py): Event and PipelineEvent classes for logging
+- [`src/transforms/base.py`](src/transforms/base.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
+- [`src/tables/collections/supply_load.py`](src/tables/collections/supply_load.py): SupplyLoad class for loading multiple tables from JSON configuration
+- [`templates/template_load_mf.py`](templates/template_load_mf.py): Example demonstrating PipelineTables collection usage
+- [`templates/template_load_pipe.py`](templates/template_load_pipe.py): Example demonstrating SupplyLoad usage
 
 ---
 
