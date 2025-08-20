@@ -114,7 +114,7 @@ class MultiTable:
 
     def __init__(self, df: Union[pd.DataFrame, pl.DataFrame, SparkDataFrame], src_path: str = "", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark):
         """
-        Initialize a MultiTable with a DataFrame and metadata.
+        Initialise a MultiTable with a DataFrame and metadata.
 
         Args:
             df: The DataFrame to wrap (PySpark DataFrame, Pandas DataFrame, or Polars LazyFrame).

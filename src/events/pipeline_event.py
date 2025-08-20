@@ -27,7 +27,7 @@ class PipelineEvent(EventLog):
 
     def __init__(self, event_type: str, message: str, description: str = "", log_location: str = ""):
         """
-        Initialize a PipelineEvent with type, message, and optional description.
+        Initialise a PipelineEvent with type, message, and optional description.
 
         Args:
             event_type (str): The type of pipeline event (e.g., "load", "transform", "save").

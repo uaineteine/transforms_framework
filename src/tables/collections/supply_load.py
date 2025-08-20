@@ -44,7 +44,7 @@ class SupplyLoad(TableCollection):
     
     def __init__(self, json_loc: str, spark=None):
         """
-        Initialize a SupplyLoad instance with a JSON configuration file.
+        Initialise a SupplyLoad instance with a JSON configuration file.
         
         This constructor loads the JSON configuration file and automatically creates
         MetaFrame instances for each supply item defined in the configuration.
@@ -70,7 +70,7 @@ class SupplyLoad(TableCollection):
         if not json_loc:
             raise ValueError("Supply JSON path cannot be empty")
         
-        # Initialize the parent class with empty tables list
+        # Initialise the parent class with empty tables list
         super().__init__(tables=[])
         
         self.supply_load_src = json_loc

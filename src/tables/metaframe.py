@@ -10,7 +10,7 @@ class Meta:
     def __init__(self, inherit_events: List[PipelineEvent] = None):
         #store a version number
         self.meta_version = "0.1.0"
-        #initialize events as a list, optionally inheriting from existing events
+        #initialise events as a list, optionally inheriting from existing events
         self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
 
 class MetaFrame(MultiTable):
@@ -40,7 +40,7 @@ class MetaFrame(MultiTable):
 
     def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None):
         """
-        Initialize a MetaFrame with a MultiTable and optional event log.
+        Initialise a MetaFrame with a MultiTable and optional event log.
 
         Args:
             MultiTable (MultiTable): A MultiTable object containing the DataFrame and metadata.

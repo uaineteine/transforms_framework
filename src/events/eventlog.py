@@ -24,7 +24,7 @@ class EventLog:
 
     def __init__(self, event_type: str, log_location: str = ""):
         """
-        Initialize an Event with type and optional log location.
+        Initialise an Event with type and optional log location.
 
         Args:
             event_type (str): The type or category of the event (e.g., "INFO", "ERROR", "WARNING").
@@ -66,7 +66,7 @@ class EventLog:
         """
         Write the event to the specified log file.
         
-        This method serializes the event to JSON and appends it to the log file.
+        This method serialises the event to JSON and appends it to the log file.
         If the log directory doesn't exist, it will be created automatically.
 
         Raises:

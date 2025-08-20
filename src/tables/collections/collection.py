@@ -41,7 +41,7 @@ class TableCollection:
     
     def __init__(self, tables: list[MetaFrame] = None):
         """
-        Initialize a MetaFrames collection.
+        Initialise a MetaFrames collection.
 
         Args:
             tables (list[MetaFrame], optional): Initial list of MetaFrame instances.
@@ -58,7 +58,7 @@ class TableCollection:
         self.tables = tables if tables is not None else []
         self.named_tables = {}        # Dict to access tables by name
         
-        # Initialize named_tables if tables are provided
+        # Initialise named_tables if tables are provided
         if tables:
             for table in tables:
                 if hasattr(table, 'table_name') and table.table_name:

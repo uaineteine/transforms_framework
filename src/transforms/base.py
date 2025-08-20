@@ -29,7 +29,7 @@ class Transform(PipelineEvent):
 
     def __init__(self, name: str, description: str, transform_type: str, testable_transform: bool = True):
         """
-        Initialize a Transform with name, description, and type.
+        Initialise a Transform with name, description, and type.
 
         Args:
             name (str): The name of the transformation operation.
@@ -213,7 +213,7 @@ class TableTransform(Transform):
         """
         Update the target variables on a string or list type
         """
-         # Normalize input to a list
+         # Normalise input to a list
         if isinstance(acts_on_variables, str):
             self.target_variables = [acts_on_variables]
         elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
@@ -223,7 +223,7 @@ class TableTransform(Transform):
 
     def __init__(self, name: str, description: str, acts_on_variables: str | list[str], transform_id: str, testable_transform: bool = False):
         """
-        Initialize a TableTransform with target variables.
+        Initialise a TableTransform with target variables.
     
         Args:
             name (str): The name of the transformation.
@@ -251,7 +251,7 @@ class TableTransform(Transform):
         if not self.target_variables:
             raise ValueError("No target variables defined for this transform.")
 
-        # Initialize variable lists
+        # Initialise variable lists
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None

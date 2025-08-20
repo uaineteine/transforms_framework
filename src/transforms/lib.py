@@ -12,7 +12,7 @@ class DropVariable(TableTransform):
 
     def __init__(self, variables_to_drop: Union[str, List[str]]):
         """
-        Initialize a DropVariable transform.
+        Initialise a DropVariable transform.
 
         Args:
             variables_to_drop (Union[str, List[str]]): The name(s) of the variable(s)/column(s) to remove.
@@ -63,7 +63,7 @@ class DropVariable(TableTransform):
 class FilterTransform:
     def __init__(self, condition_map: dict):
         """
-        Initialize with a dictionary of backend-specific filter functions.
+        Initialise with a dictionary of backend-specific filter functions.
 
         Args:
             condition_map (dict): A dictionary with keys 'pandas', 'polars', 'spark',
