@@ -6,7 +6,6 @@ This program provides a data transformation framework for working with tables (D
 
 ```
 .
-|-- filetree.py
 |-- 📁 src/
 |   |-- 📁 events/
 |   |   |-- 🐍 eventlog.py
