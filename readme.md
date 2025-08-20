@@ -70,7 +70,12 @@ This program provides a data transformation framework for working with tables (D
 **Purpose:** Represents a standardised name for a table.
 
 ### 2. MultiTable
-**Purpose:** Manages multiple metaframes and tables in complex data pipelines.
+**Purpose:** Manages multiple dataframes and tables in complex data pipelines.
+
+**Features:**
+- Stores and manages different types of dataframe objects.
+- Facilitates operations across multiple tables, such as applying the same transformation to all tables in the collection.
+- Provides methods for accessing and manipulating tables within the collection.
 
 ### 3. Metaframe
 **Purpose:** Wraps a DataFrame and tracks its metadata.
@@ -185,11 +190,11 @@ supply_frames.save_events()
 **Purpose:** Encapsulates data transformations.
 
 **Features:**
-- Each transform is a subclass of `PipelineEvent` and logs itself when applied.
-- `Transform` is the base class for all transformations.
-- `TableTransform` handles transformations that act on specific tables.
-- `SimpleTransform` handles transformations that act on a single variable.
-- Example: `DropVariable` removes a column from the DataFrame and logs the action.
+- Each transform is a subclass of `PipelineEvent` and logs itself when applied, ensuring auditability.
+- `Transform` is the abstract base class for all transformations, defining the interface for transform execution.
+- `TableTransform` is a base class for transformations that operate on entire tables.
+- `SimpleTransform` is a base class for transformations that operate on a single variable or column within a table.
+- `DropVariable` is a concrete example, removing a specified column from a DataFrame.
 
 **Example:**
 ```python
