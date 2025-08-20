@@ -175,12 +175,12 @@ supply_frames.save_events()
 ![UML diagram](diagrams/transforms.png)
 
 ### 1. Transform and Subclasses
-**Purpose:** Encapsulate transformations (e.g., dropping a column).
+**Purpose:** Encapsulates data transformations.
 
 **Features:**
 - Each transform is a subclass of `PipelineEvent` and logs itself when applied.
 - `Transform` is the base class for all transformations.
-- `TableTransform` handles transformations that act on specific variables.
+- `TableTransform` handles transformations that act on specific tables.
 - `SimpleTransform` handles transformations that act on a single variable.
 - Example: `DropVariable` removes a column from the DataFrame and logs the action.
 
