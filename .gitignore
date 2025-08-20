@@ -6,6 +6,5 @@ src/templates/__pycache__/*.pyc
 src/transforms/__pycache__/*.pyc
 template_load_pipe.ipynb
 docs/__pycache__/*.pyc
-docs/build/*
 docs/source/index.rst
 src/tables/names/__pycache__/*.pyc
