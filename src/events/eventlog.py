@@ -40,6 +40,8 @@ class EventLog:
         self.uuid = str(uuid.uuid4())
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.log_location = log_location
+        self.excuted_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+
 
     def __repr__(self):
         """
