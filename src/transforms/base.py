@@ -1,6 +1,7 @@
 from events.pipeline_event import PipelineEvent
 from tables.collections.collection import TableCollection
 from tables.collections.supply_load import SupplyLoad
+from tables.names.lists import VarList
 
 class Transform(PipelineEvent):
     """
@@ -250,6 +251,12 @@ class TableTransform(Transform):
 
         if not self.target_variables:
             raise ValueError("No target variables defined for this transform.")
+
+        # Validate target variables using VarList
+        try:
+            self.target_variables = VarList(self.target_variables)
+        except ValueError as e:
+            raise ValueError(f"Invalid header names: {e}")
 
         # Initialise variable lists
         self.created_variables = None
