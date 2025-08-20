@@ -26,6 +26,8 @@ class DropVariable(TableTransform):
             testable_transform=True
         )
 
+        print(self.target_variables)
+
     def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Validate that all variables to drop exist in the DataFrame.

@@ -274,8 +274,6 @@ class TableTransform(Transform):
     def vars(self):
         """
         Returns:
-        str or list[str]: Single variable if one, list if multiple.
+        list[str]: Single variable if one, list if multiple.
         """
-        if self.nvars == 1:
-            return self.target_variables[0]
         return self.target_variables
