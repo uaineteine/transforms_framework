@@ -221,8 +221,6 @@ class TableTransform(Transform):
         else:
             raise ValueError("acts_on_variables must be a string or a list of strings")
 
-
-
     def __init__(self, name: str, description: str, acts_on_variables: str | list[str], transform_id: str, testable_transform: bool = False):
         """
         Initialize a TableTransform with target variables.

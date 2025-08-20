@@ -17,17 +17,11 @@ class DropVariable(TableTransform):
         Args:
             variables_to_drop (Union[str, List[str]]): The name(s) of the variable(s)/column(s) to remove.
         """
-        if isinstance(variables_to_drop, str):
-            self.vars = [variables_to_drop]
-        elif isinstance(variables_to_drop, list):
-            self.vars = variables_to_drop
-        else:
-            raise TypeError("variables_to_drop must be a string or a list of strings")
 
         super().__init__(
             "DropVariable",
             "Removes specified variable(s) from a dataframe",
-            self.vars,
+            variables_to_drop,
             "DropVar",
             testable_transform=True
         )
