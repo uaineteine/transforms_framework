@@ -31,7 +31,7 @@ This program provides a data transformation framework for working with tables (D
 ## Events
 
 ### 1. EventLog
-#TODO
+**Purpose:** Handles event logging and saving of events during pipeline execution.
 
 ![UML diagram](diagrams/events.png)
 
@@ -60,10 +60,10 @@ This program provides a data transformation framework for working with tables (D
 ![UML diagram](diagrams/tables.png)
 
 ### 1. TableName
-#todo
+**Purpose:** Represents a standardised name for a table.
 
 ### 2. MultiTable
-#todo
+**Purpose:** Manages multiple metaframes and tables in complex data pipelines.
 
 ### 3. Metaframe
 **Purpose:** Wraps a DataFrame and tracks its metadata.
@@ -147,7 +147,7 @@ pt_collection.save_events()
 ```
 
 ### 5. SupplyLoad
-**Purpose:** A specialized collection manager for loading and managing supply data from JSON configuration files.
+**Purpose:** A specialised collection manager for loading and managing supply data from JSON configuration files.
 
 **Features:**
 - Extends PipelineTables to provide automated loading of multiple data sources.
