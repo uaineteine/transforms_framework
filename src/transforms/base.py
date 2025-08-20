@@ -209,6 +209,20 @@ class TableTransform(Transform):
         >>> result = filter_transform(supply_loader, df="table_name")
     """
 
+    def update_target_variables(self, acts_on_variables: str | list[str]):
+        """
+        Update the target variables on a string or list type
+        """
+         # Normalize input to a list
+        if isinstance(acts_on_variables, str):
+            self.target_variables = [acts_on_variables]
+        elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
+            self.target_variables = acts_on_variables
+        else:
+            raise ValueError("acts_on_variables must be a string or a list of strings")
+
+
+
     def __init__(self, name: str, description: str, acts_on_variables: str | list[str], transform_id: str, testable_transform: bool = False):
         """
         Initialize a TableTransform with target variables.
@@ -234,14 +248,7 @@ class TableTransform(Transform):
         self.transform_id = transform_id
 
         self.target_tables = []
-
-        # Normalize input to a list
-        if isinstance(acts_on_variables, str):
-            self.target_variables = [acts_on_variables]
-        elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
-            self.target_variables = acts_on_variables
-        else:
-            raise ValueError("acts_on_variables must be a string or a list of strings")
+        self.update_target_variables(acts_on_variables)
 
         if not self.target_variables:
             raise ValueError("No target variables defined for this transform.")
@@ -259,10 +266,10 @@ class TableTransform(Transform):
 
     @property
     def vars(self):
-    """
-    Returns:
+        """
+        Returns:
         str or list[str]: Single variable if one, list if multiple.
-    """
-    if self.nvars == 1:
-        return self.target_variables[0]
-    return self.target_variables
+        """
+        if self.nvars == 1:
+            return self.target_variables[0]
+        return self.target_variables
