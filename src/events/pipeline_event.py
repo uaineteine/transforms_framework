@@ -1,4 +1,3 @@
-
 from events.eventlog import EventLog
 
 import os
