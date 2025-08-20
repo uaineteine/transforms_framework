@@ -209,132 +209,60 @@ class TableTransform(Transform):
         >>> result = filter_transform(supply_loader, df="table_name")
     """
 
-    def __init__(self, name: str, description: str, acts_on_variables: list[str], transform_id:str, testable_transform: bool = False):
+    def __init__(self, name: str, description: str, acts_on_variables: str | list[str], transform_id: str, testable_transform: bool = False):
         """
         Initialize a TableTransform with target variables.
-
+    
         Args:
             name (str): The name of the transformation.
             description (str): Description of what the transformation does.
-            acts_on_variables (list[str]): List of variable names that the transform operates on.
+            acts_on_variables (str or list[str]): Variable name(s) that the transform operates on.
+            transform_id (str): Unique identifier for the transform.
             testable_transform (bool): Whether this transform can be tested. Defaults to False.
 
         Raises:
             ValueError: If no target variables are provided.
 
         Example:
-            >>> transform = TableTransform("ColumnSelect", "Select specific columns", ["col1", "col2"])
-            >>> print(transform.target_variables)  # ["col1", "col2"]
+            >>> TableTransform("ColumnSelect", "Select column", "col1", "transform_001")
+            >>> TableTransform("ColumnSelect", "Select columns", ["col1", "col2"], "transform_002")
         """
         super().__init__(name, description, "TableTransform", testable_transform=testable_transform)
-        
-        if len(transform_id) > 0:
-            self.transform_id = transform_id
-        else:
+
+        if not transform_id:
             raise ValueError("Transform ID must be non-blank")
+        self.transform_id = transform_id
 
-        self.target_tables = [] #nadah to begin with
+        self.target_tables = []
 
-        self.target_variables = acts_on_variables
-        if len(acts_on_variables) == 0:
+        # Normalize input to a list
+        if isinstance(acts_on_variables, str):
+            self.target_variables = [acts_on_variables]
+        elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
+            self.target_variables = acts_on_variables
+        else:
+            raise ValueError("acts_on_variables must be a string or a list of strings")
+
+        if not self.target_variables:
             raise ValueError("No target variables defined for this transform.")
-        
-        #initalise variable lists
+
+        # Initialize variable lists
         self.created_variables = None
         self.renamed_variables = None
         self.deleted_variables = None
         self.hashed_variables = None
 
-    
     @property
     def nvars(self):
-        """
-        Get the number of target variables for this transform.
-
-        Returns:
-            int: Number of target variables.
-
-        Example:
-            >>> transform = TableTransform("MyTransform", "Description", ["col1", "col2", "col3"])
-            >>> print(transform.nvars)  # 3
-        """
+        """Returns the number of target variables."""
         return len(self.target_variables)
-    
+
     @property
     def vars(self):
-        """
-        Get the target variable(s) for this transform.
-        
-        Returns a single variable if there's only one, or the full list if there are multiple.
-
-        Returns:
-            str or list[str]: The target variable(s).
-
-        Raises:
-            ValueError: If no target variables are defined.
-
-        Example:
-            >>> # Single variable
-            >>> transform = TableTransform("MyTransform", "Description", ["col1"])
-            >>> print(transform.vars)  # "col1"
-            >>> 
-            >>> # Multiple variables
-            >>> transform = TableTransform("MyTransform", "Description", ["col1", "col2"])
-            >>> print(transform.vars)  # ["col1", "col2"]
-        """
-        if self.nvars > 1:
-            return self.target_variables
-        elif self.nvars == 1:
-            return self.target_variables[0]
-        else:
-            raise ValueError("No target variables defined for this transform.")
-
-class SimpleTransform(TableTransform):
     """
-    Simplified transform class for operations that act on a single variable.
-    
-    This class provides a convenient wrapper for TableTransform when working with
-    single-variable operations, automatically wrapping the variable in a list.
-
-    Example:
-        >>> class DropColumn(SimpleTransform):
-        ...     def __init__(self, column_name):
-        ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
-        ...     
-        ...     def transforms(self, supply_frames, **kwargs):
-        ...         df = supply_frames[kwargs.get('df')]
-        ...         return df.drop(self.var)
-        >>> 
-        >>> drop_transform = DropColumn("unwanted_column")
-        >>> result = drop_transform(supply_loader, df="table_name")
+    Returns:
+        str or list[str]: Single variable if one, list if multiple.
     """
-
-    def __init__(self, name: str, description: str, acts_on_variable: str, transform_id:str, testable_transform: bool = False):
-        """
-        Initialize a SimpleTransform with a single target variable.
-
-        Args:
-            name (str): The name of the transformation.
-            description (str): Description of what the transformation does.
-            acts_on_variable (str): The single variable that the transform operates on.
-            testable_transform (bool): Whether this transform can be tested. Defaults to False.
-
-        Example:
-            >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
-            >>> print(transform.var)  # "column_name"
-        """
-        super().__init__(name, description, [acts_on_variable], transform_id, testable_transform=testable_transform)
-    
-    @property
-    def var(self):
-        """
-        Get the single target variable for this transform.
-
-        Returns:
-            str: The target variable.
-
-        Example:
-            >>> transform = SimpleTransform("MyTransform", "Description", "column_name")
-            >>> print(transform.var)  # "column_name"
-        """
+    if self.nvars == 1:
         return self.target_variables[0]
+    return self.target_variables
