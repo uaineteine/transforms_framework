@@ -90,6 +90,8 @@
 <li><a class="reference internal" href="#module-tables.multitable">tables.multitable</a><ul>
 <li><a class="reference internal" href="#tables.multitable.MultiTable"><code class="docutils literal notranslate"><span class="pre">MultiTable</span></code></a><ul>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.columns"><code class="docutils literal notranslate"><span class="pre">MultiTable.columns</span></code></a></li>
+<li><a class="reference internal" href="#tables.multitable.MultiTable.distinct"><code class="docutils literal notranslate"><span class="pre">MultiTable.distinct()</span></code></a></li>
+<li><a class="reference internal" href="#tables.multitable.MultiTable.drop"><code class="docutils literal notranslate"><span class="pre">MultiTable.drop()</span></code></a></li>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.get_pandas_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_pandas_frame()</span></code></a></li>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.get_polars_lazy_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_polars_lazy_frame()</span></code></a></li>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.infer_table_name"><code class="docutils literal notranslate"><span class="pre">MultiTable.infer_table_name()</span></code></a></li>
@@ -127,7 +129,6 @@
 <li><a class="reference internal" href="#module-transforms.base">transforms.base</a><ul>
 <li><a class="reference internal" href="#transforms.base.TableTransform"><code class="docutils literal notranslate"><span class="pre">TableTransform</span></code></a><ul>
 <li><a class="reference internal" href="#transforms.base.TableTransform.nvars"><code class="docutils literal notranslate"><span class="pre">TableTransform.nvars</span></code></a></li>
-<li><a class="reference internal" href="#transforms.base.TableTransform.update_target_variables"><code class="docutils literal notranslate"><span class="pre">TableTransform.update_target_variables()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.base.TableTransform.vars"><code class="docutils literal notranslate"><span class="pre">TableTransform.vars</span></code></a></li>
 </ul>
 </li>
@@ -141,10 +142,21 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#module-transforms.lib">transforms.lib</a><ul>
+<li><a class="reference internal" href="#transforms.lib.DistinctTable"><code class="docutils literal notranslate"><span class="pre">DistinctTable</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.DistinctTable.error_check"><code class="docutils literal notranslate"><span class="pre">DistinctTable.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.DistinctTable.transforms"><code class="docutils literal notranslate"><span class="pre">DistinctTable.transforms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#transforms.lib.DropVariable"><code class="docutils literal notranslate"><span class="pre">DropVariable</span></code></a><ul>
 <li><a class="reference internal" href="#transforms.lib.DropVariable.error_check"><code class="docutils literal notranslate"><span class="pre">DropVariable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.DropVariable.test"><code class="docutils literal notranslate"><span class="pre">DropVariable.test()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.DropVariable.transforms"><code class="docutils literal notranslate"><span class="pre">DropVariable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transforms.lib.SubsetTable"><code class="docutils literal notranslate"><span class="pre">SubsetTable</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.SubsetTable.error_check"><code class="docutils literal notranslate"><span class="pre">SubsetTable.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.SubsetTable.test"><code class="docutils literal notranslate"><span class="pre">SubsetTable.test()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.SubsetTable.transforms"><code class="docutils literal notranslate"><span class="pre">SubsetTable.transforms()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -231,7 +243,7 @@ log_location (str): The file path where the event should be logged.</p>
 <dt class="sig sig-object py" id="events.eventlog.EventLog.log">
 <span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#events.eventlog.EventLog.log" title="Link to this definition"></a></dt>
 <dd><p>Write the event to the specified log file.</p>
-<p>This method serializes the event to JSON and appends it to the log file.
+<p>This method serialises the event to JSON and appends it to the log file.
 If the log directory doesn’t exist, it will be created automatically.</p>
 <dl>
 <dt>Raises:</dt><dd><p>ValueError: If no log location is specified.
@@ -736,6 +748,49 @@ DataFrame frameworks.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tables.multitable.MultiTable.distinct">
+<span class="sig-name descname"><span class="pre">distinct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.distinct" title="Link to this definition"></a></dt>
+<dd><p>Return a new MultiTable with distinct rows.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>subset (Union[str, list, None], optional): </dt><dd><p>Column name or list of column names to consider for distinct.
+If None, considers all columns.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>MultiTable: A new MultiTable with distinct rows.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mf2</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>  <span class="c1"># distinct across all columns</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf3</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">)</span>  <span class="c1"># distinct by one column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf4</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">distinct</span><span class="p">([</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">])</span>  <span class="c1"># distinct by multiple columns</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.multitable.MultiTable.drop">
+<span class="sig-name descname"><span class="pre">drop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.drop" title="Link to this definition"></a></dt>
+<dd><p>Drop one or more columns from the DataFrame.</p>
+<dl>
+<dt>Args:</dt><dd><p>columns (Union[str, list]): Column name or list of column names to drop.</p>
+</dd>
+<dt>Returns:</dt><dd><p>MultiTable: A new MultiTable instance with the specified columns removed.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mf2</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">)</span>  <span class="c1"># Drop a single column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf3</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">])</span>  <span class="c1"># Drop multiple columns</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tables.multitable.MultiTable.get_pandas_frame">
 <span class="sig-name descname"><span class="pre">get_pandas_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.get_pandas_frame" title="Link to this definition"></a></dt>
 <dd><p>Convert the DataFrame to a Pandas DataFrame.</p>
@@ -801,7 +856,7 @@ extensions to create a valid table name.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tables.multitable.MultiTable.load">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.load" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_capitalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.load" title="Link to this definition"></a></dt>
 <dd><p>Load a DataFrame from a file and return a MultiTable instance.</p>
 <p>This static method provides a convenient way to load data from various file formats
 and create a MultiTable with appropriate metadata. It supports multiple file formats
@@ -818,7 +873,8 @@ format (str, optional): File format of the data. Defaults to “parquet”.</p>
 <dt>frame_type (str, optional): Type of DataFrame to create. Defaults to “pyspark”.</dt><dd><p>Supported types: “pyspark”, “pandas”, “polars”.</p>
 </dd>
 </dl>
-<p>spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+<p>auto_capitalise (bool, optional): Automatically capitalise column names. Defaults to False.
+spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 <dt>Returns:</dt><dd><p>MultiTable: A new MultiTable instance with the loaded data and metadata.</p>
 </dd>
@@ -828,13 +884,13 @@ ValueError: If spark is None when frame_type is “pyspark”.
 Exception: If there are issues loading the data.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a PySpark DataFrame</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="s2">&quot;pyspark&quot;</span><span class="p">,</span> <span class="n">spark</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;pyspark&quot;</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a Pandas DataFrame</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a Polars DataFrame</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="s2">&quot;polars&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;polars&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -1031,7 +1087,7 @@ truncate (bool, optional): Whether to truncate long strings. Defaults to True.</
 <span id="transforms-base"></span><h1>transforms.base<a class="headerlink" href="#module-transforms.base" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="transforms.base.TableTransform">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.base.</span></span><span class="sig-name descname"><span class="pre">TableTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.base.TableTransform" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.base.</span></span><span class="sig-name descname"><span class="pre">TableTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.base.TableTransform" title="Link to this definition"></a></dt>
 <dd><p>Specialised transform class for operations that act on specific table variables.</p>
 <p>This class extends Transform to provide variable-level tracking and management
 for transformations that operate on specific columns or variables within a table.
@@ -1064,17 +1120,11 @@ hashed_variables (list): Variables that were hashed during transformation.</p>
 <dd><p>Returns the number of target variables.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="transforms.base.TableTransform.update_target_variables">
-<span class="sig-name descname"><span class="pre">update_target_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.base.TableTransform.update_target_variables" title="Link to this definition"></a></dt>
-<dd><p>Update the target variables on a string or list type</p>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="transforms.base.TableTransform.vars">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><a class="headerlink" href="#transforms.base.TableTransform.vars" title="Link to this definition"></a></dt>
 <dd><p>Returns:
-str or list[str]: Single variable if one, list if multiple.</p>
+list[str]: Single variable if one, list if multiple.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1209,6 +1259,24 @@ correctly and the results meet expected criteria.</p>
 <section id="module-transforms.lib">
 <span id="transforms-lib"></span><h1>transforms.lib<a class="headerlink" href="#module-transforms.lib" title="Link to this heading"></a></h1>
 <dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.DistinctTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">DistinctTable</span></span><a class="headerlink" href="#transforms.lib.DistinctTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for removing duplicate rows from a DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.DistinctTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.DistinctTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Ensure the DataFrame exists and has at least one column and one row.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.DistinctTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.DistinctTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply distinct to the DataFrame (all columns).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="transforms.lib.DropVariable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">DropVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables_to_drop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.DropVariable" title="Link to this definition"></a></dt>
 <dd><p>Transform class for removing one or more variables/columns from a DataFrame.</p>
@@ -1232,6 +1300,30 @@ correctly and the results meet expected criteria.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.SubsetTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">SubsetTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables_to_keep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SubsetTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for subsetting a DataFrame to retain only specified columns.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.SubsetTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SubsetTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that all variables to keep exist in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.SubsetTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transforms.lib.SubsetTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that only the specified variables remain in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.SubsetTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SubsetTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Subset the DataFrame to retain only the specified variables.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="release-history">
 <h1>Release History<a class="headerlink" href="#release-history" title="Link to this heading"></a></h1>
@@ -1251,7 +1343,7 @@ correctly and the results meet expected criteria.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright .</p>
+    <p>&#169; Copyright None.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

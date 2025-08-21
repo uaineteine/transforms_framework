@@ -8,3 +8,8 @@ template_load_pipe.ipynb
 docs/__pycache__/*.pyc
 docs/source/index.rst
 src/tables/names/__pycache__/*.pyc
+docs/build/.buildinfo
+docs/build/.buildinfo
+docs/build/.buildinfo
+docs/build/.buildinfo
+docs/build/.buildinfo
