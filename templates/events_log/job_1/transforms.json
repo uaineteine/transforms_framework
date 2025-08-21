@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "8d925732-6db2-41fa-adac-2f9bff8854bf",
-  "timestamp": "2025-08-21T03:53:38.373835+00:00",
+  "uuid": "94a18933-7015-4ad5-a761-395e6911f285",
+  "timestamp": "2025-08-21T07:52:57.670624+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -20,6 +20,56 @@
   "renamed_variables": null,
   "deleted_variables": [
     "AGE"
+  ],
+  "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "df33b0a3-6ff2-4adb-834b-0926c88d01f9",
+  "timestamp": "2025-08-21T07:53:40.603700+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "DropVariable",
+  "description": "Removes specified variable(s) from a dataframe",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "transform_id": "DropVar",
+  "target_tables": [
+    "test_table"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": [
+    "AGE"
+  ],
+  "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "d218bd4a-c371-4433-ad56-5dd0efdabbe5",
+  "timestamp": "2025-08-21T07:53:40.962806+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "SubsetTable",
+  "description": "Subsets a dataframe to retain only specified variable(s)",
+  "name": "SubsetTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "transform_id": "SubsetTbl",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": [
+    "NAME"
   ],
   "hashed_variables": null
 }

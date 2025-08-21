@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "8a620a70-33fc-4ffc-a926-82a9967df11d",
-  "timestamp": "2025-08-21T03:53:38.087834+00:00",
+  "uuid": "8af60381-d59f-45c6-9247-f977fc4cf7dd",
+  "timestamp": "2025-08-21T07:53:40.151700+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "8d925732-6db2-41fa-adac-2f9bff8854bf",
-  "timestamp": "2025-08-21T03:53:38.373835+00:00",
+  "uuid": "df33b0a3-6ff2-4adb-834b-0926c88d01f9",
+  "timestamp": "2025-08-21T07:53:40.603700+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",

@@ -1,9 +1,34 @@
 {
   "event_type": "load",
-  "uuid": "d81e6efb-e624-4d1e-bb7a-ac9f32d46a58",
-  "timestamp": "2025-08-21T03:53:38.372835+00:00",
+  "uuid": "a12631dd-7fba-471b-9ee1-1c2dede72550",
+  "timestamp": "2025-08-21T07:53:40.570702+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
   "description": "Loaded  from ../test_tables/test2.csv"
+}
+{
+  "event_type": "transform",
+  "uuid": "d218bd4a-c371-4433-ad56-5dd0efdabbe5",
+  "timestamp": "2025-08-21T07:53:40.962806+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "SubsetTable",
+  "description": "Subsets a dataframe to retain only specified variable(s)",
+  "name": "SubsetTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "transform_id": "SubsetTbl",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": [
+    "NAME"
+  ],
+  "hashed_variables": null
 }
