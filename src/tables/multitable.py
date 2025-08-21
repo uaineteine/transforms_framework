@@ -471,4 +471,50 @@ class MultiTable:
             raise ValueError("Unsupported frame_type")
 
         self.df = new_df
+
+    def distinct(self, subset: Union[str, list, None] = None):
+        """
+        Return a new MultiTable with distinct rows.
+        
+        Args:
+            subset (Union[str, list, None], optional): 
+                Column name or list of column names to consider for distinct.
+                If None, considers all columns.
+        
+        Returns:
+            MultiTable: A new MultiTable with distinct rows.
+        
+        Raises:
+            ValueError: If the frame_type is unsupported.
+        
+        Example:
+            >>> mf2 = mf.distinct()  # distinct across all columns
+            >>> mf3 = mf.distinct("col1")  # distinct by one column
+            >>> mf4 = mf.distinct(["col1", "col2"])  # distinct by multiple columns
+        """
+        if isinstance(subset, str):
+            subset = [subset]
+
+        if self.frame_type == "pandas":
+            new_df = self.df.drop_duplicates(subset=subset)
+        elif self.frame_type == "polars":
+            if subset is None:
+                new_df = self.df.unique()
+            else:
+                new_df = self.df.unique(subset)
+        elif self.frame_type == "pyspark":
+            if subset is None:
+                new_df = self.df.distinct()
+            else:
+                new_df = self.df.dropDuplicates(subset)
+        else:
+            raise ValueError("Unsupported frame_type")
+
+        return MultiTable(
+            new_df,
+            src_path=self.src_path,
+            table_name=self.table_name,
+            frame_type=self.frame_type,
+        )
+
         
