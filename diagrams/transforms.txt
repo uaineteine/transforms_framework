@@ -15,27 +15,23 @@ class Transform{
 }
 
 class TableTransform{
+    target_variables
     transform_id
     target_tables
-    target_variables
     created_variables
     renamed_variables
     deleted_variables
     hashed_variables
+    update_target_variables(self, acts_on_variables)
     __init__(self, name, description, acts_on_variables, transform_id, testable_transform)
     nvars(self)
     vars(self)
 }
 
-class SimpleTransform{
-    __init__(self, name, description, acts_on_variable, transform_id, testable_transform)
-    var(self)
-}
-
 class DropVariable{
     deleted_variables
     target_tables
-    __init__(self, variable_to_drop)
+    __init__(self, variables_to_drop)
     error_check(self, supply_frames)
     transforms(self, supply_frames)
     test(self, supply_frames)
@@ -50,8 +46,7 @@ class FilterTransform{
 
 PipelineEvent <|-- Transform
 Transform <|-- TableTransform
-TableTransform <|-- SimpleTransform
-SimpleTransform <|-- DropVariable
+TableTransform <|-- DropVariable
 
 note top of Transform
 Base class for data transformation operations with automatic event logging.
@@ -105,35 +100,8 @@ Example:
     >>> result = filter_transform(supply_loader, df="table_name")
 end note
 
-note top of SimpleTransform
-Simplified transform class for operations that act on a single variable.
-
-This class provides a convenient wrapper for TableTransform when working with
-single-variable operations, automatically wrapping the variable in a list.
-
-Example:
-    >>> class DropColumn(SimpleTransform):
-    ...     def __init__(self, column_name):
-    ...         super().__init__("DropColumn", f"Drop column {column_name}", column_name)
-    ...     
-    ...     def transforms(self, supply_frames, **kwargs):
-    ...         df = supply_frames[kwargs.get('df')]
-    ...         return df.drop(self.var)
-    >>> 
-    >>> drop_transform = DropColumn("unwanted_column")
-    >>> result = drop_transform(supply_loader, df="table_name")
-end note
-
 note top of DropVariable
-Transform class for removing variables/columns from a DataFrame.
-
-This class provides a specific implementation for dropping columns from a DataFrame.
-It automatically validates that the target variable exists before attempting to drop it.
-
-Example:
-    >>> drop_transform = DropVariable("unwanted_column")
-    >>> result = drop_transform(supply_loader, df="table_name")
-    >>> # The column is removed and the operation is logged
+Transform class for removing one or more variables/columns from a DataFrame.
 end note
 
 

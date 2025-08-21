@@ -32,12 +32,8 @@ class MultiTable{
     get_polars_lazy_frame(self)
     show(self, n, truncate)
     load_native_df(path, format, table_name, frame_type, spark)
-    load(path, format, table_name, frame_type, spark)
-}
-
-class Tablename{
-    acceptable_format(name)
-    __init__(self, table_name)
+    load(path, format, table_name, frame_type, auto_capitalise, spark)
+    drop(self, columns)
 }
 
 class TableCollection{
@@ -67,9 +63,36 @@ class SupplyLoad{
     load_supplies(self, spark)
 }
 
+class Headername{
+    acceptable_format(name)
+    __new__(cls, header_name)
+}
+
+class NamedList{
+    __init__(self, items)
+    __repr__(self)
+    count(self)
+    to_json(self)
+    overlap(self, other)
+    extend_with(self, other)
+}
+
+class VarList{
+    __init__(self, items)
+    acceptable_format(self)
+    acceptable_format_check(self)
+}
+
+class Tablename{
+    acceptable_format(name)
+    __new__(cls, table_name)
+}
+
 MultiTable <|-- MetaFrame
-str <|-- Tablename
 TableCollection <|-- SupplyLoad
+str <|-- Headername
+NamedList <|-- VarList
+str <|-- Tablename
 
 note top of MetaFrame
 A specialised class that extends multitable to include event logging capabilities for data pipeline operations.
@@ -121,31 +144,6 @@ Example:
     >>> print(f"Columns: {mf.columns}")
     >>> print(f"Rows: {mf.nrow}")
     >>> print(f"Variables: {mf.nvars}")
-end note
-
-note top of Tablename
-A specialised string class for validating and managing table names.
-
-This class extends the built-in str class to provide validation and formatting
-for table names. It ensures that table names follow proper naming conventions
-and provides a clean interface for working with table identifiers.
-
-The class validates that table names:
-- Start with a letter or underscore
-- Contain only alphanumeric characters and underscores
-- Are not empty
-- Can be purely numeric (special case)
-
-Example:
-    >>> # Valid table names
-    >>> name1 = Tablename("my_table")
-    >>> name2 = Tablename("_private_table")
-    >>> name3 = Tablename("123")  # Numeric names are allowed
-    >>> 
-    >>> # Invalid table names (will raise ValueError)
-    >>> # Tablename("1table")  # Starts with number
-    >>> # Tablename("table-name")  # Contains hyphen
-    >>> # Tablename("")  # Empty string
 end note
 
 note top of TableCollection
@@ -221,6 +219,42 @@ Example:
     >>> 
     >>> # Save events for all loaded tables
     >>> supply_loader.save_events()
+end note
+
+note top of Headername
+A specialised string class for validating and managing header names.
+
+This class ensures header names:
+- Are not empty
+- Contain only uppercase letters and digits
+- Have no spaces or special characters
+
+Example:
+    >>> Headername("CUSTOMERNAME")  # Valid
+    >>> Headername("ORDER123")      # Valid
+    >>> Headername("CustomerName")  # Invalid (not all caps)
+    >>> Headername("ORDER DATE")    # Invalid (contains space)
+    >>> Headername("")              # Invalid (empty)
+end note
+
+note top of Tablename
+A specialised string class for validating and managing table names.
+
+This class extends str to enforce naming conventions for database table identifiers.
+
+Valid table names:
+- Must not be empty
+- Can be purely numeric (e.g., "123")
+- Otherwise, must start with a letter or underscore
+- Must contain only alphanumeric characters and underscores
+
+Example:
+    >>> Tablename("my_table")        # Valid
+    >>> Tablename("_private_table")  # Valid
+    >>> Tablename("123")             # Valid
+    >>> Tablename("1table")          # Invalid
+    >>> Tablename("table-name")      # Invalid
+    >>> Tablename("")                # Invalid
 end note
 
 
