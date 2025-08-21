@@ -124,6 +124,49 @@ class SubsetTable(TableTransform):
         cols = supply_frames[table_name].columns
         return set(cols) == set(self.vars)
 
+class DistinctTable(TableTransform):
+    """
+    Transform class for removing duplicate rows from a DataFrame.
+    """
+
+    def __init__(self):
+        """
+        Initialise a DistinctTable transform.
+        """
+        super().__init__(
+            "DistinctTable",
+            "Removes duplicate rows from a DataFrame",
+            None,
+            "DistinctTbl",
+            testable_transform=False,
+        )
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Ensure the DataFrame exists and has at least one column and one row.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        df = supply_frames[table_name]
+        if df.nvars < 1:
+            raise ValueError("DataFrame must have at least one column to apply distinct()")
+        if df.nrow < 1:
+            raise ValueError("DataFrame must have at least one row to apply distinct()")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Apply distinct to the DataFrame (all columns).
+        """
+        table_name = kwargs.get("df")
+        self.target_tables = [table_name]
+
+        supply_frames[table_name] = supply_frames[table_name].distinct()
+        supply_frames[table_name].add_event(self)
+
+        return supply_frames
+
 class FilterTransform:
     def __init__(self, condition_map: dict):
         """

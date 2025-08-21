@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "a12631dd-7fba-471b-9ee1-1c2dede72550",
-  "timestamp": "2025-08-21T07:53:40.570702+00:00",
+  "uuid": "161dae26-f098-4b67-8720-38ccbee696b1",
+  "timestamp": "2025-08-21T09:02:58.084327+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "d218bd4a-c371-4433-ad56-5dd0efdabbe5",
-  "timestamp": "2025-08-21T07:53:40.962806+00:00",
+  "uuid": "91bf7ab0-8884-4a0a-bcc0-3f9b9246444b",
+  "timestamp": "2025-08-21T09:02:58.342323+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -30,5 +30,26 @@
   "deleted_variables": [
     "NAME"
   ],
+  "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "76db1b13-c952-4848-96d2-209de82c5111",
+  "timestamp": "2025-08-21T09:02:59.649382+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "DistinctTable",
+  "description": "Removes duplicate rows from a DataFrame",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
   "hashed_variables": null
 }

@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "94a18933-7015-4ad5-a761-395e6911f285",
-  "timestamp": "2025-08-21T07:52:57.670624+00:00",
+  "uuid": "87b1b149-eba8-4a06-85f6-44c4054d8fc6",
+  "timestamp": "2025-08-21T09:02:58.088324+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -25,33 +25,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "df33b0a3-6ff2-4adb-834b-0926c88d01f9",
-  "timestamp": "2025-08-21T07:53:40.603700+00:00",
-  "excuted_user": "Daniel",
-  "sub_type": "pipeline_event",
-  "message": "DropVariable",
-  "description": "Removes specified variable(s) from a dataframe",
-  "name": "DropVariable",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "transform_id": "DropVar",
-  "target_tables": [
-    "test_table"
-  ],
-  "target_variables": [
-    "AGE"
-  ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": [
-    "AGE"
-  ],
-  "hashed_variables": null
-}
-{
-  "event_type": "transform",
-  "uuid": "d218bd4a-c371-4433-ad56-5dd0efdabbe5",
-  "timestamp": "2025-08-21T07:53:40.962806+00:00",
+  "uuid": "91bf7ab0-8884-4a0a-bcc0-3f9b9246444b",
+  "timestamp": "2025-08-21T09:02:58.342323+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -71,5 +46,47 @@
   "deleted_variables": [
     "NAME"
   ],
+  "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "a2490b6a-23c3-4dc5-b69b-c9371a80dfab",
+  "timestamp": "2025-08-21T09:02:58.486353+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "DistinctTable",
+  "description": "Removes duplicate rows from a DataFrame",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "test_table"
+  ],
+  "target_variables": [],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "76db1b13-c952-4848-96d2-209de82c5111",
+  "timestamp": "2025-08-21T09:02:59.649382+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "DistinctTable",
+  "description": "Removes duplicate rows from a DataFrame",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
   "hashed_variables": null
 }

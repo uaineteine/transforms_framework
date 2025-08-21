@@ -8,7 +8,7 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from pyspark.sql import SparkSession
-    from transforms.lib import DropVariable, SubsetTable
+    from transforms.lib import DropVariable, SubsetTable, DistinctTable
     from tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
@@ -36,6 +36,24 @@ if __name__ == "__main__":
     supply_frames = SubsetTable("SALARY")(supply_frames, df="test_table2")
 
     print("After SubsetTable (keep SALARY) on test_table2:", supply_frames["test_table2"].columns)
+    supply_frames["test_table2"].show()
+
+    # -------------------------------
+    # Test 3: DistinctTable on test_table
+    # -------------------------------
+    print("Applying DistinctTable on test_table")
+    supply_frames = DistinctTable()(supply_frames, df="test_table")
+
+    print("After DistinctTable on test_table (all columns):")
+    supply_frames["test_table"].show()
+
+    # -------------------------------
+    # Test 4: DistinctTable on test_table2
+    # -------------------------------
+    print("Applying DistinctTable on test_table2")
+    supply_frames = DistinctTable()(supply_frames, df="test_table2")
+
+    print("After DistinctTable on test_table2 (all columns):")
     supply_frames["test_table2"].show()
 
     # save table events

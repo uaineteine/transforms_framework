@@ -510,11 +510,8 @@ class MultiTable:
         else:
             raise ValueError("Unsupported frame_type")
 
-        return MultiTable(
-            new_df,
-            src_path=self.src_path,
-            table_name=self.table_name,
-            frame_type=self.frame_type,
-        )
+        self.df = new_df
+        
+        return self
 
         

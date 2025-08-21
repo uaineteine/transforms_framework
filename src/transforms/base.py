@@ -211,7 +211,11 @@ class TableTransform(Transform):
         >>> result = filter_transform(supply_loader, df="table_name")
     """
 
-    def update_target_variables(self, acts_on_variables: str | list[str]):
+    def update_target_variables(self, acts_on_variables: str | list[str] | None):
+        if acts_on_variables is None:
+            self.target_variables = []
+            return
+
         if isinstance(acts_on_variables, list) and len(acts_on_variables) == 1 and isinstance(acts_on_variables[0], str):
             # Unwrap single-element lists
             acts_on_variables = acts_on_variables[0]
@@ -221,25 +225,34 @@ class TableTransform(Transform):
         elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
             self.target_variables = [Headername(var) for var in acts_on_variables]
         else:
-            raise ValueError("acts_on_variables must be a string or a list of strings")
+            raise ValueError("acts_on_variables must be a string, a list of strings, or None")
 
-    def __init__(self, name: str, description: str, acts_on_variables: str | list[str], transform_id: str, testable_transform: bool = False):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        acts_on_variables: str | list[str] | None,
+        transform_id: str,
+        testable_transform: bool = False
+    ):
         """
         Initialise a TableTransform with target variables.
-    
+
         Args:
             name (str): The name of the transformation.
             description (str): Description of what the transformation does.
-            acts_on_variables (str or list[str]): Variable name(s) that the transform operates on.
+            acts_on_variables (str | list[str] | None): Variable name(s) that the transform operates on.
+                Can be None if the transform does not act on specific variables.
             transform_id (str): Unique identifier for the transform.
             testable_transform (bool): Whether this transform can be tested. Defaults to False.
 
         Raises:
-            ValueError: If no target variables are provided.
+            ValueError: If transform_id is blank.
 
         Example:
             >>> TableTransform("ColumnSelect", "Select column", "col1", "transform_001")
             >>> TableTransform("ColumnSelect", "Select columns", ["col1", "col2"], "transform_002")
+            >>> TableTransform("DistinctRows", "Remove duplicates", None, "transform_003")
         """
         super().__init__(name, description, "TableTransform", testable_transform=testable_transform)
 
@@ -249,10 +262,7 @@ class TableTransform(Transform):
 
         self.target_tables = []
         self.update_target_variables(acts_on_variables)
-
-        if not self.target_variables:
-            raise ValueError("No target variables defined for this transform.")
-
+        
         # Validate target variables using VarList
         try:
             self.target_variables = VarList(self.target_variables)
