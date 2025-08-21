@@ -1,10 +1,11 @@
 {
   "event_type": "transform",
-  "uuid": "24a18c7e-01e3-46d8-ab0a-33a9ff72a8e4",
-  "timestamp": "2025-08-19T03:25:26.988826+00:00",
+  "uuid": "8d925732-6db2-41fa-adac-2f9bff8854bf",
+  "timestamp": "2025-08-21T03:53:38.373835+00:00",
+  "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
-  "description": "Removes this variable from a dataframe",
+  "description": "Removes specified variable(s) from a dataframe",
   "name": "DropVariable",
   "transform_type": "TableTransform",
   "testable_transform": true,
@@ -13,12 +14,12 @@
     "test_table"
   ],
   "target_variables": [
-    "age"
+    "AGE"
   ],
   "created_variables": null,
   "renamed_variables": null,
   "deleted_variables": [
-    "age"
+    "AGE"
   ],
   "hashed_variables": null
 }
