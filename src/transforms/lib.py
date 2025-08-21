@@ -48,7 +48,7 @@ class DropVariable(TableTransform):
         self.deleted_variables = self.vars
         self.target_tables = [table_name]
 
-        supply_frames[table_name].df = supply_frames[table_name].df.drop(columns=self.vars)
+        supply_frames[table_name].df = supply_frames[table_name].drop(columns=self.vars)
         supply_frames[table_name].add_event(self)
         return supply_frames
 

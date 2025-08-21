@@ -118,7 +118,7 @@ class MetaFrame(MultiTable):
             >>> pt = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
         """
         #print(table_name)
-        mf = MultiTable.load(path, format, table_name, frame_type, spark)
+        mf = MultiTable.load(path, format, table_name, frame_type, True, spark)
 
         ptable = MetaFrame(mf)
         event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")

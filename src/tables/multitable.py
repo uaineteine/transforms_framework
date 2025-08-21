@@ -382,7 +382,7 @@ class MultiTable:
         return df
 
     @staticmethod
-    def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
+    def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, auto_capitalise = False, spark=None):
         """
         Load a DataFrame from a file and return a MultiTable instance.
         
@@ -398,6 +398,7 @@ class MultiTable:
                                       inferred from the file path. Defaults to "".
             frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
                                       Supported types: "pyspark", "pandas", "polars".
+            auto_capitalise (bool, optional): Automatically capitalise column names. Defaults to False.
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
@@ -411,15 +412,63 @@ class MultiTable:
 
         Example:
             >>> # Load a PySpark DataFrame
-            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "pyspark", spark)
+            >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="pyspark", spark=spark)
             >>> 
             >>> # Load a Pandas DataFrame
-            >>> mf = MultiTable.load("data.csv", "csv", "my_table", "pandas")
+            >>> mf = MultiTable.load("data.csv", format="csv", table_name="my_table", frame_type="pandas")
             >>> 
             >>> # Load a Polars DataFrame
-            >>> mf = MultiTable.load("data.parquet", "parquet", "my_table", "polars")
+            >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="polars")
         """
         df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
+
+        if auto_capitalise:
+            if frame_type == "pandas":
+                df.columns = [col.upper() for col in df.columns]  # or .title() if you prefer
+            elif frame_type == "polars":
+                df = df.rename({col: col.upper() for col in df.columns})  # returns a new LazyFrame
+            elif frame_type == "pyspark":
+                for old_col in df.columns:
+                    df = df.withColumnRenamed(old_col, old_col.upper())
+            else:
+                raise ValueError("Unsupported frame_type for auto_capitalise")
+
+        #print(df.columns)
         #package into metaframe
         mf = MultiTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
+            
         return mf
+
+    def drop(self, columns: Union[str, list]):
+        """
+        Drop one or more columns from the DataFrame.
+        
+        Args:
+            columns (Union[str, list]): Column name or list of column names to drop.
+        
+        Returns:
+            MultiTable: A new MultiTable instance with the specified columns removed.
+        
+        Raises:
+            ValueError: If the frame_type is unsupported.
+        
+        Example:
+            >>> mf2 = mf.drop("col1")  # Drop a single column
+            >>> mf3 = mf.drop(["col1", "col2"])  # Drop multiple columns
+        """
+        if isinstance(columns, str):
+            columns = [columns]
+
+        if self.frame_type == "pandas":
+            new_df = self.df.drop(columns=columns)
+        elif self.frame_type == "polars":
+            new_df = self.df.drop(columns)  # LazyFrame drop supports list of columns
+        elif self.frame_type == "pyspark":
+            new_df = self.df
+            for col in columns:
+                new_df = new_df.drop(col)
+        else:
+            raise ValueError("Unsupported frame_type")
+
+        return MultiTable(new_df, src_path=self.src_path, table_name=self.table_name, frame_type=self.frame_type)
+        
