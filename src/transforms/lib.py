@@ -105,7 +105,7 @@ class SubsetTable(TableTransform):
         table_name = kwargs.get('df')
 
         # Compute dropped variables (everything not in keep list)
-        self.deleted_variables = [col for col in df.columns if col not in self.vars]
+        self.deleted_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
         self.target_tables = [table_name]
 
         supply_frames[table_name].drop(columns=self.deleted_variables)

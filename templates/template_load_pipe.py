@@ -8,7 +8,7 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from pyspark.sql import SparkSession
-    from transforms.lib import DropVariable
+    from transforms.lib import DropVariable, SubsetTable
     from tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
@@ -17,15 +17,26 @@ if __name__ == "__main__":
 
     # load pipeline tables
     supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark)
-    print("Original columns:", supply_frames["test_table"].columns)
 
-    # Instantiate DropVariable transform with new syntax
+    # -------------------------------
+    # Test 1: DropVariable on test_table
+    # -------------------------------
+    print("Original columns (test_table):", supply_frames["test_table"].columns)
+
     supply_frames = DropVariable("AGE")(supply_frames, df="test_table")
 
-    # Show result
-    print("Transformed columns:", supply_frames["test_table"].columns)
+    print("After DropVariable (AGE) on test_table:", supply_frames["test_table"].columns)
     supply_frames["test_table"].show()
 
-    #save table events
+    # -------------------------------
+    # Test 2: SubsetTable on test_table2
+    # -------------------------------
+    print("Original columns (test_table2):", supply_frames["test_table2"].columns)
+
+    supply_frames = SubsetTable("SALARY")(supply_frames, df="test_table2")
+
+    print("After SubsetTable (keep SALARY) on test_table2:", supply_frames["test_table2"].columns)
+    supply_frames["test_table2"].show()
+
+    # save table events
     supply_frames.save_events()
-    
