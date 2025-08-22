@@ -8,7 +8,6 @@ import sys
 import pyspark
 import polars as pl
 import pandas as pd
-import narwhals
 
 class Transform(PipelineEvent):
     """
@@ -59,7 +58,6 @@ class Transform(PipelineEvent):
         self.version_pyspark = pyspark.__version__
         self.version_polars = pl.__version__
         self.version_pandas = pd.__version__
-        self.version_narwhals = narwhals.__version__
         self.version_python = sys.version.split()[0]  # e.g., '3.11.4'
     
     def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
