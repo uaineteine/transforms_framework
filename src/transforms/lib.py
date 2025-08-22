@@ -1,9 +1,16 @@
-from typing import List, Union
+from typing import List, Union, Dict, Callable
+import inspect
 
 from transforms.base import TableTransform
 from tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col
+
+def _get_lambda_source(func) -> str:
+    try:
+        return inspect.getsource(func).strip()
+    except Exception as e:
+        return f"<source unavailable: {e}>"
 
 class DropVariable(TableTransform):
     """
@@ -167,51 +174,106 @@ class DistinctTable(TableTransform):
 
         return supply_frames
 
-class FilterTransform:
-    def __init__(self, condition_map: dict):
+class RenameTable(TableTransform):
+    """
+    Transform class for renaming columns in a DataFrame.
+    """
+    def __init__(self, rename_map: Dict[str, str]):
         """
-        Initialise with a dictionary of backend-specific filter functions.
+        Initialise a RenameTable transform.
 
         Args:
-            condition_map (dict): A dictionary with keys 'pandas', 'polars', 'spark',
-                                  and values as callables that take a DataFrame and return a filtered one.
+            rename_map (Dict[str, str]): A dictionary mapping old column names to new column names.
         """
-        self.condition_map = condition_map
-        self.target_tables = []
+        super().__init__(
+            "RenameTable",
+            "Renames specified columns in a dataframe",
+            list(rename_map.keys()),
+            "RenmTbl",
+            testable_transform=True
+        )
+        self.rename_map = rename_map
+        self.new_names = list(rename_map.values())
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that all columns to rename exist in the DataFrame.
+        """
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        missing_vars = [var for var in self.rename_map if var not in supply_frames[table_name].columns]
+        if missing_vars:
+            raise ValueError(f"Columns to rename not found in DataFrame: {missing_vars}")
 
     def transforms(self, supply_frames: TableCollection, **kwargs):
         """
-        Apply the appropriate filter based on the DataFrame backend.
-
-        Args:
-            supply_frames (TableCollection): The supply frames collection.
-            **kwargs:
-                - df (str): The name of the table to apply the filter to.
-
-        Returns:
-            MetaFrame: The MetaFrame with filtered rows.
+        Rename the specified columns in the DataFrame.
         """
         table_name = kwargs.get('df')
-        if table_name not in supply_frames:
-            raise ValueError(f"Table '{table_name}' not found in supply_frames.")
-
-        df = supply_frames[table_name].df
-        backend = self._detect_backend(df)
-
-        if backend not in self.condition_map:
-            raise ValueError(f"No filter condition provided for backend '{backend}'.")
-
-        condition = self.condition_map[backend]
-
-        try:
-            df_filtered = condition(df)
-        except Exception as e:
-            raise RuntimeError(f"Failed to apply filter for backend '{backend}': {e}")
-
-        # Update the table and tracking
-        supply_frames[table_name].df = df_filtered
         self.target_tables = [table_name]
-        supply_frames[table_name].events.append(self)
+
+        supply_frames[table_name].rename(columns=self.rename_map, inplace=True)
+        supply_frames[table_name].add_event(self)
+
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that the columns have been renamed correctly.
+        """
+        table_name = kwargs.get('df')
+        if not table_name:
+            return False
+
+        cols = supply_frames[table_name].columns
+        return all(new_name in cols for new_name in self.new_names)
+
+class FilterTransform(TableTransform):
+    """
+    Transform class for filtering rows in a DataFrame using a backend-specific condition.
+    """
+    def __init__(self, condition_map: Dict[str, Callable]):
+        """
+        Initialise a FilterTransform.
+
+        Args:
+            condition_map (Dict[str, Callable]): 
+                A dictionary mapping backend names (e.g., 'pandas', 'polars', 'spark') 
+                to filtering functions that accept a DataFrame and return a filtered DataFrame.
+        """
+        super().__init__(
+            "FilterTransform",
+            "Filters rows in a dataframe using a backend-specific condition",
+            condition_map,
+            "RowFilter",
+            testable_transform=False
+        )
+
+        self.condition_map = condition_map
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Skip error checking — assume condition is valid.
+        """
+        return True
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Apply the filter condition to the DataFrame.
+        """
+        table_name = kwargs.get('df')
+        self.backend = supply_frames[table_name].frame_type
+
+        lmda = self.condition_map[self.backend]
+        self.condition_string = _get_lambda_source(lmda)
+
+        filtered_df = self.vars[self.backend](supply_frames[table_name])
+        supply_frames[table_name] = filtered_df
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
 
         return supply_frames
 
