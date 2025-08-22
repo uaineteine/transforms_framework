@@ -4,6 +4,12 @@ from tables.collections.supply_load import SupplyLoad
 from tables.names.lists import VarList
 from tables.names.headername import Headername
 
+import sys
+import pyspark
+import polars as pl
+import pandas as pd
+import narwhals
+
 class Transform(PipelineEvent):
     """
     Base class for data transformation operations with automatic event logging.
@@ -48,6 +54,13 @@ class Transform(PipelineEvent):
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
+
+        # Track version information
+        self.version_pyspark = pyspark.__version__
+        self.version_polars = pl.__version__
+        self.version_pandas = pd.__version__
+        self.version_narwhals = narwhals.__version__
+        self.version_python = sys.version.split()[0]  # e.g., '3.11.4'
     
     def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
         """
