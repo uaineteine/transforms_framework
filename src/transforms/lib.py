@@ -277,10 +277,11 @@ class FilterTransform(TableTransform):
 
         return supply_frames
 
-filter_transform = FilterTransform(condition_map={
-    "pandas": lambda df: df[df["age"] > 30],
-    "polars": lambda df: df.filter(df["age"] > 30),
-    "spark": lambda df: df.filter(col("age") > 30)
-})
+#
+#filter_transform = FilterTransform(condition_map={
+#    "pandas": lambda df: df[df["age"] > 30],
+#    "polars": lambda df: df.filter(df["age"] > 30),
+#    "spark": lambda df: df.filter(col("age") > 30)
+#})
 
 #result = filter_transform.transforms(supply_frames, df="users_table")
