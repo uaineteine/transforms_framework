@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "161dae26-f098-4b67-8720-38ccbee696b1",
-  "timestamp": "2025-08-21T09:02:58.084327+00:00",
+  "uuid": "479ab2bb-0abc-43b0-83f0-4b2360b34b47",
+  "timestamp": "2025-08-23T00:17:14.984106+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "91bf7ab0-8884-4a0a-bcc0-3f9b9246444b",
-  "timestamp": "2025-08-21T09:02:58.342323+00:00",
+  "uuid": "53de75b0-fa8d-4e1a-9bae-0a7e248fc9b3",
+  "timestamp": "2025-08-23T00:17:15.315138+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -18,6 +18,10 @@
   "name": "SubsetTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.6",
   "transform_id": "SubsetTbl",
   "target_tables": [
     "test_table2"
@@ -34,8 +38,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "76db1b13-c952-4848-96d2-209de82c5111",
-  "timestamp": "2025-08-21T09:02:59.649382+00:00",
+  "uuid": "1bda1b5d-b523-46f5-93b6-2b31cb337046",
+  "timestamp": "2025-08-23T00:17:17.371164+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -43,6 +47,10 @@
   "name": "DistinctTable",
   "transform_type": "TableTransform",
   "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.6",
   "transform_id": "DistinctTbl",
   "target_tables": [
     "test_table2"
