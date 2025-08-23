@@ -153,6 +153,17 @@
 <li><a class="reference internal" href="#transforms.lib.DropVariable.transforms"><code class="docutils literal notranslate"><span class="pre">DropVariable.transforms()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#transforms.lib.FilterTransform"><code class="docutils literal notranslate"><span class="pre">FilterTransform</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.FilterTransform.error_check"><code class="docutils literal notranslate"><span class="pre">FilterTransform.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.FilterTransform.transforms"><code class="docutils literal notranslate"><span class="pre">FilterTransform.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transforms.lib.RenameTable"><code class="docutils literal notranslate"><span class="pre">RenameTable</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.RenameTable.error_check"><code class="docutils literal notranslate"><span class="pre">RenameTable.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.RenameTable.test"><code class="docutils literal notranslate"><span class="pre">RenameTable.test()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.RenameTable.transforms"><code class="docutils literal notranslate"><span class="pre">RenameTable.transforms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#transforms.lib.SubsetTable"><code class="docutils literal notranslate"><span class="pre">SubsetTable</span></code></a><ul>
 <li><a class="reference internal" href="#transforms.lib.SubsetTable.error_check"><code class="docutils literal notranslate"><span class="pre">SubsetTable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.SubsetTable.test"><code class="docutils literal notranslate"><span class="pre">SubsetTable.test()</span></code></a></li>
@@ -216,6 +227,7 @@
 <li><p>sas-to-polars</p></li>
 <li><p>sparkpolars</p></li>
 <li><p>uainepydat</p></li>
+<li></li>
 </ul>
 </section>
 <section id="module-events.eventlog">
@@ -1296,6 +1308,48 @@ correctly and the results meet expected criteria.</p>
 <dt class="sig sig-object py" id="transforms.lib.DropVariable.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.DropVariable.transforms" title="Link to this definition"></a></dt>
 <dd><p>Remove the specified variables from the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.FilterTransform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">FilterTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform" title="Link to this definition"></a></dt>
+<dd><p>Transform class for filtering rows in a DataFrame using a backend-specific condition.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.FilterTransform.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform.error_check" title="Link to this definition"></a></dt>
+<dd><p>Skip error checking — assume condition is valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.FilterTransform.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply the filter condition to the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.RenameTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">RenameTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rename_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.RenameTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for renaming columns in a DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.RenameTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.RenameTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that all columns to rename exist in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.RenameTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transforms.lib.RenameTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the columns have been renamed correctly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.RenameTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.RenameTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Rename the specified columns in the DataFrame.</p>
 </dd></dl>
 
 </dd></dl>
