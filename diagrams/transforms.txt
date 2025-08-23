@@ -6,6 +6,10 @@ class Transform{
     name
     transform_type
     testable_transform
+    version_pyspark
+    version_polars
+    version_pandas
+    version_python
     __init__(self, name, description, transform_type, testable_transform)
     transforms(self, supply_frames)
     error_check(self, supply_frames)
@@ -37,16 +41,49 @@ class DropVariable{
     test(self, supply_frames)
 }
 
+class SubsetTable{
+    deleted_variables
+    target_tables
+    __init__(self, variables_to_keep)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class DistinctTable{
+    target_tables
+    __init__(self)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+}
+
+class RenameTable{
+    rename_map
+    new_names
+    target_tables
+    __init__(self, rename_map)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
 class FilterTransform{
     condition_map
+    backend
+    condition_string
     target_tables
     __init__(self, condition_map)
+    error_check(self, supply_frames)
     transforms(self, supply_frames)
 }
 
 PipelineEvent <|-- Transform
 Transform <|-- TableTransform
 TableTransform <|-- DropVariable
+TableTransform <|-- SubsetTable
+TableTransform <|-- DistinctTable
+TableTransform <|-- RenameTable
+TableTransform <|-- FilterTransform
 
 note top of Transform
 Base class for data transformation operations with automatic event logging.
@@ -102,6 +139,22 @@ end note
 
 note top of DropVariable
 Transform class for removing one or more variables/columns from a DataFrame.
+end note
+
+note top of SubsetTable
+Transform class for subsetting a DataFrame to retain only specified columns.
+end note
+
+note top of DistinctTable
+Transform class for removing duplicate rows from a DataFrame.
+end note
+
+note top of RenameTable
+Transform class for renaming columns in a DataFrame.
+end note
+
+note top of FilterTransform
+Transform class for filtering rows in a DataFrame using a backend-specific condition.
 end note
 
 
