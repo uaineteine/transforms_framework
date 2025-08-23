@@ -58,3 +58,13 @@ if __name__ == "__main__":
 
     # save table events
     supply_frames.save_events()
+
+#EXAMPLE FOR FILTERING
+#
+#filter_transform = FilterTransform(condition_map={
+#    "pandas": lambda df: df[df["age"] > 30],
+#    "polars": lambda df: df.filter(df["age"] > 30),
+#    "spark": lambda df: df.filter(col("age") > 30)
+#})
+
+#result = filter_transform.transforms(supply_frames, df="users_table")
