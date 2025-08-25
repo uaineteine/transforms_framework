@@ -514,4 +514,30 @@ class MultiTable:
         
         return self
 
-        
+    def rename(self, columns: dict, inplace: bool = True):
+        """
+        Rename columns in the DataFrame.
+
+        Args:
+            columns (dict): Mapping from old column names to new column names.
+            inplace (bool): If True, modifies the current MultiTable. If False, returns a new MultiTable.
+
+        Returns:
+            MultiTable or None: Returns a new MultiTable if inplace=False, else None.
+        """
+        if self.frame_type == "pandas":
+            new_df = self.df.rename(columns=columns)
+        elif self.frame_type == "polars":
+            new_df = self.df.rename(columns)
+        elif self.frame_type == "pyspark":
+            new_df = self.df
+            for old_col, new_col in columns.items():
+                new_df = new_df.withColumnRenamed(old_col, new_col)
+        else:
+            raise ValueError("Unsupported frame_type")
+
+        if inplace:
+            self.df = new_df
+            return None
+        else:
+            return MultiTable(new_df, src_path=self.src_path, table_name=str(self.table_name), frame_type=self.frame_type)
