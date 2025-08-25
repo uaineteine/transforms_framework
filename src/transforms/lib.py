@@ -10,7 +10,7 @@ def _get_lambda_source(func) -> str:
     try:
         return inspect.getsource(func).strip()
     except Exception as e:
-        return f"<source unavailable: {e}>"
+        return f"<source unavailable: {e}"
 
 class DropVariable(TableTransform):
     """
@@ -275,4 +275,115 @@ class FilterTransform(TableTransform):
         self.target_tables = [table_name]
 
         return supply_frames
+
+class JoinTable(TableTransform):
+    """
+    Transform class for joining two tables in a TableCollection.
+    """
+
+    def __init__(
+        self,
+        left_table: str,
+        right_table: str,
+        join_columns: Union[str, List[str]],
+        join_type: str = "inner",
+        suffixes: tuple = ("_left", "_right")
+    ):
+        """
+        Initialise a JoinTable transform.
+
+        Args:
+            left_table (str): Name of the left table.
+            right_table (str): Name of the right table.
+            join_columns (Union[str, List[str]]): Column(s) to join on.
+            join_type (str): Type of join ('inner', 'left', 'right', 'outer').
+            suffixes (tuple): Suffixes for overlapping columns.
+        """
+        super().__init__(
+            "JoinTable",
+            f"Joins {left_table} and {right_table} on {join_columns} ({join_type})",
+            join_columns,
+            "JoinTbl",
+            testable_transform=True
+        )
+        self.left_table = left_table
+        self.right_table = right_table
+        self.join_columns = [join_columns] if isinstance(join_columns, str) else join_columns
+        self.join_type = join_type
+        self.suffixes = suffixes
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that both tables exist, have >0 rows, and join columns exist.
+        """
+        for tbl in [self.left_table, self.right_table]:
+            if tbl not in supply_frames:
+                raise ValueError(f"Table '{tbl}' not found in TableCollection")
+            if supply_frames[tbl].nrow < 1:
+                raise ValueError(f"Table '{tbl}' must have at least one row")
+            missing = [col for col in self.join_columns if col not in supply_frames[tbl].columns]
+            if missing:
+                raise ValueError(f"Columns {missing} not found in table '{tbl}'")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Join the two tables and store the result in a new table.
+        """
+        backend = supply_frames[self.left_table].frame_type
+        left_df = supply_frames[self.left_table].df
+        right_df = supply_frames[self.right_table].df
+
+        output_table = kwargs.get("output_table", f"{self.left_table}_{self.right_table}_joined")
+        self.target_tables = [output_table]
+
+        # Pandas join
+        if backend == "pandas":
+            joined = left_df.merge(
+                right_df,
+                how=self.join_type,
+                on=self.join_columns,
+                suffixes=self.suffixes
+            )
+        # Polars join
+        elif backend == "polars":
+            joined = left_df.join(
+                right_df,
+                on=self.join_columns,
+                how=self.join_type
+            )
+        # Spark join
+        elif backend == "pyspark":
+            joined = left_df.join(
+                right_df,
+                on=self.join_columns,
+                how=self.join_type
+            )
+        else:
+            raise NotImplementedError(f"Join not implemented for backend '{backend}'")
+
+        # Add joined table to TableCollection
+        if output_table == self.left_table:
+            supply_frames[self.left_table].df = joined
+            supply_frames[self.left_table].add_event(self)
+        elif output_table == self.right_table:
+            supply_frames[self.right_table].df = joined
+            supply_frames[self.right_table].add_event(self)
+        else:
+            # Create a new table entry, copying metadata from left_table
+            supply_frames[output_table] = supply_frames[self.left_table].copy(new_name=output_table)
+            supply_frames[output_table].df = joined
+            supply_frames[output_table].add_event(self)
+
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that the joined table exists and has expected columns.
+        """
+        output_table = kwargs.get("output_table", f"{self.left_table}_{self.right_table}_joined")
+        if output_table not in supply_frames:
+            return False
+        # Check join columns exist in output
+        cols = supply_frames[output_table].columns
+        return all(col in cols for col in self.join_columns)
 

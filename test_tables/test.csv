@@ -1,5 +1,5 @@
-age,name
-1,John Doe
-2,Jane Smith
-3,Bob Johnson
-3,Bob Johnson
+age,name,var
+1,John Doe,b
+2,Jane Smith,d
+3,Bob Johnson,e
+3,Bob Johnson,f

@@ -1,5 +1,5 @@
-salary,name
-400,John Doe
-500,Jane Smith
-600,Bob Johnson
-600,Twiggy
+salary,name,age
+400,John Doe,1
+500,Jane Smith,4
+600,Bob Johnson,1
+600,Twiggy,1

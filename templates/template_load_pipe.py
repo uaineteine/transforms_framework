@@ -24,9 +24,9 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (test_table):", supply_frames["test_table"].columns)
 
-    supply_frames = DropVariable("AGE").apply(supply_frames, df="test_table")
+    supply_frames = DropVariable("VAR").apply(supply_frames, df="test_table")
 
-    print("After DropVariable (AGE) on test_table:", supply_frames["test_table"].columns)
+    print("After DropVariable (VAR) on test_table:", supply_frames["test_table"].columns)
     supply_frames["test_table"].show()
 
     # -------------------------------
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (test_table2):", supply_frames["test_table2"].columns)
 
-    supply_frames = SubsetTable("SALARY").apply(supply_frames, df="test_table2")
+    supply_frames = SubsetTable(["SALARY", "AGE"]).apply(supply_frames, df="test_table2")
 
     print("After SubsetTable (keep SALARY) on test_table2:", supply_frames["test_table2"].columns)
     supply_frames["test_table2"].show()
@@ -58,9 +58,9 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 5: RenameTable on test_table
+    # Test 5: RenameTable on test_table2
     # -------------------------------
-    print("Original columns (test_table):", supply_frames["test_table2"].columns)
+    print("Original columns (test_table2):", supply_frames["test_table2"].columns)
 
     supply_frames = RenameTable({"SALARY": "INCOME"}).apply(supply_frames, df="test_table2")
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 6: FilterTransform on test_table
+    # Test 6: FilterTransform on test_table2
     # -------------------------------
     print("Applying FilterTransform (INCOME > 600) on test_table2")
 
@@ -80,6 +80,25 @@ if __name__ == "__main__":
 
     print("After FilterTransform (INCOME > 600) on test_table2:")
     supply_frames["test_table2"].show()
+
+    # -------------------------------
+    # Test 7: JoinTable on test_table1 and test_table2
+    # -------------------------------
+    print("Joining test_table1 and test_table2 on AGE")
+
+    from transforms.lib import JoinTable
+
+    join_transform = JoinTable(
+        left_table="test_table",
+        right_table="test_table2",
+        join_columns="AGE",
+        join_type="inner"
+    )
+
+    supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
+
+    print("After JoinTable (test_table1 inner join test_table2 on AGE):")
+    supply_frames["joined_table"].show()
 
     # save table events
     supply_frames.save_events()

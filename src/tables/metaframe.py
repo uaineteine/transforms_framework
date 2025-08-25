@@ -152,3 +152,24 @@ class MetaFrame(MultiTable):
             event.log()
         
         print(f"Events saved to {log_path}")
+
+    def copy(self, new_name: str = None):
+        """
+        Create a deep copy of the MetaFrame, including the DataFrame and all events.
+
+        Returns:
+            MetaFrame: A new MetaFrame instance with copied data and events.
+        """
+        if new_name is None:
+            new_name = self.table_name
+
+        # Copy the underlying MultiTable (data and metadata)
+        copied_multitable = MultiTable(
+            self.df.copy() if hasattr(self.df, "copy") else self.df,
+            self.src_path,
+            new_name,
+            self.frame_type
+        )
+        # Copy events
+        copied_events = self.meta.events.copy()
+        return MetaFrame(copied_multitable, inherit_events=copied_events)

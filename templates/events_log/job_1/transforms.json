@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "7184dc0a-3606-4360-908c-1f6032f44d77",
-  "timestamp": "2025-08-25T04:14:57.862503+00:00",
+  "uuid": "b5a5046c-5455-47e0-a6b8-b28488eb8d4c",
+  "timestamp": "2025-08-25T05:14:50.303448+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -18,19 +18,19 @@
     "test_table"
   ],
   "target_variables": [
-    "AGE"
+    "VAR"
   ],
   "created_variables": null,
   "renamed_variables": null,
   "deleted_variables": [
-    "AGE"
+    "VAR"
   ],
   "hashed_variables": null
 }
 {
   "event_type": "transform",
-  "uuid": "2192acf1-32ea-4c91-b4a5-06fc5302e22a",
-  "timestamp": "2025-08-25T04:14:58.240502+00:00",
+  "uuid": "409777f3-0e75-470b-bcdd-c83a733ad010",
+  "timestamp": "2025-08-25T05:14:50.615478+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -47,7 +47,8 @@
     "test_table2"
   ],
   "target_variables": [
-    "SALARY"
+    "SALARY",
+    "AGE"
   ],
   "created_variables": null,
   "renamed_variables": null,
@@ -58,8 +59,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "5263d488-01b9-47b3-98f4-7795145cec06",
-  "timestamp": "2025-08-25T04:14:58.472502+00:00",
+  "uuid": "2a86fbad-eb4c-4426-9f8f-73f4e1b05038",
+  "timestamp": "2025-08-25T05:14:50.766477+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -83,8 +84,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "fc06f6db-1e70-416f-b6a3-0ce14dd88b89",
-  "timestamp": "2025-08-25T04:15:00.013563+00:00",
+  "uuid": "c9ec90dc-827e-4c3b-973b-cb288b8b62eb",
+  "timestamp": "2025-08-25T05:14:52.113601+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -108,8 +109,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "8597cd25-ceea-4f7d-b18a-d42b7afbb4dc",
-  "timestamp": "2025-08-25T04:15:00.503598+00:00",
+  "uuid": "e23e035a-55a5-4c31-9faa-da68f7577fd8",
+  "timestamp": "2025-08-25T05:14:52.561117+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "RenameTable",
@@ -141,8 +142,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "d4a451da-8c03-4387-b796-cb841fd709e9",
-  "timestamp": "2025-08-25T04:15:00.747598+00:00",
+  "uuid": "4ecb8f8f-e48d-4228-8919-0e219f842a7f",
+  "timestamp": "2025-08-25T05:14:52.788115+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "FilterTransform",
@@ -164,5 +165,42 @@
   "deleted_variables": null,
   "hashed_variables": null,
   "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") > 600)"
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)"
+}
+{
+  "event_type": "transform",
+  "uuid": "3a2183fe-6bd0-46bb-9b33-3de63f5064a4",
+  "timestamp": "2025-08-25T05:14:53.174187+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "JoinTable",
+  "description": "Joins test_table and test_table2 on AGE (inner)",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "joined_table"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "left_table": "test_table",
+  "right_table": "test_table2",
+  "join_columns": [
+    "AGE"
+  ],
+  "join_type": "inner",
+  "suffixes": [
+    "_left",
+    "_right"
+  ]
 }

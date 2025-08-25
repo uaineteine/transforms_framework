@@ -61,3 +61,40 @@
   "deleted_variables": null,
   "hashed_variables": null
 }
+{
+  "event_type": "transform",
+  "uuid": "3a2183fe-6bd0-46bb-9b33-3de63f5064a4",
+  "timestamp": "2025-08-25T05:14:53.174187+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "JoinTable",
+  "description": "Joins test_table and test_table2 on AGE (inner)",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "joined_table"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "left_table": "test_table",
+  "right_table": "test_table2",
+  "join_columns": [
+    "AGE"
+  ],
+  "join_type": "inner",
+  "suffixes": [
+    "_left",
+    "_right"
+  ]
+}
