@@ -1,5 +1,6 @@
-age,name,var
-1,John Doe,b
-2,Jane Smith,d
-3,Bob Johnson,e
-3,Bob Johnson,f
+age,name,var,position
+1,John Doe,b,front
+2,Jane Smith,d,back
+3,Bob Johnson,e,middle
+3,Bob Johnson,f,front
+4,Twiggy,b,front
