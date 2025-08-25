@@ -202,24 +202,6 @@ from transforms import DropVariable
 tbl = DropVariable("age")(tbl)
 ```
 
-**Example JSON output for a transform event:**
-```json
-{
-  "event_type": "transform",
-  "message": "DropVariable",
-  "description": "Removes this variable from a dataframe",
-  "uuid": "c3f9e8d2-1a2b-4c3d-9e8d-2c1a2b4c3d9e",
-  "timestamp": "2025-08-10T12:35:01.123456",
-  "log_location": "events_log/job_1/test_table_events.json",
-  "name": "DropVariable",
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": ["age"],
-  "target_table": "test_table",
-  "target_variable": "age"
-}
-```
-
 ## Example Workflows
 
 ### Method 1: Direct Table Loading
@@ -483,6 +465,51 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
 - Events are saved in `events_log/job_1/{table_name}_events.json`.
 - Each event is a JSON object, one per line.
 - This provides a complete audit trail of all actions performed on each table.
+
+**Example JSON output for a transform event:**
+```json
+{
+  "event_type": "transform",
+  "uuid": "7184dc0a-3606-4360-908c-1f6032f44d77",
+  "timestamp": "2025-08-25T04:14:57.862503+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "DropVariable",
+  "description": "Removes specified variable(s) from a dataframe",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "DropVar",
+  "target_tables": [
+    "test_table"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": [
+    "AGE"
+  ],
+  "hashed_variables": null
+}
+```
+
+**Example JSON output for a load event:**
+```json
+{
+  "event_type": "load",
+  "uuid": "b2e7c8e2-7d4e-4c7e-8b8e-2f6e7c8e2d4e",
+  "timestamp": "2025-08-10T12:34:56.789012",
+  "log_location": "events_log/job_1/test_table_events.json",
+  "message": "Loaded table from test.csv as csv (pyspark)",
+  "description": "Loaded test_table from test.csv"
+}
+```
 
 ---
 
