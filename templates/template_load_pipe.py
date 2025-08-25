@@ -7,6 +7,8 @@ if __name__ == "__main__":
     parent_dir = os.path.join(current_dir, '..', "src")
     sys.path.append(os.path.abspath(parent_dir))
 
+
+    #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transforms.lib import *
     from pyspark.sql.functions import col
