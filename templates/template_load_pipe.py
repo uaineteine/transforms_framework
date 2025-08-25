@@ -8,7 +8,8 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from pyspark.sql import SparkSession
-    from transforms.lib import DropVariable, SubsetTable, DistinctTable
+    from transforms.lib import DropVariable, SubsetTable, DistinctTable, RenameTable, FilterTransform
+    from pyspark.sql.functions import col
     from tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (test_table):", supply_frames["test_table"].columns)
 
-    supply_frames = DropVariable("AGE")(supply_frames, df="test_table")
+    supply_frames = DropVariable("AGE").apply(supply_frames, df="test_table")
 
     print("After DropVariable (AGE) on test_table:", supply_frames["test_table"].columns)
     supply_frames["test_table"].show()
@@ -33,7 +34,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (test_table2):", supply_frames["test_table2"].columns)
 
-    supply_frames = SubsetTable("SALARY")(supply_frames, df="test_table2")
+    supply_frames = SubsetTable("SALARY").apply(supply_frames, df="test_table2")
 
     print("After SubsetTable (keep SALARY) on test_table2:", supply_frames["test_table2"].columns)
     supply_frames["test_table2"].show()
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     # Test 3: DistinctTable on test_table
     # -------------------------------
     print("Applying DistinctTable on test_table")
-    supply_frames = DistinctTable()(supply_frames, df="test_table")
+    supply_frames = DistinctTable().apply(supply_frames, df="test_table")
 
     print("After DistinctTable on test_table (all columns):")
     supply_frames["test_table"].show()
@@ -51,20 +52,34 @@ if __name__ == "__main__":
     # Test 4: DistinctTable on test_table2
     # -------------------------------
     print("Applying DistinctTable on test_table2")
-    supply_frames = DistinctTable()(supply_frames, df="test_table2")
+    supply_frames = DistinctTable().apply(supply_frames, df="test_table2")
 
     print("After DistinctTable on test_table2 (all columns):")
     supply_frames["test_table2"].show()
 
+    # -------------------------------
+    # Test 5: RenameTable on test_table
+    # -------------------------------
+    print("Original columns (test_table):", supply_frames["test_table2"].columns)
+
+    supply_frames = RenameTable({"SALARY": "INCOME"}).apply(supply_frames, df="test_table2")
+
+    print("After RenameTable (SALARY -> INCOME) on test_table2:", supply_frames["test_table2"].columns)
+    supply_frames["test_table2"].show()
+
+    # -------------------------------
+    # Test 6: FilterTransform on test_table
+    # -------------------------------
+    print("Applying FilterTransform (INCOME > 50000) on test_table")
+
+    filter_transform = FilterTransform(condition_map={
+        "spark": lambda df: df.filter(col("INCOME") > 50000)
+    })
+
+    supply_frames = filter_transform.apply(supply_frames, df="test_table")
+
+    print("After FilterTransform (INCOME > 50000) on test_table:")
+    supply_frames["test_table"].show()
+
     # save table events
     supply_frames.save_events()
-
-#EXAMPLE FOR FILTERING
-#
-#filter_transform = FilterTransform(condition_map={
-#    "pandas": lambda df: df[df["age"] > 30],
-#    "polars": lambda df: df.filter(df["age"] > 30),
-#    "spark": lambda df: df.filter(col("age") > 30)
-#})
-
-#result = filter_transform.transforms(supply_frames, df="users_table")
