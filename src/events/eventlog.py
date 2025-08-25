@@ -59,7 +59,7 @@ class EventLog:
             # {"event_type": "INFO", "uuid": "...", "timestamp": "..."}
         """
         # Exclude 'df' from the dictionary representation
-        dict_repr = {k: v for k, v in self.__dict__.items() if k != "log_location"}
+        dict_repr = {k: v for k, v in self.__dict__.items() if k != "log_location" and k!= "condition_map"}
         return json.dumps(dict_repr, indent=2, ensure_ascii=True)
 
     def log(self):

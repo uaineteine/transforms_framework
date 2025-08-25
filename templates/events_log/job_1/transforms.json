@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "97668b8b-d4a0-4141-8cef-96c90252ad87",
-  "timestamp": "2025-08-23T00:17:14.988105+00:00",
+  "uuid": "7184dc0a-3606-4360-908c-1f6032f44d77",
+  "timestamp": "2025-08-25T04:14:57.862503+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -12,7 +12,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "DropVar",
   "target_tables": [
     "test_table"
@@ -29,8 +29,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "53de75b0-fa8d-4e1a-9bae-0a7e248fc9b3",
-  "timestamp": "2025-08-23T00:17:15.315138+00:00",
+  "uuid": "2192acf1-32ea-4c91-b4a5-06fc5302e22a",
+  "timestamp": "2025-08-25T04:14:58.240502+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -41,7 +41,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "SubsetTbl",
   "target_tables": [
     "test_table2"
@@ -58,8 +58,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "8961fcdd-367e-4a49-a2f7-51993cd0b652",
-  "timestamp": "2025-08-23T00:17:15.599163+00:00",
+  "uuid": "5263d488-01b9-47b3-98f4-7795145cec06",
+  "timestamp": "2025-08-25T04:14:58.472502+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -70,7 +70,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
     "test_table"
@@ -83,8 +83,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "1bda1b5d-b523-46f5-93b6-2b31cb337046",
-  "timestamp": "2025-08-23T00:17:17.371164+00:00",
+  "uuid": "fc06f6db-1e70-416f-b6a3-0ce14dd88b89",
+  "timestamp": "2025-08-25T04:15:00.013563+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -95,7 +95,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
     "test_table2"
@@ -105,4 +105,64 @@
   "renamed_variables": null,
   "deleted_variables": null,
   "hashed_variables": null
+}
+{
+  "event_type": "transform",
+  "uuid": "8597cd25-ceea-4f7d-b18a-d42b7afbb4dc",
+  "timestamp": "2025-08-25T04:15:00.503598+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "RenameTable",
+  "description": "Renames specified columns in a dataframe",
+  "name": "RenameTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "RenmTbl",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "rename_map": {
+    "SALARY": "INCOME"
+  },
+  "new_names": [
+    "INCOME"
+  ]
+}
+{
+  "event_type": "transform",
+  "uuid": "d4a451da-8c03-4387-b796-cb841fd709e9",
+  "timestamp": "2025-08-25T04:15:00.747598+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "FilterTransform",
+  "description": "Filters rows in a dataframe using a backend-specific condition",
+  "name": "FilterTransform",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "RowFilter",
+  "target_tables": [
+    "test_table2"
+  ],
+  "target_variables": [],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "backend": "pyspark",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") > 600)"
 }

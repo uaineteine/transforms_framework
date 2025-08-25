@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "cd15884b-edb1-4237-af27-f20e149c6969",
-  "timestamp": "2025-08-23T00:17:14.481082+00:00",
+  "uuid": "e7cdb2c9-7b3f-4eac-9677-7d4657a28277",
+  "timestamp": "2025-08-25T04:14:57.576956+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "97668b8b-d4a0-4141-8cef-96c90252ad87",
-  "timestamp": "2025-08-23T00:17:14.988105+00:00",
+  "uuid": "7184dc0a-3606-4360-908c-1f6032f44d77",
+  "timestamp": "2025-08-25T04:14:57.862503+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -21,7 +21,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "DropVar",
   "target_tables": [
     "test_table"
@@ -38,8 +38,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "8961fcdd-367e-4a49-a2f7-51993cd0b652",
-  "timestamp": "2025-08-23T00:17:15.599163+00:00",
+  "uuid": "5263d488-01b9-47b3-98f4-7795145cec06",
+  "timestamp": "2025-08-25T04:14:58.472502+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -50,7 +50,7 @@
   "version_pyspark": "4.0.0",
   "version_polars": "1.31.0",
   "version_pandas": "2.3.0",
-  "version_python": "3.10.6",
+  "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
     "test_table"
