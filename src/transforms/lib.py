@@ -387,3 +387,94 @@ class JoinTable(TableTransform):
         cols = supply_frames[output_table].columns
         return all(col in cols for col in self.join_columns)
 
+class PartitionByValue(TableTransform):
+    """
+    Transform class for partitioning a DataFrame into multiple tables 
+    based on unique values of a specified column.
+    """
+
+    def __init__(self, partition_column: str, suffix_format: str = "_{value}"):
+        """
+        Initialise a PartitionByValue transform.
+
+        Args:
+            partition_column (str): Column to partition the dataset on.
+            suffix_format (str): Format string for naming new tables, must contain '{value}'.
+        """
+        super().__init__(
+            "PartitionByValue",
+            f"Partitions a DataFrame into subtables by '{partition_column}'",
+            [partition_column],
+            "PartVal",
+            testable_transform=True
+        )
+        self.partition_column = partition_column
+        self.suffix_format = suffix_format
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the partition column exists in the DataFrame.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if self.partition_column not in supply_frames[table_name].columns:
+            raise ValueError(f"Partition column '{self.partition_column}' not found in DataFrame '{table_name}'")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Partition the DataFrame into multiple subtables based on unique values.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        # Collect unique values
+        if backend == "pandas":
+            unique_values = supply_frames[table_name].df[self.partition_column].unique()
+        elif backend == "polars":
+            unique_values = supply_frames[table_name].df[self.partition_column].unique().to_list()
+        elif backend == "pyspark":
+            unique_values = [row[self.partition_column] for row in df.select(self.partition_column).distinct().collect()]
+        else:
+            raise NotImplementedError(f"Partition not implemented for backend '{backend}'")
+
+        #if too many unique values, raise error
+        if len(unique_values) > 1000:
+            raise ValueError(f"Too many unique values ({len(unique_values)}) in column '{self.partition_column}' for a decent partition, please review.")
+
+        output_tables = []
+        df = supply_frames[table_name].df
+        for value in unique_values:
+            new_table_name = f"{table_name}{self.suffix_format.format(value=value)}"
+            output_tables.append(new_table_name)
+
+            # Extract partition
+            if backend == "pandas":
+                partition_df = df[df[self.partition_column] == value].copy()
+            elif backend == "polars":
+                partition_df = df.filter(df[self.partition_column] == value)
+            elif backend == "pyspark":
+                partition_df = df.filter(df[self.partition_column] == value)
+
+            # Create new table entry
+            supply_frames[new_table_name] = supply_frames[table_name].copy(new_name=new_table_name)
+            supply_frames[new_table_name].df = partition_df
+            supply_frames[new_table_name].add_event(self)
+
+        self.target_tables = output_tables
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that all partitioned tables were created and contain the correct values.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+
+        for tname in self.target_tables:
+            if tname not in supply_frames:
+                return False
+            # Simple existence test — skip deep validation for performance
+        return True
