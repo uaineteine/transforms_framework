@@ -81,6 +81,7 @@
 <li><a class="reference internal" href="#module-tables.metaframe">tables.metaframe</a><ul>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame"><code class="docutils literal notranslate"><span class="pre">MetaFrame</span></code></a><ul>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.add_event"><code class="docutils literal notranslate"><span class="pre">MetaFrame.add_event()</span></code></a></li>
+<li><a class="reference internal" href="#tables.metaframe.MetaFrame.copy"><code class="docutils literal notranslate"><span class="pre">MetaFrame.copy()</span></code></a></li>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.load"><code class="docutils literal notranslate"><span class="pre">MetaFrame.load()</span></code></a></li>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.save_events"><code class="docutils literal notranslate"><span class="pre">MetaFrame.save_events()</span></code></a></li>
 </ul>
@@ -157,6 +158,12 @@
 <li><a class="reference internal" href="#transforms.lib.FilterTransform"><code class="docutils literal notranslate"><span class="pre">FilterTransform</span></code></a><ul>
 <li><a class="reference internal" href="#transforms.lib.FilterTransform.error_check"><code class="docutils literal notranslate"><span class="pre">FilterTransform.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.FilterTransform.transforms"><code class="docutils literal notranslate"><span class="pre">FilterTransform.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transforms.lib.JoinTable"><code class="docutils literal notranslate"><span class="pre">JoinTable</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.JoinTable.error_check"><code class="docutils literal notranslate"><span class="pre">JoinTable.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.JoinTable.test"><code class="docutils literal notranslate"><span class="pre">JoinTable.test()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.JoinTable.transforms"><code class="docutils literal notranslate"><span class="pre">JoinTable.transforms()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#transforms.lib.RenameTable"><code class="docutils literal notranslate"><span class="pre">RenameTable</span></code></a><ul>
@@ -645,6 +652,16 @@ description attributes.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.metaframe.MetaFrame.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.metaframe.MetaFrame.copy" title="Link to this definition"></a></dt>
+<dd><p>Create a deep copy of the MetaFrame, including the DataFrame and all events.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>MetaFrame: A new MetaFrame instance with copied data and events.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1339,6 +1356,30 @@ correctly and the results meet expected criteria.</p>
 <dt class="sig sig-object py" id="transforms.lib.FilterTransform.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform.transforms" title="Link to this definition"></a></dt>
 <dd><p>Apply the filter condition to the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.JoinTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">JoinTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('_left',</span> <span class="pre">'_right')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.JoinTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for joining two tables in a TableCollection.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.JoinTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.JoinTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that both tables exist, have &gt;0 rows, and join columns exist.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.JoinTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transforms.lib.JoinTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the joined table exists and has expected columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.JoinTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.JoinTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Join the two tables and store the result in a new table.</p>
 </dd></dl>
 
 </dd></dl>
