@@ -8,7 +8,7 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from pyspark.sql import SparkSession
-    from transforms.lib import DropVariable, SubsetTable, DistinctTable, RenameTable, FilterTransform
+    from transforms.lib import *
     from pyspark.sql.functions import col
     from tables.collections.supply_load import SupplyLoad
 
@@ -85,8 +85,6 @@ if __name__ == "__main__":
     # Test 7: JoinTable on test_table1 and test_table2
     # -------------------------------
     print("Joining test_table1 and test_table2 on AGE")
-
-    from transforms.lib import JoinTable
 
     join_transform = JoinTable(
         left_table="test_table",
