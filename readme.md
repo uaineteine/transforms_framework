@@ -25,6 +25,7 @@ This program provides a data transformation framework for working with tables (D
 |       `-- 🐍 lib.py
 `-- 📁 templates/
     `-- 🐍 template_load_pipe.py
+    `-- 🐍 template_custom_transform.py
 ```
 
 ## Events
