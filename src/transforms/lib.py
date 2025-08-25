@@ -246,7 +246,7 @@ class FilterTransform(TableTransform):
         super().__init__(
             "FilterTransform",
             "Filters rows in a dataframe using a backend-specific condition",
-            condition_map,
+            None,
             "RowFilter",
             testable_transform=False
         )
@@ -269,8 +269,7 @@ class FilterTransform(TableTransform):
         lmda = self.condition_map[self.backend]
         self.condition_string = _get_lambda_source(lmda)
 
-        filtered_df = self.vars[self.backend](supply_frames[table_name])
-        supply_frames[table_name] = filtered_df
+        supply_frames[table_name].df = lmda(supply_frames[table_name].df) 
         supply_frames[table_name].add_event(self)
 
         self.target_tables = [table_name]

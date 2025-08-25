@@ -70,16 +70,16 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 6: FilterTransform on test_table
     # -------------------------------
-    print("Applying FilterTransform (INCOME > 50000) on test_table")
+    print("Applying FilterTransform (INCOME > 600) on test_table2")
 
     filter_transform = FilterTransform(condition_map={
-        "spark": lambda df: df.filter(col("INCOME") > 50000)
+        "pyspark": lambda df: df.filter(col("INCOME") > 600)
     })
 
-    supply_frames = filter_transform.apply(supply_frames, df="test_table")
+    supply_frames = filter_transform.apply(supply_frames, df="test_table2")
 
-    print("After FilterTransform (INCOME > 50000) on test_table:")
-    supply_frames["test_table"].show()
+    print("After FilterTransform (INCOME > 600) on test_table2:")
+    supply_frames["test_table2"].show()
 
     # save table events
     supply_frames.save_events()
