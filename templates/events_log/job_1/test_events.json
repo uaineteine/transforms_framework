@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "c58523e3-cda4-4725-a836-7407881c978f",
-  "timestamp": "2025-08-25T05:14:50.000422+00:00",
+  "uuid": "ee2dfd9f-b7d2-4264-82c7-3e4f377527e5",
+  "timestamp": "2025-08-25T06:42:28.491257+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "b5a5046c-5455-47e0-a6b8-b28488eb8d4c",
-  "timestamp": "2025-08-25T05:14:50.303448+00:00",
+  "uuid": "c21f7491-8896-4856-a66a-215a214296b2",
+  "timestamp": "2025-08-25T06:42:31.449497+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -38,8 +38,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "2a86fbad-eb4c-4426-9f8f-73f4e1b05038",
-  "timestamp": "2025-08-25T05:14:50.766477+00:00",
+  "uuid": "590c3254-ef42-47d6-b847-afa719e72268",
+  "timestamp": "2025-08-25T06:42:31.764495+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",

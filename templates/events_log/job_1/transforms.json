@@ -1,7 +1,39 @@
 {
   "event_type": "transform",
-  "uuid": "b5a5046c-5455-47e0-a6b8-b28488eb8d4c",
-  "timestamp": "2025-08-25T05:14:50.303448+00:00",
+  "uuid": "25e3bdcf-3cca-4cdd-8b88-2bbec94eb452",
+  "timestamp": "2025-08-25T06:42:28.953260+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "PartitionByValue",
+  "description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "name": "PartitionByValue",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "PartVal",
+  "target_tables": [
+    "test_table2_620",
+    "test_table2_500",
+    "test_table2_600",
+    "test_table2_400"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "partition_column": "SALARY",
+  "suffix_format": "_{value}"
+}
+{
+  "event_type": "transform",
+  "uuid": "c21f7491-8896-4856-a66a-215a214296b2",
+  "timestamp": "2025-08-25T06:42:31.449497+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -29,8 +61,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "409777f3-0e75-470b-bcdd-c83a733ad010",
-  "timestamp": "2025-08-25T05:14:50.615478+00:00",
+  "uuid": "edd5e11b-dee7-4e87-b13d-5087e4e72fb3",
+  "timestamp": "2025-08-25T06:42:31.594496+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -59,8 +91,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "2a86fbad-eb4c-4426-9f8f-73f4e1b05038",
-  "timestamp": "2025-08-25T05:14:50.766477+00:00",
+  "uuid": "590c3254-ef42-47d6-b847-afa719e72268",
+  "timestamp": "2025-08-25T06:42:31.764495+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -84,8 +116,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "c9ec90dc-827e-4c3b-973b-cb288b8b62eb",
-  "timestamp": "2025-08-25T05:14:52.113601+00:00",
+  "uuid": "e72d520a-cb1b-4fcb-8bf6-72d46d62c969",
+  "timestamp": "2025-08-25T06:42:32.458497+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -109,8 +141,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "e23e035a-55a5-4c31-9faa-da68f7577fd8",
-  "timestamp": "2025-08-25T05:14:52.561117+00:00",
+  "uuid": "cceea93d-bb13-4e1d-8632-8769b7bd7e93",
+  "timestamp": "2025-08-25T06:42:32.967012+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "RenameTable",
@@ -142,8 +174,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "4ecb8f8f-e48d-4228-8919-0e219f842a7f",
-  "timestamp": "2025-08-25T05:14:52.788115+00:00",
+  "uuid": "6a411a5a-e83f-4f3b-bfc4-7ab844b142a4",
+  "timestamp": "2025-08-25T06:42:33.208012+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "FilterTransform",
@@ -169,8 +201,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "3a2183fe-6bd0-46bb-9b33-3de63f5064a4",
-  "timestamp": "2025-08-25T05:14:53.174187+00:00",
+  "uuid": "607859b5-1b23-4326-8daf-c98ce0bf326f",
+  "timestamp": "2025-08-25T06:42:33.570012+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "JoinTable",

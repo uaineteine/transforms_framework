@@ -22,7 +22,18 @@ if __name__ == "__main__":
     supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark)
 
     # -------------------------------
-    # Test 1: DropVariable on test_table
+    # Test 1: PartitionByValue on SALARY for test_table2
+    # -------------------------------
+    print("Partitioning test_table2 by SALARY")
+    partition_transform = PartitionByValue("SALARY")
+    supply_frames = partition_transform.apply(supply_frames, df="test_table2")
+    partitioned = supply_frames.select_by_names("test_table2_*")
+    for t in partitioned.tables:
+        print(f"Table: {t.table_name}")
+        t.show()
+
+    # -------------------------------
+    # Test 2: DropVariable on test_table
     # -------------------------------
     print("Original columns (test_table):", supply_frames["test_table"].columns)
 
@@ -32,7 +43,7 @@ if __name__ == "__main__":
     supply_frames["test_table"].show()
 
     # -------------------------------
-    # Test 2: SubsetTable on test_table2
+    # Test 3: SubsetTable on test_table2
     # -------------------------------
     print("Original columns (test_table2):", supply_frames["test_table2"].columns)
 
@@ -42,7 +53,7 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 3: DistinctTable on test_table
+    # Test 4: DistinctTable on test_table
     # -------------------------------
     print("Applying DistinctTable on test_table")
     supply_frames = DistinctTable().apply(supply_frames, df="test_table")
@@ -51,7 +62,7 @@ if __name__ == "__main__":
     supply_frames["test_table"].show()
 
     # -------------------------------
-    # Test 4: DistinctTable on test_table2
+    # Test 5: DistinctTable on test_table2
     # -------------------------------
     print("Applying DistinctTable on test_table2")
     supply_frames = DistinctTable().apply(supply_frames, df="test_table2")
@@ -60,7 +71,7 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 5: RenameTable on test_table2
+    # Test 6: RenameTable on test_table2
     # -------------------------------
     print("Original columns (test_table2):", supply_frames["test_table2"].columns)
 
@@ -70,7 +81,7 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 6: FilterTransform on test_table2
+    # Test 7: FilterTransform on test_table2
     # -------------------------------
     print("Applying FilterTransform (INCOME > 600) on test_table2")
 
@@ -84,7 +95,7 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 7: JoinTable on test_table1 and test_table2
+    # Test 8: JoinTable on test_table1 and test_table2
     # -------------------------------
     print("Joining test_table1 and test_table2 on AGE")
 

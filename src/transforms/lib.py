@@ -435,7 +435,7 @@ class PartitionByValue(TableTransform):
         elif backend == "polars":
             unique_values = supply_frames[table_name].df[self.partition_column].unique().to_list()
         elif backend == "pyspark":
-            unique_values = [row[self.partition_column] for row in df.select(self.partition_column).distinct().collect()]
+            unique_values = [row[self.partition_column] for row in supply_frames[table_name].df.select(self.partition_column).distinct().collect()]
         else:
             raise NotImplementedError(f"Partition not implemented for backend '{backend}'")
 

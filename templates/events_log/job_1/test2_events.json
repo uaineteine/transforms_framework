@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "d2623f7c-d5c6-4421-8737-f91a3ec360c1",
-  "timestamp": "2025-08-25T05:14:50.302447+00:00",
+  "uuid": "f02c29dd-729e-48ef-b158-642f5e3941b8",
+  "timestamp": "2025-08-25T06:42:28.945262+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
@@ -9,8 +9,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "409777f3-0e75-470b-bcdd-c83a733ad010",
-  "timestamp": "2025-08-25T05:14:50.615478+00:00",
+  "uuid": "edd5e11b-dee7-4e87-b13d-5087e4e72fb3",
+  "timestamp": "2025-08-25T06:42:31.594496+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -39,8 +39,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "c9ec90dc-827e-4c3b-973b-cb288b8b62eb",
-  "timestamp": "2025-08-25T05:14:52.113601+00:00",
+  "uuid": "e72d520a-cb1b-4fcb-8bf6-72d46d62c969",
+  "timestamp": "2025-08-25T06:42:32.458497+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -64,8 +64,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "e23e035a-55a5-4c31-9faa-da68f7577fd8",
-  "timestamp": "2025-08-25T05:14:52.561117+00:00",
+  "uuid": "cceea93d-bb13-4e1d-8632-8769b7bd7e93",
+  "timestamp": "2025-08-25T06:42:32.967012+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "RenameTable",
@@ -97,8 +97,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "4ecb8f8f-e48d-4228-8919-0e219f842a7f",
-  "timestamp": "2025-08-25T05:14:52.788115+00:00",
+  "uuid": "6a411a5a-e83f-4f3b-bfc4-7ab844b142a4",
+  "timestamp": "2025-08-25T06:42:33.208012+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "FilterTransform",

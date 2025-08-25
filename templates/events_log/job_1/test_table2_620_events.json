@@ -1,0 +1,41 @@
+{
+  "event_type": "load",
+  "uuid": "f02c29dd-729e-48ef-b158-642f5e3941b8",
+  "timestamp": "2025-08-25T06:42:28.945262+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
+  "description": "Loaded  from ../test_tables/test2.csv"
+}
+{
+  "event_type": "transform",
+  "uuid": "25e3bdcf-3cca-4cdd-8b88-2bbec94eb452",
+  "timestamp": "2025-08-25T06:42:28.953260+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "PartitionByValue",
+  "description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "name": "PartitionByValue",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.10.8",
+  "transform_id": "PartVal",
+  "target_tables": [
+    "test_table2_620",
+    "test_table2_500",
+    "test_table2_600",
+    "test_table2_400"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "partition_column": "SALARY",
+  "suffix_format": "_{value}"
+}
