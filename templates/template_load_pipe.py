@@ -73,7 +73,7 @@ if __name__ == "__main__":
     print("Applying FilterTransform (INCOME > 600) on test_table2")
 
     filter_transform = FilterTransform(condition_map={
-        "pyspark": lambda df: df.filter(col("INCOME") > 600)
+        "pyspark": lambda df: df.filter(col("INCOME") >= 600)
     })
 
     supply_frames = filter_transform.apply(supply_frames, df="test_table2")
