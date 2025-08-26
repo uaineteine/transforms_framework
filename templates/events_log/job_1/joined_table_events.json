@@ -5,7 +5,13 @@
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
-  "description": "Loaded  from ../test_tables/test.csv"
+  "description": "Loaded  from ../test_tables/test.csv",
+
+  #TODO
+  filepath: "../test_tables/test.csv",
+  table_name: "test_table",
+  file_format: "csv",
+
 }
 {
   "event_type": "transform",
@@ -23,6 +29,22 @@
   "version_pandas": "2.3.0",
   "version_python": "3.10.8",
   "transform_id": "DropVar",
+
+  #TODO
+  "input_tables": [
+    "test_table"
+  ],
+  "output_tables": [
+    "test_table"
+  ],
+
+  number_of_frames_output: 1,
+  number_of_frames_input: 1,
+
+  "transform_variables": [
+    "VAR"
+  ],
+
   "target_tables": [
     "test_table"
   ],
@@ -97,4 +119,16 @@
     "_left",
     "_right"
   ]
+}
+{
+  #TODO
+  #WRITE EVENT
+  "event_type": "write",
+  ...
+  output_path: "../output/test_output.csv",
+  table_name: "test_output",
+  file_format: "csv",
+  mode: "overwrite"
+  num_parts: 1
+
 }

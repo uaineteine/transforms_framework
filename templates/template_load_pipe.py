@@ -7,7 +7,6 @@ if __name__ == "__main__":
     parent_dir = os.path.join(current_dir, '..', "src")
     sys.path.append(os.path.abspath(parent_dir))
 
-
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transforms.lib import *
@@ -84,6 +83,9 @@ if __name__ == "__main__":
     # Test 7: FilterTransform on test_table2
     # -------------------------------
     print("Applying FilterTransform (INCOME > 600) on test_table2")
+    
+    #TODO 
+    #make a simple filter type vs a complex one
 
     filter_transform = FilterTransform(condition_map={
         "pyspark": lambda df: df.filter(col("INCOME") >= 600)
