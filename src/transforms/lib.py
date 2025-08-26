@@ -230,13 +230,13 @@ class RenameTable(TableTransform):
         cols = supply_frames[table_name].columns
         return all(new_name in cols for new_name in self.new_names)
 
-class FilterTransform(TableTransform):
+class ComplexTransform(TableTransform):
     """
     Transform class for filtering rows in a DataFrame using a backend-specific condition.
     """
     def __init__(self, condition_map: Dict[str, Callable]):
         """
-        Initialise a FilterTransform.
+        Initialise a ComplexTransform.
 
         Args:
             condition_map (Dict[str, Callable]): 
@@ -244,7 +244,7 @@ class FilterTransform(TableTransform):
                 to filtering functions that accept a DataFrame and return a filtered DataFrame.
         """
         super().__init__(
-            "FilterTransform",
+            "ComplexTransform",
             "Filters rows in a dataframe using a backend-specific condition",
             None,
             "RowFilter",

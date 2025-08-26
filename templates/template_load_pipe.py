@@ -80,20 +80,20 @@ if __name__ == "__main__":
     supply_frames["test_table2"].show()
 
     # -------------------------------
-    # Test 7: FilterTransform on test_table2
+    # Test 7: ComplexTransform on test_table2
     # -------------------------------
-    print("Applying FilterTransform (INCOME > 600) on test_table2")
+    print("Applying ComplexTransform (INCOME > 600) on test_table2")
     
     #TODO 
     #make a simple filter type vs a complex one
 
-    filter_transform = FilterTransform(condition_map={
+    filter_transform = ComplexTransform(condition_map={
         "pyspark": lambda df: df.filter(col("INCOME") >= 600)
     })
 
     supply_frames = filter_transform.apply(supply_frames, df="test_table2")
 
-    print("After FilterTransform (INCOME > 600) on test_table2:")
+    print("After ComplexTransform (INCOME > 600) on test_table2:")
     supply_frames["test_table2"].show()
 
     # -------------------------------
