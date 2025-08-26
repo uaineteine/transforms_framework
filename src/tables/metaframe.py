@@ -122,6 +122,9 @@ class MetaFrame(MultiTable):
 
         ptable = MetaFrame(mf)
         event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
+        event.filepath = path
+        event.table_name = table_name
+        event.src_format = format
         ptable.add_event(event)
         return ptable
 
