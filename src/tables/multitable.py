@@ -541,3 +541,40 @@ class MultiTable:
             return None
         else:
             return MultiTable(new_df, src_path=self.src_path, table_name=str(self.table_name), frame_type=self.frame_type)
+
+    @staticmethod
+    def write_native_df(dataframe, path:str, format: str = "parquet", frame_type: str = FrameTypeVerifier.pyspark, overwrite: bool = True, spark=None):
+        """
+        Write a DataFrame to a file in the specified format.
+        """
+        if frame_type == "pyspark":
+            mode = "overwrite" if overwrite else "error"
+            dataframe.write.mode(mode).format(format).save(path)
+        elif frame_type == "pandas":
+            if os.path.exists(path) and not overwrite:
+                raise FileExistsError(f"File {path} already exists and overwrite is False.")
+            dataframe.to_parquet(path, index=False)
+        
+        elif frame_type == "polars":
+            if os.path.exists(path) and not overwrite:
+                raise FileExistsError(f"File {path} already exists and overwrite is False.")
+            dataframe.collect().sink_parquet(path)
+
+    def write(self, path:str, format: str = "parquet", overwrite: bool = True, spark=None):
+        """
+        Write the DataFrame to a file in the specified format.
+
+        Args:
+            path (str): Destination file path.
+            format (str, optional): File format to write. Defaults to "parquet".
+                                  Supported formats: "parquet", "csv", "sas" (for PySpark).
+            overwrite (bool, optional): If True, overwrites existing files. Defaults to True.
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+
+        Raises:
+            ValueError: If the frame_type is unsupported.
+            FileExistsError: If the file exists and overwrite is False.
+        """
+        MultiTable.write_native_df(self.df, path, format, self.frame_type, overwrite, spark)
+
+        
