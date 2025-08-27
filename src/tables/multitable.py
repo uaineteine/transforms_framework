@@ -576,5 +576,4 @@ class MultiTable:
             FileExistsError: If the file exists and overwrite is False.
         """
         MultiTable.write_native_df(self.df, path, format, self.frame_type, overwrite, spark)
-
         
