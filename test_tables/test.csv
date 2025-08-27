@@ -1,6 +1,6 @@
-age,name,var,position
-1,John Doe,b,front
-2,Jane Smith,d,back
-3,Bob Johnson,e,middle
-3,Bob Johnson,f,front
-4,Twiggy,b,front
+age,name,var,position,skill
+1,John Doe,b,front,high
+2,Jane Smith,d,back,medium
+3,Bob Johnson,e,middle,low
+3,Bob Johnson,f,front,low
+4,Twiggy,b,front,low
