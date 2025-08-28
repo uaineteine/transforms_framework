@@ -199,7 +199,7 @@ class MetaFrame(MultiTable):
         event = PipelineEvent(
             event_type="write",
             message=f"Wrote table to {path} as {format} ({self.frame_type})",
-            description=f"Wrote {self.table_name} to {path} with mode={mode}"
+            description=f"Wrote {self.table_name} to {path} with mode={overwrite}"
         )
         event.filepath = path
         event.table_name = self.table_name
