@@ -122,11 +122,16 @@ class MetaFrame(MultiTable):
         mf = MultiTable.load(path, format, table_name, frame_type, True, spark)
 
         ptable = MetaFrame(mf)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
-        event.filepath = path
-        event.table_name = table_name
-        event.src_format = format
+
+        #construct payload to log
+        payload = {
+            "filepath": path,
+            "table_name": table_name,
+            "src_format": format
+        }
+        event = PipelineEvent("load", payload, event_description=f"Loaded {table_name} from {path}")
         ptable.add_event(event)
+        
         return ptable
 
     def save_events(self) -> None:

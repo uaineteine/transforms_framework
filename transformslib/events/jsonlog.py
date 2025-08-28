@@ -18,7 +18,7 @@ class JSONLog:
             indent_depth (int, optional): JSON indentation. Defaults to 2.
         """
         #included in log
-        self.log = log_payload
+        self.log_info = log_payload
         self.uuid = str(uuid.uuid4())
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"

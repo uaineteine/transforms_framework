@@ -49,7 +49,7 @@ class Transform(PipelineEvent):
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        super().__init__(event_type="transform", message=name, description=description, log_location="events_log/job_1/transforms.json")
+        super().__init__("transform", None, event_description=description, log_location="events_log/job_1/transforms.json")
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
