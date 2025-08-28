@@ -1,7 +1,7 @@
 {
   "event_type": "transform",
-  "uuid": "25e3bdcf-3cca-4cdd-8b88-2bbec94eb452",
-  "timestamp": "2025-08-25T06:42:28.953260+00:00",
+  "uuid": "869bbae9-2a4f-469e-9bc6-b1d57d00c515",
+  "timestamp": "2025-08-28T09:31:43.015113+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "PartitionByValue",
@@ -10,15 +10,15 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "PartVal",
   "target_tables": [
-    "test_table2_620",
-    "test_table2_500",
-    "test_table2_600",
-    "test_table2_400"
+    "salary_620",
+    "salary_500",
+    "salary_600",
+    "salary_400"
   ],
   "target_variables": [
     "SALARY"
@@ -32,8 +32,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "c21f7491-8896-4856-a66a-215a214296b2",
-  "timestamp": "2025-08-25T06:42:31.449497+00:00",
+  "uuid": "dc3d2541-27d3-4883-b2f6-25b3a9a0f559",
+  "timestamp": "2025-08-28T09:31:44.857157+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -42,12 +42,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DropVar",
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [
     "VAR"
@@ -61,8 +61,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "edd5e11b-dee7-4e87-b13d-5087e4e72fb3",
-  "timestamp": "2025-08-25T06:42:31.594496+00:00",
+  "uuid": "195d88cb-5035-419a-90c5-733be8248709",
+  "timestamp": "2025-08-28T09:31:44.991158+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -71,12 +71,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "SubsetTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [
     "SALARY",
@@ -91,8 +91,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "590c3254-ef42-47d6-b847-afa719e72268",
-  "timestamp": "2025-08-25T06:42:31.764495+00:00",
+  "uuid": "5e342ac6-a80d-44ba-9754-77e579b5c32e",
+  "timestamp": "2025-08-28T09:31:45.113669+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -101,12 +101,12 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [],
   "created_variables": null,
@@ -116,8 +116,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "e72d520a-cb1b-4fcb-8bf6-72d46d62c969",
-  "timestamp": "2025-08-25T06:42:32.458497+00:00",
+  "uuid": "b61243af-2c9d-4a11-8ebf-4a9d075a9782",
+  "timestamp": "2025-08-28T09:31:45.636668+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -126,12 +126,12 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [],
   "created_variables": null,
@@ -141,8 +141,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "cceea93d-bb13-4e1d-8632-8769b7bd7e93",
-  "timestamp": "2025-08-25T06:42:32.967012+00:00",
+  "uuid": "c7c06371-b8e3-48ee-9b3a-0b3636b8562c",
+  "timestamp": "2025-08-28T09:31:46.006671+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "RenameTable",
@@ -151,12 +151,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "RenmTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [
     "SALARY"
@@ -174,22 +174,22 @@
 }
 {
   "event_type": "transform",
-  "uuid": "6a411a5a-e83f-4f3b-bfc4-7ab844b142a4",
-  "timestamp": "2025-08-25T06:42:33.208012+00:00",
+  "uuid": "83118c75-13e2-4eb1-b725-3f61ac1ff3b2",
+  "timestamp": "2025-08-28T09:31:46.172184+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
-  "message": "FilterTransform",
+  "message": "ComplexFilter",
   "description": "Filters rows in a dataframe using a backend-specific condition",
-  "name": "FilterTransform",
+  "name": "ComplexFilter",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "RowFilter",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [],
   "created_variables": null,
@@ -201,18 +201,18 @@
 }
 {
   "event_type": "transform",
-  "uuid": "607859b5-1b23-4326-8daf-c98ce0bf326f",
-  "timestamp": "2025-08-25T06:42:33.570012+00:00",
+  "uuid": "6828e98e-56f3-4b79-a784-c67727578c41",
+  "timestamp": "2025-08-28T09:31:46.421183+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "JoinTable",
-  "description": "Joins test_table and test_table2 on AGE (inner)",
+  "description": "Joins positions and salary on AGE (inner)",
   "name": "JoinTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "JoinTbl",
   "target_tables": [
@@ -225,8 +225,8 @@
   "renamed_variables": null,
   "deleted_variables": null,
   "hashed_variables": null,
-  "left_table": "test_table",
-  "right_table": "test_table2",
+  "left_table": "positions",
+  "right_table": "salary",
   "join_columns": [
     "AGE"
   ],
@@ -235,4 +235,34 @@
     "_left",
     "_right"
   ]
+}
+{
+  "event_type": "transform",
+  "uuid": "93722ba8-b047-4078-a21f-3df30a57201c",
+  "timestamp": "2025-08-28T09:31:47.494693+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "SimpleFilter",
+  "description": "Filters rows where INCOME > 600",
+  "name": "SimpleFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "SimpleFilter",
+  "target_tables": [
+    "joined_table"
+  ],
+  "target_variables": [
+    "INCOME"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "column": "INCOME",
+  "op": ">",
+  "value": 600
 }

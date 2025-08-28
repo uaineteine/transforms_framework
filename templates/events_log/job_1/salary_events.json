@@ -1,16 +1,19 @@
 {
   "event_type": "load",
-  "uuid": "f02c29dd-729e-48ef-b158-642f5e3941b8",
-  "timestamp": "2025-08-25T06:42:28.945262+00:00",
+  "uuid": "c8182526-f8e3-4dcd-b2fd-7e62d2bb81e7",
+  "timestamp": "2025-08-28T09:31:43.015113+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
-  "message": "Loaded table from ../test_tables/test2.csv as csv (pyspark)",
-  "description": "Loaded  from ../test_tables/test2.csv"
+  "message": "Loaded table from ../test_tables/salary.csv as csv (pyspark)",
+  "description": "Loaded  from ../test_tables/salary.csv",
+  "filepath": "../test_tables/salary.csv",
+  "table_name": "",
+  "src_format": "csv"
 }
 {
   "event_type": "transform",
-  "uuid": "edd5e11b-dee7-4e87-b13d-5087e4e72fb3",
-  "timestamp": "2025-08-25T06:42:31.594496+00:00",
+  "uuid": "195d88cb-5035-419a-90c5-733be8248709",
+  "timestamp": "2025-08-28T09:31:44.991158+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SubsetTable",
@@ -19,12 +22,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "SubsetTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [
     "SALARY",
@@ -39,8 +42,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "e72d520a-cb1b-4fcb-8bf6-72d46d62c969",
-  "timestamp": "2025-08-25T06:42:32.458497+00:00",
+  "uuid": "b61243af-2c9d-4a11-8ebf-4a9d075a9782",
+  "timestamp": "2025-08-28T09:31:45.636668+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -49,12 +52,12 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [],
   "created_variables": null,
@@ -64,8 +67,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "cceea93d-bb13-4e1d-8632-8769b7bd7e93",
-  "timestamp": "2025-08-25T06:42:32.967012+00:00",
+  "uuid": "c7c06371-b8e3-48ee-9b3a-0b3636b8562c",
+  "timestamp": "2025-08-28T09:31:46.006671+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "RenameTable",
@@ -74,12 +77,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "RenmTbl",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [
     "SALARY"
@@ -97,22 +100,22 @@
 }
 {
   "event_type": "transform",
-  "uuid": "6a411a5a-e83f-4f3b-bfc4-7ab844b142a4",
-  "timestamp": "2025-08-25T06:42:33.208012+00:00",
+  "uuid": "83118c75-13e2-4eb1-b725-3f61ac1ff3b2",
+  "timestamp": "2025-08-28T09:31:46.172184+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
-  "message": "FilterTransform",
+  "message": "ComplexFilter",
   "description": "Filters rows in a dataframe using a backend-specific condition",
-  "name": "FilterTransform",
+  "name": "ComplexFilter",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "RowFilter",
   "target_tables": [
-    "test_table2"
+    "salary"
   ],
   "target_variables": [],
   "created_variables": null,

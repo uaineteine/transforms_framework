@@ -1,22 +1,19 @@
 {
   "event_type": "load",
-  "uuid": "ee2dfd9f-b7d2-4264-82c7-3e4f377527e5",
-  "timestamp": "2025-08-25T06:42:28.491257+00:00",
+  "uuid": "880ca184-e49e-4fe2-a32c-38fa8ebcfc05",
+  "timestamp": "2025-08-28T09:31:42.704110+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
-  "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
-  "description": "Loaded  from ../test_tables/test.csv",
-
-  #TODO
-  filepath: "../test_tables/test.csv",
-  table_name: "test_table",
-  file_format: "csv",
-
+  "message": "Loaded table from ../test_tables/positions.csv as csv (pyspark)",
+  "description": "Loaded  from ../test_tables/positions.csv",
+  "filepath": "../test_tables/positions.csv",
+  "table_name": "",
+  "src_format": "csv"
 }
 {
   "event_type": "transform",
-  "uuid": "c21f7491-8896-4856-a66a-215a214296b2",
-  "timestamp": "2025-08-25T06:42:31.449497+00:00",
+  "uuid": "dc3d2541-27d3-4883-b2f6-25b3a9a0f559",
+  "timestamp": "2025-08-28T09:31:44.857157+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -25,28 +22,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DropVar",
-
-  #TODO
-  "input_tables": [
-    "test_table"
-  ],
-  "output_tables": [
-    "test_table"
-  ],
-
-  number_of_frames_output: 1,
-  number_of_frames_input: 1,
-
-  "transform_variables": [
-    "VAR"
-  ],
-
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [
     "VAR"
@@ -60,8 +41,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "590c3254-ef42-47d6-b847-afa719e72268",
-  "timestamp": "2025-08-25T06:42:31.764495+00:00",
+  "uuid": "5e342ac6-a80d-44ba-9754-77e579b5c32e",
+  "timestamp": "2025-08-28T09:31:45.113669+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -70,12 +51,12 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [],
   "created_variables": null,
@@ -85,18 +66,18 @@
 }
 {
   "event_type": "transform",
-  "uuid": "607859b5-1b23-4326-8daf-c98ce0bf326f",
-  "timestamp": "2025-08-25T06:42:33.570012+00:00",
+  "uuid": "6828e98e-56f3-4b79-a784-c67727578c41",
+  "timestamp": "2025-08-28T09:31:46.421183+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "JoinTable",
-  "description": "Joins test_table and test_table2 on AGE (inner)",
+  "description": "Joins positions and salary on AGE (inner)",
   "name": "JoinTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "JoinTbl",
   "target_tables": [
@@ -109,8 +90,8 @@
   "renamed_variables": null,
   "deleted_variables": null,
   "hashed_variables": null,
-  "left_table": "test_table",
-  "right_table": "test_table2",
+  "left_table": "positions",
+  "right_table": "salary",
   "join_columns": [
     "AGE"
   ],
@@ -121,14 +102,32 @@
   ]
 }
 {
-  #TODO
-  #WRITE EVENT
-  "event_type": "write",
-  ...
-  output_path: "../output/test_output.csv",
-  table_name: "test_output",
-  file_format: "csv",
-  mode: "overwrite"
-  num_parts: 1
-
+  "event_type": "transform",
+  "uuid": "93722ba8-b047-4078-a21f-3df30a57201c",
+  "timestamp": "2025-08-28T09:31:47.494693+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "SimpleFilter",
+  "description": "Filters rows where INCOME > 600",
+  "name": "SimpleFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "SimpleFilter",
+  "target_tables": [
+    "joined_table"
+  ],
+  "target_variables": [
+    "INCOME"
+  ],
+  "created_variables": null,
+  "renamed_variables": null,
+  "deleted_variables": null,
+  "hashed_variables": null,
+  "column": "INCOME",
+  "op": ">",
+  "value": 600
 }

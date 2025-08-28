@@ -1,16 +1,19 @@
 {
   "event_type": "load",
-  "uuid": "ee2dfd9f-b7d2-4264-82c7-3e4f377527e5",
-  "timestamp": "2025-08-25T06:42:28.491257+00:00",
+  "uuid": "880ca184-e49e-4fe2-a32c-38fa8ebcfc05",
+  "timestamp": "2025-08-28T09:31:42.704110+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
-  "message": "Loaded table from ../test_tables/test.csv as csv (pyspark)",
-  "description": "Loaded  from ../test_tables/test.csv"
+  "message": "Loaded table from ../test_tables/positions.csv as csv (pyspark)",
+  "description": "Loaded  from ../test_tables/positions.csv",
+  "filepath": "../test_tables/positions.csv",
+  "table_name": "",
+  "src_format": "csv"
 }
 {
   "event_type": "transform",
-  "uuid": "c21f7491-8896-4856-a66a-215a214296b2",
-  "timestamp": "2025-08-25T06:42:31.449497+00:00",
+  "uuid": "dc3d2541-27d3-4883-b2f6-25b3a9a0f559",
+  "timestamp": "2025-08-28T09:31:44.857157+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -19,12 +22,12 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DropVar",
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [
     "VAR"
@@ -38,8 +41,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "590c3254-ef42-47d6-b847-afa719e72268",
-  "timestamp": "2025-08-25T06:42:31.764495+00:00",
+  "uuid": "5e342ac6-a80d-44ba-9754-77e579b5c32e",
+  "timestamp": "2025-08-28T09:31:45.113669+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -48,12 +51,12 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
   "version_python": "3.10.8",
   "transform_id": "DistinctTbl",
   "target_tables": [
-    "test_table"
+    "positions"
   ],
   "target_variables": [],
   "created_variables": null,
