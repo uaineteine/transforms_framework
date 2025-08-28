@@ -1,5 +1,5 @@
-from tables.multitable import MultiTable
-from events.pipeline_event import PipelineEvent
+from transformslib.tables.multitable import MultiTable
+from transformslib.events.pipeevent import PipelineEvent
 
 import os
 from typing import List

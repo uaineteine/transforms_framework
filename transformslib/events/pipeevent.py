@@ -1,4 +1,4 @@
-from events.eventlog import Event
+from transformslib.events.eventlog import Event
 
 class TransformEvent:
     def __init__(self, 

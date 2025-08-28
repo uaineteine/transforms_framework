@@ -4,14 +4,14 @@ if __name__ == "__main__":
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..', "src")
+    parent_dir = os.path.join(current_dir, '..')
     sys.path.append(os.path.abspath(parent_dir))
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transforms.lib import *
+    from transformslib.transforms.lib import *
     from pyspark.sql.functions import col
-    from tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
     print("Creating Spark session")

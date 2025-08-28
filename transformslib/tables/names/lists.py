@@ -1,6 +1,6 @@
 import json
 
-from tables.names.headername import Headername
+from transformslib.tables.names.headername import Headername
 
 def auto_capitalise_list(list_of_strings: list[str]) -> list[str]:
     return [var.upper() for var in list_of_strings]

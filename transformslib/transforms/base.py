@@ -1,8 +1,8 @@
-from events.pipeline_event import PipelineEvent
-from tables.collections.collection import TableCollection
-from tables.collections.supply_load import SupplyLoad
-from tables.names.lists import VarList
-from tables.names.headername import Headername
+from transformslib.events.pipeevent import PipelineEvent
+from transformslib.tables.collections.collection import TableCollection
+from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.names.lists import VarList
+from transformslib.tables.names.headername import Headername
 
 import sys
 import pyspark

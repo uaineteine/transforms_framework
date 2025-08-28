@@ -1,8 +1,8 @@
 from typing import List, Union, Dict, Callable
 import inspect
 
-from transforms.base import TableTransform
-from tables.collections.collection import TableCollection
+from transformslib.transforms.base import TableTransform
+from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col
 

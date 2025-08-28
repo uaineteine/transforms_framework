@@ -1,4 +1,4 @@
-from tables.metaframe import MetaFrame
+from transformslib.tables.metaframe import MetaFrame
 import fnmatch
 from typing import List
 import os
