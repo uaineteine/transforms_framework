@@ -705,3 +705,22 @@ class ConcatColumns(TableTransform):
         df.add_event(self)
 
         return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that the concatenated column was created in the target table.
+        """
+        table_name = kwargs.get("df")
+        output_var = kwargs.get("output_var")
+
+        if not table_name or not output_var:
+            return False
+
+        if table_name not in supply_frames:
+            return False
+
+        # Check if the output column exists
+        if output_var not in supply_frames[table_name].columns:
+            return False
+
+        return True
