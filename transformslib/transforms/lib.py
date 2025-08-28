@@ -683,7 +683,7 @@ class ConcatColumns(TableTransform):
 
     def transforms(self, supply_frames: TableCollection, **kwargs):
         """
-        Concatenate the specified columns into a new column.
+        Concatenate the specified columns into a new column in-place using MultiTable.concat().
         """
         table_name = kwargs.get("df")
         output_var = kwargs.get("output_var")
@@ -699,16 +699,17 @@ class ConcatColumns(TableTransform):
         )
 
         df = supply_frames[table_name]
-        # Concatenate as strings
-        df[output_var] = df[output_var].astype(str).agg(self.separator.join, axis=1)
+        # Use the MultiTable in-place concat method
+        df.concat(new_col_name=output_var, columns=self.vars, sep=self.separator)
 
         df.add_event(self)
 
         return supply_frames
 
+
     def test(self, supply_frames: TableCollection, **kwargs) -> bool:
         """
-        Test that the concatenated column was created in the target table.
+        Test that the concatenated column was created in the target MultiTable.
         """
         table_name = kwargs.get("df")
         output_var = kwargs.get("output_var")
@@ -719,7 +720,7 @@ class ConcatColumns(TableTransform):
         if table_name not in supply_frames:
             return False
 
-        # Check if the output column exists
+        # Check if the output column exists in the MultiTable
         if output_var not in supply_frames[table_name].columns:
             return False
 
