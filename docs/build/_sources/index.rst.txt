@@ -47,10 +47,16 @@ events.eventlog
 .. automodule:: events.eventlog
    :members:
 
-events.pipeline_event
-=====================
+events.jsonlog
+==============
 
-.. automodule:: events.pipeline_event
+.. automodule:: events.jsonlog
+   :members:
+
+events.pipeevent
+================
+
+.. automodule:: events.pipeevent
    :members:
 
 tables.collections.collection

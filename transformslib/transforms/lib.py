@@ -1,8 +1,9 @@
 from typing import List, Union, Dict, Callable
 import inspect
 
-from transforms.base import TableTransform
-from tables.collections.collection import TableCollection
+from transformslib.events.pipeevent import TransformEvent
+from transformslib.transforms.base import TableTransform
+from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col
 
@@ -33,8 +34,6 @@ class DropVariable(TableTransform):
             testable_transform=True
         )
 
-        print(self.target_variables)
-
     def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Validate that all variables to drop exist in the DataFrame.
@@ -56,6 +55,13 @@ class DropVariable(TableTransform):
         supply_frames[table_name].drop(columns=self.vars)
         supply_frames[table_name].add_event(self)
 
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[],
+            removed_variables = [self.vars]
+            )
         self.deleted_variables = self.vars
         self.target_tables = [table_name]
 
@@ -112,10 +118,16 @@ class SubsetTable(TableTransform):
         table_name = kwargs.get('df')
 
         # Compute dropped variables (everything not in keep list)
-        self.deleted_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[],
+            removed_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
+            )
         self.target_tables = [table_name]
 
-        supply_frames[table_name].drop(columns=self.deleted_variables)
+        supply_frames[table_name].drop(columns=self.log_info.removed_variables)
         supply_frames[table_name].add_event(self)
 
         return supply_frames
@@ -169,6 +181,13 @@ class DistinctTable(TableTransform):
         table_name = kwargs.get("df")
         self.target_tables = [table_name]
 
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[],
+            output_variables=[]
+            )
+
         supply_frames[table_name] = supply_frames[table_name].distinct()
         supply_frames[table_name].add_event(self)
 
@@ -213,6 +232,13 @@ class RenameTable(TableTransform):
         """
         table_name = kwargs.get('df')
         self.target_tables = [table_name]
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[self.new_names]
+            )
 
         supply_frames[table_name].rename(columns=self.rename_map, inplace=True)
         supply_frames[table_name].add_event(self)
@@ -268,6 +294,13 @@ class ComplexFilter(TableTransform):
 
         lmda = self.condition_map[self.backend]
         self.condition_string = _get_lambda_source(lmda)
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[],
+            output_variables=[]
+            )
 
         supply_frames[table_name].df = lmda(supply_frames[table_name].df) 
         supply_frames[table_name].add_event(self)
@@ -364,15 +397,21 @@ class JoinTable(TableTransform):
         # Add joined table to TableCollection
         if output_table == self.left_table:
             supply_frames[self.left_table].df = joined
-            supply_frames[self.left_table].add_event(self)
         elif output_table == self.right_table:
             supply_frames[self.right_table].df = joined
-            supply_frames[self.right_table].add_event(self)
         else:
             # Create a new table entry, copying metadata from left_table
             supply_frames[output_table] = supply_frames[self.left_table].copy(new_name=output_table)
             supply_frames[output_table].df = joined
-            supply_frames[output_table].add_event(self)
+
+        self.log_info = TransformEvent(
+            input_tables=[self.left_table, self.right_table],
+            output_tables=[output_table],
+            input_variables=[self.vars],
+            output_variables=[]
+            )
+        
+        supply_frames[output_table].add_event(self)
 
         return supply_frames
 
@@ -445,8 +484,14 @@ class PartitionByValue(TableTransform):
 
         output_tables = []
         df = supply_frames[table_name].df
+
+        new_table_names = []
         for value in unique_values:
             new_table_name = f"{table_name}{self.suffix_format.format(value=value)}"
+            new_table_names.append(new_table_name)
+        
+        for i,value in enumerate(unique_values):
+            new_table_name = new_table_names[i]
             output_tables.append(new_table_name)
 
             # Extract partition
@@ -460,6 +505,14 @@ class PartitionByValue(TableTransform):
             # Create new table entry
             supply_frames[new_table_name] = supply_frames[table_name].copy(new_name=new_table_name)
             supply_frames[new_table_name].df = partition_df
+
+            self.log_info = TransformEvent(
+                input_tables=[table_name],
+                output_tables=new_table_names,
+                input_variables=[self.vars],
+                output_variables=[]
+                )
+
             supply_frames[new_table_name].add_event(self)
 
         self.target_tables = output_tables
@@ -561,11 +614,17 @@ class SimpleFilter(TableTransform):
         # Assign filtered DataFrame
         if output_table == table_name:
             supply_frames[table_name].df = filtered
-            supply_frames[table_name].add_event(self)
         else:
             supply_frames[output_table] = supply_frames[table_name].copy(new_name=output_table)
             supply_frames[output_table].df = filtered
-            supply_frames[output_table].add_event(self)
+            
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[output_table],
+            input_variables=[self.vars],
+            output_variables=[]
+            )
+        supply_frames[output_table].add_event(self)
 
         self.target_tables = [output_table]
         return supply_frames
@@ -580,3 +639,89 @@ class SimpleFilter(TableTransform):
             ">=": "gt_eq",
             "<=": "lt_eq"
         }[self.op]
+
+class ConcatColumns(TableTransform):
+    """
+    Transform class for concatenating multiple columns into a single column.
+    """
+
+    def __init__(self, variables_to_concat: Union[str, List[str]], sep:str=""):
+        """
+        Initialise a ConcatColumns treatment.
+
+        Args:
+        ...
+        """
+
+        super().__init__(
+            "ConcatColumns",
+            "Concatenante multiple columns together in a dataframe",
+            variables_to_concat,
+            "ConcCols",
+            testable_transform=True
+        )
+
+        self.separator = sep
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Ensure the DataFrame exists, the specified columns exist, and the output column name is provided.
+        """
+        table_name = kwargs.get("df")
+        output_col = kwargs.get("output_col")
+
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        if not self.vars or not isinstance(self.vars, list) or len(self.vars) < 2:
+            raise ValueError("Must provide a list of at least two columns to concatenate")
+        if not output_col:
+            raise ValueError("Must specify 'output_col' parameter for the new column")
+
+        df = supply_frames[table_name]
+        missing_cols = [c for c in self.vars if c not in df.columns]
+        if missing_cols:
+            raise ValueError(f"Columns not found in DataFrame: {missing_cols}")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Concatenate the specified columns into a new column in-place using MultiTable.concat().
+        """
+        table_name = kwargs.get("df")
+        output_var = kwargs.get("output_var")
+
+        self.target_tables = [table_name]
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[output_var],
+            created_variables=[output_var]
+        )
+
+        df = supply_frames[table_name]
+        # Use the MultiTable in-place concat method
+        df.concat(new_col_name=output_var, columns=self.vars, sep=self.separator)
+
+        df.add_event(self)
+
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that the concatenated column was created in the target MultiTable.
+        """
+        table_name = kwargs.get("df")
+        output_var = kwargs.get("output_var")
+
+        if not table_name or not output_var:
+            return False
+
+        if table_name not in supply_frames:
+            return False
+
+        # Check if the output column exists in the MultiTable
+        if output_var not in supply_frames[table_name].columns:
+            return False
+
+        return True

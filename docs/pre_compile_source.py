@@ -3,7 +3,7 @@ import os
 from uainepydat import fileio
 from uainepydat import datatransform
 
-relative_directory = "../src"  # Your source code root
+relative_directory = "../transformslib"  # Your source code root
 absolute_directory = os.path.abspath(relative_directory)
 
 # --- Recursive listing of all .py files ---

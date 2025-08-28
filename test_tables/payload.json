@@ -11,6 +11,11 @@
       "name": "salary",
       "format": "csv",
       "path": "../test_tables/salary.csv"
+    },
+    {
+      "name": "location",
+      "format": "csv",
+      "path": "../test_tables/location.csv"
     }
   ]
 }

@@ -1,31 +1,31 @@
-# Meta Transforms Framework - Beta v0.0.1
+# Meta Transforms Framework - Beta v0.0.2
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
 # Main Components
 
 ```
-.
-|-- 📁 src/
-|   |-- 📁 events/
-|   |   |-- 🐍 eventlog.py
-|   |   `-- 🐍 pipeline_event.py
-|   |-- 📁 tables/
-|   |   |-- 📁 collections/
-|   |   |   |-- 🐍 collection.py
-|   |   |   `-- 🐍 supply_load.py
-|   |   |-- 📁 names/
-|   |   |   |-- 🐍 headername.py
-|   |   |   |-- 🐍 lists.py
-|   |   |   `-- 🐍 tablename.py
-|   |   |-- 🐍 metaframe.py
-|   |   `-- 🐍 multitable.py
-|   `-- 📁 transforms/
-|       |-- 🐍 base.py
-|       `-- 🐍 lib.py
-`-- 📁 templates/
-    `-- 🐍 template_load_pipe.py
-    `-- 🐍 template_custom_transform.py
+|-- src/
+|   |-- events/
+|   |   |-- jsonlog.py
+|   |   `-- eventlog.py
+|   |   `-- pipeevent.py
+|   |-- tables/
+|   |   |-- collections/
+|   |   |   |-- collection.py
+|   |   |   `-- supply_load.py
+|   |   |-- names/
+|   |   |   |-- headername.py
+|   |   |   |-- lists.py
+|   |   |   `-- tablename.py
+|   |   |-- metaframe.py
+|   |   `-- multitable.py
+|   `-- transforms/
+|       |-- base.py
+|       `-- lib.py
+`-- templates/
+    |-- template_load_pipe.py
+    `-- template_custom_transform.py
 ```
 
 ## Events

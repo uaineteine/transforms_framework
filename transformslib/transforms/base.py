@@ -1,13 +1,15 @@
-from events.pipeline_event import PipelineEvent
-from tables.collections.collection import TableCollection
-from tables.collections.supply_load import SupplyLoad
-from tables.names.lists import VarList
-from tables.names.headername import Headername
+from transformslib.events.pipeevent import PipelineEvent, TransformEvent
+from transformslib.tables.collections.collection import TableCollection
+from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.names.lists import VarList
+from transformslib.tables.names.headername import Headername
 
 import sys
 import pyspark
 import polars as pl
 import pandas as pd
+
+def_log_location = "events_log/job_1/debug/transforms.json"
 
 class Transform(PipelineEvent):
     """
@@ -49,7 +51,7 @@ class Transform(PipelineEvent):
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        super().__init__(event_type="transform", message=name, description=description, log_location="events_log/job_1/transforms.json")
+        super().__init__("transform", None, event_description=description, log_location=def_log_location)
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
@@ -280,11 +282,14 @@ class TableTransform(Transform):
         except ValueError as e:
             raise ValueError(f"Invalid header names: {e}")
 
+        
         # Initialise variable lists
-        self.created_variables = None
-        self.renamed_variables = None
-        self.deleted_variables = None
-        self.hashed_variables = None
+        self.log_info = TransformEvent([], [], [], [])
+
+        # self.created_variables = None
+        # self.renamed_variables = None
+        # self.deleted_variables = None
+        # self.hashed_variables = None
 
     @property
     def nvars(self):

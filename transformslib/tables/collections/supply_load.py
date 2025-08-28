@@ -1,6 +1,6 @@
 import json
-from tables.metaframe import MetaFrame
-from tables.collections.collection import TableCollection
+from transformslib.tables.metaframe import MetaFrame
+from transformslib.tables.collections.collection import TableCollection
 
 class SupplyLoad(TableCollection):
     """

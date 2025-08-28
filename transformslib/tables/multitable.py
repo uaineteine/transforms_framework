@@ -8,7 +8,7 @@ import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
 #module imports
-from tables.names.tablename import Tablename
+from transformslib.tables.names.tablename import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
 def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:
@@ -551,6 +551,7 @@ class MultiTable:
             mode = "overwrite" if overwrite else "error"
             print(f"Writing to {path} as {format} with mode={mode}")
             dataframe.write.mode(mode).format(format).save(path)
+        
         elif frame_type == "pandas":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
@@ -578,3 +579,32 @@ class MultiTable:
         """
         MultiTable.write_native_df(self.df, path, format, self.frame_type, overwrite, spark)
         
+    def concat(self, new_col_name: str, columns: list, sep: str = "_"):
+        """
+        Concatenate multiple columns into a single column with a custom separator,
+        modifying the current MultiTable in-place.
+
+        Args:
+            new_col_name (str): Name of the resulting concatenated column.
+            columns (list): List of column names to concatenate.
+            sep (str, optional): Separator to use between values. Defaults to "_".
+
+        Raises:
+            ValueError: If the frame_type is unsupported.
+        """
+        if self.frame_type == "pandas":
+            self.df[new_col_name] = self.df[columns].astype(str).agg(sep.join, axis=1)
+
+        elif self.frame_type == "polars":
+            exprs = [pl.col(col).cast(pl.Utf8) for col in columns]
+            new_expr = pl.concat_str(exprs, separator=sep).alias(new_col_name)
+            self.df = self.df.with_columns(new_expr)
+
+        elif self.frame_type == "pyspark":
+            from pyspark.sql import functions as F
+            new_expr = F.concat_ws(sep, *[F.col(col).cast("string") for col in columns])
+            self.df = self.df.withColumn(new_col_name, new_expr)
+
+        else:
+            raise ValueError("Unsupported frame_type for concat")
+

@@ -1,0 +1,399 @@
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary_620",
+      "salary_500",
+      "salary_600",
+      "salary_400"
+    ],
+    "input_variables": [
+      [
+        "SALARY"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 4
+  },
+  "uuid": "b2ff1ef4-fc47-48cf-aebb-29a570ac57b3",
+  "timestamp": "2025-08-28T17:14:57.461767+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "class_type": "PipelineEvent",
+  "name": "PartitionByValue",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "PartVal",
+  "target_tables": [
+    "salary_620",
+    "salary_500",
+    "salary_600",
+    "salary_400"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "partition_column": "SALARY",
+  "suffix_format": "_{value}"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "b028ba83-ec44-4c5c-8d5b-69d8081dc41e",
+  "timestamp": "2025-08-28T17:14:59.858800+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Removes specified variable(s) from a dataframe",
+  "class_type": "PipelineEvent",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "DropVar",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": [
+    "VAR"
+  ],
+  "deleted_variables": [
+    "VAR"
+  ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY",
+        "AGE"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      "NAME"
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "f399dbca-9c79-44e3-9da9-c00d1c82f166",
+  "timestamp": "2025-08-28T17:15:00.083798+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Subsets a dataframe to retain only specified variable(s)",
+  "class_type": "PipelineEvent",
+  "name": "SubsetTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "SubsetTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "SALARY",
+    "AGE"
+  ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "26e21ab9-d77b-4b35-8422-ab0acaf6c83f",
+  "timestamp": "2025-08-28T17:15:00.258279+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "class_type": "PipelineEvent",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": []
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "6a9a3c11-afc4-481e-96e7-21ce8afd5ce8",
+  "timestamp": "2025-08-28T17:15:00.829799+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "class_type": "PipelineEvent",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": []
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY"
+      ]
+    ],
+    "output_variables": [
+      [
+        "INCOME"
+      ]
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "90fe19fa-df62-4869-8c21-9c96bb6e9a0c",
+  "timestamp": "2025-08-28T17:15:01.350799+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Renames specified columns in a dataframe",
+  "class_type": "PipelineEvent",
+  "name": "RenameTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "RenmTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "rename_map": {
+    "SALARY": "INCOME"
+  },
+  "new_names": [
+    "INCOME"
+  ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "cbec9347-d226-432d-bc30-1fd15630bc5e",
+  "timestamp": "2025-08-28T17:15:01.609800+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Filters rows in a dataframe using a backend-specific condition",
+  "class_type": "PipelineEvent",
+  "name": "ComplexFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "RowFilter",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [],
+  "condition_map": {
+    "pyspark": {}
+  },
+  "backend": "pyspark",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions",
+      "salary"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      [
+        "AGE"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "421651ab-0e60-47fe-a396-a6a66c84e184",
+  "timestamp": "2025-08-28T17:15:02.349800+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Joins positions and salary on AGE (inner)",
+  "class_type": "PipelineEvent",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "left_table": "positions",
+  "right_table": "salary",
+  "join_columns": [
+    "AGE"
+  ],
+  "join_type": "inner",
+  "suffixes": [
+    "_left",
+    "_right"
+  ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "example_join"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      [
+        "INCOME"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "af662e29-5ac3-484b-8f93-19071e2bbaa9",
+  "timestamp": "2025-08-28T17:15:03.924798+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Filters rows where INCOME > 600",
+  "class_type": "PipelineEvent",
+  "name": "SimpleFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "SimpleFilter",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "INCOME"
+  ],
+  "column": "INCOME",
+  "op": ">",
+  "value": 600
+}

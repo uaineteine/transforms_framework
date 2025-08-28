@@ -1,4 +1,4 @@
-from tables.metaframe import MetaFrame
+from transformslib.tables.metaframe import MetaFrame
 import fnmatch
 from typing import List
 import os
@@ -372,6 +372,7 @@ class TableCollection:
         if table_names is None:
             # Save events for all tables
             for table in self.tables:
+                print(f"save events for table {table.table_name}")
                 table.save_events()
         else:
             # Save events for specific tables
@@ -380,7 +381,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
 
-    def save_all(self, output_dir:str):
+    def save_all(self, output_dir:str, spark=None):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -404,7 +405,7 @@ class TableCollection:
 
         for table in self.tables:
             output_path = output_dir + "/" + table.table_name + ".parquet"
-            table.write(path=output_path)
+            table.write(path=output_path, spark=spark)
         
         self.save_events()
                 

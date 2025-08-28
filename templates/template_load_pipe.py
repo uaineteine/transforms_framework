@@ -4,14 +4,14 @@ if __name__ == "__main__":
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..', "src")
+    parent_dir = os.path.join(current_dir, '..')
     sys.path.append(os.path.abspath(parent_dir))
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transforms.lib import *
+    from transformslib.transforms.lib import *
     from pyspark.sql.functions import col
-    from tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
     print("Creating Spark session")
@@ -108,19 +108,19 @@ if __name__ == "__main__":
         join_type="inner"
     )
 
-    supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
+    supply_frames = join_transform.apply(supply_frames, output_table="example_join")
 
     print("After JoinTable (positions inner join salary on AGE):")
-    supply_frames["joined_table"].show()
+    supply_frames["example_join"].show()
 
-    #
+    # -------------------------------
     # Test 9: SimpleFilter on the joined table
-    #
-    print("Applying SimpleFilter (INCOME > 600) on joined_table")
-    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="joined_table")
+    # -------------------------------
+    print("Applying SimpleFilter (INCOME > 600) on example_join")
+    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="example_join")
 
     print("After SimpleFilter:")
-    supply_frames["joined_table"].show()
+    supply_frames["example_join"].show()
 
     # save table output tables
-    supply_frames.save_all("../test_tables/output")
+    supply_frames.save_all("../test_tables/output", spark=spark)

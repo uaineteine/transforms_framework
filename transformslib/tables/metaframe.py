@@ -1,5 +1,5 @@
-from tables.multitable import MultiTable
-from events.pipeline_event import PipelineEvent
+from transformslib.tables.multitable import MultiTable
+from transformslib.events.pipeevent import PipelineEvent
 
 import os
 from typing import List
@@ -122,11 +122,16 @@ class MetaFrame(MultiTable):
         mf = MultiTable.load(path, format, table_name, frame_type, True, spark)
 
         ptable = MetaFrame(mf)
-        event = PipelineEvent(event_type="load", message=f"Loaded table from {path} as {format} ({frame_type})", description=f"Loaded {table_name} from {path}")
-        event.filepath = path
-        event.table_name = table_name
-        event.src_format = format
+
+        #construct payload to log
+        payload = {
+            "filepath": path,
+            "table_name": table_name,
+            "src_format": format
+        }
+        event = PipelineEvent("load", payload, event_description=f"Loaded {table_name} from {path}")
         ptable.add_event(event)
+        
         return ptable
 
     def save_events(self) -> None:
@@ -177,7 +182,7 @@ class MetaFrame(MultiTable):
         copied_events = self.meta.events.copy()
         return MetaFrame(copied_multitable, inherit_events=copied_events)
 
-    def write(self, path: str, format: str = "parquet", overwrite: bool = True):
+    def write(self, path: str, format: str = "parquet", overwrite: bool = True, spark=None):
         """
         Write the DataFrame to disk using MultiTable's write method and log the write event.
 
@@ -193,7 +198,7 @@ class MetaFrame(MultiTable):
             >>> pt.write("output.parquet", format="parquet")
         """
         # Write the data using MultiTable's write method
-        super().write(path, format=format, overwrite=overwrite)
+        super().write(path, format=format, overwrite=overwrite, spark=spark)
 
         # Log the write event
         event = PipelineEvent(
