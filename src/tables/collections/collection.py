@@ -401,9 +401,9 @@ class TableCollection:
         """
 
         os.makedirs(output_dir, exist_ok=True)
-        
+
         for table in self.tables:
-            output_path = os.path.join(output_dir, table.table_name + ".parquet")
+            output_path = output_dir + "/" + table.table_name + ".parquet"
             table.write(path=output_path)
         
         self.save_events()
