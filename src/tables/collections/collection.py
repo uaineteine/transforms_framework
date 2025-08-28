@@ -399,6 +399,9 @@ class TableCollection:
         Example:
             >>> pt_collection.save_all("output_data/")
         """
+
+        os.makedirs(output_dir, exist_ok=True)
+        
         for table in self.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
             table.write(path=output_path)

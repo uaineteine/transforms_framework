@@ -122,5 +122,5 @@ if __name__ == "__main__":
     print("After SimpleFilter:")
     supply_frames["joined_table"].show()
 
-    # save table events
-    supply_frames.save_events()
+    # save table output tables
+    supply_frames.save_all("../test_tables/output")
