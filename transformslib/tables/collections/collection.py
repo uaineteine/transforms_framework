@@ -65,7 +65,7 @@ class TableCollection:
                 if hasattr(table, 'table_name') and table.table_name:
                     self.named_tables[table.table_name] = table
 
-        self.collection_version="0.1.0"
+        self.collection_version="0.3.0"
 
     def select_by_names(self, *name_patterns: str) -> 'TableCollection':
         """
