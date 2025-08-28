@@ -7,8 +7,9 @@ This program provides a data transformation framework for working with tables (D
 ```
 |-- src/
 |   |-- events/
-|   |   |-- eventlog.py
-|   |   `-- pipeline_event.py
+|   |   |-- jsonlog.py
+|   |   `-- eventlog.py
+|   |   `-- pipeevent.py
 |   |-- tables/
 |   |   |-- collections/
 |   |   |   |-- collection.py
