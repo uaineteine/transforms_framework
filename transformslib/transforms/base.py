@@ -9,6 +9,8 @@ import pyspark
 import polars as pl
 import pandas as pd
 
+def_log_location = "events_log/job_1/transforms.json"
+
 class Transform(PipelineEvent):
     """
     Base class for data transformation operations with automatic event logging.
@@ -49,7 +51,7 @@ class Transform(PipelineEvent):
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        super().__init__("transform", None, event_description=description, log_location="events_log/job_1/transforms.json")
+        super().__init__("transform", None, event_description=description, log_location=def_log_location)
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
