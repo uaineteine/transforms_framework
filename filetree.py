@@ -14,7 +14,7 @@ def print_file_tree(start_path, indent="", only_py=False):
                 #icon = "🐍" if item.endswith(".py") else "📄"
                 print(f"{indent} {item}")
     except PermissionError:
-        print(f"{indent}🚫 [Permission Denied] {start_path}")
+        print(f"{indent} [Permission Denied] {start_path}")
 
 def contains_py_files(folder):
     for root, dirs, files in os.walk(folder):
