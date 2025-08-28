@@ -108,19 +108,19 @@ if __name__ == "__main__":
         join_type="inner"
     )
 
-    supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
+    supply_frames = join_transform.apply(supply_frames, output_table="example_join")
 
     print("After JoinTable (positions inner join salary on AGE):")
-    supply_frames["joined_table"].show()
+    supply_frames["example_join"].show()
 
     # -------------------------------
     # Test 9: SimpleFilter on the joined table
     # -------------------------------
-    print("Applying SimpleFilter (INCOME > 600) on joined_table")
-    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="joined_table")
+    print("Applying SimpleFilter (INCOME > 600) on example_join")
+    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="example_join")
 
     print("After SimpleFilter:")
-    supply_frames["joined_table"].show()
+    supply_frames["example_join"].show()
 
     # save table output tables
     supply_frames.save_all("../test_tables/output")

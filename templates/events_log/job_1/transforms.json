@@ -21,8 +21,8 @@
     "num_input_frames": 1,
     "num_output_frames": 4
   },
-  "uuid": "181684db-4cbf-48a1-a7e8-2921362b61a8",
-  "timestamp": "2025-08-28T15:44:22.933285+00:00",
+  "uuid": "b60a4e1e-bc62-4064-b045-c2567cf4fc7f",
+  "timestamp": "2025-08-28T16:45:59.847696+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -71,8 +71,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5a16aae2-6372-4f15-98e2-fad2c30d77a8",
-  "timestamp": "2025-08-28T15:44:24.334320+00:00",
+  "uuid": "c4fc6dab-025b-4ddb-8b27-f5ec3e0ac27e",
+  "timestamp": "2025-08-28T16:46:01.810332+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -118,8 +118,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e05a08b8-2601-46e1-860e-60c928a36840",
-  "timestamp": "2025-08-28T15:44:24.435319+00:00",
+  "uuid": "8267eabe-fa36-4af7-ae90-b2babae60dac",
+  "timestamp": "2025-08-28T16:46:01.941365+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -156,8 +156,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "d73f8279-e9f7-404d-9473-6c0e7b959bd3",
-  "timestamp": "2025-08-28T15:44:24.529319+00:00",
+  "uuid": "224c6bd1-544f-4d23-b6cd-fe557c90d2db",
+  "timestamp": "2025-08-28T16:46:02.177405+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -191,8 +191,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "2a556b94-fed4-4139-9e86-28ca5fa4f104",
-  "timestamp": "2025-08-28T15:44:25.074355+00:00",
+  "uuid": "b6589f52-8304-40fe-a532-a45c358dc8fd",
+  "timestamp": "2025-08-28T16:46:02.761476+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -234,8 +234,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "fdbf757b-bd8a-4f74-923a-8bc7ea7075f3",
-  "timestamp": "2025-08-28T15:44:25.487353+00:00",
+  "uuid": "036f87c4-a90a-4899-b5cb-d6d090f01b96",
+  "timestamp": "2025-08-28T16:46:03.140988+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -277,8 +277,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "afbf8b7e-94cc-4673-be84-81c127a8d8f2",
-  "timestamp": "2025-08-28T15:44:25.656354+00:00",
+  "uuid": "e073c3ed-50ec-4989-b3f4-c516ba4bf997",
+  "timestamp": "2025-08-28T16:46:03.325508+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -300,4 +300,100 @@
   },
   "backend": "pyspark",
   "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions",
+      "salary"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      [
+        "AGE"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "a76df573-5449-4ffe-8132-4d5d320d5b89",
+  "timestamp": "2025-08-28T16:46:03.610033+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Joins positions and salary on AGE (inner)",
+  "class_type": "PipelineEvent",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "AGE"
+  ],
+  "left_table": "positions",
+  "right_table": "salary",
+  "join_columns": [
+    "AGE"
+  ],
+  "join_type": "inner",
+  "suffixes": [
+    "_left",
+    "_right"
+  ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "example_join"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      [
+        "INCOME"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "3a23a984-daab-4aef-b73d-9a27cbd87ebd",
+  "timestamp": "2025-08-28T16:46:04.572035+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Filters rows where INCOME > 600",
+  "class_type": "PipelineEvent",
+  "name": "SimpleFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "SimpleFilter",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "INCOME"
+  ],
+  "column": "INCOME",
+  "op": ">",
+  "value": 600
 }

@@ -408,9 +408,9 @@ class JoinTable(TableTransform):
             input_tables=[self.left_table, self.right_table],
             output_tables=[output_table],
             input_variables=[self.vars],
-            output_variables=[self.new_names]
+            output_variables=[]
             )
-
+        
         supply_frames[output_table].add_event(self)
 
         return supply_frames
