@@ -483,8 +483,14 @@ class PartitionByValue(TableTransform):
 
         output_tables = []
         df = supply_frames[table_name].df
+
+        new_table_names = []
         for value in unique_values:
             new_table_name = f"{table_name}{self.suffix_format.format(value=value)}"
+            new_table_names.append(new_table_name)
+        
+        for i,value in enumerate(unique_values):
+            new_table_name = new_table_names[i]
             output_tables.append(new_table_name)
 
             # Extract partition
@@ -498,6 +504,14 @@ class PartitionByValue(TableTransform):
             # Create new table entry
             supply_frames[new_table_name] = supply_frames[table_name].copy(new_name=new_table_name)
             supply_frames[new_table_name].df = partition_df
+
+            self.log_info = TransformEvent(
+                input_tables=[table_name],
+                output_tables=new_table_names,
+                input_variables=[self.vars],
+                output_variables=[]
+                )
+
             supply_frames[new_table_name].add_event(self)
 
         self.target_tables = output_tables

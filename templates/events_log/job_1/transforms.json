@@ -1,7 +1,28 @@
 {
-  "log_info": null,
-  "uuid": "9049477a-6895-4e87-9c8c-46b0695fda01",
-  "timestamp": "2025-08-28T14:18:50.220385+00:00",
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary_620",
+      "salary_500",
+      "salary_600",
+      "salary_400"
+    ],
+    "input_variables": [
+      [
+        "SALARY"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 4
+  },
+  "uuid": "181684db-4cbf-48a1-a7e8-2921362b61a8",
+  "timestamp": "2025-08-28T15:44:22.933285+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -23,17 +44,35 @@
   "target_variables": [
     "SALARY"
   ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": null,
-  "hashed_variables": null,
   "partition_column": "SALARY",
   "suffix_format": "_{value}"
 }
 {
-  "log_info": null,
-  "uuid": "ce605104-10e3-441f-9f30-d59dea601166",
-  "timestamp": "2025-08-28T14:18:51.651968+00:00",
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "5a16aae2-6372-4f15-98e2-fad2c30d77a8",
+  "timestamp": "2025-08-28T15:44:24.334320+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -52,17 +91,35 @@
   "target_variables": [
     "VAR"
   ],
-  "created_variables": null,
-  "renamed_variables": null,
   "deleted_variables": [
     "VAR"
-  ],
-  "hashed_variables": null
+  ]
 }
 {
-  "log_info": null,
-  "uuid": "dab8854e-f7c9-4f5e-95d2-47b68185ab11",
-  "timestamp": "2025-08-28T14:18:51.852479+00:00",
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY",
+        "AGE"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      "NAME"
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "e05a08b8-2601-46e1-860e-60c928a36840",
+  "timestamp": "2025-08-28T15:44:24.435319+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -81,18 +138,26 @@
   "target_variables": [
     "SALARY",
     "AGE"
-  ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": [
-    "NAME"
-  ],
-  "hashed_variables": null
+  ]
 }
 {
-  "log_info": null,
-  "uuid": "14fb36cb-66ac-45ef-983c-759cca62c4cd",
-  "timestamp": "2025-08-28T14:18:51.958995+00:00",
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "d73f8279-e9f7-404d-9473-6c0e7b959bd3",
+  "timestamp": "2025-08-28T15:44:24.529319+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -108,16 +173,26 @@
   "target_tables": [
     "positions"
   ],
-  "target_variables": [],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": null,
-  "hashed_variables": null
+  "target_variables": []
 }
 {
-  "log_info": null,
-  "uuid": "05c4a4ae-6af2-433f-9958-3c15a03e1b35",
-  "timestamp": "2025-08-28T14:18:52.464505+00:00",
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "2a556b94-fed4-4139-9e86-28ca5fa4f104",
+  "timestamp": "2025-08-28T15:44:25.074355+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -133,16 +208,34 @@
   "target_tables": [
     "salary"
   ],
-  "target_variables": [],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": null,
-  "hashed_variables": null
+  "target_variables": []
 }
 {
-  "log_info": null,
-  "uuid": "c7918f64-7f40-4341-ae79-573da365243a",
-  "timestamp": "2025-08-28T14:18:52.863542+00:00",
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY"
+      ]
+    ],
+    "output_variables": [
+      [
+        "INCOME"
+      ]
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "fdbf757b-bd8a-4f74-923a-8bc7ea7075f3",
+  "timestamp": "2025-08-28T15:44:25.487353+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -161,14 +254,50 @@
   "target_variables": [
     "SALARY"
   ],
-  "created_variables": null,
-  "renamed_variables": null,
-  "deleted_variables": null,
-  "hashed_variables": null,
   "rename_map": {
     "SALARY": "INCOME"
   },
   "new_names": [
     "INCOME"
   ]
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "afbf8b7e-94cc-4673-be84-81c127a8d8f2",
+  "timestamp": "2025-08-28T15:44:25.656354+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Filters rows in a dataframe using a backend-specific condition",
+  "class_type": "PipelineEvent",
+  "name": "ComplexFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "RowFilter",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [],
+  "condition_map": {
+    "pyspark": {}
+  },
+  "backend": "pyspark",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)"
 }
