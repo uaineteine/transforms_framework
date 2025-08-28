@@ -1,3 +1,4 @@
+import os
 import json
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
@@ -72,7 +73,10 @@ class SupplyLoad(TableCollection):
         
         # Initialise the parent class with empty tables list
         super().__init__(tables=[])
-        
+
+        self.job = 1
+        self.run = 1
+        self.payload_dir="../test_tables"
         self.supply_load_src = json_loc
         self.load_supplies(spark)
 
