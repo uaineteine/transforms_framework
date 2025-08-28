@@ -638,3 +638,70 @@ class SimpleFilter(TableTransform):
             ">=": "gt_eq",
             "<=": "lt_eq"
         }[self.op]
+
+class ConcatColumns(TableTransform):
+    """
+    Transform class for concatenating multiple columns into a single column.
+    """
+
+    def __init__(self, variables_to_concat: Union[str, List[str]], sep:str=""):
+        """
+        Initialise a ConcatColumns treatment.
+
+        Args:
+        ...
+        """
+
+        super().__init__(
+            "ConcatColumns",
+            "Concatenante multiple columns together in a dataframe",
+            variables_to_concat,
+            "ConcCols",
+            testable_transform=True
+        )
+
+        self.separator = sep
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Ensure the DataFrame exists, the specified columns exist, and the output column name is provided.
+        """
+        table_name = kwargs.get("df")
+        output_col = kwargs.get("output_col")
+
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        if not self.vars or not isinstance(self.vars, list) or len(self.vars) < 2:
+            raise ValueError("Must provide a list of at least two columns to concatenate")
+        if not output_col:
+            raise ValueError("Must specify 'output_col' parameter for the new column")
+
+        df = supply_frames[table_name]
+        missing_cols = [c for c in self.vars if c not in df.columns]
+        if missing_cols:
+            raise ValueError(f"Columns not found in DataFrame: {missing_cols}")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Concatenate the specified columns into a new column.
+        """
+        table_name = kwargs.get("df")
+        output_var = kwargs.get("output_var")
+
+        self.target_tables = [table_name]
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[output_var],
+            created_variables=[output_var]
+        )
+
+        df = supply_frames[table_name]
+        # Concatenate as strings
+        df[output_var] = df[output_var].astype(str).agg(self.separator.join, axis=1)
+
+        df.add_event(self)
+
+        return supply_frames
