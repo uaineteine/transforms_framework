@@ -113,9 +113,9 @@ if __name__ == "__main__":
     print("After JoinTable (positions inner join salary on AGE):")
     supply_frames["joined_table"].show()
 
-    #
+    # -------------------------------
     # Test 9: SimpleFilter on the joined table
-    #
+    # -------------------------------
     print("Applying SimpleFilter (INCOME > 600) on joined_table")
     supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="joined_table")
 
