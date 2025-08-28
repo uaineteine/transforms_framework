@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # Test 10: Concatenate variables
     # -------------------------------
     print("Concatenating variables")
-    supply_frames = ConcatColumns(columns=["AGE", "SKILL"], new_column="CONCATTED", sep="_").apply(supply_frames, df="example_join")
+    supply_frames = ConcatColumns(variables_to_concat=["AGE", "SKILL"], sep="_").apply(supply_frames, df="example_join", output_var="CONCATTED")
     print("After ConcatColumns (AGE, SKILL -> CONCATTED) on example_join:")
     supply_frames["example_join"].show()
 
