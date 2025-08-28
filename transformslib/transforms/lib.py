@@ -118,10 +118,16 @@ class SubsetTable(TableTransform):
         table_name = kwargs.get('df')
 
         # Compute dropped variables (everything not in keep list)
-        self.deleted_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[],
+            removed_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
+            )
         self.target_tables = [table_name]
 
-        supply_frames[table_name].drop(columns=self.deleted_variables)
+        supply_frames[table_name].drop(columns=self.log_info.removed_variables)
         supply_frames[table_name].add_event(self)
 
         return supply_frames
@@ -175,6 +181,13 @@ class DistinctTable(TableTransform):
         table_name = kwargs.get("df")
         self.target_tables = [table_name]
 
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[],
+            output_variables=[]
+            )
+
         supply_frames[table_name] = supply_frames[table_name].distinct()
         supply_frames[table_name].add_event(self)
 
@@ -219,6 +232,13 @@ class RenameTable(TableTransform):
         """
         table_name = kwargs.get('df')
         self.target_tables = [table_name]
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[self.new_names]
+            )
 
         supply_frames[table_name].rename(columns=self.rename_map, inplace=True)
         supply_frames[table_name].add_event(self)
@@ -274,6 +294,13 @@ class ComplexFilter(TableTransform):
 
         lmda = self.condition_map[self.backend]
         self.condition_string = _get_lambda_source(lmda)
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[],
+            output_variables=[]
+            )
 
         supply_frames[table_name].df = lmda(supply_frames[table_name].df) 
         supply_frames[table_name].add_event(self)
@@ -370,15 +397,20 @@ class JoinTable(TableTransform):
         # Add joined table to TableCollection
         if output_table == self.left_table:
             supply_frames[self.left_table].df = joined
-            supply_frames[self.left_table].add_event(self)
         elif output_table == self.right_table:
             supply_frames[self.right_table].df = joined
-            supply_frames[self.right_table].add_event(self)
         else:
             # Create a new table entry, copying metadata from left_table
             supply_frames[output_table] = supply_frames[self.left_table].copy(new_name=output_table)
             supply_frames[output_table].df = joined
-            supply_frames[output_table].add_event(self)
+
+        self.log_info = TransformEvent(
+            input_tables=[self.left_table, self.right_table],
+            output_tables=[output_table],
+            input_variables=[self.vars],
+            output_variables=[self.new_names]
+            )
+        supply_frames[self.left_table].add_event(self)
 
         return supply_frames
 
@@ -567,11 +599,17 @@ class SimpleFilter(TableTransform):
         # Assign filtered DataFrame
         if output_table == table_name:
             supply_frames[table_name].df = filtered
-            supply_frames[table_name].add_event(self)
         else:
             supply_frames[output_table] = supply_frames[table_name].copy(new_name=output_table)
             supply_frames[output_table].df = filtered
-            supply_frames[output_table].add_event(self)
+            
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[output_table],
+            input_variables=[self.vars],
+            output_variables=[]
+            )
+        supply_frames[output_table].add_event(self)
 
         self.target_tables = [output_table]
         return supply_frames
