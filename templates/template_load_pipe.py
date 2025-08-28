@@ -18,7 +18,7 @@ if __name__ == "__main__":
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
     # load pipeline tables
-    supply_frames = SupplyLoad("../positions/payload.json", spark=spark)
+    supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark)
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
@@ -80,20 +80,20 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 7: ComplexTransform on salary
+    # Test 7: ComplexFilter on salary
     # -------------------------------
-    print("Applying ComplexTransform (INCOME > 600) on salary")
+    print("Applying ComplexFilter (INCOME > 600) on salary")
     
     #TODO 
     #make a simple filter type vs a complex one
 
-    filter_transform = ComplexTransform(condition_map={
+    filter_transform = ComplexFilter(condition_map={
         "pyspark": lambda df: df.filter(col("INCOME") >= 600)
     })
 
     supply_frames = filter_transform.apply(supply_frames, df="salary")
 
-    print("After ComplexTransform (INCOME > 600) on salary:")
+    print("After ComplexFilter (INCOME > 600) on salary:")
     supply_frames["salary"].show()
 
     # -------------------------------
@@ -111,6 +111,15 @@ if __name__ == "__main__":
     supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
 
     print("After JoinTable (position inner join salary on AGE):")
+    supply_frames["joined_table"].show()
+
+    #
+    # Test 9: SimpleFilter on the joined table
+    #
+    print("Applying SimpleFilter (INCOME > 600) on joined_table")
+    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="joined_table")
+
+    print("After SimpleFilter:")
     supply_frames["joined_table"].show()
 
     # save table events
