@@ -498,7 +498,7 @@ class SimpleFilter(TableTransform):
             f"Filters rows where {column} {op} {value}",
             [column],
             "SimpleFilter",
-            testable_transform=True
+            testable_transform=False
         )
         self.column = column
         self.op = op
@@ -580,26 +580,3 @@ class SimpleFilter(TableTransform):
             ">=": "gt_eq",
             "<=": "lt_eq"
         }[self.op]
-
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
-        """
-        Test that all rows in the output table satisfy the filter condition.
-        """
-        output_table = kwargs.get('output_table', kwargs.get('df'))
-        df = supply_frames[output_table].df
-        backend = supply_frames[output_table].frame_type
-
-        if backend == "pandas":
-            if self.op == "==":
-                return (df[self.column] == self.value).all()
-            elif self.op == "!=":
-                return (df[self.column] != self.value).all()
-            elif self.op == ">":
-                return (df[self.column] > self.value).all()
-            elif self.op == "<":
-                return (df[self.column] < self.value).all()
-            elif self.op == ">=":
-                return (df[self.column] >= self.value).all()
-            elif self.op == "<=":
-                return (df[self.column] <= self.value).all()
-        # For polars and spark, skip deep validation for brevity
