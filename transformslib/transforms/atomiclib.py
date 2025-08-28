@@ -668,14 +668,14 @@ class ConcatColumns(TableTransform):
         Ensure the DataFrame exists, the specified columns exist, and the output column name is provided.
         """
         table_name = kwargs.get("df")
-        output_col = kwargs.get("output_col")
+        output_col = kwargs.get("output_var")
 
         if not table_name:
             raise ValueError("Must specify 'df' parameter with table name")
         if not self.vars or not isinstance(self.vars, list) or len(self.vars) < 2:
             raise ValueError("Must provide a list of at least two columns to concatenate")
         if not output_col:
-            raise ValueError("Must specify 'output_col' parameter for the new column")
+            raise ValueError("Must specify 'output_var' parameter for the new column")
 
         df = supply_frames[table_name]
         missing_cols = [c for c in self.vars if c not in df.columns]
