@@ -3,6 +3,7 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from transformslib.tables.names.lists import VarList
 from transformslib.tables.names.headername import Headername
+from transformslib.events.pipeevent import TransformEvent
 
 import sys
 import pyspark
@@ -10,49 +11,14 @@ import polars as pl
 import pandas as pd
 
 def_log_location = "events_log/job_1/transforms.json"
-
 class Transform(PipelineEvent):
     """
     Base class for data transformation operations with automatic event logging.
-    
-    This class provides the foundation for implementing data transformations in the pipeline.
-    It extends PipelineEvent to automatically log transformation operations and provides
-    a consistent interface for applying transformations to MetaFrame objects.
-    
-    Attributes:
-        name (str): The name of the transformation.
-        transform_type (str): The type/category of the transformation.
-        
-    Example:
-        >>> class MyTransform(Transform):
-        ...     def __init__(self):
-        ...         super().__init__("MyTransform", "Custom transformation", "custom")
-        ...     
-        ...     def transforms(self, supply_frames, **kwargs):
-        ...         # Implementation here
-        ...         return transformed_df
-        >>> 
-        >>> transform = MyTransform()
-        >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
     """
 
     def __init__(self, name: str, description: str, transform_type: str, testable_transform: bool = True):
-        """
-        Initialise a Transform with name, description, and type.
-
-        Args:
-            name (str): The name of the transformation operation.
-            description (str): A detailed description of what the transformation does.
-            transform_type (str): The category or type of transformation.
-            testable_transform (bool): Whether this transform can be tested. Defaults to True.
-
-        Example:
-            >>> transform = Transform("DataClean", "Remove null values", "cleaning")
-            >>> print(transform.name)  # "DataClean"
-            >>> print(transform.transform_type)  # "cleaning"
-        """
         super().__init__("transform", None, event_description=description, log_location=def_log_location)
-        self.name = name  # Set name manually
+        self.name = name
         self.transform_type = transform_type
         self.testable_transform = testable_transform
 
@@ -60,7 +26,7 @@ class Transform(PipelineEvent):
         self.version_pyspark = pyspark.__version__
         self.version_polars = pl.__version__
         self.version_pandas = pd.__version__
-        self.version_python = sys.version.split()[0]  # e.g., '3.11.4'
+        self.version_python = sys.version.split()[0]
     
     def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
         """
@@ -160,37 +126,37 @@ class Transform(PipelineEvent):
         return self.apply(supply_frames, **kwargs)
     
     def apply(self, supply_frames: SupplyLoad, **kwargs):
-        """
-        Apply the transformation to the provided supply frames with keyword arguments.
-        
-        This method executes the transformation and automatically logs the operation
-        as a pipeline event. It also performs error checking before transformation
-        and testing after transformation if the transform is testable.
-
-        Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
-
-        Returns:
-            MetaFrame: The transformed MetaFrame.
-
-        Example:
-            >>> transform = MyTransform()
-            >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
-            >>> # Transformation is automatically logged
-        """
         # Perform error checking before transformation
         self.error_check(supply_frames, **kwargs)
-        
+
         # Apply transformation
         result_df = self.transforms(supply_frames, **kwargs)
-        
+
         # Perform testing after transformation
         if self.testable_transform:
             res = self.test(supply_frames, **kwargs)
             if not res:
-                raise ValueError(f"Transform test failed for {self.name}") 
+                raise ValueError(f"Transform test failed for {self.name}")
 
+        # Build TransformEvent payload for logging
+        input_tables = [supply_frames[kwargs.get(k)].table_name for k in kwargs if k in supply_frames]
+        output_tables = [result_df.table_name] if hasattr(result_df, "table_name") else []
+        input_variables = [col.name for col in result_df.columns] if hasattr(result_df, "columns") else []
+        output_variables = input_variables  # if same as input; adjust if different
+        transform_event = TransformEvent(
+            input_tables=input_tables,
+            output_tables=output_tables,
+            input_variables=input_variables,
+            output_variables=output_variables,
+            created_variables=getattr(result_df, "created_variables", None),
+            renamed_variables=getattr(result_df, "renamed_variables", None),
+            removed_variables=getattr(result_df, "deleted_variables", None),
+        )
+
+        # Store the TransformEvent as the payload
+        self.event_payload = transform_event.__dict__
+
+        # Log the event
         self.log()
 
         return result_df
