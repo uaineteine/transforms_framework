@@ -32,14 +32,14 @@ if __name__ == "__main__":
         t.show()
 
     # -------------------------------
-    # Test 2: DropVariable on position
+    # Test 2: DropVariable on positions
     # -------------------------------
-    print("Original columns (position):", supply_frames["position"].columns)
+    print("Original columns (positions):", supply_frames["positions"].columns)
 
-    supply_frames = DropVariable("VAR").apply(supply_frames, df="position")
+    supply_frames = DropVariable("VAR").apply(supply_frames, df="positions")
 
-    print("After DropVariable (VAR) on position:", supply_frames["position"].columns)
-    supply_frames["position"].show()
+    print("After DropVariable (VAR) on positions:", supply_frames["positions"].columns)
+    supply_frames["positions"].show()
 
     # -------------------------------
     # Test 3: SubsetTable on salary
@@ -52,13 +52,13 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 4: DistinctTable on position
+    # Test 4: DistinctTable on positions
     # -------------------------------
-    print("Applying DistinctTable on position")
-    supply_frames = DistinctTable().apply(supply_frames, df="position")
+    print("Applying DistinctTable on positions")
+    supply_frames = DistinctTable().apply(supply_frames, df="positions")
 
-    print("After DistinctTable on position (all columns):")
-    supply_frames["position"].show()
+    print("After DistinctTable on positions (all columns):")
+    supply_frames["positions"].show()
 
     # -------------------------------
     # Test 5: DistinctTable on salary
@@ -97,12 +97,12 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 8: JoinTable on position and salary
+    # Test 8: JoinTable on positions and salary
     # -------------------------------
-    print("Joining position and salary on AGE")
+    print("Joining positions and salary on AGE")
 
     join_transform = JoinTable(
-        left_table="position",
+        left_table="positions",
         right_table="salary",
         join_columns="AGE",
         join_type="inner"
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
 
-    print("After JoinTable (position inner join salary on AGE):")
+    print("After JoinTable (positions inner join salary on AGE):")
     supply_frames["joined_table"].show()
 
     #
