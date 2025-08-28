@@ -82,7 +82,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 7: ComplexFilter on salary
     # -------------------------------
-    print("Applying ComplexFilter (INCOME > 600) on salary")
+    print("Applying ComplexFilter (INCOME >= 600) on salary")
     
     #TODO 
     #make a simple filter type vs a complex one
@@ -120,6 +120,14 @@ if __name__ == "__main__":
     supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="example_join")
 
     print("After SimpleFilter:")
+    supply_frames["example_join"].show()
+
+    # -------------------------------
+    # Test 10: Concatenate variables
+    # -------------------------------
+    print("Concatenating variables")
+    supply_frames = ConcatColumns(columns=["AGE", "SKILL"], new_column="CONCATTED", sep="_").apply(supply_frames, df="example_join")
+    print("After ConcatColumns (AGE, SKILL -> CONCATTED) on example_join:")
     supply_frames["example_join"].show()
 
     # save table output tables
