@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "c8182526-f8e3-4dcd-b2fd-7e62d2bb81e7",
-  "timestamp": "2025-08-28T09:31:43.015113+00:00",
+  "uuid": "e387a6b4-1a68-448c-a4a8-b25f1cf12986",
+  "timestamp": "2025-08-28T10:22:15.489176+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/salary.csv as csv (pyspark)",
@@ -12,8 +12,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "869bbae9-2a4f-469e-9bc6-b1d57d00c515",
-  "timestamp": "2025-08-28T09:31:43.015113+00:00",
+  "uuid": "fc2b8863-d274-4666-80fa-ff0dbdd68fdf",
+  "timestamp": "2025-08-28T10:22:15.497174+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "PartitionByValue",
@@ -41,4 +41,16 @@
   "hashed_variables": null,
   "partition_column": "SALARY",
   "suffix_format": "_{value}"
+}
+{
+  "event_type": "write",
+  "uuid": "f8cce9a0-9dd5-42c4-af22-c2d2196c02fd",
+  "timestamp": "2025-08-28T10:22:22.576514+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "Wrote table to ../test_tables/output/salary_600.parquet as parquet (pyspark)",
+  "description": "Wrote salary_600 to ../test_tables/output/salary_600.parquet with mode=True",
+  "filepath": "../test_tables/output/salary_600.parquet",
+  "table_name": "salary_600",
+  "src_format": "parquet"
 }

@@ -1,7 +1,7 @@
 {
   "event_type": "load",
-  "uuid": "880ca184-e49e-4fe2-a32c-38fa8ebcfc05",
-  "timestamp": "2025-08-28T09:31:42.704110+00:00",
+  "uuid": "26d0cd48-d71b-493c-bf43-1209a221ff0a",
+  "timestamp": "2025-08-28T10:22:14.999174+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "Loaded table from ../test_tables/positions.csv as csv (pyspark)",
@@ -12,8 +12,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "dc3d2541-27d3-4883-b2f6-25b3a9a0f559",
-  "timestamp": "2025-08-28T09:31:44.857157+00:00",
+  "uuid": "d28ec32a-8f39-4291-86c5-c058c6213f30",
+  "timestamp": "2025-08-28T10:22:17.820766+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DropVariable",
@@ -41,8 +41,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "5e342ac6-a80d-44ba-9754-77e579b5c32e",
-  "timestamp": "2025-08-28T09:31:45.113669+00:00",
+  "uuid": "d5ff3924-e8c8-4b2d-becf-4c5390ad328a",
+  "timestamp": "2025-08-28T10:22:18.109799+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "DistinctTable",
@@ -66,8 +66,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "6828e98e-56f3-4b79-a784-c67727578c41",
-  "timestamp": "2025-08-28T09:31:46.421183+00:00",
+  "uuid": "4eb95e3e-8466-42be-9447-00ce6eb4880a",
+  "timestamp": "2025-08-28T10:22:19.498383+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "JoinTable",
@@ -103,8 +103,8 @@
 }
 {
   "event_type": "transform",
-  "uuid": "93722ba8-b047-4078-a21f-3df30a57201c",
-  "timestamp": "2025-08-28T09:31:47.494693+00:00",
+  "uuid": "5f94ac05-cf4d-4d9f-bb40-a6cce19a1dae",
+  "timestamp": "2025-08-28T10:22:20.923412+00:00",
   "excuted_user": "Daniel",
   "sub_type": "pipeline_event",
   "message": "SimpleFilter",
@@ -130,4 +130,16 @@
   "column": "INCOME",
   "op": ">",
   "value": 600
+}
+{
+  "event_type": "write",
+  "uuid": "ee587f30-a8b7-4807-a44f-082cfda36f83",
+  "timestamp": "2025-08-28T10:22:23.567577+00:00",
+  "excuted_user": "Daniel",
+  "sub_type": "pipeline_event",
+  "message": "Wrote table to ../test_tables/output/joined_table.parquet as parquet (pyspark)",
+  "description": "Wrote joined_table to ../test_tables/output/joined_table.parquet with mode=True",
+  "filepath": "../test_tables/output/joined_table.parquet",
+  "table_name": "joined_table",
+  "src_format": "parquet"
 }
