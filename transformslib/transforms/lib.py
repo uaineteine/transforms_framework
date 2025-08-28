@@ -1,6 +1,7 @@
 from typing import List, Union, Dict, Callable
 import inspect
 
+from transformslib.events.pipeevent import TransformEvent
 from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
@@ -33,8 +34,6 @@ class DropVariable(TableTransform):
             testable_transform=True
         )
 
-        print(self.target_variables)
-
     def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Validate that all variables to drop exist in the DataFrame.
@@ -56,6 +55,13 @@ class DropVariable(TableTransform):
         supply_frames[table_name].drop(columns=self.vars)
         supply_frames[table_name].add_event(self)
 
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[],
+            removed_variables = [self.vars]
+            )
         self.deleted_variables = self.vars
         self.target_tables = [table_name]
 
