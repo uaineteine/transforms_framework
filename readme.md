@@ -14,11 +14,11 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- 📁 collections/
 |   |   |   |-- 🐍 collection.py
 |   |   |   `-- 🐍 supply_load.py
-|   |   |-- 🐍 metaframe.py
 |   |   |-- 📁 names/
 |   |   |   |-- 🐍 headername.py
 |   |   |   |-- 🐍 lists.py
 |   |   |   `-- 🐍 tablename.py
+|   |   |-- 🐍 metaframe.py
 |   |   `-- 🐍 multitable.py
 |   `-- 📁 transforms/
 |       |-- 🐍 base.py
