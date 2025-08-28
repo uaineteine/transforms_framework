@@ -284,7 +284,7 @@ class TableTransform(Transform):
 
         
         # Initialise variable lists
-        self.transform_io = TransformEvent([], [], [], [])
+        self.log_info = TransformEvent([], [], [], [])
 
         # self.created_variables = None
         # self.renamed_variables = None
