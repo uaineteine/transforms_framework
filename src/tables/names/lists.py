@@ -53,25 +53,25 @@ class VarList(NamedList):
         if check == False:
             raise ValueError("Column names must be in correct format")
 
-if __name__ == "__main__":
-    # Basic valid input
-    a = VarList(["foo", "bar", "baz"])
-    print("List A:", a)
+# if __name__ == "__main__":
+#     # Basic valid input
+#     a = VarList(["foo", "bar", "baz"])
+#     print("List A:", a)
 
-    # Input with pure numbers and spaces
-    try:
-        b = VarList(["123", "hello world", "BAR"])
-        print("List B:", b)
-    except ValueError as e:
-        print("Caught ValueError for List B:", e)
+#     # Input with pure numbers and spaces
+#     try:
+#         b = VarList(["123", "hello world", "BAR"])
+#         print("List B:", b)
+#     except ValueError as e:
+#         print("Caught ValueError for List B:", e)
 
-    # Overlap test
-    c = VarList(["bar", "qux", "456"])
-    print("Overlap A & C:", a.overlap(c))
+#     # Overlap test
+#     c = VarList(["bar", "qux", "456"])
+#     print("Overlap A & C:", a.overlap(c))
 
-    # Extend test
-    a.extend_with(c)
-    print("Extended A:", a)
+#     # Extend test
+#     a.extend_with(c)
+#     print("Extended A:", a)
 
-    # JSON output
-    print("JSON A:", a.to_json())
+#     # JSON output
+#     print("JSON A:", a.to_json())
