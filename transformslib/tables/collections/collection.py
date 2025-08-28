@@ -372,6 +372,7 @@ class TableCollection:
         if table_names is None:
             # Save events for all tables
             for table in self.tables:
+                print(f"save events for table {table.table_name}")
                 table.save_events()
         else:
             # Save events for specific tables
