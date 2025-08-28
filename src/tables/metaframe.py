@@ -63,6 +63,7 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
+        self.log_path = f"events_log/job_1/{self.table_name}_events.json"
     
     def add_event(self, event: PipelineEvent):
         """
@@ -149,12 +150,11 @@ class MetaFrame(MultiTable):
         """
         os.makedirs("events_log", exist_ok=True)
         
-        log_path = f"events_log/job_1/{self.table_name}_events.json"
         for event in self.meta.events:
-            event.log_location = log_path
+            event.log_location = self.log_path
             event.log()
         
-        print(f"Events saved to {log_path}")
+        print(f"Events saved to {self.log_path}")
 
     def copy(self, new_name: str = None):
         """
