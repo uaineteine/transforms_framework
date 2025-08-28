@@ -62,6 +62,7 @@
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.get_table"><code class="docutils literal notranslate"><span class="pre">TableCollection.get_table()</span></code></a></li>
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.get_table_names"><code class="docutils literal notranslate"><span class="pre">TableCollection.get_table_names()</span></code></a></li>
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.ntables"><code class="docutils literal notranslate"><span class="pre">TableCollection.ntables</span></code></a></li>
+<li><a class="reference internal" href="#tables.collections.collection.TableCollection.save_all"><code class="docutils literal notranslate"><span class="pre">TableCollection.save_all()</span></code></a></li>
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.save_events"><code class="docutils literal notranslate"><span class="pre">TableCollection.save_events()</span></code></a></li>
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.select_by_names"><code class="docutils literal notranslate"><span class="pre">TableCollection.select_by_names()</span></code></a></li>
 <li><a class="reference internal" href="#tables.collections.collection.TableCollection.select_by_prefix"><code class="docutils literal notranslate"><span class="pre">TableCollection.select_by_prefix()</span></code></a></li>
@@ -84,6 +85,7 @@
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.copy"><code class="docutils literal notranslate"><span class="pre">MetaFrame.copy()</span></code></a></li>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.load"><code class="docutils literal notranslate"><span class="pre">MetaFrame.load()</span></code></a></li>
 <li><a class="reference internal" href="#tables.metaframe.MetaFrame.save_events"><code class="docutils literal notranslate"><span class="pre">MetaFrame.save_events()</span></code></a></li>
+<li><a class="reference internal" href="#tables.metaframe.MetaFrame.write"><code class="docutils literal notranslate"><span class="pre">MetaFrame.write()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -102,6 +104,8 @@
 <li><a class="reference internal" href="#tables.multitable.MultiTable.nvars"><code class="docutils literal notranslate"><span class="pre">MultiTable.nvars</span></code></a></li>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.rename"><code class="docutils literal notranslate"><span class="pre">MultiTable.rename()</span></code></a></li>
 <li><a class="reference internal" href="#tables.multitable.MultiTable.show"><code class="docutils literal notranslate"><span class="pre">MultiTable.show()</span></code></a></li>
+<li><a class="reference internal" href="#tables.multitable.MultiTable.write"><code class="docutils literal notranslate"><span class="pre">MultiTable.write()</span></code></a></li>
+<li><a class="reference internal" href="#tables.multitable.MultiTable.write_native_df"><code class="docutils literal notranslate"><span class="pre">MultiTable.write_native_df()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -144,6 +148,11 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#module-transforms.lib">transforms.lib</a><ul>
+<li><a class="reference internal" href="#transforms.lib.ComplexFilter"><code class="docutils literal notranslate"><span class="pre">ComplexFilter</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.ComplexFilter.error_check"><code class="docutils literal notranslate"><span class="pre">ComplexFilter.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.ComplexFilter.transforms"><code class="docutils literal notranslate"><span class="pre">ComplexFilter.transforms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#transforms.lib.DistinctTable"><code class="docutils literal notranslate"><span class="pre">DistinctTable</span></code></a><ul>
 <li><a class="reference internal" href="#transforms.lib.DistinctTable.error_check"><code class="docutils literal notranslate"><span class="pre">DistinctTable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.DistinctTable.transforms"><code class="docutils literal notranslate"><span class="pre">DistinctTable.transforms()</span></code></a></li>
@@ -153,11 +162,6 @@
 <li><a class="reference internal" href="#transforms.lib.DropVariable.error_check"><code class="docutils literal notranslate"><span class="pre">DropVariable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.DropVariable.test"><code class="docutils literal notranslate"><span class="pre">DropVariable.test()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.DropVariable.transforms"><code class="docutils literal notranslate"><span class="pre">DropVariable.transforms()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#transforms.lib.FilterTransform"><code class="docutils literal notranslate"><span class="pre">FilterTransform</span></code></a><ul>
-<li><a class="reference internal" href="#transforms.lib.FilterTransform.error_check"><code class="docutils literal notranslate"><span class="pre">FilterTransform.error_check()</span></code></a></li>
-<li><a class="reference internal" href="#transforms.lib.FilterTransform.transforms"><code class="docutils literal notranslate"><span class="pre">FilterTransform.transforms()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#transforms.lib.JoinTable"><code class="docutils literal notranslate"><span class="pre">JoinTable</span></code></a><ul>
@@ -176,6 +180,11 @@
 <li><a class="reference internal" href="#transforms.lib.RenameTable.error_check"><code class="docutils literal notranslate"><span class="pre">RenameTable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.RenameTable.test"><code class="docutils literal notranslate"><span class="pre">RenameTable.test()</span></code></a></li>
 <li><a class="reference internal" href="#transforms.lib.RenameTable.transforms"><code class="docutils literal notranslate"><span class="pre">RenameTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transforms.lib.SimpleFilter"><code class="docutils literal notranslate"><span class="pre">SimpleFilter</span></code></a><ul>
+<li><a class="reference internal" href="#transforms.lib.SimpleFilter.error_check"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transforms.lib.SimpleFilter.transforms"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.transforms()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#transforms.lib.SubsetTable"><code class="docutils literal notranslate"><span class="pre">SubsetTable</span></code></a><ul>
@@ -413,6 +422,26 @@ but with a more descriptive name for clarity.</p>
 <dt>Returns:</dt><dd><p>int: Number of tables in the collection.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">count</span> <span class="o">=</span> <span class="n">pt_collection</span><span class="o">.</span><span class="n">ntables</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.collections.collection.TableCollection.save_all">
+<span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
+<dd><p>Save all tables in the collection to the specified output directory.</p>
+<p>This method iterates through all tables in the collection and calls their save()
+method to persist the data to files in the specified directory.</p>
+<dl>
+<dt>Args:</dt><dd><p>output_dir (str): The directory where all tables should be saved.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: If there are issues saving any table.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt_collection</span><span class="o">.</span><span class="n">save_all</span><span class="p">(</span><span class="s2">&quot;output_data/&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -729,6 +758,24 @@ Exception: If there are issues serializing events to JSON.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.metaframe.MetaFrame.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.metaframe.MetaFrame.write" title="Link to this definition"></a></dt>
+<dd><p>Write the DataFrame to disk using MultiTable’s write method and log the write event.</p>
+<dl>
+<dt>Args:</dt><dd><p>path (str): Destination path for the data.
+format (str, optional): File format to write. Defaults to “parquet”.
+overwrite (bool, optional): Defaults to “TRUE”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output.parquet&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1036,6 +1083,31 @@ truncate (bool, optional): Whether to truncate long strings. Defaults to True.</
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.multitable.MultiTable.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.write" title="Link to this definition"></a></dt>
+<dd><p>Write the DataFrame to a file in the specified format.</p>
+<dl>
+<dt>Args:</dt><dd><p>path (str): Destination file path.
+format (str, optional): File format to write. Defaults to “parquet”.</p>
+<blockquote>
+<div><p>Supported formats: “parquet”, “csv”, “sas” (for PySpark).</p>
+</div></blockquote>
+<p>overwrite (bool, optional): If True, overwrites existing files. Defaults to True.
+spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.
+FileExistsError: If the file exists and overwrite is False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tables.multitable.MultiTable.write_native_df">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write_native_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tables.multitable.MultiTable.write_native_df" title="Link to this definition"></a></dt>
+<dd><p>Write a DataFrame to a file in the specified format.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1307,6 +1379,24 @@ correctly and the results meet expected criteria.</p>
 <section id="module-transforms.lib">
 <span id="transforms-lib"></span><h1>transforms.lib<a class="headerlink" href="#module-transforms.lib" title="Link to this heading"></a></h1>
 <dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.ComplexFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">ComplexFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.ComplexFilter" title="Link to this definition"></a></dt>
+<dd><p>Transform class for filtering rows in a DataFrame using a backend-specific condition.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.ComplexFilter.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.ComplexFilter.error_check" title="Link to this definition"></a></dt>
+<dd><p>Skip error checking — assume condition is valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.ComplexFilter.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.ComplexFilter.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply the filter condition to the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="transforms.lib.DistinctTable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">DistinctTable</span></span><a class="headerlink" href="#transforms.lib.DistinctTable" title="Link to this definition"></a></dt>
 <dd><p>Transform class for removing duplicate rows from a DataFrame.</p>
@@ -1344,24 +1434,6 @@ correctly and the results meet expected criteria.</p>
 <dt class="sig sig-object py" id="transforms.lib.DropVariable.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.DropVariable.transforms" title="Link to this definition"></a></dt>
 <dd><p>Remove the specified variables from the DataFrame.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="transforms.lib.FilterTransform">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">FilterTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform" title="Link to this definition"></a></dt>
-<dd><p>Transform class for filtering rows in a DataFrame using a backend-specific condition.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="transforms.lib.FilterTransform.error_check">
-<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform.error_check" title="Link to this definition"></a></dt>
-<dd><p>Skip error checking — assume condition is valid.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="transforms.lib.FilterTransform.transforms">
-<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.FilterTransform.transforms" title="Link to this definition"></a></dt>
-<dd><p>Apply the filter condition to the DataFrame.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1435,6 +1507,24 @@ based on unique values of a specified column.</p>
 <dt class="sig sig-object py" id="transforms.lib.RenameTable.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.RenameTable.transforms" title="Link to this definition"></a></dt>
 <dd><p>Rename the specified columns in the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transforms.lib.SimpleFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transforms.lib.</span></span><span class="sig-name descname"><span class="pre">SimpleFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SimpleFilter" title="Link to this definition"></a></dt>
+<dd><p>Transform class for filtering rows in a DataFrame using a simple column comparison.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.SimpleFilter.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SimpleFilter.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the column exists in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transforms.lib.SimpleFilter.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tables.collections.collection.TableCollection" title="tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transforms.lib.SimpleFilter.transforms" title="Link to this definition"></a></dt>
+<dd><p>Filter the DataFrame using the specified column, operator, and value.</p>
 </dd></dl>
 
 </dd></dl>
