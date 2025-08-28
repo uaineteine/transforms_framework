@@ -706,7 +706,6 @@ class ConcatColumns(TableTransform):
 
         return supply_frames
 
-
     def test(self, supply_frames: TableCollection, **kwargs) -> bool:
         """
         Test that the concatenated column was created in the target MultiTable.
