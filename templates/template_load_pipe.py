@@ -18,71 +18,71 @@ if __name__ == "__main__":
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
     # load pipeline tables
-    supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark)
+    supply_frames = SupplyLoad("../positions/payload.json", spark=spark)
 
     # -------------------------------
-    # Test 1: PartitionByValue on SALARY for test_table2
+    # Test 1: PartitionByValue on SALARY for salary
     # -------------------------------
-    print("Partitioning test_table2 by SALARY")
+    print("Partitioning salary by SALARY")
     partition_transform = PartitionByValue("SALARY")
-    supply_frames = partition_transform.apply(supply_frames, df="test_table2")
-    partitioned = supply_frames.select_by_names("test_table2_*")
+    supply_frames = partition_transform.apply(supply_frames, df="salary")
+    partitioned = supply_frames.select_by_names("salary_*")
     for t in partitioned.tables:
         print(f"Table: {t.table_name}")
         t.show()
 
     # -------------------------------
-    # Test 2: DropVariable on test_table
+    # Test 2: DropVariable on position
     # -------------------------------
-    print("Original columns (test_table):", supply_frames["test_table"].columns)
+    print("Original columns (position):", supply_frames["position"].columns)
 
-    supply_frames = DropVariable("VAR").apply(supply_frames, df="test_table")
+    supply_frames = DropVariable("VAR").apply(supply_frames, df="position")
 
-    print("After DropVariable (VAR) on test_table:", supply_frames["test_table"].columns)
-    supply_frames["test_table"].show()
-
-    # -------------------------------
-    # Test 3: SubsetTable on test_table2
-    # -------------------------------
-    print("Original columns (test_table2):", supply_frames["test_table2"].columns)
-
-    supply_frames = SubsetTable(["SALARY", "AGE"]).apply(supply_frames, df="test_table2")
-
-    print("After SubsetTable (keep SALARY) on test_table2:", supply_frames["test_table2"].columns)
-    supply_frames["test_table2"].show()
+    print("After DropVariable (VAR) on position:", supply_frames["position"].columns)
+    supply_frames["position"].show()
 
     # -------------------------------
-    # Test 4: DistinctTable on test_table
+    # Test 3: SubsetTable on salary
     # -------------------------------
-    print("Applying DistinctTable on test_table")
-    supply_frames = DistinctTable().apply(supply_frames, df="test_table")
+    print("Original columns (salary):", supply_frames["salary"].columns)
 
-    print("After DistinctTable on test_table (all columns):")
-    supply_frames["test_table"].show()
+    supply_frames = SubsetTable(["SALARY", "AGE"]).apply(supply_frames, df="salary")
 
-    # -------------------------------
-    # Test 5: DistinctTable on test_table2
-    # -------------------------------
-    print("Applying DistinctTable on test_table2")
-    supply_frames = DistinctTable().apply(supply_frames, df="test_table2")
-
-    print("After DistinctTable on test_table2 (all columns):")
-    supply_frames["test_table2"].show()
+    print("After SubsetTable (keep SALARY) on salary:", supply_frames["salary"].columns)
+    supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 6: RenameTable on test_table2
+    # Test 4: DistinctTable on position
     # -------------------------------
-    print("Original columns (test_table2):", supply_frames["test_table2"].columns)
+    print("Applying DistinctTable on position")
+    supply_frames = DistinctTable().apply(supply_frames, df="position")
 
-    supply_frames = RenameTable({"SALARY": "INCOME"}).apply(supply_frames, df="test_table2")
-
-    print("After RenameTable (SALARY -> INCOME) on test_table2:", supply_frames["test_table2"].columns)
-    supply_frames["test_table2"].show()
+    print("After DistinctTable on position (all columns):")
+    supply_frames["position"].show()
 
     # -------------------------------
-    # Test 7: ComplexTransform on test_table2
+    # Test 5: DistinctTable on salary
     # -------------------------------
-    print("Applying ComplexTransform (INCOME > 600) on test_table2")
+    print("Applying DistinctTable on salary")
+    supply_frames = DistinctTable().apply(supply_frames, df="salary")
+
+    print("After DistinctTable on salary (all columns):")
+    supply_frames["salary"].show()
+
+    # -------------------------------
+    # Test 6: RenameTable on salary
+    # -------------------------------
+    print("Original columns (salary):", supply_frames["salary"].columns)
+
+    supply_frames = RenameTable({"SALARY": "INCOME"}).apply(supply_frames, df="salary")
+
+    print("After RenameTable (SALARY -> INCOME) on salary:", supply_frames["salary"].columns)
+    supply_frames["salary"].show()
+
+    # -------------------------------
+    # Test 7: ComplexTransform on salary
+    # -------------------------------
+    print("Applying ComplexTransform (INCOME > 600) on salary")
     
     #TODO 
     #make a simple filter type vs a complex one
@@ -91,26 +91,26 @@ if __name__ == "__main__":
         "pyspark": lambda df: df.filter(col("INCOME") >= 600)
     })
 
-    supply_frames = filter_transform.apply(supply_frames, df="test_table2")
+    supply_frames = filter_transform.apply(supply_frames, df="salary")
 
-    print("After ComplexTransform (INCOME > 600) on test_table2:")
-    supply_frames["test_table2"].show()
+    print("After ComplexTransform (INCOME > 600) on salary:")
+    supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 8: JoinTable on test_table1 and test_table2
+    # Test 8: JoinTable on position and salary
     # -------------------------------
-    print("Joining test_table1 and test_table2 on AGE")
+    print("Joining position and salary on AGE")
 
     join_transform = JoinTable(
-        left_table="test_table",
-        right_table="test_table2",
+        left_table="position",
+        right_table="salary",
         join_columns="AGE",
         join_type="inner"
     )
 
     supply_frames = join_transform.apply(supply_frames, output_table="joined_table")
 
-    print("After JoinTable (test_table1 inner join test_table2 on AGE):")
+    print("After JoinTable (position inner join salary on AGE):")
     supply_frames["joined_table"].show()
 
     # save table events
