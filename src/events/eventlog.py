@@ -41,7 +41,7 @@ class EventLog:
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.log_location = log_location
         self.excuted_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
-
+        self.log_exclusions = ["log_location", "condition_map", "df", "spark", "log_exclusions"]
 
     def __repr__(self):
         """
@@ -59,7 +59,7 @@ class EventLog:
             # {"event_type": "INFO", "uuid": "...", "timestamp": "..."}
         """
         # Exclude 'df' from the dictionary representation
-        dict_repr = {k: v for k, v in self.__dict__.items() if k != "log_location" and k!= "condition_map"}
+        dict_repr = {k: v for k, v in self.__dict__.items() if k not in self.log_exclusions}
         return json.dumps(dict_repr, indent=2, ensure_ascii=True)
 
     def log(self):
