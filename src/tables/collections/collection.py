@@ -1,6 +1,7 @@
 from tables.metaframe import MetaFrame
 import fnmatch
 from typing import List
+import os
 
 class TableCollection:
     """
@@ -378,4 +379,29 @@ class TableCollection:
                 if name not in self.named_tables:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
+
+    def save_all(self, output_dir:str):
+        """
+        Save all tables in the collection to the specified output directory.
+        
+        This method iterates through all tables in the collection and calls their save()
+        method to persist the data to files in the specified directory.
+
+        Args:
+            output_dir (str): The directory where all tables should be saved.
+
+        Returns:
+            None
+
+        Raises:
+            Exception: If there are issues saving any table.
+
+        Example:
+            >>> pt_collection.save_all("output_data/")
+        """
+        for table in self.tables:
+            output_path = os.path.join(output_dir, table.table_name + ".parquet")
+            table.write(path=output_path)
+        
+        self.save_events()
                 
