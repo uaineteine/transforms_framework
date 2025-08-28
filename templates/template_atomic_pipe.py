@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transformslib.transforms.lib import *
+    from transformslib.transforms.atomiclib import *
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
 
