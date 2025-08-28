@@ -24,7 +24,7 @@ class JSONLog:
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
 
         #excluded from log
-        self.log_exclusions = ["log_location", "indent_depth"]
+        self.log_exclusions = ["log_location", "indent_depth", "log_exclusions"]
         self.log_location = log_location
         self.indent_depth = indent_depth
 
@@ -33,6 +33,7 @@ class JSONLog:
         Return the event as a JSON string.
         """
         dict_repr = {k: v for k, v in self.__dict__.items() if k not in self.log_exclusions}
+        #print(dict_repr)
         return json.dumps(dict_repr, indent=self.indent_depth, ensure_ascii=True)
 
     def log(self):
