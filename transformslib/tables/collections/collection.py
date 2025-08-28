@@ -381,7 +381,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
 
-    def save_all(self, output_dir:str):
+    def save_all(self, output_dir:str, spark=None):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -405,7 +405,7 @@ class TableCollection:
 
         for table in self.tables:
             output_path = output_dir + "/" + table.table_name + ".parquet"
-            table.write(path=output_path)
+            table.write(path=output_path, spark=spark)
         
         self.save_events()
                 

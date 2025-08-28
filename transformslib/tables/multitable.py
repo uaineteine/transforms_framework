@@ -551,6 +551,7 @@ class MultiTable:
             mode = "overwrite" if overwrite else "error"
             print(f"Writing to {path} as {format} with mode={mode}")
             dataframe.write.mode(mode).format(format).save(path)
+        
         elif frame_type == "pandas":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")

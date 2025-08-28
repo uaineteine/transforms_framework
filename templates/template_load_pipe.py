@@ -123,4 +123,4 @@ if __name__ == "__main__":
     supply_frames["example_join"].show()
 
     # save table output tables
-    supply_frames.save_all("../test_tables/output")
+    supply_frames.save_all("../test_tables/output", spark=spark)

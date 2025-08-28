@@ -182,7 +182,7 @@ class MetaFrame(MultiTable):
         copied_events = self.meta.events.copy()
         return MetaFrame(copied_multitable, inherit_events=copied_events)
 
-    def write(self, path: str, format: str = "parquet", overwrite: bool = True):
+    def write(self, path: str, format: str = "parquet", overwrite: bool = True, spark=None):
         """
         Write the DataFrame to disk using MultiTable's write method and log the write event.
 
@@ -198,7 +198,7 @@ class MetaFrame(MultiTable):
             >>> pt.write("output.parquet", format="parquet")
         """
         # Write the data using MultiTable's write method
-        super().write(path, format=format, overwrite=overwrite)
+        super().write(path, format=format, overwrite=overwrite, spark=spark)
 
         # Log the write event
         event = PipelineEvent(
