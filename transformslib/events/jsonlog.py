@@ -30,11 +30,22 @@ class JSONLog:
 
     def __repr__(self):
         """
-        Return the event as a JSON string.
+        Return the event as a JSON string, recursively converting objects to dicts.
         """
-        dict_repr = {k: v for k, v in self.__dict__.items() if k not in self.log_exclusions}
-        #print(dict_repr)
+        def recursive_convert(obj):
+            if isinstance(obj, dict):
+                return {k: recursive_convert(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [recursive_convert(v) for v in obj]
+            elif hasattr(obj, "__dict__"):
+                # Convert custom objects to dict recursively
+                return recursive_convert(obj.__dict__)
+            else:
+                return obj
+
+        dict_repr = {k: recursive_convert(v) for k, v in self.__dict__.items() if k not in self.log_exclusions}
         return json.dumps(dict_repr, indent=self.indent_depth, ensure_ascii=True)
+
 
     def log(self):
         """

@@ -1,4 +1,4 @@
-from transformslib.events.pipeevent import PipelineEvent
+from transformslib.events.pipeevent import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from transformslib.tables.names.lists import VarList
@@ -282,11 +282,14 @@ class TableTransform(Transform):
         except ValueError as e:
             raise ValueError(f"Invalid header names: {e}")
 
+        
         # Initialise variable lists
-        self.created_variables = None
-        self.renamed_variables = None
-        self.deleted_variables = None
-        self.hashed_variables = None
+        self.transform_io = TransformEvent([], [], [], [])
+
+        # self.created_variables = None
+        # self.renamed_variables = None
+        # self.deleted_variables = None
+        # self.hashed_variables = None
 
     @property
     def nvars(self):
