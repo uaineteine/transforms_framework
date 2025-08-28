@@ -8,11 +8,11 @@ def print_file_tree(start_path, indent="", only_py=False):
             if os.path.isdir(path):
                 # Check if folder contains relevant files
                 if not only_py or contains_py_files(path):
-                    print(f"{indent}📁 {item}")
+                    print(f"{indent} {item}")
                     print_file_tree(path, indent + "    ", only_py)
             elif not only_py or item.endswith(".py"):
-                icon = "🐍" if item.endswith(".py") else "📄"
-                print(f"{indent}{icon} {item}")
+                #icon = "🐍" if item.endswith(".py") else "📄"
+                print(f"{indent} {item}")
     except PermissionError:
         print(f"{indent}🚫 [Permission Denied] {start_path}")
 
