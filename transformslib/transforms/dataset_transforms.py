@@ -1,4 +1,4 @@
-from dataset_transforms_base import * # TODO: import just the stuff i need :P
+from transformslib.transforms.dataset_transforms_base import * # TODO: import just the stuff i need :P
 from abc import ABC, abstractmethod
 
 # idea i think we use duck typing for testable transforms
@@ -56,18 +56,19 @@ class JoinTransform(Transform):
         self.join_kwargs = join_kwargs
 
     # this is me trying to example this for now. we should be able to wrap this in something far more simple for one to one dataframe transformations
-    def apply_transform(self, dataset_transforms: 'DatasetTransforms'):
+    # yup TODO: convert between metaframes and actual dfs
+    def apply_transform(self, dataset_transforms: DatasetTransforms):
             return {
-                self.df_out_name: dataset_transforms[self.df1_name].join(dataset_transforms[self.df2_name], **self.join_kwargs)
+                self.df_out_name: dataset_transforms[self.df1_name].df.join(dataset_transforms[self.df2_name].df, **self.join_kwargs)
             }
 
-if __name__ == "__main__":
-    # haha pretend i actually imporated some dataframes
-    table_collection = TableCollection()
-    dataset_transforms = DatasetTransforms(table_collection)
+# if __name__ == "__main__":
+#     # haha pretend i actually imporated some dataframes
+#     table_collection = TableCollection()
+#     dataset_transforms = DatasetTransforms(table_collection)
     
-    dataset_transforms.add_transform(TopBottomCodeTransform("dataframe1", "income", 0, 100000))
-    dataset_transforms.add_transform(SHA256HashTransform("dataframe2", "person_id"))
-    dataset_transforms.add_transform(JoinTransform("dataframe1", "dataframe2", "merged_dataframe", how="outer"))
+#     dataset_transforms.add_transform(TopBottomCodeTransform("dataframe1", "income", 0, 100000))
+#     dataset_transforms.add_transform(SHA256HashTransform("dataframe2", "person_id"))
+#     dataset_transforms.add_transform(JoinTransform("dataframe1", "dataframe2", "merged_dataframe", how="outer"))
 
-    output_tables = dataset_transforms.get_output_tables()
+#     output_tables = dataset_transforms.get_output_tables()

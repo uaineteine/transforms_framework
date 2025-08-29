@@ -1,12 +1,12 @@
-from tables.collections.collection import TableCollection
+from transformslib.tables.collections.collection import TableCollection
 from typing import List
 from typing import NamedTuple
 from abc import ABC, abstractmethod
-from tables.metaframe import MetaFrame
+from transformslib.tables.metaframe import MetaFrame
 from itertools import chain
 import pyspark.sql.functions as f
-from events.pipeline_event import PipelineEvent
-from enum import Enum
+from transformslib.events.pipeevent import PipelineEvent
+from enum import IntEnum
 
 # this gives us the ability to add extra mappings to column lineage in addition to the default behaviour given by column_mapping_type
 # from_table = None and from_column_name = None mean column created from no table
@@ -41,7 +41,7 @@ class TableMapping(NamedTuple):
 # -1 no mappings for any columns by default
 # integer values 0+ mean take columns from that table only by default
 # note that all links must be consistent with actual input/output table columns after override_column_maps are applied
-class TransformColumnMappingType(Enum):
+class TransformColumnMappingType(IntEnum):
     ALL_INPUT_COLUMNS = -2
     BREAK_LINEAGE = -1
 
@@ -144,7 +144,7 @@ class DatasetTransforms():
     # alternatively we can store the function instructions as string and eval later - this might be a bit sus
     # are there any other options to ensure we don't compute everything on the spot
     def _process_transform(self, transform: Transform):
-        for out_name, out_df in transform.apply_transform.items():
+        for out_name, out_df in transform.apply_transform(self).items():
             self.table_dfs.setdefault(out_name, []).append(out_df)
 
     def add_transform(self, transform: Transform):
@@ -158,7 +158,7 @@ class DatasetTransforms():
             raise KeyError(f"Table '{table_name}' not found")
         
         if version is None:
-            version = len(self.table_dfs[table_name])
+            version = len(self.table_dfs[table_name]) - 1
 
         return self.table_dfs[table_name][version]
     
@@ -167,10 +167,10 @@ class DatasetTransforms():
         return TableCollection([table_dfs[-1] for table_dfs in self.table_dfs.values()])
 
     def __getitem__(self, name: str):
-        self.get_table(name)
+        return self.get_table(name)
 
     def get_dataset_dag(self):
-        return self.table_mappings, self.column_mappings
+        return self.table_mappings, self.column_mappings, self.treatment_mappings
     
     def get_events(self):
         self.dataset_events
