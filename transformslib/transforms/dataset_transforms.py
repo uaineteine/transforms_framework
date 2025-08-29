@@ -3,8 +3,13 @@ from abc import ABC, abstractmethod
 
 # idea i think we use duck typing for testable transforms
 class SimpleColumnTransform(Transform):
-    def __init__(self, transform_name, df_name, column_name):
-        super().__init__(transform_name, [df_name], [df_name])
+    def __init__(self, transform_name, df_name, column_name, is_treatment: bool=False):
+        super().__init__(
+            transform_name, [df_name], [df_name],
+            treatment_mappings=[TransformTableColumnMapping(
+                df_name, column_name, df_name, column_name
+            )] if is_treatment else None
+        )
         self.df_name = df_name
         self.column_name = column_name
 

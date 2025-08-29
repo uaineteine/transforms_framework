@@ -79,9 +79,12 @@ class DatasetTransforms():
         self.table_mappings = []
         # column to column edges for transformed columns ONLY - may be incomplete if table maps are used in the middle
         self.column_mappings = []
+        # identify which column to column edges are considered treatments and will be propogated to the end to apply tests on
+        self.treatment_mappings = []
         self.transforms = []
         self.dataset_events = []
 
+    # TODO: a bit too much code for comfort - is there a cleaner way to do this, or is the idea a bit too convoluted
     def _process_transform_graph(self, transform: Transform):
         overwritten_columns = {(column_mapping.from_table, column_mapping.from_column_name) for column_mapping in transform.extra_column_maps}
         column_mappings_to_add = []
@@ -117,7 +120,7 @@ class DatasetTransforms():
             column_mapping.to_column_name
         ) for column_mapping in transform.extra_column_maps]
         
-        # maybe not the most efficient but shouldnt be too big a deal here
+        # maybe not the most efficient but shouldnt be too big a deal here TODO: improve efficiency of check
         def check_if_valid_mapping(column_map: TableColumnMapping) -> bool:
             return (
                 column_map.from_column_name in self.table_dfs[column_map.from_table][column_map.from_table_ver] and 
@@ -125,7 +128,16 @@ class DatasetTransforms():
             )
         
         if not all(check_if_valid_mapping(col_map) for col_map in column_mappings_to_add):
-            raise ValueError("")
+            raise ValueError(f"Not all mappings are valid: {[col_map for col_map in column_mappings_to_add if not check_if_valid_mapping(col_map)]}")
+        
+
+        if not all(treatment_mapping in set(column_mappings_to_add) for treatment_mapping in transform.treatment_mappings):
+            raise ValueError(f"Not all treatment mappings exist as column mappings: {
+                [treatment_mapping for treatment_mapping in transform.treatment_mappings if treatment_mapping not in set(column_mappings_to_add)]
+            }")
+
+        self.column_mappings += column_mappings_to_add
+        self.treatment_mappings += transform.treatment_mappings
         
 
     # this relies on lazy eval to not actually do compute lol. should work in theory i think
