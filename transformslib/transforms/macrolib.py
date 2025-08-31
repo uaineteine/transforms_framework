@@ -22,12 +22,12 @@ class Macro:
     self.input_variables = input_variables
     self.output_variables = output_variables
 
-  def apply(self, supply_frames:TableCollection):
-    supply_frames = self.macros.apply(supply_frames)
+  def apply(self):
+    return_frames = self.macros.apply(self.input_tables)
 
     self.log() #dump log
     
-    return supply_frames
+    return return_frames
   
   def log(self):
     json_info = self.__dict__
