@@ -303,3 +303,29 @@ class TableTransform(Transform):
         list[str]: Single variable if one, list if multiple.
         """
         return self.target_variables
+
+class MacroTransform(TableTransform):
+    """
+    A transform that applies multiple atomic transforms in sequence.
+    """
+    def __init__(self, transforms: list[TableTransform], Name: str = "MacroTransform", Description: str = "Applies multiple transforms in sequence", macro_id: str = "untagged"):
+        # Derive testable flag: True if any child is testable
+        testable_flag = any(t.testable_transform for t in transforms)
+
+        super().__init__(
+            name=Name,
+            description=Description,
+            None,
+            shortname=macro_id,
+            testable_transform=testable_flag
+        )
+        self.transforms = transforms
+
+    def error_check(self, supply_frames, **kwargs):
+        for t in self.transforms:
+            t.error_check(supply_frames, **kwargs)
+
+    def transforms(self, supply_frames, **kwargs):
+        for t in self.transforms:
+            supply_frames = t.apply(supply_frames, **kwargs)
+        return supply_frames
