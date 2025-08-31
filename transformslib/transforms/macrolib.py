@@ -1,4 +1,5 @@
 #to be renamed
+import json
 from transformslib.tables.collections.collection import TableCollection 
 from transformslib.transforms.base import MacroTransform
 from transformslib.transforms.atomiclib import *
@@ -23,7 +24,16 @@ class Macro:
 
   def apply(self, supply_frames:TableCollection):
     supply_frames = self.macros.apply(supply_frames)
+
+    self.log() #dump log
+    
     return supply_frames
+  
+  def log(self):
+    json_info = self.__dict__
+
+    with open(self.macro_log_location, 'w') as f:
+      json.dump(json_info, f, indent=2)
 
 class TopBottomCode(Macro):
   def __init__(self,
