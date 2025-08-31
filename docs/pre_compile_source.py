@@ -3,7 +3,8 @@ import os
 from uainepydat import fileio
 from uainepydat import datatransform
 
-relative_directory = "../transformslib"  # Your source code root
+main_package_name = "transformslib" # Your main package name
+relative_directory = "../" + main_package_name  # Your source code root
 absolute_directory = os.path.abspath(relative_directory)
 
 # --- Recursive listing of all .py files ---
@@ -23,8 +24,11 @@ def filepath_to_module(filepath, base_dir):
     rel_path = os.path.relpath(filepath, base_dir)
     # Remove extension
     module_path = os.path.splitext(rel_path)[0]
-    # Convert folder separators to dots
-    return module_path.replace(os.path.sep, ".")
+    # Convert folder separators to dots (MUST reassign)
+    module_path = module_path.replace(os.path.sep, ".")
+
+    # Add main package as the prefix
+    return main_package_name + "." + module_path
 
 modules = [filepath_to_module(f, absolute_directory) for f in python_files]
 modules = sorted(modules)

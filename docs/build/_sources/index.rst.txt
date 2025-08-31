@@ -41,82 +41,82 @@ Dependencies
 
 
 
-events.eventlog
-===============
-
-.. automodule:: events.eventlog
-   :members:
-
-events.jsonlog
-==============
-
-.. automodule:: events.jsonlog
-   :members:
-
-events.pipeevent
-================
-
-.. automodule:: events.pipeevent
-   :members:
-
-tables.collections.collection
+transformslib.events.eventlog
 =============================
 
-.. automodule:: tables.collections.collection
+.. automodule:: transformslib.events.eventlog
    :members:
 
-tables.collections.supply_load
+transformslib.events.jsonlog
+============================
+
+.. automodule:: transformslib.events.jsonlog
+   :members:
+
+transformslib.events.pipeevent
 ==============================
 
-.. automodule:: tables.collections.supply_load
+.. automodule:: transformslib.events.pipeevent
    :members:
 
-tables.metaframe
-================
+transformslib.tables.collections.collection
+===========================================
 
-.. automodule:: tables.metaframe
+.. automodule:: transformslib.tables.collections.collection
    :members:
 
-tables.multitable
-=================
+transformslib.tables.collections.supply_load
+============================================
 
-.. automodule:: tables.multitable
+.. automodule:: transformslib.tables.collections.supply_load
    :members:
 
-tables.names.headername
-=======================
+transformslib.tables.metaframe
+==============================
 
-.. automodule:: tables.names.headername
+.. automodule:: transformslib.tables.metaframe
    :members:
 
-tables.names.lists
-==================
+transformslib.tables.multitable
+===============================
 
-.. automodule:: tables.names.lists
+.. automodule:: transformslib.tables.multitable
    :members:
 
-tables.names.tablename
-======================
+transformslib.tables.names.headername
+=====================================
 
-.. automodule:: tables.names.tablename
+.. automodule:: transformslib.tables.names.headername
    :members:
 
-transforms.atomiclib
-====================
+transformslib.tables.names.lists
+================================
 
-.. automodule:: transforms.atomiclib
+.. automodule:: transformslib.tables.names.lists
    :members:
 
-transforms.base
-===============
+transformslib.tables.names.tablename
+====================================
 
-.. automodule:: transforms.base
+.. automodule:: transformslib.tables.names.tablename
    :members:
 
-transforms.macrolib
-===================
+transformslib.transforms.atomiclib
+==================================
 
-.. automodule:: transforms.macrolib
+.. automodule:: transformslib.transforms.atomiclib
+   :members:
+
+transformslib.transforms.base
+=============================
+
+.. automodule:: transformslib.transforms.base
+   :members:
+
+transformslib.transforms.macrolib
+=================================
+
+.. automodule:: transformslib.transforms.macrolib
    :members:
 
 

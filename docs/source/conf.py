@@ -9,7 +9,7 @@
 import sys
 from pathlib import Path
 
-auto_libs_loc = str(Path('..', '..', "src").resolve())
+auto_libs_loc = str(Path('..', '..').resolve())
 sys.path.insert(0,auto_libs_loc)
 
 project = 'Metadata Integration Framework'
