@@ -17,7 +17,7 @@ setup(
     long_description=open('readme.md').read(),
     long_description_content_type='text/markdown',
     url=url,  
-    packages=["transformslib"],
+    packages=find_packages(include=["transformslib", "transformslib.*"]),
     classifiers=[
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent',
