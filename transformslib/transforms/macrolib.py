@@ -1,5 +1,6 @@
 #to be renamed
 from transformslib.tables.collections.collection import TableCollection 
+from transformslib.transforms.base import MacroTransform
 from transformslib.transforms.atomiclib import *
 
 class Macro:

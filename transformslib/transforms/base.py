@@ -304,7 +304,7 @@ class TableTransform(Transform):
         """
         return self.target_variables
 
-class MacroTransform(TableTransform):
+class MacroTransform(Transform):
     """
     A transform that applies multiple atomic transforms in sequence.
     """
@@ -315,8 +315,7 @@ class MacroTransform(TableTransform):
         super().__init__(
             name=Name,
             description=Description,
-            None,
-            shortname=macro_id,
+            transform_type=macro_id,
             testable_transform=testable_flag
         )
         self.transforms = transforms
