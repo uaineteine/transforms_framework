@@ -2,6 +2,6 @@ cd templates
 
 rmdir /S /Q events_log
 
-powershell -Command "python template_load_pipe.py | Tee-Object -FilePath test_log.txt"
+powershell -Command "python template_atomic_pipe.py | Tee-Object -FilePath test_log.txt"
 
 cd ..

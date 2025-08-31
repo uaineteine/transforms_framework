@@ -1,4 +1,4 @@
-from transforms.base import TableTransform
+from transformslib.transforms.base import TableTransform
 
 class CustomTransform(TableTransform):
     """
