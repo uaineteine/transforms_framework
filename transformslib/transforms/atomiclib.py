@@ -725,3 +725,166 @@ class ConcatColumns(TableTransform):
             return False
 
         return True
+
+class ReplaceByCondition(TableTransform):
+    """
+    Transform class for replacing values in a column based on a comparison condition.
+    """
+
+    def __init__(self, column: str, op: str, value: Union[int, float, str], replacement: Union[int, float, str]):
+        """
+        Initialise a ReplaceByCondition transform.
+
+        Args:
+            column (str): Column to apply the replacement on.
+            op (str): Comparison operator ('==', '!=', '>', '<', '>=', '<=').
+            value: Value to compare against.
+            replacement: Value to replace matching rows with.
+        """
+        super().__init__(
+            "ReplaceByCondition",
+            f"Replaces values in '{column}' where {column} {op} {value} with {replacement}",
+            [column],
+            "ReplCond",
+            testable_transform=True,
+        )
+
+        self.column = column
+        self.op = op
+        self.value = value
+        self.replacement = replacement
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the column exists in the DataFrame and operator is supported.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+
+        if self.op not in ["==", "!=", ">", "<", ">=", "<="]:
+            raise ValueError(f"Unsupported operator '{self.op}'")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Replace values in the column based on the condition.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+        df = supply_frames[table_name].df
+
+        if backend == "pandas":
+            if self.op == "==":
+                mask = df[self.column] == self.value
+            elif self.op == "!=":
+                mask = df[self.column] != self.value
+            elif self.op == ">":
+                mask = df[self.column] > self.value
+            elif self.op == "<":
+                mask = df[self.column] < self.value
+            elif self.op == ">=":
+                mask = df[self.column] >= self.value
+            elif self.op == "<=":
+                mask = df[self.column] <= self.value
+
+            df.loc[mask, self.column] = self.replacement
+
+        elif backend == "polars":
+            import polars as pl
+            expr_map = {
+                "==": pl.col(self.column) == self.value,
+                "!=": pl.col(self.column) != self.value,
+                ">": pl.col(self.column) > self.value,
+                "<": pl.col(self.column) < self.value,
+                ">=": pl.col(self.column) >= self.value,
+                "<=": pl.col(self.column) <= self.value,
+            }
+            df = df.with_columns(
+                pl.when(expr_map[self.op])
+                .then(self.replacement)
+                .otherwise(pl.col(self.column))
+                .alias(self.column)
+            )
+
+        elif backend == "pyspark":
+            spark_op = {
+                "==": lambda c, v: col(c) == v,
+                "!=": lambda c, v: col(c) != v,
+                ">": lambda c, v: col(c) > v,
+                "<": lambda c, v: col(c) < v,
+                ">=": lambda c, v: col(c) >= v,
+                "<=": lambda c, v: col(c) <= v,
+            }
+            condition = spark_op[self.op](self.column, self.value)
+            df = df.withColumn(
+                self.column,
+                when(condition, self.replacement).otherwise(col(self.column)),
+            )
+        else:
+            raise NotImplementedError(f"Replacement not implemented for backend '{backend}'")
+
+        # Save back into TableCollection
+        supply_frames[table_name].df = df
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that no values matching the condition remain in the column.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+
+        df = supply_frames[table_name].df
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pandas":
+            if self.op == "==":
+                return not (df[self.column] == self.value).any()
+            elif self.op == "!=":
+                return not (df[self.column] != self.value).any()
+            elif self.op == ">":
+                return not (df[self.column] > self.value).any()
+            elif self.op == "<":
+                return not (df[self.column] < self.value).any()
+            elif self.op == ">=":
+                return not (df[self.column] >= self.value).any()
+            elif self.op == "<=":
+                return not (df[self.column] <= self.value).any()
+
+        elif backend == "polars":
+            expr_map = {
+                "==": (df[self.column] == self.value),
+                "!=": (df[self.column] != self.value),
+                ">": (df[self.column] > self.value),
+                "<": (df[self.column] < self.value),
+                ">=": (df[self.column] >= self.value),
+                "<=": (df[self.column] <= self.value),
+            }
+            return expr_map[self.op].sum() == 0
+
+        elif backend == "pyspark":
+            spark_op = {
+                "==": lambda c, v: col(c) == v,
+                "!=": lambda c, v: col(c) != v,
+                ">": lambda c, v: col(c) > v,
+                "<": lambda c, v: col(c) < v,
+                ">=": lambda c, v: col(c) >= v,
+                "<=": lambda c, v: col(c) <= v,
+            }
+            return df.filter(spark_op[self.op](self.column, self.value)).count() == 0
+
+        return False
