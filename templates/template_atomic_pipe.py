@@ -130,5 +130,19 @@ if __name__ == "__main__":
     print("After ConcatColumns (AGE, SKILL -> CONCATTED) on example_join:")
     supply_frames["example_join"].show()
 
+    # -------------------------------
+    # Test 11: ReplaceByCondition
+    # -------------------------------
+    print("Replacing values in INCOME where INCOME >= 610 with 600")
+    supply_frames = ReplaceByCondition(
+        column="INCOME",
+        op=">=",
+        value=610,
+        replacement=600
+    ).apply(supply_frames, df="example_join")
+
+    print("After ReplaceByCondition (INCOME >= 610 -> 600):")
+    supply_frames["example_join"].show()
+
     # save table output tables
     supply_frames.save_all("../test_tables/output", spark=spark)

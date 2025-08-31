@@ -5,7 +5,7 @@ from transformslib.events.pipeevent import TransformEvent
 from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, when
 
 def _get_lambda_source(func) -> str:
     try:
