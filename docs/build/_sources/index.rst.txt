@@ -101,16 +101,22 @@ tables.names.tablename
 .. automodule:: tables.names.tablename
    :members:
 
+transforms.atomiclib
+====================
+
+.. automodule:: transforms.atomiclib
+   :members:
+
 transforms.base
 ===============
 
 .. automodule:: transforms.base
    :members:
 
-transforms.lib
-==============
+transforms.macrolib
+===================
 
-.. automodule:: transforms.lib
+.. automodule:: transforms.macrolib
    :members:
 
 
