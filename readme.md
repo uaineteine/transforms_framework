@@ -5,7 +5,7 @@ This program provides a data transformation framework for working with tables (D
 # Main Components
 
 ```
-|-- src/
+|-- transformslib/
 |   |-- events/
 |   |   |-- jsonlog.py
 |   |   `-- eventlog.py
