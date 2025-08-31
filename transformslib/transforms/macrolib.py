@@ -62,6 +62,6 @@ class TopBottomCode(Macro):
       macro_transform=macro,
       input_tables=input_tables,
       output_tables=input_tables.table_names(),
-      input_variables=input_variables
+      input_variables=input_variables,
       output_variables=input_variables
     )
