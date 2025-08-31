@@ -10,7 +10,7 @@ author_email = ""
 
 setup(
     name='transformslib',
-    version='0.0.4',
+    version='0.0.4.1',
     author=author,
     author_email=author_email,
     description='A python package of a working transforms framework',
