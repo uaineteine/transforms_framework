@@ -21,8 +21,8 @@
     "num_input_frames": 1,
     "num_output_frames": 4
   },
-  "uuid": "b2ff1ef4-fc47-48cf-aebb-29a570ac57b3",
-  "timestamp": "2025-08-28T17:14:57.461767+00:00",
+  "uuid": "f5ac4baf-6c09-4e23-979f-3118845c1f52",
+  "timestamp": "2025-08-31T04:39:51.939124+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -71,8 +71,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b028ba83-ec44-4c5c-8d5b-69d8081dc41e",
-  "timestamp": "2025-08-28T17:14:59.858800+00:00",
+  "uuid": "132f0983-1392-4e39-8e69-1433d6d84cda",
+  "timestamp": "2025-08-31T04:39:54.291797+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -118,8 +118,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "f399dbca-9c79-44e3-9da9-c00d1c82f166",
-  "timestamp": "2025-08-28T17:15:00.083798+00:00",
+  "uuid": "6242528b-8f59-4eed-bb4b-a79332da8f35",
+  "timestamp": "2025-08-31T04:39:54.621797+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -156,8 +156,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "26e21ab9-d77b-4b35-8422-ab0acaf6c83f",
-  "timestamp": "2025-08-28T17:15:00.258279+00:00",
+  "uuid": "4418d3bf-564f-4744-9aae-d8b08f19060c",
+  "timestamp": "2025-08-31T04:39:54.804800+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -191,8 +191,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "6a9a3c11-afc4-481e-96e7-21ce8afd5ce8",
-  "timestamp": "2025-08-28T17:15:00.829799+00:00",
+  "uuid": "37d10e0b-39ea-43b0-bb7c-0d8897bc148e",
+  "timestamp": "2025-08-31T04:39:55.648840+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -234,8 +234,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "90fe19fa-df62-4869-8c21-9c96bb6e9a0c",
-  "timestamp": "2025-08-28T17:15:01.350799+00:00",
+  "uuid": "df1c60ca-a078-4e34-9c02-ed3a8037424b",
+  "timestamp": "2025-08-31T04:39:55.999355+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -277,8 +277,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cbec9347-d226-432d-bc30-1fd15630bc5e",
-  "timestamp": "2025-08-28T17:15:01.609800+00:00",
+  "uuid": "38b7f21f-24db-4f9c-b9af-e7f9637b7fda",
+  "timestamp": "2025-08-31T04:39:56.193872+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -322,8 +322,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "421651ab-0e60-47fe-a396-a6a66c84e184",
-  "timestamp": "2025-08-28T17:15:02.349800+00:00",
+  "uuid": "1b4786ad-56c3-46bc-8740-3cc4b48eaafd",
+  "timestamp": "2025-08-31T04:39:56.532876+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
@@ -373,8 +373,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "af662e29-5ac3-484b-8f93-19071e2bbaa9",
-  "timestamp": "2025-08-28T17:15:03.924798+00:00",
+  "uuid": "1a52f6d2-8d57-43c6-9b84-204f6c4f8ade",
+  "timestamp": "2025-08-31T04:39:58.275487+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
@@ -396,4 +396,97 @@
   "column": "INCOME",
   "op": ">",
   "value": 600
+}
+{
+  "log_info": {
+    "input_tables": [
+      "example_join"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      [
+        "AGE",
+        "SKILL"
+      ]
+    ],
+    "output_variables": [
+      "CONCATTED"
+    ],
+    "created_variables": [
+      "CONCATTED"
+    ],
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "b2b732e6-ecdc-4022-b473-a4aa093a95f5",
+  "timestamp": "2025-08-31T04:39:59.108046+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Concatenante multiple columns together in a dataframe",
+  "class_type": "PipelineEvent",
+  "name": "ConcatColumns",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "ConcCols",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "AGE",
+    "SKILL"
+  ],
+  "separator": "_"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "example_join"
+    ],
+    "output_tables": [
+      "example_join"
+    ],
+    "input_variables": [
+      "INCOME"
+    ],
+    "output_variables": [
+      "INCOME"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "351f4464-5a8c-4b5c-a81c-50a66f83b458",
+  "timestamp": "2025-08-31T04:39:59.788116+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
+  "class_type": "PipelineEvent",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "example_join"
+  ],
+  "target_variables": [
+    "INCOME"
+  ],
+  "column": "INCOME",
+  "op": ">=",
+  "value": 610,
+  "replacement": 600
 }
