@@ -6,6 +6,7 @@ from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when
+import polars as pl
 
 def _get_lambda_source(func) -> str:
     try:
@@ -793,7 +794,6 @@ class ReplaceByCondition(TableTransform):
             df.loc[mask, self.column] = self.replacement
 
         elif backend == "polars":
-            import polars as pl
             expr_map = {
                 "==": pl.col(self.column) == self.value,
                 "!=": pl.col(self.column) != self.value,
