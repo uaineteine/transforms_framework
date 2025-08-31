@@ -319,6 +319,7 @@ class MacroTransform(Transform):
             testable_transform=testable_flag
         )
         self.transforms = transforms
+        #self.log_location = "events_log/job_1/treatments.json"
 
     def error_check(self, supply_frames, **kwargs):
         for t in self.transforms:
