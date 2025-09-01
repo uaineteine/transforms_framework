@@ -4,7 +4,7 @@ from typing import Union
 import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
-from pyspark.sql.functions import concat_ws
+from pyspark.sql.functions import concat_ws, col, explode
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
@@ -602,7 +602,7 @@ class MultiTable:
             self.df = self.df.with_columns(new_expr)
 
         elif self.frame_type == "pyspark":
-            new_expr = concat_ws(sep, *[F.col(col).cast("string") for col in columns])
+            new_expr = concat_ws(sep, *[col(col).cast("string") for col in columns])
             self.df = self.df.withColumn(new_col_name, new_expr)
 
         else:
@@ -631,7 +631,7 @@ class MultiTable:
                 new_df = self.df.with_columns(pl.col(column).explode())
 
             elif self.frame_type == "pyspark":
-                new_df = self.df.withColumn(column, F.explode(F.col(column)))
+                new_df = self.df.withColumn(column, explode(F.col(column)))
 
             else:
                 raise ValueError("Unsupported frame_type for explode")
