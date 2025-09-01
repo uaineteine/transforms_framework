@@ -55,12 +55,12 @@ for event in events:
     # Connect input nodes → output nodes
     for inp_node in input_nodes:
         for out_node in output_nodes:
-            edge_label = f"{transform_name}\n{ts}"
+            edge_label = f"{transform_name}"
             G.add_edge(inp_node, out_node, label=edge_label, len=6)
 
 # Layout
 pos = graphviz_layout(G, prog="dot")
-plt.figure(figsize=(16, 36))
+plt.figure(figsize=(16, 80))
 node_colors = [G.nodes[n].get("color", "lightgrey") for n in G.nodes()]
 nx.draw_networkx_nodes(G, pos, node_size=2200, node_color=node_colors)
 
