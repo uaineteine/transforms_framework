@@ -4,6 +4,7 @@ from typing import Union
 import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
+from pyspark.sql.functions import concat_ws
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
@@ -601,10 +602,47 @@ class MultiTable:
             self.df = self.df.with_columns(new_expr)
 
         elif self.frame_type == "pyspark":
-            from pyspark.sql import functions as F
-            new_expr = F.concat_ws(sep, *[F.col(col).cast("string") for col in columns])
+            new_expr = concat_ws(sep, *[F.col(col).cast("string") for col in columns])
             self.df = self.df.withColumn(new_col_name, new_expr)
 
         else:
             raise ValueError("Unsupported frame_type for concat")
 
+        def explode(self, column: str, inplace: bool = True):
+            """
+            Explode (flatten) a column containing lists/arrays into multiple rows.
+
+            Args:
+                column (str): Column name to explode.
+                inplace (bool): If True, modifies the current MultiTable in place.
+                                If False, returns a new MultiTable.
+
+            Returns:
+                MultiTable or None: Returns a new MultiTable if inplace=False, else None.
+
+            Raises:
+                ValueError: If the frame_type is unsupported.
+            """
+            if self.frame_type == "pandas":
+                new_df = self.df.explode(column)
+
+            elif self.frame_type == "polars":
+                # Polars requires 'pl.col' explode
+                new_df = self.df.with_columns(pl.col(column).explode())
+
+            elif self.frame_type == "pyspark":
+                new_df = self.df.withColumn(column, F.explode(F.col(column)))
+
+            else:
+                raise ValueError("Unsupported frame_type for explode")
+
+            if inplace:
+                self.df = new_df
+                return None
+            else:
+                return MultiTable(
+                    new_df,
+                    src_path=self.src_path,
+                    table_name=str(self.table_name),
+                    frame_type=self.frame_type,
+                )
