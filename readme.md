@@ -26,7 +26,8 @@ This program provides a data transformation framework for working with tables (D
 |   |-- transforms/
 |   |   |-- base.py
 |   |   |-- atomiclib.py
-|   |   `-- macrolib.py
+|   |   |-- macrolib.py
+|   |   `-- reader.py
 |   `-- setup.py
 `-- templates/
     |-- template_load_pipe.py

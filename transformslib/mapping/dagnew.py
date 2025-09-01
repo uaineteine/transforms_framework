@@ -1,20 +1,11 @@
 import streamlit as st
 from pyvis.network import Network
 import networkx as nx
-import json
 import os
 
-main_dir = "events_log"
+from transformslib.transforms import reader
 
-def load_transform_log(job_id, run_id):
-    log_file = os.path.join(f"job_{job_id}", "transforms.json")
-    if not os.path.exists(log_file):
-        raise FileNotFoundError(f"Log file not found: {log_file}")
-    else:
-        with open(log_file, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-logs = load_transform_log(job_id=1, run_id=1)
+logs = reader.load_transform_log(job_id=1, run_id=1)
 
 # Build DAG
 input_dfs = [log["params"]["path"] for log in logs if log["function"].startswith("read_file")]
