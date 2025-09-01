@@ -16,6 +16,11 @@
       "name": "location",
       "format": "csv",
       "path": "../test_tables/location.csv"
+    },
+    {
+      "name": "array_like",
+      "format": "csv",
+      "path": "../test_tables/array_like.csv"
     }
   ]
 }
