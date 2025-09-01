@@ -60,7 +60,7 @@ for event in events:
 
 # Layout
 pos = graphviz_layout(G, prog="dot")
-plt.figure(figsize=(16, 80))
+plt.figure(figsize=(16, 40))
 node_colors = [G.nodes[n].get("color", "lightgrey") for n in G.nodes()]
 nx.draw_networkx_nodes(G, pos, node_size=2200, node_color=node_colors)
 
@@ -72,4 +72,5 @@ nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="blue",
 
 plt.title("Pipeline DAG (blue=input, green=testable, grey=not testable)\nVersioned nodes per transform")
 plt.axis("off")
-plt.show()
+# SAVE to file (PNG, PDF, or any format Matplotlib supports)
+plt.savefig("pipeline_dag.png", bbox_inches="tight", dpi=300)
