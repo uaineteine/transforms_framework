@@ -4,7 +4,7 @@ from typing import Union
 import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
-from pyspark.sql.functions import concat_ws, col, explode
+from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
@@ -608,28 +608,54 @@ class MultiTable:
         else:
             raise ValueError("Unsupported frame_type for concat")
 
-    def explode(self, column: str):
+    def explode(self, column: str, sep: str | None = None, outer: bool = False):
         """
-        Explode (flatten) a column containing lists/arrays into multiple rows.
+        Explode (flatten) a column containing lists/arrays (or delimited strings) into multiple rows.
         Always modifies the current MultiTable in place.
 
         Args:
             column (str): Column name to explode.
+            sep (str | None): If provided, split strings in the column by this separator before exploding.
+            outer (bool): If True, performs an 'outer explode' (keeps rows where the column is null/empty).
 
         Raises:
             ValueError: If the frame_type is unsupported.
         """
         if self.frame_type == "pandas":
-            self.df = self.df.explode(column)
+            if sep:
+                self.df[column] = self.df[column].str.split(sep)
+
+            if outer:
+                # Pandas explode already keeps NaN, so it's effectively outer
+                self.df = self.df.explode(column, ignore_index=True)
+            else:
+                # dropna ensures we mimic non-outer explode
+                self.df = self.df.explode(column, ignore_index=True).dropna(subset=[column])
 
         elif self.frame_type == "polars":
-            self.df = self.df.with_columns(pl.col(column).explode())
+            if sep:
+                self.df = self.df.with_columns(pl.col(column).str.split(sep))
+
+            if outer:
+                # Polars explode keeps nulls, so same as outer
+                self.df = self.df.with_columns(pl.col(column).explode())
+            else:
+                # filter out nulls to mimic non-outer explode
+                self.df = (
+                    self.df.filter(pl.col(column).is_not_null())
+                    .with_columns(pl.col(column).explode())
+                )
 
         elif self.frame_type == "pyspark":
-            self.df = self.df.withColumn(column, explode(col(column)))
+            if sep:
+                self.df = self.df.withColumn(column, split(col(column), sep))
+
+            if outer:
+                self.df = self.df.withColumn(column, explode_outer(col(column)))
+            else:
+                self.df = self.df.withColumn(column, explode(col(column)))
 
         else:
             raise ValueError("Unsupported frame_type for explode")
 
         return None
-
