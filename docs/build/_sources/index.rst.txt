@@ -41,6 +41,12 @@ Dependencies
 
 
 
+transformslib.dag
+=================
+
+.. automodule:: transformslib.dag
+   :members:
+
 transformslib.events.eventlog
 =============================
 

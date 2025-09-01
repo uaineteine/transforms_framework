@@ -2,14 +2,69 @@ import shutil
 import subprocess
 import os
 
+
+#pre compile setup.py
+# generate_setup.py
+
+package_name = "transformslib"
+version = "0.0.4.1"
+author = ""
+author_email = ""
+url = ""
+
+# Read and pre-render requirements
+if os.path.exists("requirements.txt"):
+    with open("requirements.txt", "r", encoding="utf-8") as f:
+        requirements = f.read().splitlines()
+else:
+    requirements = []
+
+# Read and pre-render README
+if os.path.exists("readme.md"):
+    with open("readme.md", "r", encoding="utf-8") as f:
+        long_description = f.read()
+else:
+    long_description = "A python package of a working transforms framework."
+
+# Generate setup.py content
+setup_content = f'''from setuptools import setup, find_packages
+
+requirements = {requirements!r}
+long_description = {long_description!r}
+
+setup(
+    name="{package_name}",
+    version="{version}",
+    author="{author}",
+    author_email="{author_email}",
+    description="A python package of a working transforms framework",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="{url}",
+    packages=find_packages(include=["{package_name}", "{package_name}.*"]),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.10",
+    install_requires=requirements
+)
+'''
+
+# Write the pre-rendered setup.py
+with open("setup.py", "w", encoding="utf-8") as f:
+    f.write(setup_content)
+
+print("setup.py has been generated with pre-rendered requirements and README!")
+
 # Remove build and dist directories
 for folder in ["build", "dist"]:
     if os.path.exists(folder):
         shutil.rmtree(folder)
         print(f"Removed {folder} folder.")
 
-# Run setup_package.py to build distributions
-subprocess.run(["python", "setup_package.py", "sdist", "bdist_wheel"], check=True)
+# Run setup.py to build distributions
+subprocess.run(["python", "setup.py", "sdist", "bdist_wheel"], check=True)
 print("Package built successfully.")
 
 # Build documentation
