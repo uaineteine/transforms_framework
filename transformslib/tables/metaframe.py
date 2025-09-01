@@ -9,7 +9,7 @@ from uainepydat.frameverifier import FrameTypeVerifier
 class Meta:
     def __init__(self, inherit_events: List[PipelineEvent] = None):
         #store a version number
-        self.meta_version = "0.3.0"
+        self.meta_version = "1.0"
         #initialise events as a list, optionally inheriting from existing events
         self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
 
