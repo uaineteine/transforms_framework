@@ -608,41 +608,28 @@ class MultiTable:
         else:
             raise ValueError("Unsupported frame_type for concat")
 
-        def explode(self, column: str, inplace: bool = True):
-            """
-            Explode (flatten) a column containing lists/arrays into multiple rows.
+    def explode(self, column: str):
+        """
+        Explode (flatten) a column containing lists/arrays into multiple rows.
+        Always modifies the current MultiTable in place.
 
-            Args:
-                column (str): Column name to explode.
-                inplace (bool): If True, modifies the current MultiTable in place.
-                                If False, returns a new MultiTable.
+        Args:
+            column (str): Column name to explode.
 
-            Returns:
-                MultiTable or None: Returns a new MultiTable if inplace=False, else None.
+        Raises:
+            ValueError: If the frame_type is unsupported.
+        """
+        if self.frame_type == "pandas":
+            self.df = self.df.explode(column)
 
-            Raises:
-                ValueError: If the frame_type is unsupported.
-            """
-            if self.frame_type == "pandas":
-                new_df = self.df.explode(column)
+        elif self.frame_type == "polars":
+            self.df = self.df.with_columns(pl.col(column).explode())
 
-            elif self.frame_type == "polars":
-                # Polars requires 'pl.col' explode
-                new_df = self.df.with_columns(pl.col(column).explode())
+        elif self.frame_type == "pyspark":
+            self.df = self.df.withColumn(column, explode(col(column)))
 
-            elif self.frame_type == "pyspark":
-                new_df = self.df.withColumn(column, explode(col(column)))
+        else:
+            raise ValueError("Unsupported frame_type for explode")
 
-            else:
-                raise ValueError("Unsupported frame_type for explode")
+        return None
 
-            if inplace:
-                self.df = new_df
-                return None
-            else:
-                return MultiTable(
-                    new_df,
-                    src_path=self.src_path,
-                    table_name=str(self.table_name),
-                    frame_type=self.frame_type,
-                )
