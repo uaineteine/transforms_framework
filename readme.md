@@ -20,6 +20,9 @@ This program provides a data transformation framework for working with tables (D
 |   |   |   `-- tablename.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
+|   |-- mapping/
+|   |   |-- maps.py
+|   |   `-- dag.py
 |   `-- transforms/
 |       |-- base.py
 |       `-- atomiclib.py
