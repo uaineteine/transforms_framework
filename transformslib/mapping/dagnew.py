@@ -5,6 +5,10 @@ import os
 
 from transformslib.transforms import reader
 
+def output_loc(job_id:int, run_id:int) -> str:
+    """Function to return a transforms report output location"""
+    report_name = f"transform_dag_job{job_id}_run{run_id}.html"
+
 logs = reader.load_transform_log(job_id=1, run_id=1)
 
 # Build DAG
@@ -87,7 +91,7 @@ var options = {
 """)
 
 # Save UTF-8 HTML manually
-html_file = "transform_dag.html"
+html_file = output_loc(job_id = 1, run_id = 1)
 html_content = net.generate_html()
 with open(html_file, "w", encoding="utf-8") as f:
     f.write(html_content)
