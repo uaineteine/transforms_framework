@@ -631,7 +631,7 @@ class MultiTable:
                 new_df = self.df.with_columns(pl.col(column).explode())
 
             elif self.frame_type == "pyspark":
-                new_df = self.df.withColumn(column, explode(F.col(column)))
+                new_df = self.df.withColumn(column, explode(col(column)))
 
             else:
                 raise ValueError("Unsupported frame_type for explode")
