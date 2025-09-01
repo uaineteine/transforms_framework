@@ -23,10 +23,11 @@ This program provides a data transformation framework for working with tables (D
 |   |-- mapping/
 |   |   |-- maps.py
 |   |   `-- dag.py
-|   `-- transforms/
-|       |-- base.py
-|       `-- atomiclib.py
-|       `-- macrolib.py
+|   |-- transforms/
+|   |   |-- base.py
+|   |   |-- atomiclib.py
+|   |   `-- macrolib.py
+|   `-- setup.py
 `-- templates/
     |-- template_load_pipe.py
     `-- template_custom_transform.py
