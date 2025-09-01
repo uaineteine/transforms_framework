@@ -2,86 +2,74 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 from networkx.drawing.nx_pydot import graphviz_layout
+from datetime import datetime
 
-# Load multiple JSON objects from a file
+# Load JSON events
 json_file = "templates/events_log/job_1/debug/transforms.json"
 events = []
-
 with open(json_file, "r") as f:
     content = f.read().strip()
     for obj_str in content.split("\n{"):
         obj_str = obj_str if obj_str.startswith("{") else "{" + obj_str
         events.append(json.loads(obj_str))
 
-# Create a directed graph
+# Sort by timestamp
+def parse_ts(e):
+    return datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00"))
+events.sort(key=parse_ts)
+
 G = nx.DiGraph()
 
-# Add edges based on input/output tables
+# Track latest node for each table
+latest_node_for_table = {}
+
 for event in events:
+    ts = parse_ts(event).strftime("%H:%M:%S.%f")
     log_info = event.get("log_info", {})
     input_tables = log_info.get("input_tables", [])
     output_tables = log_info.get("output_tables", [])
     transform_name = event.get("name", "unknown")
     testable = event.get("testable_transform", False)
 
-    import json
-import networkx as nx
-import matplotlib.pyplot as plt
-from networkx.drawing.nx_pydot import graphviz_layout
+    # Determine input nodes (latest version at this point)
+    input_nodes = []
+    for tbl in input_tables:
+        if tbl in latest_node_for_table:
+            input_nodes.append(latest_node_for_table[tbl])
+        else:
+            # starting table, create node
+            node_id = f"{tbl}_start"
+            G.add_node(node_id, label=tbl, color="lightblue")
+            latest_node_for_table[tbl] = node_id
+            input_nodes.append(node_id)
 
-# Load multiple JSON objects from a file
-json_file = "templates/events_log/job_1/debug/transforms.json"
-events = []
-
-with open(json_file, "r") as f:
-    content = f.read().strip()
-    for obj_str in content.split("\n{"):
-        obj_str = obj_str if obj_str.startswith("{") else "{" + obj_str
-        events.append(json.loads(obj_str))
-
-# Create a directed graph
-G = nx.DiGraph()
-
-# Add edges and mark output nodes as testable/not
-for event in events:
-    log_info = event.get("log_info", {})
-    input_tables = log_info.get("input_tables", [])
-    output_tables = log_info.get("output_tables", [])
-    transform_name = event.get("name", "unknown")
-    testable = event.get("testable_transform", False)
-
-    # Add input table nodes (always grey, since they aren't "produced" here)
-    for inp in input_tables:
-        if inp not in G:
-            G.add_node(inp, type="table", color="lightgrey")
-
-    # Add output table nodes (color depends on testable flag)
-    for out in output_tables:
+    # Create new output nodes (one per table)
+    output_nodes = []
+    for tbl in output_tables:
+        node_id = f"{tbl}_{ts.replace(':', '_').replace('.', '_')}"
         node_color = "lightgreen" if testable else "lightgrey"
-        G.add_node(out, type="table", color=node_color)
+        G.add_node(node_id, label=tbl, color=node_color)
+        latest_node_for_table[tbl] = node_id
+        output_nodes.append(node_id)
 
-    # Add edges from inputs → outputs
-    for inp in input_tables:
-        for out in output_tables:
-            G.add_edge(inp, out, label=transform_name)
+    # Connect input nodes → output nodes
+    for inp_node in input_nodes:
+        for out_node in output_nodes:
+            edge_label = f"{transform_name}\n{ts}"
+            G.add_edge(inp_node, out_node, label=edge_label, len=6)
 
 # Layout
-pos = graphviz_layout(G, prog="dot")  # top-down layout
-
-plt.figure(figsize=(12, 8))
-
-# Draw nodes with their assigned colors
+pos = graphviz_layout(G, prog="dot")
+plt.figure(figsize=(16, 36))
 node_colors = [G.nodes[n].get("color", "lightgrey") for n in G.nodes()]
-nx.draw_networkx_nodes(G, pos, node_size=2000, node_color=node_colors)
+nx.draw_networkx_nodes(G, pos, node_size=2200, node_color=node_colors)
 
-# Draw edges
 nx.draw_networkx_edges(G, pos, arrowstyle="->", arrowsize=20)
-
-# Labels
-nx.draw_networkx_labels(G, pos, font_size=10, font_weight="bold")
+labels = {n: G.nodes[n].get("label", n) for n in G.nodes()}
+nx.draw_networkx_labels(G, pos, labels=labels, font_size=10, font_weight="bold")
 edge_labels = nx.get_edge_attributes(G, "label")
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="blue", font_size=8)
 
-plt.title("Pipeline DAG (green = testable, grey = not testable)")
+plt.title("Pipeline DAG (blue=input, green=testable, grey=not testable)\nVersioned nodes per transform")
 plt.axis("off")
 plt.show()
