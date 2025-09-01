@@ -38,14 +38,10 @@ Dependencies
 * sas-to-polars
 * sparkpolars
 * uainepydat
+* pyvis
+* networkx
 
 
-
-transformslib.dag
-=================
-
-.. automodule:: transformslib.dag
-   :members:
 
 transformslib.events.eventlog
 =============================
@@ -63,6 +59,30 @@ transformslib.events.pipeevent
 ==============================
 
 .. automodule:: transformslib.events.pipeevent
+   :members:
+
+transformslib.mapping.dag
+=========================
+
+.. automodule:: transformslib.mapping.dag
+   :members:
+
+transformslib.mapping.dagnew
+============================
+
+.. automodule:: transformslib.mapping.dagnew
+   :members:
+
+transformslib.mapping.maps
+==========================
+
+.. automodule:: transformslib.mapping.maps
+   :members:
+
+transformslib.setup
+===================
+
+.. automodule:: transformslib.setup
    :members:
 
 transformslib.tables.collections.collection
@@ -119,10 +139,28 @@ transformslib.transforms.base
 .. automodule:: transformslib.transforms.base
    :members:
 
+transformslib.transforms.dataset_transforms
+===========================================
+
+.. automodule:: transformslib.transforms.dataset_transforms
+   :members:
+
+transformslib.transforms.dataset_transforms_base
+================================================
+
+.. automodule:: transformslib.transforms.dataset_transforms_base
+   :members:
+
 transformslib.transforms.macrolib
 =================================
 
 .. automodule:: transformslib.transforms.macrolib
+   :members:
+
+transformslib.transforms.reader
+===============================
+
+.. automodule:: transformslib.transforms.reader
    :members:
 
 

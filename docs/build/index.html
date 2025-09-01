@@ -45,7 +45,6 @@
 <li><a class="reference internal" href="#">Metadata Transformations Framework</a></li>
 <li><a class="reference internal" href="#description">Description</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li><a class="reference internal" href="#transformslib-dag">transformslib.dag</a></li>
 <li><a class="reference internal" href="#module-transformslib.events.eventlog">transformslib.events.eventlog</a><ul>
 <li><a class="reference internal" href="#transformslib.events.eventlog.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
 </ul>
@@ -59,6 +58,40 @@
 </li>
 <li><a class="reference internal" href="#module-transformslib.events.pipeevent">transformslib.events.pipeevent</a><ul>
 <li><a class="reference internal" href="#transformslib.events.pipeevent.PipelineEvent"><code class="docutils literal notranslate"><span class="pre">PipelineEvent</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib-mapping-dag">transformslib.mapping.dag</a></li>
+<li><a class="reference internal" href="#transformslib-mapping-dagnew">transformslib.mapping.dagnew</a></li>
+<li><a class="reference internal" href="#module-transformslib.mapping.maps">transformslib.mapping.maps</a><ul>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.from_column_name"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.from_column_name</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.from_table"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.from_table</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.from_table_ver"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.from_table_ver</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.to_column_name"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.to_column_name</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.to_table"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.to_table</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableColumnMapping.to_table_ver"><code class="docutils literal notranslate"><span class="pre">TableColumnMapping.to_table_ver</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableMapping"><code class="docutils literal notranslate"><span class="pre">TableMapping</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableMapping.from_table"><code class="docutils literal notranslate"><span class="pre">TableMapping.from_table</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableMapping.from_table_ver"><code class="docutils literal notranslate"><span class="pre">TableMapping.from_table_ver</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableMapping.to_table"><code class="docutils literal notranslate"><span class="pre">TableMapping.to_table</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TableMapping.to_table_ver"><code class="docutils literal notranslate"><span class="pre">TableMapping.to_table_ver</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformColumnMappingType"><code class="docutils literal notranslate"><span class="pre">TransformColumnMappingType</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformTableColumnMapping"><code class="docutils literal notranslate"><span class="pre">TransformTableColumnMapping</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformTableColumnMapping.from_column_name"><code class="docutils literal notranslate"><span class="pre">TransformTableColumnMapping.from_column_name</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformTableColumnMapping.from_table"><code class="docutils literal notranslate"><span class="pre">TransformTableColumnMapping.from_table</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformTableColumnMapping.to_column_name"><code class="docutils literal notranslate"><span class="pre">TransformTableColumnMapping.to_column_name</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.maps.TransformTableColumnMapping.to_table"><code class="docutils literal notranslate"><span class="pre">TransformTableColumnMapping.to_table</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-transformslib.setup">transformslib.setup</a><ul>
+<li><a class="reference internal" href="#transformslib.setup.detect_if_java_home_set"><code class="docutils literal notranslate"><span class="pre">detect_if_java_home_set()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.setup.setup_java_home"><code class="docutils literal notranslate"><span class="pre">setup_java_home()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-transformslib.tables.collections.collection">transformslib.tables.collections.collection</a><ul>
@@ -101,6 +134,7 @@
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.concat"><code class="docutils literal notranslate"><span class="pre">MultiTable.concat()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.distinct"><code class="docutils literal notranslate"><span class="pre">MultiTable.distinct()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.drop"><code class="docutils literal notranslate"><span class="pre">MultiTable.drop()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.explode"><code class="docutils literal notranslate"><span class="pre">MultiTable.explode()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.get_pandas_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_pandas_frame()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.get_polars_lazy_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_polars_lazy_frame()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.infer_table_name"><code class="docutils literal notranslate"><span class="pre">MultiTable.infer_table_name()</span></code></a></li>
@@ -218,7 +252,13 @@
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#transformslib-transforms-dataset-transforms">transformslib.transforms.dataset_transforms</a></li>
+<li><a class="reference internal" href="#transformslib-transforms-dataset-transforms-base">transformslib.transforms.dataset_transforms_base</a></li>
 <li><a class="reference internal" href="#module-transformslib.transforms.macrolib">transformslib.transforms.macrolib</a></li>
+<li><a class="reference internal" href="#module-transformslib.transforms.reader">transformslib.transforms.reader</a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.reader.load_transform_log"><code class="docutils literal notranslate"><span class="pre">load_transform_log()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#release-history">Release History</a><ul>
 <li><a class="reference internal" href="#version-1-0">Version 1.0</a></li>
 </ul>
@@ -274,10 +314,9 @@
 <li><p>sas-to-polars</p></li>
 <li><p>sparkpolars</p></li>
 <li><p>uainepydat</p></li>
+<li><p>pyvis</p></li>
+<li><p>networkx</p></li>
 </ul>
-</section>
-<section id="transformslib-dag">
-<h1>transformslib.dag<a class="headerlink" href="#transformslib-dag" title="Link to this heading"></a></h1>
 </section>
 <section id="module-transformslib.events.eventlog">
 <span id="transformslib-events-eventlog"></span><h1>transformslib.events.eventlog<a class="headerlink" href="#module-transformslib.events.eventlog" title="Link to this heading"></a></h1>
@@ -318,6 +357,135 @@ event_description (str): A detailed description of the operation.
 class_type (str): Constant string identifying this event type.</p>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="transformslib-mapping-dag">
+<h1>transformslib.mapping.dag<a class="headerlink" href="#transformslib-mapping-dag" title="Link to this heading"></a></h1>
+</section>
+<section id="transformslib-mapping-dagnew">
+<h1>transformslib.mapping.dagnew<a class="headerlink" href="#transformslib-mapping-dagnew" title="Link to this heading"></a></h1>
+</section>
+<section id="module-transformslib.mapping.maps">
+<span id="transformslib-mapping-maps"></span><h1>transformslib.mapping.maps<a class="headerlink" href="#module-transformslib.mapping.maps" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.mapping.maps.</span></span><span class="sig-name descname"><span class="pre">TableColumnMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_table_ver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_table_ver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_column_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.from_column_name">
+<span class="sig-name descname"><span class="pre">from_column_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.from_column_name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.from_table">
+<span class="sig-name descname"><span class="pre">from_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.from_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.from_table_ver">
+<span class="sig-name descname"><span class="pre">from_table_ver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.from_table_ver" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.to_column_name">
+<span class="sig-name descname"><span class="pre">to_column_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.to_column_name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.to_table">
+<span class="sig-name descname"><span class="pre">to_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.to_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableColumnMapping.to_table_ver">
+<span class="sig-name descname"><span class="pre">to_table_ver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableColumnMapping.to_table_ver" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableMapping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.mapping.maps.</span></span><span class="sig-name descname"><span class="pre">TableMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_table_ver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_table_ver</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.maps.TableMapping" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableMapping.from_table">
+<span class="sig-name descname"><span class="pre">from_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableMapping.from_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableMapping.from_table_ver">
+<span class="sig-name descname"><span class="pre">from_table_ver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableMapping.from_table_ver" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableMapping.to_table">
+<span class="sig-name descname"><span class="pre">to_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableMapping.to_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TableMapping.to_table_ver">
+<span class="sig-name descname"><span class="pre">to_table_ver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#transformslib.mapping.maps.TableMapping.to_table_ver" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformColumnMappingType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.mapping.maps.</span></span><span class="sig-name descname"><span class="pre">TransformColumnMappingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.maps.TransformColumnMappingType" title="Link to this definition"></a></dt>
+<dd><p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformTableColumnMapping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.mapping.maps.</span></span><span class="sig-name descname"><span class="pre">TransformTableColumnMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_column_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.maps.TransformTableColumnMapping" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformTableColumnMapping.from_column_name">
+<span class="sig-name descname"><span class="pre">from_column_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TransformTableColumnMapping.from_column_name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformTableColumnMapping.from_table">
+<span class="sig-name descname"><span class="pre">from_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TransformTableColumnMapping.from_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformTableColumnMapping.to_column_name">
+<span class="sig-name descname"><span class="pre">to_column_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TransformTableColumnMapping.to_column_name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="transformslib.mapping.maps.TransformTableColumnMapping.to_table">
+<span class="sig-name descname"><span class="pre">to_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#transformslib.mapping.maps.TransformTableColumnMapping.to_table" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-transformslib.setup">
+<span id="transformslib-setup"></span><h1>transformslib.setup<a class="headerlink" href="#module-transformslib.setup" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.setup.detect_if_java_home_set">
+<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">detect_if_java_home_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.setup.detect_if_java_home_set" title="Link to this definition"></a></dt>
+<dd><p>Detects if the JAVA_HOME environment variable is set and points to a valid directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.setup.setup_java_home">
+<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">setup_java_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">java_home_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.setup.setup_java_home" title="Link to this definition"></a></dt>
+<dd><p>Sets the JAVA_HOME environment variable to the specified path.</p>
 </dd></dl>
 
 </section>
@@ -881,6 +1049,21 @@ If None, considers all columns.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mf3</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">])</span>  <span class="c1"># Drop multiple columns</span>
 </pre></div>
 </div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.explode">
+<span class="sig-name descname"><span class="pre">explode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.explode" title="Link to this definition"></a></dt>
+<dd><p>Explode (flatten) a column containing lists/arrays (or delimited strings) into multiple rows.
+Always modifies the current MultiTable in place.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>column (str): Column name to explode.
+sep (str | None): If provided, split strings in the column by this separator before exploding.
+outer (bool): If True, performs an ‘outer explode’ (keeps rows where the column is null/empty).</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1675,8 +1858,23 @@ correctly and the results meet expected criteria.</p>
 </dd></dl>
 
 </section>
+<section id="transformslib-transforms-dataset-transforms">
+<h1>transformslib.transforms.dataset_transforms<a class="headerlink" href="#transformslib-transforms-dataset-transforms" title="Link to this heading"></a></h1>
+</section>
+<section id="transformslib-transforms-dataset-transforms-base">
+<h1>transformslib.transforms.dataset_transforms_base<a class="headerlink" href="#transformslib-transforms-dataset-transforms-base" title="Link to this heading"></a></h1>
+</section>
 <section id="module-transformslib.transforms.macrolib">
 <span id="transformslib-transforms-macrolib"></span><h1>transformslib.transforms.macrolib<a class="headerlink" href="#module-transformslib.transforms.macrolib" title="Link to this heading"></a></h1>
+</section>
+<section id="module-transformslib.transforms.reader">
+<span id="transformslib-transforms-reader"></span><h1>transformslib.transforms.reader<a class="headerlink" href="#module-transformslib.transforms.reader" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.load_transform_log">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">load_transform_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.reader.load_transform_log" title="Link to this definition"></a></dt>
+<dd><p>Load the transform log for a specific job and run ID.</p>
+</dd></dl>
+
 </section>
 <section id="release-history">
 <h1>Release History<a class="headerlink" href="#release-history" title="Link to this heading"></a></h1>

@@ -18,3 +18,4 @@ dist/*
 build/*
 transformslib.egg-info/*
 transformslib/__pycache__/*
+transformslib/mapping/__pycache__/*
