@@ -1,4 +1,6 @@
+#import mapping types
 from transformslib.mapping.maps import *
+
 from transformslib.tables.collections.collection import TableCollection
 from typing import List
 from abc import ABC, abstractmethod
