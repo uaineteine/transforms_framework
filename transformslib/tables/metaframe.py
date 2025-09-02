@@ -234,7 +234,7 @@ class MetaFrame(MultiTable):
         }
         event = PipelineEvent(
             "transform",
-            event_payload=payload
+            event_payload=payload,
             message="Sampled dataframe inplace",
             description=f"Sampling performed with parameters"
         )
