@@ -79,16 +79,19 @@ class SupplyLoad(TableCollection):
         self.payload_dir="../test_tables"
         self.supply_load_src = json_loc
         self.load_supplies(spark)
-
-    def load_supplies(self, spark=None):
+        
+    def load_supplies(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
         """
         Load supply data from the JSON configuration file.
         
         This method reads the JSON configuration file and creates MetaFrame instances
-        for each supply item. It validates that each supply item has the required fields
-        and loads the data using the specified format and path.
+        for each supply item. It validates that each supply item has the required fields,
+        loads the data using the specified format and path, and optionally applies sampling.
 
         Args:
+            sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
+            sample_rows (int, optional): Number of rows to sample.
+            seed (int, optional): Random seed for reproducibility.
             spark: SparkSession object required for PySpark operations. Defaults to None.
 
         Raises:
@@ -98,9 +101,7 @@ class SupplyLoad(TableCollection):
 
         Example:
             >>> supply_loader = SupplyLoad("config.json", spark)
-            >>> # load_supplies is automatically called during initialization
-            >>> # but can be called again if needed
-            >>> supply_loader.load_supplies(spark)
+            >>> supply_loader.load_supplies(sample_frac=0.1, seed=42, spark=spark)
         """
         try:
             with open(self.supply_load_src, 'r') as file:
@@ -117,7 +118,11 @@ class SupplyLoad(TableCollection):
                         frame_type="pyspark",
                         spark=spark
                     )
-                    
+
+                    # Apply sampling if requested
+                    if sample_frac is not None or sample_rows is not None:
+                        table.sample(n=sample_rows, frac=sample_frac, seed=seed)
+
                     self.tables.append(table)
                     self.named_tables[name] = table
 
@@ -126,3 +131,4 @@ class SupplyLoad(TableCollection):
         
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON format in supply load file")
+
