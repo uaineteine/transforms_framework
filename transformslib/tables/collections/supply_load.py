@@ -43,7 +43,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, json_loc: str, spark=None):
+    def __init__(self, json_loc: str, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
         
@@ -53,6 +53,9 @@ class SupplyLoad(TableCollection):
 
         Args:
             json_loc (str): Path to the JSON configuration file containing supply definitions.
+            sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
+            sample_rows (int, optional): Number of rows to sample.
+            seed (int, optional): Random seed for reproducibility.
             spark: SparkSession object required for loading PySpark DataFrames. Defaults to None.
 
         Raises:
@@ -78,9 +81,18 @@ class SupplyLoad(TableCollection):
         self.run = 1
         self.payload_dir="../test_tables"
         self.supply_load_src = json_loc
-        self.load_supplies(spark)
-        
-    def load_supplies(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
+
+        if sample_frac != None or sample_rows != None:
+            self.sample = True
+            self.sample_frace = sample_frac
+            self.sample_rows = sample_rows
+            self.seed = seed
+        else:
+            self.sample = False
+
+        self.load_supplies(spark=spark)
+
+    def load_supplies(self, spark=None):
         """
         Load supply data from the JSON configuration file.
         
@@ -89,9 +101,6 @@ class SupplyLoad(TableCollection):
         loads the data using the specified format and path, and optionally applies sampling.
 
         Args:
-            sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
-            sample_rows (int, optional): Number of rows to sample.
-            seed (int, optional): Random seed for reproducibility.
             spark: SparkSession object required for PySpark operations. Defaults to None.
 
         Raises:
@@ -120,8 +129,8 @@ class SupplyLoad(TableCollection):
                     )
 
                     # Apply sampling if requested
-                    if sample_frac is not None or sample_rows is not None:
-                        table.sample(n=sample_rows, frac=sample_frac, seed=seed)
+                    if self.sample:
+                        table.sample(n=self.sample_rows, frac=self.sample_frac, seed=self.seed)
 
                     self.tables.append(table)
                     self.named_tables[name] = table
