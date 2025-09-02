@@ -84,7 +84,7 @@ class SupplyLoad(TableCollection):
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
-            self.sample_frace = sample_frac
+            self.sample_frac = sample_frac
             self.sample_rows = sample_rows
             self.seed = seed
         else:
