@@ -139,18 +139,6 @@ transformslib.transforms.base
 .. automodule:: transformslib.transforms.base
    :members:
 
-transformslib.transforms.dataset_transforms
-===========================================
-
-.. automodule:: transformslib.transforms.dataset_transforms
-   :members:
-
-transformslib.transforms.dataset_transforms_base
-================================================
-
-.. automodule:: transformslib.transforms.dataset_transforms_base
-   :members:
-
 transformslib.transforms.macrolib
 =================================
 
