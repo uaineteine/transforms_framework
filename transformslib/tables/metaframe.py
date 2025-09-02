@@ -210,3 +210,47 @@ class MetaFrame(MultiTable):
         event.table_name = self.table_name
         event.src_format = format
         self.add_event(event)
+
+    def sample(self, n: int = None, frac: float = None, seed: int = None):
+        """
+        Sample rows from the DataFrame and replace the existing DataFrame inplace.
+
+        Args:
+            n (int, optional): Number of rows to sample. Mutually exclusive with `frac`.
+            frac (float, optional): Fraction of rows to sample. Mutually exclusive with `n`.
+            seed (int, optional): Random seed for reproducibility.
+
+        Returns:
+            None
+        """
+        if n is not None and frac is not None:
+            raise ValueError("Specify either `n` or `frac`, not both.")
+
+        if self.frame_type == FrameTypeVerifier.pandas:
+            self.df = self.df.sample(n=n, frac=frac, random_state=seed)
+        elif self.frame_type == FrameTypeVerifier.polars:
+            if frac is not None:
+                self.df = self.df.sample(frac=frac, seed=seed)
+            else:
+                self.df = self.df.sample(n=n, seed=seed)
+        elif self.frame_type == FrameTypeVerifier.pyspark:
+            if frac is None:
+                if n is None:
+                    raise ValueError("Must specify either `n` or `frac` for sampling.")
+                frac = n / self.df.count()
+            self.df = self.df.sample(withReplacement=False, fraction=frac, seed=seed)
+        else:
+            raise NotImplementedError(f"Sampling not supported for frame type {self.frame_type}")
+
+        # Log event
+        payload = {
+            "n": n,
+            "frac": frac,
+            "seed": seed,
+        }
+        event = PipelineEvent(
+            "transform",
+            message="Sampled dataframe inplace",
+            description=f"Sampling performed with parameters: {payload}"
+        )
+        self.add_event(event)
