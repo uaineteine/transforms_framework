@@ -32,7 +32,7 @@ class JSONLog:
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
 
         #excluded from log
-        self.log_exclusions = ["log_location", "indent_depth", "log_exclusions"]
+        self.log_exclusions = ["log_location", "indent_depth", "log_exclusions" , "persistent_uuid"]
         self.log_location = log_location
         self.indent_depth = indent_depth
 
