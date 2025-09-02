@@ -18,7 +18,7 @@ if __name__ == "__main__":
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
 
     # load pipeline tables
-    supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark)
+    supply_frames = SupplyLoad("../test_tables/payload.json", spark=spark) #sample_rows=xyz
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
