@@ -4,7 +4,6 @@
       "salary"
     ],
     "output_tables": [
-      "salary_620",
       "salary_500",
       "salary_600",
       "salary_400"
@@ -19,10 +18,10 @@
     "renamed_variables": null,
     "removed_variables": null,
     "num_input_frames": 1,
-    "num_output_frames": 4
+    "num_output_frames": 3
   },
-  "uuid": "b2d74f27-1776-41c0-b46c-9fd7a997503b",
-  "timestamp": "2025-09-02T10:53:20.240801+00:00",
+  "uuid": "89454956-be39-4b29-b839-51057a5dac07",
+  "timestamp": "2025-09-02T13:09:44.729345+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -36,7 +35,6 @@
   "version_python": "3.10.8",
   "transform_id": "PartVal",
   "target_tables": [
-    "salary_620",
     "salary_500",
     "salary_600",
     "salary_400"
@@ -71,8 +69,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "354acb9b-740e-4fe1-ab8e-3bbcf260a9b7",
-  "timestamp": "2025-09-02T10:53:22.336756+00:00",
+  "uuid": "b9e7a20d-1d64-4e0e-b314-d21f4abcc339",
+  "timestamp": "2025-09-02T13:09:47.389059+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -118,8 +116,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "3b186d78-0756-4cfb-870b-b4d4003dbcc1",
-  "timestamp": "2025-09-02T10:53:22.481755+00:00",
+  "uuid": "497cb7b9-00d7-4687-b9f2-fd8e67eb2369",
+  "timestamp": "2025-09-02T13:09:47.697087+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -156,8 +154,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "103f0242-2361-497e-a564-df40e21cf807",
-  "timestamp": "2025-09-02T10:53:22.618755+00:00",
+  "uuid": "603d8ac8-9213-4085-897e-d6a51e508517",
+  "timestamp": "2025-09-02T13:09:47.905637+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -191,8 +189,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "772e71ac-d334-4ee7-ba9a-87436aa8bc71",
-  "timestamp": "2025-09-02T10:53:23.157759+00:00",
+  "uuid": "930129da-a33f-4f21-8b43-d03437f4e433",
+  "timestamp": "2025-09-02T13:09:54.102701+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -234,8 +232,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e5ed0691-994f-4dce-9abd-c7f49acdc13c",
-  "timestamp": "2025-09-02T10:53:23.489755+00:00",
+  "uuid": "fddb558f-aa0b-4e7c-bd2e-9e4b0a95bda8",
+  "timestamp": "2025-09-02T13:09:57.009765+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -277,8 +275,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "32df2fdb-24c0-42f8-bd1c-458b4baf1b79",
-  "timestamp": "2025-09-02T10:53:23.633755+00:00",
+  "uuid": "18a62611-d480-4d15-8276-746c079a1755",
+  "timestamp": "2025-09-02T13:09:58.950282+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -322,8 +320,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "792f199f-a1af-450d-8653-079da7eace98",
-  "timestamp": "2025-09-02T10:53:23.875273+00:00",
+  "uuid": "e9c8d098-c24f-4c64-8eb1-b7f00ea4f8fb",
+  "timestamp": "2025-09-02T13:10:01.796338+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
@@ -373,8 +371,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "02842287-9012-4be1-af62-7f7abeb8f702",
-  "timestamp": "2025-09-02T10:53:25.061377+00:00",
+  "uuid": "47765758-5d78-41b9-9b19-3c9c91379ffb",
+  "timestamp": "2025-09-02T13:10:12.284642+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
@@ -422,8 +420,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "880779af-69af-4571-a3e0-e70898183964",
-  "timestamp": "2025-09-02T10:53:25.482376+00:00",
+  "uuid": "66f4a8be-e3d1-4e67-a41e-17db752db864",
+  "timestamp": "2025-09-02T13:10:13.612675+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
@@ -465,8 +463,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "684a5876-aa03-49c8-b5b7-41904b346e18",
-  "timestamp": "2025-09-02T10:53:25.898411+00:00",
+  "uuid": "1793d909-b572-423d-bb51-6ba69c69cf11",
+  "timestamp": "2025-09-02T13:10:15.064236+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
@@ -510,8 +508,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "d6df24d5-4072-46cb-95cc-016e33e2bbd5",
-  "timestamp": "2025-09-02T10:53:26.591970+00:00",
+  "uuid": "6539fa44-cc17-43cb-896b-d09829fa476d",
+  "timestamp": "2025-09-02T13:10:18.044836+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
