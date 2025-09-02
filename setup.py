@@ -5,7 +5,7 @@ long_description = '# Meta Transforms Framework - Beta v0.0.7\n\nThis program pr
 
 setup(
     name="transformslib",
-    version="0.0.7",
+    version="0.0.8",
     author="",
     author_email="",
     description="A python package of a working transforms framework",

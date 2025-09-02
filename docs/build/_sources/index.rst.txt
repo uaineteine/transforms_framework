@@ -67,12 +67,6 @@ transformslib.mapping.dag
 .. automodule:: transformslib.mapping.dag
    :members:
 
-transformslib.mapping.dagnew
-============================
-
-.. automodule:: transformslib.mapping.dagnew
-   :members:
-
 transformslib.mapping.maps
 ==========================
 
