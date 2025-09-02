@@ -26,6 +26,7 @@ class JSONLog:
         """
         #included in log
         self.log_info = log_payload
+        self.persistent_uuid = persistent_uuid
         self.uuid = _create_uuid()
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
