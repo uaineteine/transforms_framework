@@ -22,6 +22,8 @@ class Macro:
     self.input_variables = input_variables
     self.output_variables = output_variables
 
+    self.macro_log_loc = macro_log_location
+
   def apply(self):
     return_frames = self.macros.apply(self.input_tables)
 
@@ -32,7 +34,7 @@ class Macro:
   def log(self):
     json_info = self.__dict__
 
-    with open(self.macro_log_location, 'w') as f:
+    with open(self.macro_log_loc, 'w') as f:
       json.dump(json_info, f, indent=2)
 
 class TopBottomCode(Macro):
