@@ -223,24 +223,8 @@ class MetaFrame(MultiTable):
         Returns:
             None
         """
-        if n is not None and frac is not None:
-            raise ValueError("Specify either `n` or `frac`, not both.")
-
-        if self.frame_type == FrameTypeVerifier.pandas:
-            self.df = self.df.sample(n=n, frac=frac, random_state=seed)
-        elif self.frame_type == FrameTypeVerifier.polars:
-            if frac is not None:
-                self.df = self.df.sample(frac=frac, seed=seed)
-            else:
-                self.df = self.df.sample(n=n, seed=seed)
-        elif self.frame_type == FrameTypeVerifier.pyspark:
-            if frac is None:
-                if n is None:
-                    raise ValueError("Must specify either `n` or `frac` for sampling.")
-                frac = n / self.df.count()
-            self.df = self.df.sample(withReplacement=False, fraction=frac, seed=seed)
-        else:
-            raise NotImplementedError(f"Sampling not supported for frame type {self.frame_type}")
+        #run sample code from base
+        super().sample(n=n, frac=frac, seed=seed)
 
         # Log event
         payload = {
