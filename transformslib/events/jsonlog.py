@@ -3,12 +3,18 @@ from datetime import datetime, timezone
 import json
 import os
 
+def _create_uuid() -> str:
+    return str(uuid.uuid4())
+
 class JSONLog:
     """
     Log events as JSON with a UUID, timestamp, and optional file output.
     """
 
-    def __init__(self, log_payload, log_location: str = "", indent_depth: int = 2):
+    def gen_new_uuid(self):
+        self.uuid = _create_uuid()
+
+    def __init__(self, log_payload, log_location: str = "", indent_depth: int = 2, persistent_uuid:bool = False):
         """
         Create a JSONLog event.
 
@@ -16,10 +22,11 @@ class JSONLog:
             log_payload (Any): Data to log.
             log_location (str, optional): File path for writing. Defaults to "".
             indent_depth (int, optional): JSON indentation. Defaults to 2.
+            persistent_uuid (bool, optional): Create new UUID on each log event or keep the same one. Default is false.
         """
         #included in log
         self.log_info = log_payload
-        self.uuid = str(uuid.uuid4())
+        self.uuid = _create_uuid()
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
 
@@ -32,6 +39,10 @@ class JSONLog:
         """
         Return the event as a JSON string, recursively converting objects to dicts.
         """
+        #update uuid
+        if self.persistent_uuid == False:
+            self.gen_new_uuid()
+
         def recursive_convert(obj):
             if isinstance(obj, dict):
                 return {k: recursive_convert(v) for k, v in obj.items()}
