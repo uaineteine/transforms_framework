@@ -1,76 +1,106 @@
-import json
+from pyvis.network import Network
 import networkx as nx
-import matplotlib.pyplot as plt
-from networkx.drawing.nx_pydot import graphviz_layout
-from datetime import datetime
+import os
 
-# Load JSON events
-json_file = "templates/events_log/job_1/debug/transforms.json"
-events = []
-with open(json_file, "r") as f:
-    content = f.read().strip()
-    for obj_str in content.split("\n{"):
-        obj_str = obj_str if obj_str.startswith("{") else "{" + obj_str
-        events.append(json.loads(obj_str))
+from transformslib.transforms import reader
 
-# Sort by timestamp
-def parse_ts(e):
-    return datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00"))
-events.sort(key=parse_ts)
+def output_loc(job_id:int, run_id:int) -> str:
+    """Function to return a transforms report output location"""
+    report_name = f"transform_dag_job{job_id}_run{run_id}.html"
 
-G = nx.DiGraph()
+def build_dag(job_id:int, run_id:int):
+    """
+    Method for building the dag with an output html file
+    
+    Args: job_id, run_id
+    """
+    logs = reader.load_transform_log(job_id=1, run_id=1)
 
-# Track latest node for each table
-latest_node_for_table = {}
+    # Build DAG
+    input_dfs = [log["params"]["path"] for log in logs if log["function"].startswith("read_file")]
+    output_files = [log["params"]["path"] for log in logs if log["function"].startswith("write_file")]
 
-for event in events:
-    ts = parse_ts(event).strftime("%H:%M:%S.%f")
-    log_info = event.get("log_info", {})
-    input_tables = log_info.get("input_tables", [])
-    output_tables = log_info.get("output_tables", [])
-    transform_name = event.get("name", "unknown")
-    testable = event.get("testable_transform", False)
+    G = nx.DiGraph()
+    for df in input_dfs:
+        G.add_node(df, label=os.path.basename(df), color="lightblue", title=f"Input: {df}")
 
-    # Determine input nodes (latest version at this point)
-    input_nodes = []
-    for tbl in input_tables:
-        if tbl in latest_node_for_table:
-            input_nodes.append(latest_node_for_table[tbl])
+    transform_nodes = []
+    for i, log in enumerate(logs):
+        if log["function"].startswith(("read_file", "write_file")):
+            continue
+
+        func_name = log["function"]
+        timestamp = log["timestamp"]
+        node_name = f"{func_name}_{timestamp}"
+        transform_nodes.append(node_name)
+
+        extra_stats = log.get("extra", {}).get("stats", {})
+        extra_info = "\n".join([f"{k}: {v}" for k, v in extra_stats.items()])
+
+        # The previous code block continues here
+
+        title = (
+            f"Function: {func_name}\n"
+            f"Version: {log.get('version', '')}\n"
+            f"User: {log.get('user', '')}\n"
+            f"Status: {'✅' if log.get('pass_bool', True) else '❌'}\n"
+            f"Message: {log.get('msg', '')}\n"
+            f"{extra_info}\n"
+            f"Params: {log.get('params', '')}"
+        )
+
+        node_color = "lightgreen" if log.get("pass_bool", True) else "red"
+        G.add_node(node_name, label=func_name, color=node_color, title=title)
+
+        if i == 0:
+            for df in input_dfs:
+                G.add_edge(df, node_name)
         else:
-            # starting table, create node
-            node_id = f"{tbl}_start"
-            G.add_node(node_id, label=tbl, color="lightblue")
-            latest_node_for_table[tbl] = node_id
-            input_nodes.append(node_id)
+            j = i - 1
+            while j >= 0 and logs[j]["function"].startswith(("read_file", "write_file")):
+                j -= 1
+            
+            prev_node = f"{logs[j]['function']}_{logs[j]['timestamp']}" if j >= 0 else input_dfs[0]
+            G.add_edge(prev_node, node_name)
 
-    # Create new output nodes (one per table)
-    output_nodes = []
-    for tbl in output_tables:
-        node_id = f"{tbl}_{ts.replace(':', '_').replace('.', '_')}"
-        node_color = "lightgreen" if testable else "lightgrey"
-        G.add_node(node_id, label=tbl, color=node_color)
-        latest_node_for_table[tbl] = node_id
-        output_nodes.append(node_id)
+    # The previous code block continues here
 
-    # Connect input nodes → output nodes
-    for inp_node in input_nodes:
-        for out_node in output_nodes:
-            edge_label = f"{transform_name}"
-            G.add_edge(inp_node, out_node, label=edge_label, len=6)
+    for out_file in output_files:
+        last_transform_node = transform_nodes[-1] if transform_nodes else input_dfs[0]
+        G.add_node(out_file, label=os.path.basename(out_file), color="orange", title=f"Output: {out_file}")
+        G.add_edge(last_transform_node, out_file)
 
-# Layout
-pos = graphviz_layout(G, prog="dot")
-plt.figure(figsize=(16, 40))
-node_colors = [G.nodes[n].get("color", "lightgrey") for n in G.nodes()]
-nx.draw_networkx_nodes(G, pos, node_size=2200, node_color=node_colors)
+    # Render Pyvis
+    net = Network(
+        height="700px",
+        width="100%",
+        directed=True,
+        notebook=False,
+        cdn_resources="in_line"
+    )
 
-nx.draw_networkx_edges(G, pos, arrowstyle="->", arrowsize=20)
-labels = {n: G.nodes[n].get("label", n) for n in G.nodes()}
-nx.draw_networkx_labels(G, pos, labels=labels, font_size=10, font_weight="bold")
-edge_labels = nx.get_edge_attributes(G, "label")
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="blue", font_size=8)
+    net.from_nx(G)
+    net.set_options("""
+    var options = {
+    "interaction": {
+        "hover": true,
+        "hoverDelay": 100,
+        "multiselect": false,
+        "tooltipDelay": 100
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": true
+    }
+    }
+    """)
 
-plt.title("Pipeline DAG (blue=input, green=testable, grey=not testable)\nVersioned nodes per transform")
-plt.axis("off")
-# SAVE to file (PNG, PDF, or any format Matplotlib supports)
-plt.savefig("pipeline_dag.png", bbox_inches="tight", dpi=300)
+    # Save UTF-8 HTML manually
+    html_file = output_loc(job_id = job_id, run_id = run_id)
+    html_content = net.generate_html()
+    with open(html_file, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print("DAG saved to: " + html_file)
+
+# Embed in Streamlit
+#st.components.v1.html(html_content, height=800, scrolling=True)
