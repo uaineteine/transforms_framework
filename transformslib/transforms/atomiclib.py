@@ -953,3 +953,82 @@ class ReplaceByCondition(TableTransform):
             if not table_name:
                 return False
             return self.column in supply_frames[table_name].columns
+
+class DropNAValues(TableTransform):
+    """
+    Transform class for dropping rows with NA/None/Null values in a specified column.
+    """
+
+    def __init__(self, column: str):
+        """
+        Initialise a DropNAValues transform.
+
+        Args:
+            column (str): The name of the column to check for NA values.
+        """
+        super().__init__(
+            "DropNAValues",
+            f"Drops rows with NA values in column '{column}'",
+            [column],
+            "DropNA",
+            testable_transform=True,
+        )
+        self.column = column
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target column exists in the DataFrame.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Drop rows with NA values in the specified column.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        # Apply backend-specific NA drop
+        if backend == "pandas":
+            supply_frames[table_name] = supply_frames[table_name].dropna(subset=[self.column])
+        elif backend == "polars":
+            supply_frames[table_name] = supply_frames[table_name].drop_nulls(subset=[self.column])
+        elif backend == "pyspark":
+            supply_frames[table_name] = supply_frames[table_name].na.drop(subset=[self.column])
+        else:
+            raise NotImplementedError(f"DropNA not implemented for backend '{backend}'")
+
+        # Log event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that no NA values remain in the target column.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pandas":
+            return not supply_frames[table_name][self.column].isna().any()
+        elif backend == "polars":
+            return supply_frames[table_name][self.column].null_count() == 0
+        elif backend == "pyspark":
+            return supply_frames[table_name].filter(col(self.column).isNull()).count() == 0
+        return False
