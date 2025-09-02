@@ -889,70 +889,70 @@ class ReplaceByCondition(TableTransform):
 
         return False
 
-    class ExplodeColumn(TableTransform):
+class ExplodeColumn(TableTransform):
+    """
+    Transform class for exploding a list-like column into multiple rows.
+    """
+
+    def __init__(self, column: str, sep: str = None, outer: bool = False):
         """
-        Transform class for exploding a list-like column into multiple rows.
+        Initialise an ExplodeColumn transform.
+
+        Args:
+            column (str): The name of the column to explode.
+            sep (str, optional): If provided, split string values on this separator before exploding.
+            outer (bool, optional): Whether to use outer explode (keep null/empty values). Default is False.
         """
+        super().__init__(
+            "ExplodeColumn",
+            f"Explodes column '{column}' into multiple rows",
+            [column],
+            "ExplodeCol",
+            testable_transform=True,
+        )
+        self.column = column
+        self.sep = sep
+        self.outer = outer
 
-        def __init__(self, column: str, sep: str = None, outer: bool = False):
-            """
-            Initialise an ExplodeColumn transform.
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target column exists in the DataFrame.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
 
-            Args:
-                column (str): The name of the column to explode.
-                sep (str, optional): If provided, split string values on this separator before exploding.
-                outer (bool, optional): Whether to use outer explode (keep null/empty values). Default is False.
-            """
-            super().__init__(
-                "ExplodeColumn",
-                f"Explodes column '{column}' into multiple rows",
-                [column],
-                "ExplodeCol",
-                testable_transform=True,
-            )
-            self.column = column
-            self.sep = sep
-            self.outer = outer
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'. Have you made a typo or are you not using capitalised header names?")
 
-        def error_check(self, supply_frames: TableCollection, **kwargs):
-            """
-            Validate that the target column exists in the DataFrame.
-            """
-            table_name = kwargs.get("df")
-            if not table_name:
-                raise ValueError("Must specify 'df' parameter with table name")
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Apply explode on the specified column using MultiTable.explode().
+        """
+        table_name = kwargs.get("df")
+        df = supply_frames[table_name]
 
-            if self.column not in supply_frames[table_name].columns:
-                raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+        df.explode(column=self.column, sep=self.sep, outer=self.outer)
 
-        def transforms(self, supply_frames: TableCollection, **kwargs):
-            """
-            Apply explode on the specified column using MultiTable.explode().
-            """
-            table_name = kwargs.get("df")
-            df = supply_frames[table_name]
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        df.add_event(self)
 
-            df.explode(column=self.column, sep=self.sep, outer=self.outer)
+        self.target_tables = [table_name]
+        return supply_frames
 
-            self.log_info = TransformEvent(
-                input_tables=[table_name],
-                output_tables=[table_name],
-                input_variables=[self.column],
-                output_variables=[self.column],
-            )
-            df.add_event(self)
-
-            self.target_tables = [table_name]
-            return supply_frames
-
-        def test(self, supply_frames: TableCollection, **kwargs) -> bool:
-            """
-            Simple test: ensure column still exists after explode.
-            """
-            table_name = kwargs.get("df")
-            if not table_name:
-                return False
-            return self.column in supply_frames[table_name].columns
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Simple test: ensure column still exists after explode.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+        return self.column in supply_frames[table_name].columns
 
 class DropNAValues(TableTransform):
     """

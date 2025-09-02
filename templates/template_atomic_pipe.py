@@ -144,5 +144,12 @@ if __name__ == "__main__":
     print("After ReplaceByCondition (INCOME >= 610 -> 600):")
     supply_frames["example_join"].show()
 
+    # -------------------------------
+    # Test 12: explode some table
+    # -------------------------------
+
+    supply_frames = ExplodeColumn("VAR3", " ", True).apply(supply_frames, df="array_like")
+    supply_frames["array_like"].show()
+
     # save table output tables
     supply_frames.save_all("../test_tables/output", spark=spark)

@@ -602,7 +602,9 @@ class MultiTable:
             self.df = self.df.with_columns(new_expr)
 
         elif self.frame_type == "pyspark":
-            new_expr = concat_ws(sep, *[col(col).cast("string") for col in columns])
+            print(columns)
+            print(sep)
+            new_expr = concat_ws(sep, *[col(c).cast("string") for c in columns])
             self.df = self.df.withColumn(new_col_name, new_expr)
 
         else:
