@@ -159,7 +159,7 @@ overlap = var_list.overlap(other_list)
 print(overlap)  # NamedList(['AGE'])
 
 # Extend with unique values
-var_list.extend_with(other_list)
+var_list.extend(other_list)
 print(var_list)  # NamedList(['NAME', 'AGE', 'CITY', 'SALARY', 'DEPARTMENT'])
 ```
 
