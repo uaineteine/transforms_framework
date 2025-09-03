@@ -65,7 +65,4 @@ class PipelineEvent(Event):
             log_location=log_location,
         )
 
-        # constant identifier
-        self.class_type = "PipelineEvent"
-
         self.meta_version = meta.meta_version

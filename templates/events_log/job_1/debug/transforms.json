@@ -4,6 +4,7 @@
       "salary"
     ],
     "output_tables": [
+      "salary_620",
       "salary_500",
       "salary_600",
       "salary_400"
@@ -18,23 +19,27 @@
     "renamed_variables": null,
     "removed_variables": null,
     "num_input_frames": 1,
-    "num_output_frames": 3
+    "num_output_frames": 4
   },
-  "uuid": "89454956-be39-4b29-b839-51057a5dac07",
-  "timestamp": "2025-09-02T13:09:44.729345+00:00",
-  "executed_user": "Daniel",
+  "uuid": "7a882709-c325-439d-a93e-cd133361666c",
+  "timestamp": "2025-09-03T11:00:15.737671+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "PartitionByValue",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
   "transform_id": "PartVal",
   "target_tables": [
+    "salary_620",
     "salary_500",
     "salary_600",
     "salary_400"
@@ -43,7 +48,8 @@
     "SALARY"
   ],
   "partition_column": "SALARY",
-  "suffix_format": "_{value}"
+  "suffix_format": "_{value}",
+  "class_type": "PartitionByValue"
 }
 {
   "log_info": {
@@ -69,19 +75,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b9e7a20d-1d64-4e0e-b314-d21f4abcc339",
-  "timestamp": "2025-09-02T13:09:47.389059+00:00",
-  "executed_user": "Daniel",
+  "uuid": "f6a15983-9fec-4034-abc7-bff232768868",
+  "timestamp": "2025-09-03T11:00:17.766282+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "DropVariable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "positions"
+  },
   "transform_id": "DropVar",
   "target_tables": [
     "positions"
@@ -91,7 +100,8 @@
   ],
   "deleted_variables": [
     "VAR"
-  ]
+  ],
+  "class_type": "DropVariable"
 }
 {
   "log_info": {
@@ -116,19 +126,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "497cb7b9-00d7-4687-b9f2-fd8e67eb2369",
-  "timestamp": "2025-09-02T13:09:47.697087+00:00",
-  "executed_user": "Daniel",
+  "uuid": "991d50f9-3847-4e22-a241-f948f7394be2",
+  "timestamp": "2025-09-03T11:00:17.907175+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "SubsetTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
   "transform_id": "SubsetTbl",
   "target_tables": [
     "salary"
@@ -136,7 +149,8 @@
   "target_variables": [
     "SALARY",
     "AGE"
-  ]
+  ],
+  "class_type": "SubsetTable"
 }
 {
   "log_info": {
@@ -154,24 +168,28 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "603d8ac8-9213-4085-897e-d6a51e508517",
-  "timestamp": "2025-09-02T13:09:47.905637+00:00",
-  "executed_user": "Daniel",
+  "uuid": "2fc0548d-7780-4cf0-abb1-fd213a44d12e",
+  "timestamp": "2025-09-03T11:00:18.034012+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "DistinctTable",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "positions"
+  },
   "transform_id": "DistinctTbl",
   "target_tables": [
     "positions"
   ],
-  "target_variables": []
+  "target_variables": [],
+  "class_type": "DistinctTable"
 }
 {
   "log_info": {
@@ -189,24 +207,28 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "930129da-a33f-4f21-8b43-d03437f4e433",
-  "timestamp": "2025-09-02T13:09:54.102701+00:00",
-  "executed_user": "Daniel",
+  "uuid": "7018789d-d197-45a6-a5ce-fcc2ea81b894",
+  "timestamp": "2025-09-03T11:00:18.911308+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "DistinctTable",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
   "transform_id": "DistinctTbl",
   "target_tables": [
     "salary"
   ],
-  "target_variables": []
+  "target_variables": [],
+  "class_type": "DistinctTable"
 }
 {
   "log_info": {
@@ -232,19 +254,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "fddb558f-aa0b-4e7c-bd2e-9e4b0a95bda8",
-  "timestamp": "2025-09-02T13:09:57.009765+00:00",
-  "executed_user": "Daniel",
+  "uuid": "4b54f02d-1256-48b4-8eb1-46ad707be797",
+  "timestamp": "2025-09-03T11:00:19.656327+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "RenameTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
   "transform_id": "RenmTbl",
   "target_tables": [
     "salary"
@@ -257,7 +282,8 @@
   },
   "new_names": [
     "INCOME"
-  ]
+  ],
+  "class_type": "RenameTable"
 }
 {
   "log_info": {
@@ -275,19 +301,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "18a62611-d480-4d15-8276-746c079a1755",
-  "timestamp": "2025-09-02T13:09:58.950282+00:00",
-  "executed_user": "Daniel",
+  "uuid": "e540d907-77bf-4e0a-992c-a898d7194686",
+  "timestamp": "2025-09-03T11:00:19.936524+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "ComplexFilter",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
   "transform_id": "RowFilter",
   "target_tables": [
     "salary"
@@ -297,7 +326,8 @@
     "pyspark": {}
   },
   "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)"
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
+  "class_type": "ComplexFilter"
 }
 {
   "log_info": {
@@ -320,19 +350,22 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "e9c8d098-c24f-4c64-8eb1-b7f00ea4f8fb",
-  "timestamp": "2025-09-02T13:10:01.796338+00:00",
-  "executed_user": "Daniel",
+  "uuid": "1fb0c02b-7644-4a5f-b6d7-41b6b80e61ec",
+  "timestamp": "2025-09-03T11:00:20.422075+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "output_table": "example_join"
+  },
   "transform_id": "JoinTbl",
   "target_tables": [
     "example_join"
@@ -349,7 +382,8 @@
   "suffixes": [
     "_left",
     "_right"
-  ]
+  ],
+  "class_type": "JoinTable"
 }
 {
   "log_info": {
@@ -371,19 +405,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "47765758-5d78-41b9-9b19-3c9c91379ffb",
-  "timestamp": "2025-09-02T13:10:12.284642+00:00",
-  "executed_user": "Daniel",
+  "uuid": "c4d50969-db11-4ca3-9294-103b1e23f0cf",
+  "timestamp": "2025-09-03T11:00:21.882445+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "SimpleFilter",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "example_join"
+  },
   "transform_id": "SimpleFilter",
   "target_tables": [
     "example_join"
@@ -393,7 +430,8 @@
   ],
   "column": "INCOME",
   "op": ">",
-  "value": 600
+  "value": 600,
+  "class_type": "SimpleFilter"
 }
 {
   "log_info": {
@@ -420,19 +458,23 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "66f4a8be-e3d1-4e67-a41e-17db752db864",
-  "timestamp": "2025-09-02T13:10:13.612675+00:00",
-  "executed_user": "Daniel",
+  "uuid": "568b3441-e073-4ddb-91e8-1d1c29cd6fcc",
+  "timestamp": "2025-09-03T11:00:22.393810+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "ConcatColumns",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "example_join",
+    "output_var": "CONCATTED"
+  },
   "transform_id": "ConcCols",
   "target_tables": [
     "example_join"
@@ -441,7 +483,8 @@
     "AGE",
     "SKILL"
   ],
-  "separator": "_"
+  "separator": "_",
+  "class_type": "ConcatColumns"
 }
 {
   "log_info": {
@@ -463,19 +506,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "1793d909-b572-423d-bb51-6ba69c69cf11",
-  "timestamp": "2025-09-02T13:10:15.064236+00:00",
-  "executed_user": "Daniel",
+  "uuid": "d6ceeee1-27f4-4e86-80e1-48c0cbfdca21",
+  "timestamp": "2025-09-03T11:00:22.976380+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "ReplaceByCondition",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "example_join"
+  },
   "transform_id": "ReplCond",
   "target_tables": [
     "example_join"
@@ -486,7 +532,8 @@
   "column": "INCOME",
   "op": ">=",
   "value": 610,
-  "replacement": 600
+  "replacement": 600,
+  "class_type": "ReplaceByCondition"
 }
 {
   "log_info": {
@@ -508,19 +555,22 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "6539fa44-cc17-43cb-896b-d09829fa476d",
-  "timestamp": "2025-09-02T13:10:18.044836+00:00",
-  "executed_user": "Daniel",
+  "uuid": "e9c05ba8-5cff-4dbb-ac18-0f88f6643916",
+  "timestamp": "2025-09-03T11:00:23.980219+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
-  "class_type": "PipelineEvent",
+  "meta_version": "1.0",
   "name": "ExplodeColumn",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
-  "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "array_like"
+  },
   "transform_id": "ExplodeCol",
   "target_tables": [
     "array_like"
@@ -530,5 +580,6 @@
   ],
   "column": "VAR3",
   "sep": " ",
-  "outer": true
+  "outer": true,
+  "class_type": "ExplodeColumn"
 }
