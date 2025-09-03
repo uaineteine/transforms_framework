@@ -5,7 +5,7 @@ from networkx.drawing.nx_pydot import graphviz_layout
 from datetime import datetime
 
 # Load JSON events
-json_file = "templates/events_log/job_1/debug/transforms.json"
+json_file = "../templates/events_log/job_1/debug/transforms.json"
 events = []
 with open(json_file, "r") as f:
     content = f.read().strip()
