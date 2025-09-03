@@ -523,13 +523,13 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
 
 ## File Structure
 
-- [`src/tables/metaframe.py`](src/tables/metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
-- [`src/events/pipeline_event.py`](src/events/pipeline_event.py): PipelineTable and PipelineTables classes for event tracking and collection management
-- [`src/events/eventlog.py`](src/events/eventlog.py): Event and PipelineEvent classes for logging
-- [`src/transforms/base.py`](src/transforms/base.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
-- [`src/tables/collections/supply_load.py`](src/tables/collections/supply_load.py): SupplyLoad class for loading multiple tables from JSON configuration
-- [`templates/template_load_mf.py`](templates/template_load_mf.py): Example demonstrating PipelineTables collection usage
-- [`templates/template_load_pipe.py`](templates/template_load_pipe.py): Example demonstrating SupplyLoad usage
+- [`transformslib/tables/metaframe.py`](transformslib/tables/metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
+- [`transformslib/events/pipeline_event.py`](transformslib/events/pipeline_event.py): PipelineTable and PipelineTables classes for event tracking and collection management
+- [`transformslib/events/eventlog.py`](transformslib/events/eventlog.py): Event and PipelineEvent classes for logging
+- [`transformslib/transforms/base.py`](transformslib/transforms/base.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
+- [`transformslib/tables/collections/supply_load.py`](transformslib/tables/collections/supply_load.py): SupplyLoad class for loading multiple tables from JSON configuration
+- [`templates/template_atomic_transform.py`](templates/template_atomic_transform.py): Example demonstrating PipelineTables collection usage
+- [`templates/template_atomic_pipe.py`](templates/template_atomic_pipe.py): Example demonstrating SupplyLoad usage
 
 ---
 
