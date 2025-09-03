@@ -560,7 +560,7 @@ class MultiTable:
         elif frame_type == "polars":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
-            dataframe.collect().sink_parquet(path)
+            dataframe.sink_parquet(path)
 
     def write(self, path:str, format: str = "parquet", overwrite: bool = True, spark=None):
         """
