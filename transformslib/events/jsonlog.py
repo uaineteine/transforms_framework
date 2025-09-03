@@ -56,8 +56,11 @@ class JSONLog:
                 return obj
 
         dict_repr = {k: recursive_convert(v) for k, v in self.__dict__.items() if k not in self.log_exclusions}
-        return json.dumps(dict_repr, indent=self.indent_depth, ensure_ascii=True)
 
+        # Add class_type explicitly
+        dict_repr["class_type"] = self.class_type
+
+        return json.dumps(dict_repr, indent=self.indent_depth, ensure_ascii=True)
 
     def log(self):
         """
@@ -68,3 +71,18 @@ class JSONLog:
         os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
         with open(self.log_location, "a", encoding="utf-8") as f:
             f.write(self.__repr__() + "\n")
+
+    @property
+    def class_type(self) -> str:
+        """
+        Returns the name of the class as a string.
+
+        This property provides a dynamic way to identify the type of the current instance.
+        It is especially useful for logging, debugging, or serialization tasks where knowing
+        the class name is helpful. Subclasses automatically inherit this behavior without
+        needing to override or redefine it.
+
+        Returns:
+            str: The name of the class (e.g., "PipelineEvent", "TransformEvent").
+        """
+        return self.__class__.__name__
