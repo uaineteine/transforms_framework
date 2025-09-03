@@ -160,19 +160,21 @@ if __name__ == "__main__":
     join_transform = JoinTable(
         left_table="location",
         right_table="state",
-        join_columns="city",
+        join_columns="CITY",
         join_type="outer"
     )
+    print("first join complete")
     supply_frames = join_transform.apply(supply_frames, output_table="location")
     supply_frames = DistinctTable().apply(supply_frames, df="location")
 
     join_transform = JoinTable(
         left_table="location",
         right_table="example_join",
-        join_columns="name",
+        join_columns="NAME",
         join_type="outer"
     )
     supply_frames = join_transform.apply(supply_frames, output_table="final")
+    print("second join complete")
     supply_frames["final"].show()
 
     # save table output tables

@@ -22,8 +22,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "be267c56-2597-4c2d-8735-c4d62dfd7a25",
-  "timestamp": "2025-09-03T13:41:47.654570+00:00",
+  "uuid": "b28ae119-162a-4f13-afce-5a91c27db889",
+  "timestamp": "2025-09-03T15:00:05.665959+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -77,8 +77,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "077565c5-19bc-49a1-82aa-e5c5a11fd6f2",
-  "timestamp": "2025-09-03T13:41:50.991612+00:00",
+  "uuid": "6f9071a6-ebe2-4229-8054-c5379c2cd7a4",
+  "timestamp": "2025-09-03T15:00:07.550016+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -128,8 +128,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "f1ce1e82-03a7-4bcd-b39b-db9d8175c417",
-  "timestamp": "2025-09-03T13:41:51.116614+00:00",
+  "uuid": "c31eecc2-5d5d-4021-8946-efa022a3f2a5",
+  "timestamp": "2025-09-03T15:00:07.649018+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -170,8 +170,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "bf50ed19-0de7-4aac-b0db-24606f67f5de",
-  "timestamp": "2025-09-03T13:41:51.267613+00:00",
+  "uuid": "96f80ec0-2b6e-483c-b046-685516e78629",
+  "timestamp": "2025-09-03T15:00:07.742015+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -209,8 +209,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "c2563726-d842-4ceb-9ca6-95ec164be7fa",
-  "timestamp": "2025-09-03T13:41:52.564260+00:00",
+  "uuid": "a7f505cf-baf3-4fbd-ad01-8247b568e74d",
+  "timestamp": "2025-09-03T15:00:08.239078+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -256,8 +256,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "fb275764-d813-4ef7-89ae-5bb9e2e2bc4f",
-  "timestamp": "2025-09-03T13:41:53.453894+00:00",
+  "uuid": "8a9d2715-5e0a-436c-8be1-b604d9f71e33",
+  "timestamp": "2025-09-03T15:00:08.599077+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -303,8 +303,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "28c25816-590b-4f0f-9cfc-bfe08c7b525e",
-  "timestamp": "2025-09-03T13:41:53.851024+00:00",
+  "uuid": "037957c9-5fef-4979-b4dd-3b8b7149041e",
+  "timestamp": "2025-09-03T15:00:08.758164+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -352,8 +352,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "8b2defe7-3be5-442a-ba3f-59c2f7612d1d",
-  "timestamp": "2025-09-03T13:41:54.565606+00:00",
+  "uuid": "0f68452e-5e3d-43d8-9c8d-cd8b8390a41c",
+  "timestamp": "2025-09-03T15:00:09.009164+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
@@ -407,8 +407,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "00800e4c-f90d-44d5-bb43-1d3ec88873a9",
-  "timestamp": "2025-09-03T13:41:57.117350+00:00",
+  "uuid": "5ed8a658-8030-4bb5-8b0d-f86d2b81045b",
+  "timestamp": "2025-09-03T15:00:10.084713+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
@@ -460,8 +460,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "0a6537fe-85b1-485b-83b2-91953e9f3c4f",
-  "timestamp": "2025-09-03T13:41:57.884426+00:00",
+  "uuid": "dacd17c9-e70e-4b8b-8227-e0da2db8f0e0",
+  "timestamp": "2025-09-03T15:00:10.515715+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
@@ -508,8 +508,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "1e464d01-fbc4-496e-bf59-a3834b9052ad",
-  "timestamp": "2025-09-03T13:41:58.638456+00:00",
+  "uuid": "c4521ed1-c2ad-448b-869d-525876eca6eb",
+  "timestamp": "2025-09-03T15:00:10.934715+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
@@ -557,8 +557,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "a0023059-ec9d-4547-81ef-422e1119cf2f",
-  "timestamp": "2025-09-03T13:41:59.803412+00:00",
+  "uuid": "ef279efa-fa53-4927-9fb6-ebb8233784aa",
+  "timestamp": "2025-09-03T15:00:11.669712+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
@@ -584,4 +584,155 @@
   "sep": " ",
   "outer": true,
   "class_type": "ExplodeColumn"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location",
+      "state"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [
+      [
+        "CITY"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "ff4ca7be-88d8-4005-80d7-bf9adce2b506",
+  "timestamp": "2025-09-03T15:00:11.791714+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Joins location and state on CITY (outer)",
+  "meta_version": "1.0",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "params": {
+    "output_table": "location"
+  },
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [
+    "CITY"
+  ],
+  "left_table": "location",
+  "right_table": "state",
+  "join_columns": [
+    "CITY"
+  ],
+  "join_type": "outer",
+  "suffixes": [
+    "_left",
+    "_right"
+  ],
+  "class_type": "JoinTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "a9eda557-36fc-4371-b97a-3c0539191bc7",
+  "timestamp": "2025-09-03T15:00:12.039251+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "meta_version": "1.0",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "params": {
+    "df": "location"
+  },
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [],
+  "class_type": "DistinctTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location",
+      "example_join"
+    ],
+    "output_tables": [
+      "final"
+    ],
+    "input_variables": [
+      [
+        "NAME"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "b11d0f98-c720-44d1-b445-0b03d3c00c55",
+  "timestamp": "2025-09-03T15:00:12.490250+00:00",
+  "executed_user": "Daniel",
+  "event_type": "transform",
+  "event_description": "Joins location and example_join on NAME (outer)",
+  "meta_version": "1.0",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.32.3",
+  "version_pandas": "2.3.2",
+  "version_python": "3.10.8",
+  "params": {
+    "output_table": "final"
+  },
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "final"
+  ],
+  "target_variables": [
+    "NAME"
+  ],
+  "left_table": "location",
+  "right_table": "example_join",
+  "join_columns": [
+    "NAME"
+  ],
+  "join_type": "outer",
+  "suffixes": [
+    "_left",
+    "_right"
+  ],
+  "class_type": "JoinTable"
 }
