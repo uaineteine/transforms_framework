@@ -1,6 +1,7 @@
 from pyvis.network import Network
 import networkx as nx
 import os
+from datetime import datetime
 
 from transformslib.transforms import reader
 
@@ -40,7 +41,7 @@ def build_dag(job_id:int, run_id:int):
         # The previous code block continues here
 
         is_testable = log.get("testable_transform", False)
-        
+
         title = (
             f"Function: {func_name}\n"
             f"Meta Version: {log.get('meta_version', '')}\n"
@@ -97,9 +98,24 @@ def build_dag(job_id:int, run_id:int):
     }
     """)
 
+    # Calculate total runtime
+    timestamps = [log["timestamp"] for log in logs if "timestamp" in log]
+    if timestamps:
+        fmt = "%Y-%m-%dT%H:%M:%S"  # Adjust if your timestamp format differs
+        start = min(datetime.strptime(ts, fmt) for ts in timestamps)
+        end = max(datetime.strptime(ts, fmt) for ts in timestamps)
+        total_runtime = end - start
+        runtime_label = f"""
+        <div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>
+            Total Runtime: {total_runtime}
+        </div>
+        """
+    else:
+        runtime_label = "<div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>Total Runtime: Unknown</div>"
+
     # Save UTF-8 HTML manually
-    html_file = output_loc(job_id = job_id, run_id = run_id)
-    html_content = net.generate_html()
+    html_file = output_loc(job_id=job_id, run_id=run_id)
+    html_content = runtime_label + net.generate_html()
     with open(html_file, "w", encoding="utf-8") as f:
         f.write(html_content)
     print("DAG saved to: " + html_file)
