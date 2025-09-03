@@ -161,7 +161,7 @@ if __name__ == "__main__":
         left_table="location",
         right_table="state",
         join_columns="city",
-        join_type="full"
+        join_type="outer"
     )
     supply_frames = join_transform.apply(supply_frames, output_table="location")
     supply_frames = DistinctTable().apply(supply_frames, df="location")
@@ -170,7 +170,7 @@ if __name__ == "__main__":
         left_table="location",
         right_table="example_join",
         join_columns="name",
-        join_type="full"
+        join_type="outer"
     )
     supply_frames = join_transform.apply(supply_frames, output_table="final")
     supply_frames["final"].show()
