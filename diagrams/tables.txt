@@ -10,10 +10,14 @@ class Meta{
 
 class MetaFrame{
     meta
+    log_path
     __init__(self, MultiTable, inherit_events)
     add_event(self, event)
     load(path, format, table_name, frame_type, spark)
     save_events(self)
+    copy(self, new_name)
+    write(self, path, format, overwrite, spark)
+    sample(self, n, frac, seed)
 }
 
 class MultiTable{
@@ -34,6 +38,13 @@ class MultiTable{
     load_native_df(path, format, table_name, frame_type, spark)
     load(path, format, table_name, frame_type, auto_capitalise, spark)
     drop(self, columns)
+    distinct(self, subset)
+    rename(self, columns, inplace)
+    write_native_df(dataframe, path, format, frame_type, overwrite, spark)
+    write(self, path, format, overwrite, spark)
+    concat(self, new_col_name, columns, sep)
+    explode(self, column, sep, outer)
+    sample(self, n, frac, seed)
 }
 
 class TableCollection{
@@ -55,11 +66,19 @@ class TableCollection{
     __len__(self)
     ntables(self)
     save_events(self, table_names)
+    save_all(self, output_dir, spark)
 }
 
 class SupplyLoad{
+    job
+    run
+    payload_dir
     supply_load_src
-    __init__(self, json_loc, spark)
+    sample
+    sample_frac
+    sample_rows
+    seed
+    __init__(self, json_loc, sample_frac, sample_rows, seed, spark)
     load_supplies(self, spark)
 }
 
@@ -103,7 +122,7 @@ Pandas, or Polars) with an event logging system that tracks all operations perfo
 Attributes:
     meta
         events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
-        version
+        metaframe_version (str): Version identifier for the MetaFrame implementation.
         
 Example:
     >>> # Create a MetaFrame from an existing MultiTable
@@ -129,7 +148,6 @@ Attributes:
     frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
     table_name (Tablename): The name of the table, validated and formatted.
     src_path (str): The source file path where the data was loaded from.
-    metaframe_version (str): Version identifier for the MetaFrame implementation.
     
 Example:
     >>> # Create from existing DataFrame

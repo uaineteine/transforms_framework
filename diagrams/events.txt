@@ -2,64 +2,68 @@
 
 skinparam classAttributeIconSize 0
 
-class EventLog{
+class Event{
     event_type
+    event_description
+    __init__(self, event_type, event_payload, event_description, log_location)
+}
+
+class JSONLog{
     uuid
+    log_info
+    persistent_uuid
     timestamp
+    executed_user
+    log_exclusions
     log_location
-    excuted_user
-    __init__(self, event_type, log_location)
+    indent_depth
+    gen_new_uuid(self)
+    __init__(self, log_payload, log_location, indent_depth, persistent_uuid)
     __repr__(self)
     log(self)
+    class_type(self)
+}
+
+class TransformEvent{
+    input_tables
+    output_tables
+    input_variables
+    output_variables
+    created_variables
+    renamed_variables
+    removed_variables
+    num_input_frames
+    num_output_frames
+    __init__(self, input_tables, output_tables, input_variables, output_variables, created_variables, renamed_variables, removed_variables)
 }
 
 class PipelineEvent{
-    sub_type
-    message
-    description
-    __init__(self, event_type, message, description, log_location)
+    meta_version
+    __init__(self, event_type, event_payload, event_description, log_location)
 }
 
-EventLog <|-- PipelineEvent
+JSONLog <|-- Event
+Event <|-- PipelineEvent
 
-note top of EventLog
-Base class for logging events with unique identifiers and timestamps.
+note top of Event
+Specialised JSONLog event with type and optional description.
+end note
 
-This class provides the foundation for event logging functionality, including
-automatic generation of unique identifiers, timestamps, and JSON serialization
-capabilities. It serves as the parent class for more specialised event types.
-
-Attributes:
-    event_type (str): The type/category of the event.
-    uuid (str): A unique identifier for the event.
-    timestamp (str): ISO format timestamp when the event was created.
-    log_location (str): The file path where the event should be logged.
-    
-Example:
-    >>> event = Event("INFO", "events_log/job_1/events.json")
-    >>> event.log()  # Writes event to the specified log file
+note top of JSONLog
+Log events as JSON with a UUID, timestamp, and optional file output.
 end note
 
 note top of PipelineEvent
-Specialised event class for pipeline operations with additional metadata.
+Specialised event class for pipeline operations.
 
-This class extends the base EventLog class to include pipeline-specific information
-such as descriptive messages and detailed descriptions. It's designed for logging
-data pipeline operations like data loading, transformations, and processing steps.
+Extends the base Event class to include pipeline-specific metadata. Useful for
+logging data pipeline steps like loading, transformations, and saves.
 
 Attributes:
-    sub_type (str): The subtype identifier for pipeline events.
-    message (str): A brief message describing the pipeline operation.
-    description (str): A detailed description of the pipeline operation.
-    
-Example:
-    >>> event = PipelineEvent(
-    ...     event_type="transform",
-    ...     message="Data cleaning completed",
-    ...     description="Removed 150 null values from column 'age'",
-    ...     log_location="events_log/job_1/pipeline_events.json"
-    ... )
-    >>> event.log()
+    event_type (str): The type of pipeline event (e.g., "load", "transform").
+    event_payload (str): A short message or payload describing the operation.
+    event_description (str): A detailed description of the operation.
+    class_type (str): Constant string identifying this event type.
 end note
 
 
