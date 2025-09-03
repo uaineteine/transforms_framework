@@ -43,6 +43,10 @@ def build_dag(job_id:int, run_id:int):
     """
     logs = reader.load_transform_log(job_id=1, run_id=1)
 
+    #check meta version
+    this_version = logs.get("meta_version" "")
+    meta.expected_meta_version(this_version)
+
     # Build DAG
     input_dfs = [log["params"]["path"] for log in logs if log["function"].startswith("read_file")]
     output_files = [log["params"]["path"] for log in logs if log["function"].startswith("write_file")]
