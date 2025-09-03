@@ -343,6 +343,8 @@ class JoinTable(TableTransform):
         self.left_table = left_table
         self.right_table = right_table
         self.join_columns = [join_columns] if isinstance(join_columns, str) else join_columns
+        if join_type not in ["inner", "left", "right", "outer"]:
+            raise ValueError("join_type for JoinTable Transform must be one of left, right, inner, outer")
         self.join_type = join_type
         self.suffixes = suffixes
 
