@@ -61,6 +61,8 @@ class Transform(PipelineEvent):
         self.version_polars = pl.__version__
         self.version_pandas = pd.__version__
         self.version_python = sys.version.split()[0]  # e.g., '3.11.4'
+
+        self.params = []
     
     def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
         """
@@ -190,6 +192,8 @@ class Transform(PipelineEvent):
             res = self.test(supply_frames, **kwargs)
             if not res:
                 raise ValueError(f"Transform test failed for {self.name}") 
+
+        self.params = kwargs # capture all keyword arguments
 
         self.log()
 
