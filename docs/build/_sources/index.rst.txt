@@ -73,6 +73,12 @@ transformslib.mapping.maps
 .. automodule:: transformslib.mapping.maps
    :members:
 
+transformslib.meta
+==================
+
+.. automodule:: transformslib.meta
+   :members:
+
 transformslib.setup
 ===================
 
