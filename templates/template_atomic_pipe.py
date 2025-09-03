@@ -147,9 +147,33 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 12: explode some table
     # -------------------------------
-
+    
+    print("Exploding an array type test")
     supply_frames = ExplodeColumn("VAR3", " ", True).apply(supply_frames, df="array_like")
     supply_frames["array_like"].show()
+
+    # -------------------------------
+    # Repeated tests to continue
+    # -------------------------------
+
+    print("example of final table going through some tests")
+    join_transform = JoinTable(
+        left_table="location",
+        right_table="state",
+        join_columns="city",
+        join_type="full"
+    )
+    supply_frames = join_transform.apply(supply_frames, output_table="location")
+    supply_frames = DistinctTable().apply(supply_frames, df="location")
+
+    join_transform = JoinTable(
+        left_table="location",
+        right_table="example_join",
+        join_columns="name",
+        join_type="full"
+    )
+    supply_frames = join_transform.apply(supply_frames, output_table="final")
+    supply_frames["final"].show()
 
     # save table output tables
     supply_frames.save_all("../test_tables/output", spark=spark)
