@@ -33,6 +33,7 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
+    return report_name
 
 def build_dag(job_id:int, run_id:int):
     """
