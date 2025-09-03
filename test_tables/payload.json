@@ -21,6 +21,11 @@
       "name": "array_like",
       "format": "csv",
       "path": "../test_tables/array_like.csv"
+    },
+    {
+      "name": "state",
+      "format": "csv",
+      "path": "../test_tables/state.csv"
     }
   ]
 }
