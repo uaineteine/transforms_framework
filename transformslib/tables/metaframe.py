@@ -1,5 +1,6 @@
 from transformslib.tables.multitable import MultiTable
 from transformslib.events.pipeevent import PipelineEvent
+from transformslib import meta 
 
 import os
 from typing import List
@@ -9,7 +10,7 @@ from uainepydat.frameverifier import FrameTypeVerifier
 class Meta:
     def __init__(self, inherit_events: List[PipelineEvent] = None):
         #store a version number
-        self.meta_version = "1.0"
+        self.meta_version = meta.module_version
         #initialise events as a list, optionally inheriting from existing events
         self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
 
@@ -23,7 +24,7 @@ class MetaFrame(MultiTable):
     Attributes:
         meta
             events (List[PipelineEvent]): A list of events that have been logged during the pipeline operations.
-            version
+            metaframe_version (str): Version identifier for the MetaFrame implementation.
             
     Example:
         >>> # Create a MetaFrame from an existing MultiTable

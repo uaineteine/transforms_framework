@@ -1,0 +1,3 @@
+#CONSTANT PARAMETERS FOR MODULE
+
+module_version = "1.0"

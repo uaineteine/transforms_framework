@@ -61,7 +61,6 @@ class MultiTable:
         frame_type (str): The type of DataFrame ('pyspark', 'pandas', 'polars').
         table_name (Tablename): The name of the table, validated and formatted.
         src_path (str): The source file path where the data was loaded from.
-        metaframe_version (str): Version identifier for the MetaFrame implementation.
         
     Example:
         >>> # Create from existing DataFrame
