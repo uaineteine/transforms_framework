@@ -41,7 +41,7 @@ def build_dag(job_id:int, run_id:int):
 
         title = (
             f"Function: {func_name}\n"
-            f"Version: {log.get('version', '')}\n"
+            f"Meta Version: {log.get('meta_version', '')}\n"
             f"User: {log.get('user', '')}\n"
             f"Status: {'✅' if log.get('pass_bool', True) else '❌'}\n"
             f"Message: {log.get('msg', '')}\n"
