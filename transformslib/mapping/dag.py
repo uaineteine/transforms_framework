@@ -62,21 +62,21 @@ def build_dag(job_id:int, run_id:int):
         transform_nodes.append(node_name)
 
         extra_stats = log.get("extra", {}).get("stats", {})
-        extra_info = "\n".join([f"{k}: {v}" for k, v in extra_stats.items()])
+        extra_info = "\n".join([f"{k}: {v}" for k, v in extra_stats.items()]) if extra_stats else ""
 
-        # The previous code block continues here
+        title_parts = [
+            f"Function: {func_name}",
+            f"Meta Version: {log.get('meta_version', '')}",
+            f"User: {log.get('executed_user', '')}",
+            f"Tested: {'✅' if is_testable else '❌'}",
+            f"Message: {log.get('msg', '')}",
+        ]
 
-        is_testable = log.get("testable_transform", False)
+        if extra_info:
+            title_parts.append(extra_info)
 
-        title = (
-            f"Function: {func_name}\n"
-            f"Meta Version: {log.get('meta_version', '')}\n"
-            f"User: {log.get('executed_user', '')}\n"
-            f"Tested: {'✅' if is_testable else '❌'}\n"
-            f"Message: {log.get('msg', '')}\n"
-            f"{extra_info}\n"
-            f"Params: {log.get('params', '')}"
-        )
+        title_parts.append(f"Params: {log.get('params', '')}")
+        title = "\n".join(title_parts)
 
         node_color = "lightgreen" if log.get("pass_bool", True) else "red"
         G.add_node(node_name, label=func_name, color=node_color, title=title)
