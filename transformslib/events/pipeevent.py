@@ -1,4 +1,5 @@
 from transformslib.events.eventlog import Event
+from transformslib import meta
 
 class TransformEvent:
     def __init__(self, 
@@ -66,3 +67,5 @@ class PipelineEvent(Event):
 
         # constant identifier
         self.class_type = "PipelineEvent"
+
+        self.meta_version = meta.meta_version
