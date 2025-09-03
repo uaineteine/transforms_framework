@@ -1,9 +1,34 @@
 from pyvis.network import Network
 import networkx as nx
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
+from typing import List, Optional
 
 from transformslib.transforms import reader
+from transformslib import meta
+
+def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S") -> Optional[timedelta]:
+    """
+    Calculate total runtime from a list of timestamp strings.
+
+    Args:
+        timestamps (List[str]): List of timestamp strings.
+        fmt (str): Format of the timestamp strings (default is ISO 8601 without milliseconds).
+
+    Returns:
+        Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.
+    """
+    if not timestamps:
+        return None
+
+    try:
+        parsed_times = [datetime.strptime(ts, fmt) for ts in timestamps]
+        start = min(parsed_times)
+        end = max(parsed_times)
+        return end - start
+    except ValueError as e:
+        print(f"Timestamp parsing error: {e}")
+        return None
 
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
@@ -100,11 +125,9 @@ def build_dag(job_id:int, run_id:int):
 
     # Calculate total runtime
     timestamps = [log["timestamp"] for log in logs if "timestamp" in log]
-    if timestamps:
-        fmt = "%Y-%m-%dT%H:%M:%S"  # Adjust if your timestamp format differs
-        start = min(datetime.strptime(ts, fmt) for ts in timestamps)
-        end = max(datetime.strptime(ts, fmt) for ts in timestamps)
-        total_runtime = end - start
+    total_runtime = calculate_total_runtime(timestamps)
+
+    if total_runtime:
         runtime_label = f"""
         <div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>
             Total Runtime: {total_runtime}
