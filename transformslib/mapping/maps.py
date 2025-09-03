@@ -1,21 +1,34 @@
 from typing import NamedTuple
 from enum import IntEnum
 
-# this gives us the ability to add extra mappings to column lineage in addition to the default behaviour given by column_mapping_type
-# from_table = None and from_column_name = None mean column created from no table
-# to_table = None and to_column_name = None mean column deleted from table
-# any TransformTableColumnMapping overwrite the default behaviour of the from_column_name mapping: all mappings for any
-# provided input columns must be explicitly defined
-class TransformTableColumnMapping(NamedTuple):
+class TransformTableColumnMapping(NamedTuple):  # unused
+    """
+    Represents a custom column-level mapping between input and output tables
+    during a transformation.
+
+    Attributes:
+        from_table: Name of the source table.
+        from_column_name: Name of the source column.
+        to_table: Name of the destination table.
+        to_column_name: Name of the destination column.
+    """
     from_table: str
     from_column_name: str
     to_table: str
     to_column_name: str
 
-# NOTE: Hi Dan S I'm directly applying pyspark transforms to the metaframes i think im doing it wrong, but seems to align with template_custom_transform hehe
-# also apologies in advance if i muck up the usage of any of ur classes
-# TODO: can potentially attach transform name to the mapping as well mayhaps!
-class TableColumnMapping(NamedTuple):
+class TableColumnMapping(NamedTuple):  # unused
+    """
+    Represents a lineage mapping of a column from one versioned table to another.
+
+    Attributes:
+        from_table: Name of the source table.
+        from_table_ver: Version of the source table.
+        from_column_name: Name of the source column.
+        to_table: Name of the destination table.
+        to_table_ver: Version of the destination table.
+        to_column_name: Name of the destination column.
+    """
     from_table: str
     from_table_ver: int
     from_column_name: str
@@ -23,16 +36,52 @@ class TableColumnMapping(NamedTuple):
     to_table_ver: int
     to_column_name: str
 
-class TableMapping(NamedTuple):
+class TableMapping(NamedTuple):  # unused
+    """
+    Represents a mapping between two versioned tables.
+
+    Attributes:
+        from_table: Name of the source table.
+        from_table_ver: Version of the source table.
+        to_table: Name of the destination table.
+        to_table_ver: Version of the destination table.
+    """
     from_table: str
     from_table_ver: int
     to_table: str
     to_table_ver: int
 
-# -2 all columns from input tables map to all corresponding same named columns in output tables by default
-# -1 no mappings for any columns by default
-# integer values 0+ mean take columns from that table only by default
-# note that all links must be consistent with actual input/output table columns after override_column_maps are applied
-class TransformColumnMappingType(IntEnum):
+class TransformColumnMappingType(IntEnum):  # unused
+    """
+    Enum defining default column mapping behavior during transformations.
+
+    Values:
+        ALL_INPUT_COLUMNS (-2): All columns from input tables map to same-named
+            columns in output tables by default.
+        BREAK_LINEAGE (-1): No default mappings; lineage is broken.
+        0 and above: Only columns from the specified input table index are mapped
+            by default.
+    """
     ALL_INPUT_COLUMNS = -2
     BREAK_LINEAGE = -1
+
+# Commentary for context:
+# - TransformTableColumnMapping allows overriding default column lineage behavior.
+#   If from_table/from_column_name are None, the column is newly created.
+#   If to_table/to_column_name are None, the column is deleted.
+#   All input columns must be explicitly defined when using this.
+#
+# - TableColumnMapping tracks column-level lineage across table versions.
+#   Useful for understanding how specific columns evolve.
+#
+# - TableMapping tracks table-level lineage across versions.
+#
+# - TransformColumnMappingType controls default behavior:
+#   -2 = map all input columns by name,
+#   -1 = break lineage (no default mappings),
+#    0+ = map only from specified input table index.
+#
+# - TODO: Consider attaching transform name to mappings.
+# - NOTE: Applying PySpark transforms directly to metaframes may not be ideal.
+#   See template_custom_transform for alignment.
+# - Hi Dan S — apologies if any class usage is off!
