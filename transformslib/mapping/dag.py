@@ -231,6 +231,13 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     pyvis_head_inner = _extract_between(pyvis_html, "<head", "</head>")
     pyvis_body_inner = _extract_between(pyvis_html, "<body", "</body>")
 
+    # Get current timestamp for report generation time
+    report_generated_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Calculate node and edge counts from the NetworkX graph
+    node_count = G.number_of_nodes()
+    edge_count = G.number_of_edges()
+
     # Compose final HTML using webcanvas building blocks
     head_html = webcanvas.generate_head()
     # Inject pyvis head resources before closing </head>
@@ -247,7 +254,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         "<body class=\"flex flex-col h-full overflow-hidden\">\n"
         f"    {header_html}\n"
         f"    {main_html}\n"
-        f"    {webcanvas.generate_script()}\n"
+        f"    {webcanvas.generate_script(report_generated_time, node_count, edge_count)}\n"
         "</body>\n"
         "</html>\n"
     )

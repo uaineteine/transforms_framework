@@ -224,21 +224,27 @@ def generate_head() -> str:
 </head>
 """
 
-def generate_script() -> str:
-    return """
+def generate_script(report_generated_time: str = None, node_count: int = None, edge_count: int = None) -> str:
+    # If report_generated_time is provided, use it; otherwise fall back to current time
+    time_script = f"document.getElementById('lastUpdated').innerText = '{report_generated_time}';" if report_generated_time else "const now = new Date(); document.getElementById('lastUpdated').innerText = now.toLocaleString();"
+    
+    # Use provided counts or fall back to 'N/A'
+    node_count_str = str(node_count) if node_count is not None else 'N/A'
+    edge_count_str = str(edge_count) if edge_count is not None else 'N/A'
+    
+    return f"""
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {{
             // Set random header color
             const colors = ['--blue-700', '--cyan-700', '--green-700', '--red-700'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            document.documentElement.style.setProperty('--header-color', `var(${randomColor})`);
+            document.documentElement.style.setProperty('--header-color', `var(${{randomColor}})`);
             
             // Set timestamps and counts
-            const now = new Date();
-            document.getElementById('lastUpdated').innerText = now.toLocaleString();
-            document.getElementById('nodeCount').innerText = 'N/A';
-            document.getElementById('edgeCount').innerText = 'N/A';
-        });
+            {time_script}
+            document.getElementById('nodeCount').innerText = '{node_count_str}';
+            document.getElementById('edgeCount').innerText = '{edge_count_str}';
+        }});
     </script>
     """
 
@@ -254,7 +260,7 @@ def generate_header(header_name="Network Graph", runtime:str="9h 9m 9s") -> str:
             <div class="separator"></div>
             <div class="header-info-group">
                 <div id="runtimeInfo-lastupdated" class="header-single-info">
-                    <p><span class="font-medium">Last Updated:</span> <span id="lastUpdated">N/A</span></p>
+                    <p><span class="font-medium">Report Generated:</span> <span id="lastUpdated">N/A</span></p>
                 </div>
                 <div class="separator"></div>
                 <div id="runtimeInfo-nodes" class="header-single-info">
