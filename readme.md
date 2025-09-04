@@ -35,6 +35,16 @@ This program provides a data transformation framework for working with tables (D
     `-- template_custom_transform.py
 ```
 
+## Summary
+
+This framework makes your data pipeline transparent and auditable by logging every important action as a structured JSON event. You can trace exactly what happened to each table, when, and why. The framework provides three main approaches for managing tables:
+
+1. **Direct table loading** with `MetaFrame` for single table operations
+2. **Payload-based loading** with `SupplyLoad` for configuration-driven multi-table loading
+3. **Collection management** with `Tablecollection` for flexible multi-table operations
+
+Each approach provides the same event tracking and audit capabilities while offering different levels of control and automation for your specific use case.
+
 ## Naming
 
 The naming module provides standardised classes for validating and managing table names, column headers, and variable lists. These utilities ensure consistent naming conventions across your data pipeline.
@@ -704,16 +714,6 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
 - `SupplyLoad` extends `PipelineTables` to provide automated loading from JSON configuration files.
 
 ---
-
-## Summary
-
-This framework makes your data pipeline transparent and auditable by logging every important action as a structured JSON event. You can trace exactly what happened to each table, when, and why. The framework provides three main approaches for managing tables:
-
-1. **Direct table loading** with `MetaFrame` for single table operations
-2. **Payload-based loading** with `SupplyLoad` for configuration-driven multi-table loading
-3. **Collection management** with `Tablecollection` for flexible multi-table operations
-
-Each approach provides the same event tracking and audit capabilities while offering different levels of control and automation for your specific use case.
 
 ## Building
 
