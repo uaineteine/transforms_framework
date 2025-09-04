@@ -73,6 +73,12 @@ transformslib.mapping.maps
 .. automodule:: transformslib.mapping.maps
    :members:
 
+transformslib.mapping.webcanvas
+===============================
+
+.. automodule:: transformslib.mapping.webcanvas
+   :members:
+
 transformslib.meta
 ==================
 

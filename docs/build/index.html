@@ -66,6 +66,7 @@
 <li><a class="reference internal" href="#transformslib.mapping.dag.calculate_total_runtime"><code class="docutils literal notranslate"><span class="pre">calculate_total_runtime()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.mapping.dag.format_timedelta"><code class="docutils literal notranslate"><span class="pre">format_timedelta()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.mapping.dag.output_loc"><code class="docutils literal notranslate"><span class="pre">output_loc()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.mapping.dag.set_default_network_options"><code class="docutils literal notranslate"><span class="pre">set_default_network_options()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-transformslib.mapping.maps">transformslib.mapping.maps</a><ul>
@@ -95,6 +96,7 @@
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-transformslib.mapping.webcanvas">transformslib.mapping.webcanvas</a></li>
 <li><a class="reference internal" href="#module-transformslib.meta">transformslib.meta</a><ul>
 <li><a class="reference internal" href="#transformslib.meta.expected_meta_version"><code class="docutils literal notranslate"><span class="pre">expected_meta_version()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.meta.meta_version"><code class="docutils literal notranslate"><span class="pre">meta_version</span></code></a></li>
@@ -411,7 +413,7 @@ class_type (str): Constant string identifying this event type.</p>
 <span id="transformslib-mapping-dag"></span><h1>transformslib.mapping.dag<a class="headerlink" href="#module-transformslib.mapping.dag" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="transformslib.mapping.dag.build_dag">
-<span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">build_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_amt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">900</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.dag.build_dag" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">build_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">900</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.dag.build_dag" title="Link to this definition"></a></dt>
 <dd><p>Method for building the dag with an output html file</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>job_id
@@ -425,9 +427,16 @@ height_amt (optional) in pixels</p>
 <dt class="sig sig-object py" id="transformslib.mapping.dag.calculate_total_runtime">
 <span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">calculate_total_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%Y-%m-%dT%H:%M:%S'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#transformslib.mapping.dag.calculate_total_runtime" title="Link to this definition"></a></dt>
 <dd><p>Calculate total runtime from a list of timestamp strings.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>timestamps (List[str]): List of timestamp strings.
-fmt (str): Format of the timestamp strings (default is ISO 8601 without milliseconds).</p>
+<dl>
+<dt>Args:</dt><dd><p>job_id (int): Job ID
+run_id (int): Run ID
+height (int|float|str, optional): Height of the graph.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If int/float: interpreted as pixels.</p></li>
+<li><p>If str: passed directly (e.g., “100%”).</p></li>
+</ul>
+</div></blockquote>
 </dd>
 <dt>Returns:</dt><dd><p>Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.</p>
 </dd>
@@ -444,6 +453,18 @@ fmt (str): Format of the timestamp strings (default is ISO 8601 without millisec
 <dt class="sig sig-object py" id="transformslib.mapping.dag.output_loc">
 <span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">output_loc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.mapping.dag.output_loc" title="Link to this definition"></a></dt>
 <dd><p>Function to return a transforms report output location</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.mapping.dag.set_default_network_options">
+<span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">set_default_network_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Network</span></span></span><a class="headerlink" href="#transformslib.mapping.dag.set_default_network_options" title="Link to this definition"></a></dt>
+<dd><p>Apply default PyVis network options for interaction and physics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>net (Network): The PyVis Network instance.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Network: The same network instance with options applied.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -593,6 +614,9 @@ to_column_name: Name of the destination column.</p>
 
 </dd></dl>
 
+</section>
+<section id="module-transformslib.mapping.webcanvas">
+<span id="transformslib-mapping-webcanvas"></span><h1>transformslib.mapping.webcanvas<a class="headerlink" href="#module-transformslib.mapping.webcanvas" title="Link to this heading"></a></h1>
 </section>
 <section id="module-transformslib.meta">
 <span id="transformslib-meta"></span><h1>transformslib.meta<a class="headerlink" href="#module-transformslib.meta" title="Link to this heading"></a></h1>
