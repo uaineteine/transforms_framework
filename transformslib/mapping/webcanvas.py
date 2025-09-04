@@ -17,6 +17,15 @@ def generate_css() -> str:
             --slate-100: #f1f5f9;
             --slate-300: #cbd5e1;
             --slate-400: #94a3b8;
+            
+            /* Color palette for random header colors */
+            --blue-700: #1d4ed8;
+            --cyan-700: #0e7490;
+            --green-700: #15803d;
+            --red-700: #b91c1c;
+            
+            /* Dynamic header color - will be set by JavaScript */
+            --header-color: var(--indigo-700);
         }
 
         html, body {
@@ -36,7 +45,7 @@ def generate_css() -> str:
 
         /* Top Banner & Header styles */
         .header {
-            background-color: var(--indigo-700);
+            background-color: var(--header-color);
             color: var(--white);
             padding: 0.5rem 1rem; /* Reduced vertical padding */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
@@ -219,6 +228,12 @@ def generate_script() -> str:
     return """
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Set random header color
+            const colors = ['--blue-700', '--cyan-700', '--green-700', '--red-700'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.documentElement.style.setProperty('--header-color', `var(${randomColor})`);
+            
+            // Set timestamps and counts
             const now = new Date();
             document.getElementById('lastUpdated').innerText = now.toLocaleString();
             document.getElementById('nodeCount').innerText = 'N/A';
