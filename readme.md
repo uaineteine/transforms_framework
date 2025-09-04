@@ -2,6 +2,8 @@
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
+![Example Output](../diagrams/diagrams/example_final_form.png)
+
 ## Table of Contents
 
 - [Main Components](#main-components)
@@ -60,10 +62,6 @@ This framework makes your data pipeline transparent and auditable by logging eve
 3. **Collection management** with `Tablecollection` for flexible multi-table operations
 
 Each approach provides the same event tracking and audit capabilities while offering different levels of control and automation for your specific use case.
-
-
-
-
 
 ## Example Workflows
 
