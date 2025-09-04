@@ -18,11 +18,11 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
     Returns:
         Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.
     """
-    if not timestamps:
+    if len(timestamps) == 0:
         return None
-
+    
     try:
-        parsed_times = [datetime.strptime(ts, fmt) for ts in timestamps]
+        parsed_times = [datetime.fromisoformat(ts) for ts in timestamps]
         start = min(parsed_times)
         end = max(parsed_times)
         return end - start
@@ -30,12 +30,31 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
         print(f"Timestamp parsing error: {e}")
         return None
 
+def format_timedelta(td: timedelta) -> str:
+    """
+    Format a timedelta as Hh Mm Ss string.
+    """
+    total_seconds = int(td.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    parts = []
+    if hours > 0:
+        parts.append(f"{hours}h")
+    if minutes > 0:
+        parts.append(f"{minutes}m")
+    if seconds > 0 or not parts:  # always show something
+        parts.append(f"{seconds}s")
+
+    return " ".join(parts)
+
+
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
-def build_dag(job_id:int, run_id:int, height_amt = 1000):
+def build_dag(job_id:int, run_id:int, height_amt = 900):
     """
     Method for building the dag with an output html file
     
@@ -143,7 +162,7 @@ def build_dag(job_id:int, run_id:int, height_amt = 1000):
     if total_runtime:
         runtime_label = f"""
         <div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>
-            Total Runtime: {total_runtime}
+            Total Runtime: {format_timedelta(total_runtime)}
         </div>
         """
     else:
