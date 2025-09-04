@@ -159,22 +159,55 @@ def build_dag(job_id:int, run_id:int, height_amt = 900):
     # Calculate total runtime
     timestamps = [log["timestamp"] for log in logs if "timestamp" in log]
     total_runtime = calculate_total_runtime(timestamps)
+    runtime_str = format_timedelta(total_runtime) if total_runtime else "Unknown"
 
-    if total_runtime:
-        runtime_label = f"""
-        <div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>
-            Total Runtime: {format_timedelta(total_runtime)}
-        </div>
-        """
-    else:
-        runtime_label = "<div style='text-align:center; font-size:20px; font-weight:bold; margin:20px;'>Total Runtime: Unknown</div>"
+    # Generate Pyvis HTML and extract head and body segments
+    pyvis_html = net.generate_html()
 
-    # Save UTF-8 HTML manually
+    def _extract_between(html: str, start_tag: str, end_tag: str) -> str:
+        lower_html = html.lower()
+        start_idx = lower_html.find(start_tag)
+        if start_idx == -1:
+            return ""
+        # find the '>' of the start tag
+        gt_idx = lower_html.find(">", start_idx)
+        if gt_idx == -1:
+            return ""
+        content_start = gt_idx + 1
+        end_idx = lower_html.find(end_tag, content_start)
+        if end_idx == -1:
+            return ""
+        return html[content_start:end_idx]
+
+    pyvis_head_inner = _extract_between(pyvis_html, "<head", "</head>")
+    pyvis_body_inner = _extract_between(pyvis_html, "<body", "</body>")
+
+    # Compose final HTML using webcanvas building blocks
+    head_html = webcanvas.generate_head()
+    # Inject pyvis head resources before closing </head>
+    if pyvis_head_inner:
+        head_html = head_html.replace("</head>", f"{pyvis_head_inner}</head>")
+
+    header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str)
+    main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
+
+    full_html = (
+        f"{webcanvas.generate_doctype()}\n"
+        "<html lang=\"en\" class=\"h-full bg-gray-100\">\n"
+        f"{head_html}\n"
+        "<body class=\"flex flex-col h-full overflow-hidden\">\n"
+        f"    {header_html}\n"
+        f"    {main_html}\n"
+        f"    {webcanvas.generate_script()}\n"
+        "</body>\n"
+        "</html>\n"
+    )
+
+    # Save UTF-8 HTML
     html_file = output_loc(job_id=job_id, run_id=run_id)
     os.makedirs(os.path.dirname(html_file), exist_ok=True)
-    html_content = runtime_label + net.generate_html()
     with open(html_file, "w", encoding="utf-8") as f:
-        f.write(html_content)
+        f.write(full_html)
     print("DAG saved to: " + html_file)
 
 # Embed in Streamlit
