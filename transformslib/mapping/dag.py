@@ -35,12 +35,16 @@ def output_loc(job_id:int, run_id:int) -> str:
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
-def build_dag(job_id:int, run_id:int):
+def build_dag(job_id:int, run_id:int, height_amt = 1000):
     """
     Method for building the dag with an output html file
     
-    Args: job_id, run_id
+    Args:
+        job_id
+        run_id
+        height_amt (optional) in pixels
     """
+
     logs = reader.load_transform_log(job_id=1, run_id=1)
     
     if len(logs) == 0:
@@ -109,7 +113,7 @@ def build_dag(job_id:int, run_id:int):
 
     # Render Pyvis
     net = Network(
-        height="700px",
+        height=f"{height_amt}px",
         width="100%",
         directed=True,
         notebook=False,
