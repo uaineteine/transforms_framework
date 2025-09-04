@@ -2,7 +2,7 @@ from pyvis.network import Network
 import networkx as nx
 import os
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from transformslib.mapping import webcanvas
 from transformslib.transforms import reader
@@ -13,9 +13,12 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
     Calculate total runtime from a list of timestamp strings.
 
     Args:
-        timestamps (List[str]): List of timestamp strings.
-        fmt (str): Format of the timestamp strings (default is ISO 8601 without milliseconds).
-
+        job_id (int): Job ID
+        run_id (int): Run ID
+        height (int|float|str, optional): Height of the graph. 
+            - If int/float: interpreted as pixels.
+            - If str: passed directly (e.g., "100%").
+    
     Returns:
         Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.
     """
@@ -55,7 +58,7 @@ def output_loc(job_id:int, run_id:int) -> str:
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
-def build_dag(job_id:int, run_id:int, height_amt = 900):
+def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     """
     Method for building the dag with an output html file
     
@@ -131,9 +134,17 @@ def build_dag(job_id:int, run_id:int, height_amt = 900):
         G.add_node(out_file, label=os.path.basename(out_file), color="orange", title=f"Output: {out_file}")
         G.add_edge(last_transform_node, out_file)
 
+    # Height handling
+    if isinstance(height, (int, float)):
+        height_str = f"{int(height)}px"
+    elif isinstance(height, str):
+        height_str = height
+    else:
+        raise TypeError("height must be int, float, or str")
+    
     # Render Pyvis
     net = Network(
-        height=f"{height_amt}px",
+        height=height_str,
         width="100%",
         directed=True,
         notebook=False,
