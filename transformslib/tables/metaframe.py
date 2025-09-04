@@ -64,7 +64,7 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
-        self.log_path = f"events_log/job_1/debug/{self.table_name}_events.json"
+        self.log_path = f"events_log/job_1/table_specific/{self.table_name}_events.json"
     
     def add_event(self, event: PipelineEvent):
         """
