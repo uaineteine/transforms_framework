@@ -1,0 +1,218 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/salary.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "b479f353-d033-4ce8-a642-c53a6311efe2",
+  "timestamp": "2025-09-04T03:39:44.421073+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/salary.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY",
+        "AGE"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      "NAME"
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "2896d054-f629-4a7e-81ee-a4717dc7037f",
+  "timestamp": "2025-09-04T03:39:47.429134+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Subsets a dataframe to retain only specified variable(s)",
+  "meta_version": "1.0",
+  "name": "SubsetTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "SubsetTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "SALARY",
+    "AGE"
+  ],
+  "class_type": "SubsetTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "e8ad50b0-c842-44e1-bafa-ec7bbd1dd467",
+  "timestamp": "2025-09-04T03:39:48.268926+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "meta_version": "1.0",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [],
+  "class_type": "DistinctTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      [
+        "SALARY"
+      ]
+    ],
+    "output_variables": [
+      [
+        "INCOME"
+      ]
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "71074485-c6f3-4390-aaba-18bf59a4f387",
+  "timestamp": "2025-09-04T03:39:48.796136+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Renames specified columns in a dataframe",
+  "meta_version": "1.0",
+  "name": "RenameTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "RenmTbl",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "SALARY"
+  ],
+  "rename_map": {
+    "SALARY": "INCOME"
+  },
+  "new_names": [
+    "INCOME"
+  ],
+  "class_type": "RenameTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "828d61ba-f477-4114-8be7-754ec330c6b7",
+  "timestamp": "2025-09-04T03:39:49.032374+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Filters rows in a dataframe using a backend-specific condition",
+  "meta_version": "1.0",
+  "name": "ComplexFilter",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "RowFilter",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [],
+  "condition_map": {
+    "pyspark": {}
+  },
+  "backend": "pyspark",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
+  "class_type": "ComplexFilter"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\salary.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "561798fa-6ab2-453c-b9e0-7d30ec851b8e",
+  "timestamp": "2025-09-04T03:39:58.577305+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\salary.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

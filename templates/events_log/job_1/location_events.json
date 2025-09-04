@@ -1,0 +1,126 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "aabda86d-07c6-4b38-86ec-09120ca50088",
+  "timestamp": "2025-09-04T03:39:44.697855+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location",
+      "state"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [
+      [
+        "CITY"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "18a7fb6b-2445-4c37-a687-eec54d7252cb",
+  "timestamp": "2025-09-04T03:39:53.605362+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Joins location and state on CITY (outer)",
+  "meta_version": "1.0",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "output_table": "location"
+  },
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [
+    "CITY"
+  ],
+  "left_table": "location",
+  "right_table": "state",
+  "join_columns": [
+    "CITY"
+  ],
+  "join_type": "outer",
+  "suffixes": [
+    "_left",
+    "_right"
+  ],
+  "class_type": "JoinTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "c9e46bd7-20b2-4da1-8bdb-815f570708d2",
+  "timestamp": "2025-09-04T03:39:53.861132+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "meta_version": "1.0",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "location"
+  },
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [],
+  "class_type": "DistinctTable"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\location.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "143c891f-0eee-49d5-91cf-3cc3da1f91ef",
+  "timestamp": "2025-09-04T03:39:59.418942+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\location.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

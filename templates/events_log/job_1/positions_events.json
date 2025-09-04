@@ -1,0 +1,122 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/positions.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "97b6db24-6474-46ca-a2ab-2abb814f6a32",
+  "timestamp": "2025-09-04T03:39:44.139140+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/positions.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      [
+        "VAR"
+      ]
+    ],
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "5ace97c4-410b-45af-a656-9f9022abb141",
+  "timestamp": "2025-09-04T03:39:47.278997+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Removes specified variable(s) from a dataframe",
+  "meta_version": "1.0",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "positions"
+  },
+  "transform_id": "DropVar",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": [
+    "VAR"
+  ],
+  "deleted_variables": [
+    "VAR"
+  ],
+  "class_type": "DropVariable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "3c2eb3aa-bf01-40d2-aaa7-177110ec295d",
+  "timestamp": "2025-09-04T03:39:47.534218+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "meta_version": "1.0",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "positions"
+  },
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": [],
+  "class_type": "DistinctTable"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\positions.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "a797f30c-6352-43d2-9e3b-7c2201561d4b",
+  "timestamp": "2025-09-04T03:39:58.313200+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\positions.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

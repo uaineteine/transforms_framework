@@ -1,0 +1,79 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/array_like.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "e4e56d11-a535-4fd5-8597-f83e79de7512",
+  "timestamp": "2025-09-04T03:39:44.918635+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/array_like.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "array_like"
+    ],
+    "output_tables": [
+      "array_like"
+    ],
+    "input_variables": [
+      "VAR3"
+    ],
+    "output_variables": [
+      "VAR3"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "b4998d47-d022-4019-855b-7e4e502365a4",
+  "timestamp": "2025-09-04T03:39:53.402585+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Explodes column 'VAR3' into multiple rows",
+  "meta_version": "1.0",
+  "name": "ExplodeColumn",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "array_like"
+  },
+  "transform_id": "ExplodeCol",
+  "target_tables": [
+    "array_like"
+  ],
+  "target_variables": [
+    "VAR3"
+  ],
+  "column": "VAR3",
+  "sep": " ",
+  "outer": true,
+  "class_type": "ExplodeColumn"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\array_like.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "588482d7-3b0b-435f-a944-67a6ac5a70fa",
+  "timestamp": "2025-09-04T03:39:57.407372+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\array_like.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

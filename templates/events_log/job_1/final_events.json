@@ -1,0 +1,182 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "721f22b1-be84-485c-97c0-992cdbeba503",
+  "timestamp": "2025-09-04T03:39:44.697855+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location",
+      "state"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [
+      [
+        "CITY"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "a243827c-e904-41ad-a598-fe8c3300e749",
+  "timestamp": "2025-09-04T03:39:53.605362+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Joins location and state on CITY (outer)",
+  "meta_version": "1.0",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "output_table": "location"
+  },
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [
+    "CITY"
+  ],
+  "left_table": "location",
+  "right_table": "state",
+  "join_columns": [
+    "CITY"
+  ],
+  "join_type": "outer",
+  "suffixes": [
+    "_left",
+    "_right"
+  ],
+  "class_type": "JoinTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location"
+    ],
+    "output_tables": [
+      "location"
+    ],
+    "input_variables": [],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "5e89e896-8747-4bed-abf1-cbf0c3421d2e",
+  "timestamp": "2025-09-04T03:39:53.861132+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Removes duplicate rows from a DataFrame",
+  "meta_version": "1.0",
+  "name": "DistinctTable",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "location"
+  },
+  "transform_id": "DistinctTbl",
+  "target_tables": [
+    "location"
+  ],
+  "target_variables": [],
+  "class_type": "DistinctTable"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "location",
+      "example_join"
+    ],
+    "output_tables": [
+      "final"
+    ],
+    "input_variables": [
+      [
+        "NAME"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 2,
+    "num_output_frames": 1
+  },
+  "uuid": "8dd89a20-d360-43d5-9b95-d0261917909c",
+  "timestamp": "2025-09-04T03:39:54.443144+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Joins location and example_join on NAME (outer)",
+  "meta_version": "1.0",
+  "name": "JoinTable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.31.0",
+  "version_pandas": "2.3.0",
+  "version_python": "3.11.9",
+  "params": {
+    "output_table": "final"
+  },
+  "transform_id": "JoinTbl",
+  "target_tables": [
+    "final"
+  ],
+  "target_variables": [
+    "NAME"
+  ],
+  "left_table": "location",
+  "right_table": "example_join",
+  "join_columns": [
+    "NAME"
+  ],
+  "join_type": "outer",
+  "suffixes": [
+    "_left",
+    "_right"
+  ],
+  "class_type": "JoinTable"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\final.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "a110b46b-a566-4346-ab8a-45b8031ce15d",
+  "timestamp": "2025-09-04T03:40:00.204631+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\final.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\final.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
