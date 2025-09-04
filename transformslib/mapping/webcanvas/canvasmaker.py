@@ -256,18 +256,20 @@ def generate_header(header_name="Network Graph", runtime:str="9h 9m 9s") -> str:
 
 def generate_main(CONTENT:str='<p class="text-center text-gray-400 text-lg">Paste your pyvis graph HTML here to see it render.</p>') -> str:
     return f"""
-    <main class="flex-1 flex flex-col md:flex-row p-4 sm:p-6 overflow-hidden">
+    <main class="main-container">
 
-        <div id="graph-panel" class="relative bg-white rounded-xl shadow-lg flex-1 mb-4 md:mb-0 md:mr-6 overflow-hidden">
-            <div id="network-container" class="h-full w-full">
+        <!-- Graph Container -->
+        <div id="graph-panel" class="graph-panel">
+            <div id="network-container">
                 {CONTENT}
             </div>
         </div>
 
-        <aside id="info-panel" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-80 flex-shrink-0 flex flex-col info-panel-scroll overflow-y-auto">
+        <!-- Right Side Info Panel -->
+        <aside id="info-panel" class="info-panel info-panel-scroll">
             <div>
-                <h2 class="text-xl font-bold text-gray-800 mb-2">Selected Item Details</h2>
-                <div id="selected-info" class="text-sm text-gray-700 leading-relaxed">
+                <h2 class="details-title">Selected Item Details</h2>
+                <div id="selected-info" class="details-content">
                     <p>Select a node or edge in the graph to see its details here.</p>
                 </div>
             </div>
