@@ -201,11 +201,16 @@ class MetaFrame(MultiTable):
         # Write the data using MultiTable's write method
         super().write(path, format=format, overwrite=overwrite, spark=spark)
 
+        payload = {
+            "filepath": path,
+            "table_name": self.table_name,
+            "out_format": format
+        }
         # Log the write event
         event = PipelineEvent(
             event_type="write",
-            message=f"Wrote table to {path} as {format} ({self.frame_type})",
-            description=f"Wrote {self.table_name} to {path} with mode={overwrite}"
+            event_payload=payload,
+            event_description=f"Wrote table to {path} as {format} ({self.frame_type})"
         )
         event.filepath = path
         event.table_name = self.table_name
