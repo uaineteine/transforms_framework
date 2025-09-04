@@ -58,6 +58,33 @@ def output_loc(job_id:int, run_id:int) -> str:
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
+def set_default_network_options(net: Network) -> Network:
+    """
+    Apply default PyVis network options for interaction and physics.
+
+    Args:
+        net (Network): The PyVis Network instance.
+
+    Returns:
+        Network: The same network instance with options applied.
+    """
+    options = """
+    var options = {
+        "interaction": {
+            "hover": true,
+            "hoverDelay": 100,
+            "multiselect": false,
+            "tooltipDelay": 100
+        },
+        "physics": {
+            "enabled": true,
+            "stabilization": true
+        }
+    }
+    """
+    net.set_options(options)
+    return net
+
 def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     """
     Method for building the dag with an output html file
@@ -152,20 +179,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     )
 
     net.from_nx(G)
-    net.set_options("""
-    var options = {
-    "interaction": {
-        "hover": true,
-        "hoverDelay": 100,
-        "multiselect": false,
-        "tooltipDelay": 100
-    },
-    "physics": {
-        "enabled": true,
-        "stabilization": true
-    }
-    }
-    """)
+    net = set_default_network_options(net)
 
     # Calculate total runtime
     timestamps = [log["timestamp"] for log in logs if "timestamp" in log]
