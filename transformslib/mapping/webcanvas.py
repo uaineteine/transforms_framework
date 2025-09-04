@@ -237,8 +237,21 @@ def generate_script(report_generated_time: str = None, node_count: int = None, e
         document.addEventListener('DOMContentLoaded', () => {{
             // Set random header color
             const colors = ['--blue-700', '--cyan-700', '--green-700', '--red-700'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            document.documentElement.style.setProperty('--header-color', `var(${{randomColor}})`);
+            
+            function setRandomHeaderColor() {{
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                document.documentElement.style.setProperty('--header-color', `var(${{randomColor}})`);
+            }}
+            
+            // Set initial random color
+            setRandomHeaderColor();
+            
+            // Add click event listener to header for color change
+            const header = document.querySelector('.header');
+            if (header) {{
+                header.style.cursor = 'pointer';
+                header.addEventListener('click', setRandomHeaderColor);
+            }}
             
             // Set timestamps and counts
             {time_script}
