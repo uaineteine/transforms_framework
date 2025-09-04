@@ -33,7 +33,7 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
-    return report_name
+    return os.path.join("transform_dags", report_name)
 
 def build_dag(job_id:int, run_id:int):
     """
@@ -147,6 +147,7 @@ def build_dag(job_id:int, run_id:int):
 
     # Save UTF-8 HTML manually
     html_file = output_loc(job_id=job_id, run_id=run_id)
+    os.makedirs(os.path.dirname(html_file), exist_ok=True)
     html_content = runtime_label + net.generate_html()
     with open(html_file, "w", encoding="utf-8") as f:
         f.write(html_content)
