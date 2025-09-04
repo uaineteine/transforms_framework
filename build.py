@@ -58,7 +58,7 @@ with open("setup.py", "w", encoding="utf-8") as f:
 print("setup.py has been generated with pre-rendered requirements and README!")
 
 # Remove build and dist directories
-for folder in ["build", "dist"]:
+for folder in ["build", "dist", "transformslib.egg-info"]:
     if os.path.exists(folder):
         shutil.rmtree(folder)
         print(f"Removed {folder} folder.")
