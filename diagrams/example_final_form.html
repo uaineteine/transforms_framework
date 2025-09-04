@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Visualization Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom scrollbar for better aesthetics */
+        .info-panel-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+            border-radius: 10px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* slate-300 */
+            border-radius: 10px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* slate-400 */
+        }
+        /* Style for the pyvis container */
+        #network-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Bevel/Emboss effect for text */
+        .text-bevel {
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.5), -2px -2px 3px rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full overflow-hidden">
+
+    <!-- Top Banner & Header -->
+    <header class="bg-indigo-700 text-white p-4 sm:p-6 shadow-lg flex items-center justify-between z-10">
+        <div class="flex-1">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-bevel">Network Graph</h1>
+        </div>
+        <div class="text-right flex items-center space-x-4">
+            <p id="datasetName" class="font-medium text-lg">Dataset: My Data</p>
+            <div class="bg-white/20 h-8 w-px rounded-full"></div>
+            <div id="runtimeInfo" class="text-sm opacity-80 flex flex-col items-end">
+                <p><span class="font-medium">Last Updated:</span> <span id="lastUpdated">N/A</span></p>
+                <p><span class="font-medium">Nodes:</span> <span id="nodeCount">N/A</span></p>
+                <p><span class="font-medium">Edges:</span> <span id="edgeCount">N/A</span></p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area (Graph and Side Panel) -->
+    <main class="flex-1 flex flex-col md:flex-row p-4 sm:p-6 overflow-hidden">
+
+        <!-- Graph Container -->
+        <div id="graph-panel" class="relative bg-white rounded-xl shadow-lg flex-1 mb-4 md:mb-0 md:mr-6 overflow-hidden">
+            <div id="network-container" class="h-full w-full">
+                <!--
+                    ========================================================================================
+                    PASTE YOUR PYVIS GRAPH HTML CODE HERE.
+                    Ensure that the `div` for your graph has an ID, e.g., <div id="mynetwork"></div>.
+                    If your pyvis graph has `height` and `width` attributes, they should be set to 100%
+                    for the best fit within this container.
+
+                    Example:
+                    <div id="mynetwork" style="height: 100%; width: 100%;"></div>
+                    ========================================================================================
+                -->
+                <p class="text-center text-gray-400 text-lg">
+                    Paste your pyvis graph HTML here to see it render.
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side Info Panel -->
+        <aside id="info-panel" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-80 flex-shrink-0 flex flex-col info-panel-scroll overflow-y-auto">
+            
+            <!-- Selected Item Details -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Selected Item Details</h2>
+                <div id="selected-info" class="text-sm text-gray-700 leading-relaxed">
+                    <p>Select a node or edge in the graph to see its details here.</p>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        // Use this script block to handle any custom logic.
+        // For example, updating the runtime information.
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update runtime information on page load
+            const now = new Date();
+            document.getElementById('lastUpdated').innerText = now.toLocaleString();
+            
+            // You can dynamically get these values from your pyvis code.
+            // For now, these are mock values.
+            document.getElementById('nodeCount').innerText = 'N/A';
+            document.getElementById('edgeCount').innerText = 'N/A';
+
+            // ========================================================================================
+            // INTEGRATION WITH PYVIS
+            //
+            // To make the info panel interactive, you need to connect this template's
+            // JavaScript to the `pyvis` graph's events.
+            //
+            // pyvis graphs (using the vis.js library) have a `network` object. You can add a
+            // listener to its `selectNode` or `selectEdge` events to update the right panel.
+            //
+            // Example of how you would connect the two (assuming your pyvis network is in a variable called `network`):
+            //
+            // network.on("selectNode", function (params) {
+            //     if (params.nodes.length > 0) {
+            //         const selectedNodeId = params.nodes[0];
+            //         // Get the node data from your pyvis `nodes` object
+            //         const nodeData = network.body.data.nodes.get(selectedNodeId);
+            //
+            //         // Update the details panel with the selected node's information
+            //         document.getElementById('selected-info').innerHTML = `
+            //             <div class="space-y-2">
+            //                 <p><span class="font-medium">Node ID:</span> ${nodeData.id}</p>
+            //                 <p><span class="font-medium">Label:</span> ${nodeData.label}</p>
+            //                 <p><span class="font-medium">Category:</span> ${nodeData.group || 'N/A'}</p>
+            //                 <!-- Add more properties as needed -->
+            //             </div>
+            //         `;
+            //     }
+            // });
+            // ========================================================================================
+        });
+    </script>
+</body>
+</html>
