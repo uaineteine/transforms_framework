@@ -1,3 +1,5 @@
+import tailwindcss
+
 def generate_doctype() -> str:
     return '<!DOCTYPE html>'
 
@@ -37,18 +39,18 @@ def generate_css() -> str:
     """
 
 def generate_head() -> str:
-    return """
+    return f"""
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Network Visualization Dashboard</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>{tailwindcss.tailwind}</style>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {css}
+    {generate_css()}
 </head>
-""".format(css=generate_css())
+"""
 
 def generate_script() -> str:
     return """

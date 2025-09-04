@@ -19,3 +19,4 @@ build/*
 transformslib.egg-info/*
 transformslib/__pycache__/*
 transformslib/mapping/__pycache__/*
+transformslib/mapping/webcanvas/__pycache__/tailwindcss.cpython-310.pyc
