@@ -34,3 +34,15 @@ def setup_java_home(java_home_path: str):
     if not os.path.exists(java_home_path):
         raise ValueError(f"Provided JAVA_HOME path does not exist: {java_home_path}")
     os.environ[JVENV] = java_home_path
+
+def detect_if_hadoop_home_set() -> bool:
+    """
+    Checks whether the HADOOP_HOME environment variable is set and points to a valid directory.
+
+    Returns:
+        bool: True if HADOOP_HOME is set and the path exists, False otherwise.
+    """
+    home = os.environ.get("HADOOP_HOME")
+    if home and os.path.exists(home):
+        return True
+    return False
