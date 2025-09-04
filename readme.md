@@ -22,6 +22,7 @@ This program provides a data transformation framework for working with tables (D
 |   |   `-- multitable.py
 |   |-- mapping/
 |   |   |-- maps.py
+|   |   |-- webcanvas.py
 |   |   `-- dag.py
 |   |-- transforms/
 |   |   |-- base.py
