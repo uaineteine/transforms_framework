@@ -714,3 +714,39 @@ This framework makes your data pipeline transparent and auditable by logging eve
 3. **Collection management** with `Tablecollection` for flexible multi-table operations
 
 Each approach provides the same event tracking and audit capabilities while offering different levels of control and automation for your specific use case.
+
+## Building
+
+Prerequisites:
+- Python 3.10 or newer
+- pip, setuptools, and wheel
+
+On Windows PowerShell:
+
+```powershell
+
+# Ensure build tools are available
+pip install -U setuptools wheel
+
+# If you have project dependencies, install them (optional for building)
+pip install -r requirements.txt
+
+# Build the package
+python build.py
+```
+
+What the build script does (python build.py):
+1. Pre-renders setup.py
+   - Reads requirements.txt (if present) and inlines them into install_requires
+   - Reads readme.md as the long_description for the package
+   - Writes a fully-populated setup.py with the package metadata (name, version, etc.)
+2. Cleans previous artifacts
+   - Deletes the build/ and dist/ folders if they exist
+3. Builds distributions
+   - Runs: python setup.py sdist bdist_wheel
+   - Outputs artifacts to the dist/ directory (e.g., .tar.gz and .whl files)
+4. Builds documentation
+   - If a docs/ folder exists, changes into docs/ and executes builddocs.bat
+   - Returns to the project root when finished
+
+After a successful build, you should see the generated distribution files under `dist/`.
