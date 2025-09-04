@@ -42,14 +42,17 @@ def build_dag(job_id:int, run_id:int):
     Args: job_id, run_id
     """
     logs = reader.load_transform_log(job_id=1, run_id=1)
+    
+    if len(logs) == 0:
+        raise ValueError("JSON log for transforms was parsed empty")
 
     #check meta version
-    this_version = logs.get("meta_version" "")
+    this_version = logs[0].get("meta_version" "")
     meta.expected_meta_version(this_version)
 
     # Build DAG
-    input_dfs = [log["params"]["path"] for log in logs if log["function"].startswith("read_file")]
-    output_files = [log["params"]["path"] for log in logs if log["function"].startswith("write_file")]
+    input_dfs = [log["params"]["path"] for log in logs if log["transform_type"].startswith("read_file")]
+    output_files = [log["params"]["path"] for log in logs if log["transform_type"].startswith("write_file")]
 
     G = nx.DiGraph()
     for df in input_dfs:
@@ -57,10 +60,10 @@ def build_dag(job_id:int, run_id:int):
 
     transform_nodes = []
     for i, log in enumerate(logs):
-        if log["function"].startswith(("read_file", "write_file")):
+        if log["transform_type"].startswith(("read_file", "write_file")):
             continue
 
-        func_name = log["function"]
+        func_name = log["transform_type"]
         timestamp = log["timestamp"]
         node_name = f"{func_name}_{timestamp}"
         transform_nodes.append(node_name)
@@ -68,8 +71,9 @@ def build_dag(job_id:int, run_id:int):
         extra_stats = log.get("extra", {}).get("stats", {})
         extra_info = "\n".join([f"{k}: {v}" for k, v in extra_stats.items()]) if extra_stats else ""
 
+        is_testable = log["testable_transform"]
         title_parts = [
-            f"Function: {func_name}",
+            f"transform_type: {func_name}",
             f"Meta Version: {log.get('meta_version', '')}",
             f"User: {log.get('executed_user', '')}",
             f"Tested: {'✅' if is_testable else '❌'}",
@@ -90,10 +94,10 @@ def build_dag(job_id:int, run_id:int):
                 G.add_edge(df, node_name)
         else:
             j = i - 1
-            while j >= 0 and logs[j]["function"].startswith(("read_file", "write_file")):
+            while j >= 0 and logs[j]["transform_type"].startswith(("read_file", "write_file")):
                 j -= 1
             
-            prev_node = f"{logs[j]['function']}_{logs[j]['timestamp']}" if j >= 0 else input_dfs[0]
+            prev_node = f"{logs[j]['transform_type']}_{logs[j]['timestamp']}" if j >= 0 else input_dfs[0]
             G.add_edge(prev_node, node_name)
 
     # The previous code block continues here
