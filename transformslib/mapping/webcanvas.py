@@ -23,6 +23,8 @@ def generate_css() -> str:
             --cyan-700: #0e7490;
             --green-700: #15803d;
             --red-700: #b91c1c;
+            --yellow-700: #a16207;
+            --purple-700: #7c3aed;
             
             /* Dynamic header color - will be set by JavaScript */
             --header-color: var(--indigo-700);
@@ -251,10 +253,20 @@ def generate_script(report_generated_time: str = None, node_count: int = None, e
     <script>
         document.addEventListener('DOMContentLoaded', () => {{
             // Set random header color
-            const colors = ['--blue-700', '--cyan-700', '--green-700', '--red-700'];
+            const colors = ['--blue-700', '--cyan-700', '--green-700', '--red-700', '--yellow-700', '--purple-700'];
+            let currentColor = null;
             
             function setRandomHeaderColor() {{
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                let availableColors = colors;
+                
+                // If we have a current color, exclude it from the selection
+                if (currentColor) {{
+                    availableColors = colors.filter(color => color !== currentColor);
+                }}
+                
+                // Select random color from available options
+                const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)];
+                currentColor = randomColor;
                 document.documentElement.style.setProperty('--header-color', `var(${{randomColor}})`);
             }}
             
