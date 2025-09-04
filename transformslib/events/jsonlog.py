@@ -68,7 +68,9 @@ class JSONLog:
         """
         if self.log_location == "":
             raise ValueError("No log location specified for the event.")
+        
         os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
+
         with open(self.log_location, "a", encoding="utf-8") as f:
             f.write(self.__repr__() + "\n")
 
