@@ -101,6 +101,7 @@
 </li>
 <li><a class="reference internal" href="#module-transformslib.setup">transformslib.setup</a><ul>
 <li><a class="reference internal" href="#transformslib.setup.JVENV"><code class="docutils literal notranslate"><span class="pre">JVENV</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.setup.detect_if_hadoop_home_set"><code class="docutils literal notranslate"><span class="pre">detect_if_hadoop_home_set()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.setup.detect_if_java_home_set"><code class="docutils literal notranslate"><span class="pre">detect_if_java_home_set()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.setup.setup_java_home"><code class="docutils literal notranslate"><span class="pre">setup_java_home()</span></code></a></li>
 </ul>
@@ -610,6 +611,16 @@ Used to track compatibility and changes across releases.</p>
 <dt class="sig sig-object py" id="transformslib.setup.JVENV">
 <span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">JVENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JAVA_HOME'</span></em><a class="headerlink" href="#transformslib.setup.JVENV" title="Link to this definition"></a></dt>
 <dd><p>str: The name of the environment variable used to store the Java installation path.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.setup.detect_if_hadoop_home_set">
+<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">detect_if_hadoop_home_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.setup.detect_if_hadoop_home_set" title="Link to this definition"></a></dt>
+<dd><p>Checks whether the HADOOP_HOME environment variable is set and points to a valid directory.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>bool: True if HADOOP_HOME is set and the path exists, False otherwise.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -2139,7 +2150,7 @@ Values above <cite>max_value</cite> are capped, and values below <cite>min_value
 <span id="transformslib-transforms-reader"></span><h1>transformslib.transforms.reader<a class="headerlink" href="#module-transformslib.transforms.reader" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="transformslib.transforms.reader.load_transform_log">
-<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">load_transform_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.reader.load_transform_log" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">load_transform_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.load_transform_log" title="Link to this definition"></a></dt>
 <dd><p>Load the transform log for a specific job and run ID.</p>
 </dd></dl>
 
