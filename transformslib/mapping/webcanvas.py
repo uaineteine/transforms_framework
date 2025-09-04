@@ -54,6 +54,21 @@ def generate_css() -> str:
             justify-content: space-between;
             position: relative;
             z-index: 10;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            user-select: none;
+        }
+        
+        .header:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Bigger shadow on hover */
+            filter: brightness(1.1); /* Subtle brightening effect */
+            transform: translateY(-2px); /* Slight upward movement */
+        }
+        
+        .header:active {
+            transform: translateY(1px); /* Press down effect when clicked */
+            filter: brightness(0.95); /* Darken slightly when clicked */
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06); /* Reduced shadow when pressed */
         }
 
         @media (min-width: 640px) {
@@ -243,14 +258,80 @@ def generate_script(report_generated_time: str = None, node_count: int = None, e
                 document.documentElement.style.setProperty('--header-color', `var(${{randomColor}})`);
             }}
             
+            function addClickEffect(element) {{
+                // Add a ripple effect on click
+                element.style.position = 'relative';
+                element.style.overflow = 'hidden';
+                
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                    left: 50%;
+                    top: 50%;
+                    width: 100px;
+                    height: 100px;
+                    margin-left: -50px;
+                    margin-top: -50px;
+                `;
+                
+                element.appendChild(ripple);
+                
+                // Remove ripple after animation
+                setTimeout(() => {{
+                    if (ripple.parentNode) {{
+                        ripple.parentNode.removeChild(ripple);
+                    }}
+                }}, 600);
+            }}
+            
+            // Add ripple animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {{
+                    to {{
+                        transform: scale(4);
+                        opacity: 0;
+                    }}
+                }}
+                
+                .color-change-flash {{
+                    animation: colorFlash 0.3s ease-in-out;
+                }}
+                
+                @keyframes colorFlash {{
+                    0% {{ filter: brightness(1); }}
+                    50% {{ filter: brightness(1.3) saturate(1.2); }}
+                    100% {{ filter: brightness(1); }}
+                }}
+            `;
+            document.head.appendChild(style);
+            
             // Set initial random color
             setRandomHeaderColor();
             
             // Add click event listener to header for color change
             const header = document.querySelector('.header');
             if (header) {{
-                header.style.cursor = 'pointer';
-                header.addEventListener('click', setRandomHeaderColor);
+                header.addEventListener('click', (e) => {{
+                    // Add ripple effect at click position
+                    addClickEffect(header);
+                    
+                    // Add flash animation
+                    header.classList.add('color-change-flash');
+                    setTimeout(() => {{
+                        header.classList.remove('color-change-flash');
+                    }}, 300);
+                    
+                    // Change color after brief delay for better visual effect
+                    setTimeout(() => {{
+                        setRandomHeaderColor();
+                    }}, 150);
+                }});
             }}
             
             // Set timestamps and counts
