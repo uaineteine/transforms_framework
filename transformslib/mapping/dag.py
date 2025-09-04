@@ -87,79 +87,103 @@ def set_default_network_options(net: Network) -> Network:
 
 def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     """
-    Method for building the dag with an output html file
-    
+    Build a PyVis DAG where nodes are tables (versioned per event) and edges are transforms,
+    similar to archive/old example dags/dagold.py, then write an HTML report.
+
     Args:
-        job_id
-        run_id
-        height_amt (optional) in pixels
+        job_id (int): Job identifier.
+        run_id (int): Run identifier.
+        height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., "100%").
     """
 
-    logs = reader.load_transform_log(job_id=1, run_id=1)
-    
+    # Load transform events
+    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
+
     if len(logs) == 0:
         raise ValueError("JSON log for transforms was parsed empty")
 
-    #check meta version
-    this_version = logs[0].get("meta_version" "")
+    # Check meta version
+    this_version = logs[0].get("meta_version", "")
     meta.expected_meta_version(this_version)
 
-    # Build DAG
-    input_dfs = [log["params"]["path"] for log in logs if log["transform_type"].startswith("read_file")]
-    output_files = [log["params"]["path"] for log in logs if log["transform_type"].startswith("write_file")]
+    # Sort by timestamp to build a consistent versioned lineage
+    def _parse_ts(event: dict) -> datetime:
+        ts = event.get("timestamp", "") or ""
+        if ts.endswith("Z"):
+            ts = ts.replace("Z", "+00:00")
+        try:
+            return datetime.fromisoformat(ts)
+        except Exception:
+            return datetime.min
 
+    events = sorted(logs, key=_parse_ts)
+
+    # Build table-versioned DAG (nodes = tables; new node for each output at event time)
     G = nx.DiGraph()
-    for df in input_dfs:
-        G.add_node(df, label=os.path.basename(df), color="lightblue", title=f"Input: {df}")
+    latest_node_for_table = {}
 
-    transform_nodes = []
-    for i, log in enumerate(logs):
-        if log["transform_type"].startswith(("read_file", "write_file")):
-            continue
+    for event in events:
+        ts_dt = _parse_ts(event)
+        ts_short = ts_dt.strftime("%H:%M:%S.%f")
 
-        func_name = log["transform_type"]
-        timestamp = log["timestamp"]
-        node_name = f"{func_name}_{timestamp}"
-        transform_nodes.append(node_name)
+        log_info = event.get("log_info", {}) or {}
+        input_tables = log_info.get("input_tables", []) or []
+        output_tables = log_info.get("output_tables", []) or []
+        transform_name = event.get("name", "unknown")
+        is_testable = bool(event.get("testable_transform", False))
 
-        extra_stats = log.get("extra", {}).get("stats", {})
-        extra_info = "\n".join([f"{k}: {v}" for k, v in extra_stats.items()]) if extra_stats else ""
+        # Determine input nodes (latest version so far)
+        input_nodes = []
+        for tbl in input_tables:
+            if tbl in latest_node_for_table:
+                input_nodes.append(latest_node_for_table[tbl])
+            else:
+                # Starting table node (no prior version seen yet)
+                node_id = f"{tbl}_start"
+                G.add_node(
+                    node_id,
+                    label=tbl,
+                    color="lightblue",
+                    title=f"Start table: {tbl}"
+                )
+                latest_node_for_table[tbl] = node_id
+                input_nodes.append(node_id)
 
-        is_testable = log["testable_transform"]
-        title_parts = [
-            f"transform_type: {func_name}",
-            f"Meta Version: {log.get('meta_version', '')}",
-            f"User: {log.get('executed_user', '')}",
-            f"Tested: {'✅' if is_testable else '❌'}",
-            f"Message: {log.get('msg', '')}",
-        ]
+        # Create new output nodes (one per table, versioned by time)
+        output_nodes = []
+        for tbl in output_tables:
+            node_id = f"{tbl}_{ts_short.replace(':', '_').replace('.', '_')}"
+            node_color = "lightgreen" if is_testable else "lightgrey"
 
-        if extra_info:
-            title_parts.append(extra_info)
+            # Tooltip with helpful metadata
+            title_parts = [
+                f"Transform: {transform_name}",
+                f"Time: {event.get('timestamp', '')}",
+                f"Meta Version: {event.get('meta_version', '')}",
+                f"User: {event.get('executed_user', '')}",
+                f"Testable: {'Yes' if is_testable else 'No'}",
+            ]
+            if event.get("event_description"):
+                title_parts.append(f"Description: {event['event_description']}")
+            if input_tables:
+                title_parts.append(f"Inputs: {', '.join(input_tables)}")
+            if output_tables:
+                title_parts.append(f"Outputs: {', '.join(output_tables)}")
+            title = "\n".join(title_parts)
 
-        title_parts.append(f"Params: {log.get('params', '')}")
-        title = "\n".join(title_parts)
+            G.add_node(
+                node_id,
+                label=tbl,
+                color=node_color,
+                title=title,
+            )
+            latest_node_for_table[tbl] = node_id
+            output_nodes.append(node_id)
 
-        node_color = "lightgreen" if log.get("pass_bool", True) else "red"
-        G.add_node(node_name, label=func_name, color=node_color, title=title)
-
-        if i == 0:
-            for df in input_dfs:
-                G.add_edge(df, node_name)
-        else:
-            j = i - 1
-            while j >= 0 and logs[j]["transform_type"].startswith(("read_file", "write_file")):
-                j -= 1
-            
-            prev_node = f"{logs[j]['transform_type']}_{logs[j]['timestamp']}" if j >= 0 else input_dfs[0]
-            G.add_edge(prev_node, node_name)
-
-    # The previous code block continues here
-
-    for out_file in output_files:
-        last_transform_node = transform_nodes[-1] if transform_nodes else input_dfs[0]
-        G.add_node(out_file, label=os.path.basename(out_file), color="orange", title=f"Output: {out_file}")
-        G.add_edge(last_transform_node, out_file)
+        # Connect input nodes → output nodes, label edges with transform name
+        for inp_node in input_nodes:
+            for out_node in output_nodes:
+                G.add_edge(inp_node, out_node, label=transform_name)
 
     # Height handling
     if isinstance(height, (int, float)):
@@ -168,8 +192,8 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         height_str = height
     else:
         raise TypeError("height must be int, float, or str")
-    
-    # Render Pyvis
+
+    # Render PyVis
     net = Network(
         height=height_str,
         width="100%",
@@ -182,7 +206,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     net = set_default_network_options(net)
 
     # Calculate total runtime
-    timestamps = [log["timestamp"] for log in logs if "timestamp" in log]
+    timestamps = [evt.get("timestamp") for evt in events if evt.get("timestamp")]
     total_runtime = calculate_total_runtime(timestamps)
     runtime_str = format_timedelta(total_runtime) if total_runtime else "Unknown"
 
