@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "e4e56d11-a535-4fd5-8597-f83e79de7512",
-  "timestamp": "2025-09-04T03:39:44.918635+00:00",
+  "uuid": "23410b9c-9a5a-479b-bc22-28ca51f0113e",
+  "timestamp": "2025-09-04T03:49:01.924843+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/array_like.csv",
@@ -32,8 +32,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b4998d47-d022-4019-855b-7e4e502365a4",
-  "timestamp": "2025-09-04T03:39:53.402585+00:00",
+  "uuid": "d486daf7-924c-4b61-a654-4c9a3e7706de",
+  "timestamp": "2025-09-04T03:49:09.740445+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
@@ -66,8 +66,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "588482d7-3b0b-435f-a944-67a6ac5a70fa",
-  "timestamp": "2025-09-04T03:39:57.407372+00:00",
+  "uuid": "e51f1658-de83-4e18-8da3-34549e09f625",
+  "timestamp": "2025-09-04T03:49:13.184975+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",

@@ -9,7 +9,7 @@ import pyspark
 import polars as pl
 import pandas as pd
 
-def_log_location = "events_log/job_1/debug/transforms.json"
+def_log_location = "events_log/job_1/transforms.json"
 
 class Transform(PipelineEvent):
     """

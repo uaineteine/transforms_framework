@@ -370,6 +370,7 @@ class TableCollection:
             >>> # Save events for specific tables only
             >>> pt_collection.save_events(["table1", "table2"])
         """
+
         if table_names is None:
             # Save events for all tables
             for table in self.tables:
