@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 
 main_dir = "events_log"
 
@@ -19,5 +20,28 @@ def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
                 events.append(json.loads(obj_str))
     return events
 
+# Sort by timestamp to build a consistent versioned lineage
+def parse_ts(event: dict) -> datetime:
+    """
+    Extracts and parses the ISO 8601 timestamp from an event dictionary.
 
+    This function retrieves the value associated with the "timestamp" key in the
+    provided dictionary, normalizes it by replacing a trailing 'Z' with '+00:00'
+    to indicate UTC, and attempts to convert it into a `datetime` object.
 
+    If the timestamp is missing or cannot be parsed, it returns `datetime.min`.
+
+    Parameters:
+        event (dict): A dictionary expected to contain a "timestamp" key with
+                      an ISO 8601 formatted string.
+
+    Returns:
+        datetime: A parsed `datetime` object if successful, otherwise `datetime.min`.
+    """
+    ts = event.get("timestamp", "") or ""
+    if ts.endswith("Z"):
+        ts = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(ts)
+    except Exception:
+        return datetime.min

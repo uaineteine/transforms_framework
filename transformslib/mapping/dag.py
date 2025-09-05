@@ -99,6 +99,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     # Load transform events
     logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
 
+    #quick error check
     if len(logs) == 0:
         raise ValueError("JSON log for transforms was parsed empty")
 
@@ -106,24 +107,14 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     this_version = logs[0].get("meta_version", "")
     meta.expected_meta_version(this_version)
 
-    # Sort by timestamp to build a consistent versioned lineage
-    def _parse_ts(event: dict) -> datetime:
-        ts = event.get("timestamp", "") or ""
-        if ts.endswith("Z"):
-            ts = ts.replace("Z", "+00:00")
-        try:
-            return datetime.fromisoformat(ts)
-        except Exception:
-            return datetime.min
-
-    events = sorted(logs, key=_parse_ts)
+    events = sorted(logs, key=reader.parse_ts)
 
     # Build table-versioned DAG (nodes = tables; new node for each output at event time)
     G = nx.DiGraph()
     latest_node_for_table = {}
 
     for event in events:
-        ts_dt = _parse_ts(event)
+        ts_dt = reader.parse_ts(event)
         ts_short = ts_dt.strftime("%H:%M:%S.%f")
 
         log_info = event.get("log_info", {}) or {}
