@@ -34,24 +34,6 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
         print(f"Timestamp parsing error: {e}")
         return None
 
-def format_timedelta(td: timedelta) -> str:
-    """
-    Format a timedelta as Hh Mm Ss string.
-    """
-    total_seconds = int(td.total_seconds())
-    hours, remainder = divmod(total_seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-
-    parts = []
-    if hours > 0:
-        parts.append(f"{hours}h")
-    if minutes > 0:
-        parts.append(f"{minutes}m")
-    if seconds > 0 or not parts:  # always show something
-        parts.append(f"{seconds}s")
-
-    return " ".join(parts)
-
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
@@ -227,7 +209,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     # Calculate total runtime
     timestamps = [evt.get("timestamp") for evt in events if evt.get("timestamp")]
     total_runtime = calculate_total_runtime(timestamps)
-    runtime_str = format_timedelta(total_runtime) if total_runtime else "Unknown"
+    runtime_str = reader.format_timedelta(total_runtime) if total_runtime else "Unknown"
 
     # Generate Pyvis HTML and extract head and body segments
     pyvis_html = net.generate_html()

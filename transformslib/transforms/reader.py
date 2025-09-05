@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 main_dir = "events_log"
 
@@ -45,3 +45,21 @@ def parse_ts(event: dict) -> datetime:
         return datetime.fromisoformat(ts)
     except Exception:
         return datetime.min
+
+def format_timedelta(td: timedelta) -> str:
+    """
+    Format a timedelta as Hh Mm Ss string.
+    """
+    total_seconds = int(td.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    parts = []
+    if hours > 0:
+        parts.append(f"{hours}h")
+    if minutes > 0:
+        parts.append(f"{minutes}m")
+    if seconds > 0 or not parts:  # always show something
+        parts.append(f"{seconds}s")
+
+    return " ".join(parts)
