@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "19796499-3684-40a6-a647-625f9bb72d3e",
-  "timestamp": "2025-09-04T03:49:01.526616+00:00",
+  "uuid": "8a9114ca-17f6-4a56-8096-609421a4716a",
+  "timestamp": "2025-09-05T02:27:50.668190+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/salary.csv",
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "73126a7c-0b78-40e9-9f65-d44d117141ab",
-  "timestamp": "2025-09-04T03:49:02.096037+00:00",
+  "uuid": "bcb727af-3119-4d9b-b882-9f5e30072a34",
+  "timestamp": "2025-09-05T02:27:51.193259+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -46,8 +46,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -73,8 +73,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "30a740bb-5ead-401a-934a-30a44aacb4bf",
-  "timestamp": "2025-09-04T03:49:13.886821+00:00",
+  "uuid": "acba27cd-e431-4b29-a76e-09883903d1d6",
+  "timestamp": "2025-09-05T02:27:58.916519+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_400.parquet as parquet (pyspark)",

@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "af45b007-62d0-4ebf-a829-fffad76cd8c4",
-  "timestamp": "2025-09-04T03:49:01.741971+00:00",
+  "uuid": "3fc3d20e-2d4c-4ae5-a1a2-d267b1ae5164",
+  "timestamp": "2025-09-05T02:27:50.870974+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/location.csv",
@@ -33,8 +33,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "8757e837-a7f5-4d6d-9cbb-5bc9d466f308",
-  "timestamp": "2025-09-04T03:49:09.878219+00:00",
+  "uuid": "6b4d0866-4e45-4df6-8f13-448d0fceb30a",
+  "timestamp": "2025-09-05T02:27:55.940758+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
@@ -43,8 +43,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "output_table": "location"
@@ -84,8 +84,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "ca2810a8-2790-4525-b0e0-b8a650ba7459",
-  "timestamp": "2025-09-04T03:49:10.034342+00:00",
+  "uuid": "389f8e20-b32d-4cc3-8e62-a3965c556d69",
+  "timestamp": "2025-09-05T02:27:56.084755+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -94,8 +94,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "location"
@@ -113,8 +113,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "8428bc03-7cb3-4666-8512-b199fd6cfc19",
-  "timestamp": "2025-09-04T03:49:15.222794+00:00",
+  "uuid": "f540c0bd-f357-426f-905a-7a9fb45075f5",
+  "timestamp": "2025-09-05T02:27:59.698690+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",

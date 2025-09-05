@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "287171c8-346b-4192-a7c2-957e95828d46",
-  "timestamp": "2025-09-04T03:49:01.359545+00:00",
+  "uuid": "c5becb6b-c28b-47fe-b86f-b7ab291bd386",
+  "timestamp": "2025-09-05T02:27:50.522775+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/positions.csv",
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7c376ecd-df5a-4984-bec7-1a384a25842a",
-  "timestamp": "2025-09-04T03:49:04.660865+00:00",
+  "uuid": "a8169d04-ec29-4b7c-924d-454f8f2a991b",
+  "timestamp": "2025-09-05T02:27:52.741199+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -46,8 +46,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "positions"
@@ -80,8 +80,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "da31c9d7-53cc-42e6-887c-b9e182f57d2b",
-  "timestamp": "2025-09-04T03:49:04.925918+00:00",
+  "uuid": "46b9984b-eb12-4076-923e-d871bd180412",
+  "timestamp": "2025-09-05T02:27:52.911921+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -90,8 +90,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "positions"
@@ -109,8 +109,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "a481903b-6f13-4bcb-b5ab-bf0755363eda",
-  "timestamp": "2025-09-04T03:49:14.121040+00:00",
+  "uuid": "75225c06-b200-4677-8c26-3cae5086837b",
+  "timestamp": "2025-09-05T02:27:59.054272+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",

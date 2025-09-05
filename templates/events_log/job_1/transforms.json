@@ -22,8 +22,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "8b3daed3-bdd3-431b-b072-a0304a6876e1",
-  "timestamp": "2025-09-04T03:49:02.096037+00:00",
+  "uuid": "2657fd32-f4c3-4c5a-9291-af61e734ffc5",
+  "timestamp": "2025-09-05T02:27:51.193259+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -32,8 +32,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -77,8 +77,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "4900f05f-e59c-42b4-9fe6-df1b988bf065",
-  "timestamp": "2025-09-04T03:49:04.660865+00:00",
+  "uuid": "644ca7e2-a728-4c98-a438-019f320811f7",
+  "timestamp": "2025-09-05T02:27:52.741199+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -87,8 +87,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "positions"
@@ -128,8 +128,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "973297dd-4995-46da-b34e-4fc21cd34d39",
-  "timestamp": "2025-09-04T03:49:04.825746+00:00",
+  "uuid": "5d49f93d-5902-40b2-bb2f-16f1cc69cad0",
+  "timestamp": "2025-09-05T02:27:52.835478+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -138,8 +138,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -170,8 +170,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "41158158-18d6-438c-932e-94192b4b11ee",
-  "timestamp": "2025-09-04T03:49:04.925918+00:00",
+  "uuid": "7d419bae-073b-4e8b-aa1d-2a77af38ab02",
+  "timestamp": "2025-09-05T02:27:52.911921+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -180,8 +180,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "positions"
@@ -209,8 +209,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "a26c7de5-db97-449c-9508-5563209e46eb",
-  "timestamp": "2025-09-04T03:49:05.811716+00:00",
+  "uuid": "4d476f6c-4dac-485f-a301-39e3245b6fd4",
+  "timestamp": "2025-09-05T02:27:53.337992+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -219,8 +219,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -256,8 +256,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "75154dd8-6043-43a5-b302-941957ff3b50",
-  "timestamp": "2025-09-04T03:49:06.377583+00:00",
+  "uuid": "8d629116-f6a1-44d0-a533-90c10daf85c8",
+  "timestamp": "2025-09-05T02:27:53.629623+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -266,8 +266,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -303,8 +303,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "3d1ef096-8571-48d6-865c-b5a5b9ca11d6",
-  "timestamp": "2025-09-04T03:49:06.693250+00:00",
+  "uuid": "9c76f918-4ac6-49bd-9989-02b3138ac15d",
+  "timestamp": "2025-09-05T02:27:53.756322+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -313,8 +313,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "salary"
@@ -352,8 +352,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "cd38e5de-9796-453b-8b6d-28b528c711dc",
-  "timestamp": "2025-09-04T03:49:07.171948+00:00",
+  "uuid": "2d80a95a-a3f8-4ba0-a05a-0624501e88b6",
+  "timestamp": "2025-09-05T02:27:53.962855+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
@@ -362,8 +362,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "output_table": "example_join"
@@ -407,8 +407,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "de613ad7-2772-4c4a-ae9b-e6e1192b0c06",
-  "timestamp": "2025-09-04T03:49:08.386984+00:00",
+  "uuid": "5229697f-c45c-4652-a641-e0448ebb1f0a",
+  "timestamp": "2025-09-05T02:27:54.744349+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
@@ -417,8 +417,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "example_join"
@@ -460,8 +460,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "69a4a63e-a508-4bd3-8be6-cf3de82b4d83",
-  "timestamp": "2025-09-04T03:49:08.709096+00:00",
+  "uuid": "c74510b6-509c-47eb-a2e3-1ace04be4757",
+  "timestamp": "2025-09-05T02:27:55.042379+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
@@ -470,8 +470,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "example_join",
@@ -508,8 +508,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "9b4f0a31-d9b6-4f58-8386-47ec7bde09a8",
-  "timestamp": "2025-09-04T03:49:09.110220+00:00",
+  "uuid": "52b93c79-bc1e-46b4-a190-297ce042918a",
+  "timestamp": "2025-09-05T02:27:55.330105+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
@@ -518,8 +518,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "example_join"
@@ -557,8 +557,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7ebdae96-90a1-495e-9c9c-6152db4f5198",
-  "timestamp": "2025-09-04T03:49:09.740445+00:00",
+  "uuid": "a2fe73d7-e665-478d-99d6-7a1016490714",
+  "timestamp": "2025-09-05T02:27:55.813065+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
@@ -567,8 +567,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "array_like"
@@ -606,8 +606,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "12ad3978-eee4-4b12-aac0-0e009c7ee31b",
-  "timestamp": "2025-09-04T03:49:09.878219+00:00",
+  "uuid": "af2215d6-111e-446e-a200-8faf7527df8c",
+  "timestamp": "2025-09-05T02:27:55.940758+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
@@ -616,8 +616,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "output_table": "location"
@@ -657,8 +657,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5bbb3dfa-0669-478a-a274-59d915adea2d",
-  "timestamp": "2025-09-04T03:49:10.034342+00:00",
+  "uuid": "0acce7ca-1117-4a4a-a0ba-0052b5980cdf",
+  "timestamp": "2025-09-05T02:27:56.084755+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -667,8 +667,8 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "df": "location"
@@ -701,8 +701,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "6bf31e88-d619-40c4-a78a-cccda2f0f22c",
-  "timestamp": "2025-09-04T03:49:10.532864+00:00",
+  "uuid": "dfacd0b8-e5d9-488f-a2b5-611e6269027b",
+  "timestamp": "2025-09-05T02:27:56.540736+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and example_join on NAME (outer)",
@@ -711,8 +711,8 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.31.0",
-  "version_pandas": "2.3.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
     "output_table": "final"
