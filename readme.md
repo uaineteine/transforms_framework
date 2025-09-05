@@ -2,7 +2,7 @@
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
-![Example Output](../diagrams/diagrams/example_final_form.png)
+![Example Output](https://raw.githubusercontent.com/uaineteine/transforms_framework/refs/heads/master/diagrams/example_final_form.png)
 
 ## Table of Contents
 
