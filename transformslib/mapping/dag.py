@@ -57,9 +57,10 @@ def output_loc(job_id:int, run_id:int) -> str:
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
+
 def set_default_network_options(net: Network) -> Network:
     """
-    Apply default PyVis network options for interaction and physics.
+    Apply default PyVis network options with hierarchical tree layout.
 
     Args:
         net (Network): The PyVis Network instance.
@@ -75,9 +76,37 @@ def set_default_network_options(net: Network) -> Network:
             "multiselect": false,
             "tooltipDelay": 100
         },
+        "layout": {
+            "hierarchical": {
+                "enabled": true,
+                "direction": "UD",
+                "sortMethod": "directed",
+                "levelSeparation": 150,
+                "nodeSpacing": 100
+            }
+        },
+        "edges": {
+            "arrows": {
+                "to": {
+                    "enabled": true,
+                    "scaleFactor": 1
+                }
+            }
+        },
         "physics": {
             "enabled": true,
-            "stabilization": true
+            "hierarchicalRepulsion": {
+                "centralGravity": 0.0,
+                "springLength": 100,
+                "springConstant": 0.01,
+                "nodeDistance": 120,
+                "damping": 0.09
+            },
+            "solver": "hierarchicalRepulsion",
+            "stabilization": {
+                "enabled": true,
+                "iterations": 1000
+            }
         }
     }
     """
@@ -86,8 +115,8 @@ def set_default_network_options(net: Network) -> Network:
 
 def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     """
-    Build a PyVis DAG where nodes are tables (versioned per event) and edges are transforms,
-    similar to archive/old example dags/dagold.py, then write an HTML report.
+    Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) 
+    and edges are transforms.
 
     Args:
         job_id (int): Job identifier.
@@ -188,7 +217,8 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         width="100%",
         directed=True,
         notebook=False,
-        cdn_resources="in_line"
+        cdn_resources="in_line",
+        layout=True  # Enable layout for hierarchical organization
     )
 
     net.from_nx(G)
@@ -233,7 +263,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     if pyvis_head_inner:
         head_html = head_html.replace("</head>", f"{pyvis_head_inner}</head>")
 
-    header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str)
+    header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str, version=this_version)
     main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
 
     full_html = (
