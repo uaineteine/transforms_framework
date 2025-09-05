@@ -262,6 +262,92 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
     # Inject pyvis head resources before closing </head>
     if pyvis_head_inner:
         head_html = head_html.replace("</head>", f"{pyvis_head_inner}</head>")
+    
+    # Add custom JavaScript to handle node hover events and update right panel
+    custom_js = """
+    <script>
+        // Function to update the right-hand panel with node/edge information
+        function updateInfoPanel(title, content) {
+            const detailsTitle = document.getElementById('selected-info').closest('div').querySelector('.details-title');
+            const selectedInfo = document.getElementById('selected-info');
+            
+            if (detailsTitle) {
+                detailsTitle.textContent = title;
+            }
+            if (selectedInfo) {
+                selectedInfo.innerHTML = content;
+            }
+        }
+        
+        // Function to format tooltip content for the right panel
+        function formatTooltipContent(tooltipText) {
+            const lines = tooltipText.split('\\n');
+            let html = '';
+            
+            lines.forEach(line => {
+                if (line.trim() === '') return;
+                
+                if (line.includes(':')) {
+                    const [label, value] = line.split(':', 2);
+                    html += `<p><strong>${label.trim()}:</strong> ${value.trim()}</p>`;
+                } else {
+                    html += `<p>${line.trim()}</p>`;
+                }
+            });
+            
+            return html || '<p>No details available</p>';
+        }
+        
+        // Wait for network to be available and add event listeners
+        function setupNetworkEvents() {
+            if (typeof network !== 'undefined') {
+                // Handle node hover
+                network.on("hoverNode", function (params) {
+                    const nodeId = params.node;
+                    const nodeData = network.body.data.nodes.get(nodeId);
+                    
+                    if (nodeData && nodeData.title) {
+                        const title = nodeData.label || 'Node Details';
+                        const content = formatTooltipContent(nodeData.title);
+                        updateInfoPanel(title, content);
+                    }
+                });
+                
+                // Handle edge hover
+                network.on("hoverEdge", function (params) {
+                    const edgeId = params.edge;
+                    const edgeData = network.body.data.edges.get(edgeId);
+                    
+                    if (edgeData) {
+                        const title = edgeData.label || 'Transform';
+                        const content = `<p><strong>Transform:</strong> ${edgeData.label || 'Unknown'}</p>`;
+                        updateInfoPanel(title, content);
+                    }
+                });
+                
+                // Reset to default when not hovering
+                network.on("blurNode", function (params) {
+                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                });
+                
+                network.on("blurEdge", function (params) {
+                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                });
+            } else {
+                // Retry after a short delay if network is not ready
+                setTimeout(setupNetworkEvents, 100);
+            }
+        }
+        
+        // Setup when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNetworkEvents();
+        });
+    </script>
+    """
+    
+    # Inject custom JavaScript before closing </head>
+    head_html = head_html.replace("</head>", f"{custom_js}</head>")
 
     header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str, version=this_version)
     main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
