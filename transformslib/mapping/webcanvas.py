@@ -1,3 +1,5 @@
+from transformslib import meta
+
 def generate_doctype() -> str:
     return '<!DOCTYPE html>'
 
@@ -354,7 +356,7 @@ def generate_script(report_generated_time: str = None, node_count: int = None, e
     </script>
     """
 
-def generate_header(header_name="Network Graph", runtime:str="9h 9m 9s") -> str:
+def generate_header(header_name="Network Graph", runtime:str="9h 9m 9s", version=meta.meta_version) -> str:
     return f"""
     <!-- Top Banner & Header -->
     <header class="header">
@@ -375,6 +377,10 @@ def generate_header(header_name="Network Graph", runtime:str="9h 9m 9s") -> str:
                 <div class="separator"></div>
                 <div id="runtimeInfo-edges" class="header-single-info">
                     <p><span class="font-medium">Edges:</span> <span id="edgeCount">N/A</span></p>
+                </div>
+                <div class="separator"></div>
+                <div id="runtimeInfo-version" class="header-single-info">
+                    <p><span class="font-medium">Meta Version:</span> <span id="meta_version">{version}</span></p>
                 </div>
             </div>
         </div>

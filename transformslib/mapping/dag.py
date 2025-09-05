@@ -52,7 +52,6 @@ def format_timedelta(td: timedelta) -> str:
 
     return " ".join(parts)
 
-
 def output_loc(job_id:int, run_id:int) -> str:
     """Function to return a transforms report output location"""
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
@@ -150,7 +149,6 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
             title_parts = [
                 f"Transform: {transform_name}",
                 f"Time: {event.get('timestamp', '')}",
-                f"Meta Version: {event.get('meta_version', '')}",
                 f"User: {event.get('executed_user', '')}",
                 f"Testable: {'Yes' if is_testable else 'No'}",
             ]
