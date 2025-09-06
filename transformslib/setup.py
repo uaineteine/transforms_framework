@@ -46,3 +46,17 @@ def detect_if_hadoop_home_set() -> bool:
     if home and os.path.exists(home):
         return True
     return False
+
+def setup_hadoop_home(hadoop_home_path: str):
+    """
+    Sets the HADOOP_HOME environment variable to the specified path.
+
+    Args:
+        hadoop_home_path (str): The path to the HADOOP installation directory.
+
+    Raises:
+        ValueError: If the provided path does not exist.
+    """
+    if not os.path.exists(hadoop_home_path):
+        raise ValueError(f"Provided HADOOP_HOME path does not exist: {hadoop_home_path}")
+    os.environ["HADOOP_HOME"] = hadoop_home_path
