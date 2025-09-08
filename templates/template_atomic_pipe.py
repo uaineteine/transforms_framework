@@ -176,9 +176,11 @@ if __name__ == "__main__":
         join_columns="NAME",
         join_type="outer"
     )
-    supply_frames = join_transform.apply(supply_frames, output_table="final")
+    supply_frames = join_transform.apply(supply_frames, output_table="super_table")
     print("second join complete")
-    supply_frames["final"].show()
+    
+    supply_frames = TrimWhitespace("NAME").apply(supply_frames, df="super_table")
+    supply_frames["super_table"].show()
 
     # save table output tables
     supply_frames.save_all("../test_tables/output", spark=spark)
