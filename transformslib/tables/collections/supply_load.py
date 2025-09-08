@@ -4,7 +4,16 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 
 def get_payload_file(job_id:int, run_id:int) -> str:
-    """Return the path location"""
+    """
+    Return the path location of the input payload.
+    
+    Args:
+        job_id (int): A job id to get the path of configuration file containing supply definitions.
+        run_id (int): A run id to get the path of configuration file containing supply definitions.
+            
+    Returns:
+        string of the payload path
+    """
     
     return f"../test_tables/job_{job_id}/payload.json"
 
@@ -65,9 +74,8 @@ class SupplyLoad(TableCollection):
             spark: SparkSession object required for loading PySpark DataFrames. Defaults to None.
 
         Raises:
-            ValueError: If the JSON path is empty.
             FileNotFoundError: If the JSON configuration file doesn't exist.
-            ValueError: If the JSON format is invalid or missing required fields.
+            ValueError: If the output transform file already exists suggesting the run has been made before.
             Exception: If there are issues loading any of the data files.
 
         Example:
