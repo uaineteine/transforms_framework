@@ -145,7 +145,8 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
                     node_id,
                     label=tbl,
                     color="lightblue",
-                    title=f"Start table: {tbl}"
+                    title=f"Start table: {tbl}",
+                    size=35 #default is 25
                 )
                 latest_node_for_table[tbl] = node_id
                 input_nodes.append(node_id)
@@ -176,6 +177,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
                 label=tbl,
                 color=node_color,
                 title=title,
+                size=25
             )
             latest_node_for_table[tbl] = node_id
             output_nodes.append(node_id)
