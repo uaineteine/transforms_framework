@@ -5,27 +5,27 @@
     {
       "name": "positions",
       "format": "csv",
-      "path": "../test_tables/positions.csv"
+      "path": "../test_tables/job_1/positions.csv"
     },
     {
       "name": "salary",
       "format": "csv",
-      "path": "../test_tables/salary.csv"
+      "path": "../test_tables/job_1/salary.csv"
     },
     {
       "name": "location",
       "format": "csv",
-      "path": "../test_tables/location.csv"
+      "path": "../test_tables/job_1/location.csv"
     },
     {
       "name": "array_like",
       "format": "csv",
-      "path": "../test_tables/array_like.csv"
+      "path": "../test_tables/job_1/array_like.csv"
     },
     {
       "name": "state",
       "format": "csv",
-      "path": "../test_tables/state.csv"
+      "path": "../test_tables/job_1/state.csv"
     }
   ]
 }

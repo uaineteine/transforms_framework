@@ -1,14 +1,14 @@
 {
   "log_info": {
-    "filepath": "../test_tables/positions.csv",
+    "filepath": "../test_tables/job_1/positions.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "44ca817b-0ada-49b6-8882-fea977e465cc",
-  "timestamp": "2025-09-05T02:27:50.522775+00:00",
+  "uuid": "33c790c0-48d3-4ca9-8fa2-c5c48812754b",
+  "timestamp": "2025-09-08T15:19:15.762163+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/positions.csv",
+  "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "1351c2d0-3d1a-4ee7-a898-cea697516697",
-  "timestamp": "2025-09-05T02:27:52.741199+00:00",
+  "uuid": "fb544309-fec8-4132-9cb5-152baa50a82e",
+  "timestamp": "2025-09-08T15:19:19.379117+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -80,8 +80,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "75461dc1-af96-452d-8ee8-0a8ab4bf109a",
-  "timestamp": "2025-09-05T02:27:52.911921+00:00",
+  "uuid": "cedeefe9-8c28-4b24-93e8-8fd0de776534",
+  "timestamp": "2025-09-08T15:19:19.684221+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -124,8 +124,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "51235d23-aa70-446d-b996-85506f9580af",
-  "timestamp": "2025-09-05T02:27:53.962855+00:00",
+  "uuid": "ad44c335-7781-4da1-8348-b3fbdbb7eb96",
+  "timestamp": "2025-09-08T15:19:21.863526+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins positions and salary on AGE (inner)",
@@ -179,8 +179,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "10885505-ede1-4b1d-8a5c-c6ec3faa829e",
-  "timestamp": "2025-09-05T02:27:54.744349+00:00",
+  "uuid": "fcc52093-c8ec-4298-a32a-8907512b9269",
+  "timestamp": "2025-09-08T15:19:23.465456+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows where INCOME > 600",
@@ -232,8 +232,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "eb30aff1-f504-49c6-ba42-f014e5b35a25",
-  "timestamp": "2025-09-05T02:27:55.042379+00:00",
+  "uuid": "cb24557d-d7c9-45c3-9837-37a2ab0b98a8",
+  "timestamp": "2025-09-08T15:19:23.942207+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
@@ -280,8 +280,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8fd4b81a-c3ca-4929-80cd-87c0cf7f4522",
-  "timestamp": "2025-09-05T02:27:55.330105+00:00",
+  "uuid": "8680aa94-830c-46b3-8a95-255d2d3342d0",
+  "timestamp": "2025-09-08T15:19:24.410289+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
@@ -315,8 +315,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "c84c4ea7-95dd-4713-ad00-853a9d4ac578",
-  "timestamp": "2025-09-05T02:27:59.459861+00:00",
+  "uuid": "0d914c3d-7e87-47c9-8133-e306fe153f45",
+  "timestamp": "2025-09-08T15:19:31.153857+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\example_join.parquet as parquet (pyspark)",

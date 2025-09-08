@@ -1,14 +1,14 @@
 {
   "log_info": {
-    "filepath": "../test_tables/salary.csv",
+    "filepath": "../test_tables/job_1/salary.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "a942ee8f-c6a0-4b04-ab78-7c1a08d5029a",
-  "timestamp": "2025-09-05T02:27:50.668190+00:00",
+  "uuid": "50c2e5ea-ce57-4f8d-a1db-200c182f8f07",
+  "timestamp": "2025-09-08T15:19:15.926541+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/salary.csv",
+  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -35,8 +35,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "f281d2cc-81e8-4077-95f8-2151e9779116",
-  "timestamp": "2025-09-05T02:27:52.835478+00:00",
+  "uuid": "ee976cee-d7ef-4509-9380-34c5604cac2f",
+  "timestamp": "2025-09-08T15:19:19.563456+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -77,8 +77,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "406267a6-6ac4-44a7-9008-c01b03edd5b0",
-  "timestamp": "2025-09-05T02:27:53.337992+00:00",
+  "uuid": "4f955213-f082-4d15-a4c5-c416854757e1",
+  "timestamp": "2025-09-08T15:19:20.603731+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -124,8 +124,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7c0ca056-51c3-4b10-a24a-f1c242ab7be6",
-  "timestamp": "2025-09-05T02:27:53.629623+00:00",
+  "uuid": "b3072255-4922-490b-8d41-35b1e7fef7c4",
+  "timestamp": "2025-09-08T15:19:21.183011+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -171,8 +171,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "0550a150-6dac-4039-9940-7cec3ba16709",
-  "timestamp": "2025-09-05T02:27:53.756322+00:00",
+  "uuid": "a8411bca-e238-4195-8181-35af50f32352",
+  "timestamp": "2025-09-08T15:19:21.414126+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -205,8 +205,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "286f7eba-0434-4986-947b-34a0383a078f",
-  "timestamp": "2025-09-05T02:27:59.212155+00:00",
+  "uuid": "6712b64a-12e8-490d-bda4-3be5eef4c044",
+  "timestamp": "2025-09-08T15:19:30.687272+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",

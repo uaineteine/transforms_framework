@@ -1,6 +1,12 @@
 import json
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
+from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
+
+def get_payload_file(job_id:int, run_id:int) -> str:
+    """Return the path location"""
+    
+    return f"../test_tables/job_{job_id}/payload.json"
 
 class SupplyLoad(TableCollection):
     """
@@ -42,7 +48,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, json_loc: str, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
+    def __init__(self, job_id:int, run_id:int, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
         
@@ -51,7 +57,8 @@ class SupplyLoad(TableCollection):
         All tables are loaded as PySpark DataFrames by default.
 
         Args:
-            json_loc (str): Path to the JSON configuration file containing supply definitions.
+            job_id (int): A job id to get the path of configuration file containing supply definitions.
+            run_id (int): A run id to get the path of configuration file containing supply definitions.
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
@@ -70,16 +77,21 @@ class SupplyLoad(TableCollection):
             >>> supply_loader = SupplyLoad("config/supply_data.json", spark)
             >>> print(f"Loaded {len(supply_loader)} tables")
         """
-        if not json_loc:
-            raise ValueError("Supply JSON path cannot be empty")
         
         # Initialise the parent class with empty tables list
         super().__init__(tables=[])
 
-        self.job = 1
-        self.run = 1
-        self.payload_dir="../test_tables"
-        self.supply_load_src = json_loc
+        #run parameters
+        self.job = job_id
+        self.run = run_id
+        
+        #identify the load dir and payload loc
+        self.supply_load_src = get_payload_file(job_id, run_id)
+        
+        #gather the source payload location
+        self.output_loc = transform_log_loc(job_id, run_id)
+        if (does_transform_log_exist(job_id, run_id)):
+            raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
@@ -139,4 +151,3 @@ class SupplyLoad(TableCollection):
         
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON format in supply load file")
-
