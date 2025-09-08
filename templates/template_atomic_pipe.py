@@ -180,6 +180,8 @@ if __name__ == "__main__":
     print("second join complete")
     
     supply_frames = TrimWhitespace("NAME").apply(supply_frames, df="super_table")
+    supply_frames = ForceCase("NAME", "upper").apply(supply_frames, df="super_table")
+    
     supply_frames["super_table"].show()
 
     # save table output tables
