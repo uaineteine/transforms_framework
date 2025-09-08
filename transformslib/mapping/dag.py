@@ -15,9 +15,7 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
     Args:
         job_id (int): Job ID
         run_id (int): Run ID
-        height (int|float|str, optional): Height of the graph. 
-            - If int/float: interpreted as pixels.
-            - If str: passed directly (e.g., "100%").
+        height (int|float|str, optional): Height of the graph. If int/float: interpreted as pixels. If str: passed directly (e.g., "100%").
     
     Returns:
         Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.

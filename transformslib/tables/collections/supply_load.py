@@ -10,7 +10,7 @@ def get_payload_file(job_id:int, run_id:int) -> str:
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int): A run id to get the path of configuration file containing supply definitions.
-            
+        
     Returns:
         string of the payload path
     """
@@ -39,7 +39,7 @@ class SupplyLoad(TableCollection):
     
     Attributes:
         supply_load_src (str): The path to the JSON configuration file.
-        
+    
     Example:
         >>> # JSON file: supply_config.json
         >>> # {

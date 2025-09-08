@@ -433,16 +433,10 @@ height (int|float|str, optional): Height in pixels (int/float) or a CSS string (
 <dt class="sig sig-object py" id="transformslib.mapping.dag.calculate_total_runtime">
 <span class="sig-prename descclassname"><span class="pre">transformslib.mapping.dag.</span></span><span class="sig-name descname"><span class="pre">calculate_total_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%Y-%m-%dT%H:%M:%S'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#transformslib.mapping.dag.calculate_total_runtime" title="Link to this definition"></a></dt>
 <dd><p>Calculate total runtime from a list of timestamp strings.</p>
-<dl>
+<dl class="simple">
 <dt>Args:</dt><dd><p>job_id (int): Job ID
 run_id (int): Run ID
-height (int|float|str, optional): Height of the graph.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>If int/float: interpreted as pixels.</p></li>
-<li><p>If str: passed directly (e.g., “100%”).</p></li>
-</ul>
-</div></blockquote>
+height (int|float|str, optional): Height of the graph. If int/float: interpreted as pixels. If str: passed directly (e.g., “100%”).</p>
 </dd>
 <dt>Returns:</dt><dd><p>Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.</p>
 </dd>
