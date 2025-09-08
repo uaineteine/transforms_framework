@@ -1,4 +1,3 @@
-import os
 import json
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
