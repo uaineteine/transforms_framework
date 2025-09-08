@@ -3,13 +3,14 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from transformslib.tables.names.lists import VarList
 from transformslib.tables.names.headername import Headername
+from transformslib.transforms.reader import transform_log_loc
 
 import sys
 import pyspark
 import polars as pl
 import pandas as pd
 
-def_log_location = "events_log/job_1/transforms.json"
+def_log_location = transform_log_loc(job_id=1, run_id=1)
 
 class Transform(PipelineEvent):
     """

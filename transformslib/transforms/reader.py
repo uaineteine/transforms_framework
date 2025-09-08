@@ -4,10 +4,36 @@ from datetime import datetime, timedelta
 
 main_dir = "events_log"
 
+def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
+    """
+    Constructs the file path to the transformation log for a specific job.
+
+    The path is built using the `main_dir` directory and includes the job ID.
+    The file is assumed to be named `transforms.json` and located in a subdirectory
+    named `job_<job_id>`.
+
+    Parameters
+    ----------
+    job_id : int
+        The identifier for the job.
+    run_id : int
+        The identifier for the run (currently unused in path construction).
+    debug : bool, optional
+        Flag to indicate debug mode (currently unused), by default False.
+
+    Returns
+    -------
+    str
+        The full path to the `transforms.json` file for the specified job.
+    """
+    log_file_path = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
+    return log_file_path
+
+
 def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
     """Load the transform log for a specific job and run ID."""
 
-    log_file = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
+    log_file = transform_log_loc(job_id, run_id, debug=debug)
     
     events = []
     if not os.path.exists(log_file):
