@@ -6,6 +6,8 @@ from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when, trim
+from pyspark.sql.types import StringType
+
 import polars as pl
 import pandas as pd
 
@@ -1075,7 +1077,7 @@ class TrimWhitespace(TableTransform):
             if supply_frames[table_name].schema[self.column] != pl.Utf8:
                 raise TypeError(f"Column '{self.column}' must be of string type in polars")
         elif backend == "pyspark":
-            if dict(supply_frames[table_name].dtypes)[self.column] != "string":
+            if supply_frames[table_name].dtypes[self.column] != 'StringType()':
                 raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
 
     def transforms(self, supply_frames: TableCollection, **kwargs):
@@ -1156,7 +1158,7 @@ class ForceCase(TableTransform):
             if supply_frames[table_name].schema[self.column] != pl.Utf8:
                 raise TypeError(f"Column '{self.column}' must be of string type in polars")
         elif backend == "pyspark":
-            if dict(supply_frames[table_name].dtypes)[self.column] != "string":
+            if supply_frames[table_name].dtypes[self.column] != 'StringType()':
                 raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
 
     def transforms(self, supply_frames: TableCollection, **kwargs):
