@@ -1071,7 +1071,7 @@ class TrimWhitespace(TableTransform):
 
         backend = supply_frames[table_name].frame_type
         if backend == "pandas":
-            if not pd.api.types.is_string_dtype(supply_frames[table_name][self.column]):
+            if not pd.api.types.is_string_dtype(supply_frames[table_name].df[self.column]):
                 raise TypeError(f"Column '{self.column}' must be of string dtype in pandas")
         elif backend == "polars":
             if supply_frames[table_name].schema[self.column] != pl.Utf8:
@@ -1088,15 +1088,15 @@ class TrimWhitespace(TableTransform):
         backend = supply_frames[table_name].frame_type
 
         if backend == "pandas":
-            supply_frames[table_name][self.column] = supply_frames[table_name][self.column].str.strip()
+            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.strip()
 
         elif backend == "polars":
-            supply_frames[table_name] = supply_frames[table_name].with_columns(
+            supply_frames[table_name] = supply_frames[table_name].df.with_columns(
                 pl.col(self.column).str.strip_chars().alias(self.column)
             )
 
         elif backend == "pyspark":
-            supply_frames[table_name] = supply_frames[table_name].withColumn(
+            supply_frames[table_name] = supply_frames[table_name].df.withColumn(
                 self.column, trim(col(self.column))
             )
         else:
@@ -1152,7 +1152,7 @@ class ForceCase(TableTransform):
 
         backend = supply_frames[table_name]
         if backend == "pandas":
-            if not pd.api.types.is_string_dtype(supply_frames[table_name][self.column]):
+            if not pd.api.types.is_string_dtype(supply_frames[table_name].df[self.column]):
                 raise TypeError(f"Column '{self.column}' must be of string dtype in pandas")
         elif backend == "polars":
             if supply_frames[table_name].schema[self.column] != pl.Utf8:
@@ -1170,24 +1170,24 @@ class ForceCase(TableTransform):
 
         if backend == "pandas":
             if self.case == "lower":
-                supply_frames[table_name][self.column] = supply_frames[table_name][self.column].str.lower()
+                supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.lower()
             else:
-                supply_frames[table_name][self.column] = supply_frames[table_name][self.column].str.upper()
+                supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.upper()
 
         elif backend == "polars":
             if self.case == "lower":
-                supply_frames[table_name] = supply_frames[table_name].with_columns(
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
                     pl.col(self.column).str.to_lowercase().alias(self.column)
                 )
             else:
-                supply_frames[table_name] = supply_frames[table_name].with_columns(
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
                     pl.col(self.column).str.to_uppercase().alias(self.column)
                 )
 
         elif backend == "pyspark":
             from pyspark.sql.functions import lower, upper, col
             func = lower if self.case == "lower" else upper
-            supply_frames[table_name] = supply_frames[table_name].withColumn(
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
                 self.column, func(col(self.column))
             )
 
