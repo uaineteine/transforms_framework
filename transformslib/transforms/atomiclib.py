@@ -7,6 +7,7 @@ from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when
 import polars as pl
+import pandas as pd
 
 def _get_lambda_source(func) -> str:
     try:
@@ -596,7 +597,6 @@ class SimpleFilter(TableTransform):
             else:
                 raise ValueError(f"Unsupported operator '{self.op}'")
         elif backend == "polars":
-            import polars as pl
             expr = getattr(pl.col(self.column), self._polars_op())(self.value)
             filtered = df.filter(expr)
         elif backend == "pyspark":
@@ -1033,4 +1033,111 @@ class DropNAValues(TableTransform):
             return supply_frames[table_name][self.column].null_count() == 0
         elif backend == "pyspark":
             return supply_frames[table_name].filter(col(self.column).isNull()).count() == 0
+        return False
+
+class TrimWhitespace(TableTransform):
+    """
+    Transform class for trimming leading and trailing whitespace from string values in a specified column.
+    """
+
+    def __init__(self, column: str):
+        """
+        Initialise a TrimWhitespace transform. This removes whitespace around a variable (string).
+
+        Args:
+            column (str): The name of the column to trim.
+        """
+        super().__init__(
+            "TrimWhitespace",
+            f"Trims whitespace from column '{column}'",
+            [column],
+            "Trim",
+            testable_transform=True,
+        )
+        self.column = column
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target column exists and is of string type.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+
+        backend = supply_frames[table_name].frame_type
+        if backend == "pandas":
+            if not pd.api.types.is_string_dtype(supply_frames[table_name][self.column]):
+                raise TypeError(f"Column '{self.column}' must be of string dtype in pandas")
+        elif backend == "polars":
+            if supply_frames[table_name].schema[self.column] != pl.Utf8:
+                raise TypeError(f"Column '{self.column}' must be of string type in polars")
+        elif backend == "pyspark":
+            if dict(supply_frames[table_name].dtypes)[self.column] != "string":
+                raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Trim leading and trailing whitespace in the specified column.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pandas":
+            supply_frames[table_name][self.column] = supply_frames[table_name][self.column].str.strip()
+
+        elif backend == "polars":
+            supply_frames[table_name] = supply_frames[table_name].with_columns(
+                pl.col(self.column).str.strip_chars().alias(self.column)
+            )
+
+        elif backend == "pyspark":
+            from pyspark.sql.functions import trim, col
+            supply_frames[table_name] = supply_frames[table_name].withColumn(
+                self.column, trim(col(self.column))
+            )
+        else:
+            raise NotImplementedError(f"TrimWhitespace not implemented for backend '{backend}'")
+
+        # Log the transform event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+        """
+        Test that no values in the column start or end with whitespace.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+
+        df = supply_frames[table_name]
+        backend = df.frame_type
+
+        if backend == "pandas":
+            return df[self.column].dropna().apply(lambda x: x == x.strip()).all()
+
+        elif backend == "polars":
+            return df.filter(
+                pl.col(self.column).drop_nulls() != pl.col(self.column).str.strip_chars()
+            ).height == 0
+
+        elif backend == "pyspark":
+            from pyspark.sql.functions import trim, col
+            mismatched = df.filter(
+                (col(self.column).isNotNull()) &
+                (col(self.column) != trim(col(self.column)))
+            )
+            return mismatched.count() == 0
+
         return False
