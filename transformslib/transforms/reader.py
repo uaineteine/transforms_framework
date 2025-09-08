@@ -29,6 +29,26 @@ def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
     log_file_path = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
     return log_file_path
 
+def does_transform_log_exist(job_id: int, run_id: int) -> bool:
+    """
+    Checks whether the transformation log file exists for a specific job.
+
+    This function uses the `transform_log_loc` function to construct the expected
+    file path and then verifies its existence using `os.path.exists`.
+
+    Parameters
+    ----------
+    job_id : int
+        The identifier for the job.
+    run_id : int
+        The identifier for the run.
+
+    Returns
+    -------
+    bool
+        True if the transformation log file exists, False otherwise.
+    """
+    return os.path.exists(transform_log_loc(job_id, run_id))
 
 def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
     """Load the transform log for a specific job and run ID."""
