@@ -15,7 +15,6 @@ This program provides a data transformation framework for working with tables (D
 - [Example Workflows](#example-workflows)
 - [Advanced Table Selection Features](#advanced-table-selection-features)
 - [Event Logging](#event-logging)
-- [File Structure](#file-structure)
 - [Notes](#notes)
 - [Building](#building)
 
@@ -371,23 +370,6 @@ print(names)  # ['table1', 'table2', 'clus_data', ...]
   "description": "Loaded test_table from test.csv"
 }
 ```
-
----
-
-## File Structure
-
-- [`transformslib/tables/metaframe.py`](transformslib/tables/metaframe.py): MetaFrame class for DataFrame wrapping and type conversion
-- [`transformslib/events/pipeline_event.py`](transformslib/events/pipeline_event.py): PipelineTable and PipelineTables classes for event tracking and collection management
-- [`transformslib/events/eventlog.py`](transformslib/events/eventlog.py): Event and PipelineEvent classes for logging
-- [`transformslib/transforms/base.py`](transformslib/transforms/base.py): Transformation classes (Transform, TableTransform, SimpleTransform, DropVariable)
-- [`transformslib/tables/collections/supply_load.py`](transformslib/tables/collections/supply_load.py): SupplyLoad class for loading multiple tables from JSON configuration
-- [`transformslib/tables/names/tablename.py`](transformslib/tables/names/tablename.py): Tablename class for validating table names according to database conventions
-- [`transformslib/tables/names/headername.py`](transformslib/tables/names/headername.py): Headername class for validating column header names with strict formatting
-- [`transformslib/tables/names/lists.py`](transformslib/tables/names/lists.py): NamedList and VarList classes for managing collections of validated variable names
-- [`templates/template_atomic_transform.py`](templates/template_atomic_transform.py): Example demonstrating PipelineTables collection usage
-- [`templates/template_atomic_pipe.py`](templates/template_atomic_pipe.py): Example demonstrating SupplyLoad usage
-
----
 
 ## Notes
 
