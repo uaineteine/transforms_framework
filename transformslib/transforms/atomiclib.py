@@ -5,7 +5,7 @@ from transformslib.events.pipeevent import TransformEvent
 from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when
+from pyspark.sql.functions import col, when, trim
 import polars as pl
 import pandas as pd
 
