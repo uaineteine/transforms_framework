@@ -432,5 +432,6 @@ What the build script does (python build.py):
 4. Builds documentation
    - If a docs/ folder exists, changes into docs/ and executes builddocs.bat
    - Returns to the project root when finished
+   - For detailed instructions on building the documentation, see [Documentation Build Process](docs/docsbuild.md).
 
 After a successful build, you should see the generated distribution files under `dist/`.
