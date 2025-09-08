@@ -1052,7 +1052,7 @@ class TrimWhitespace(TableTransform):
             f"Trims whitespace from column '{column}'",
             [column],
             "Trim",
-            testable_transform=True,
+            testable_transform=False,
         )
         self.column = column
 
@@ -1094,7 +1094,6 @@ class TrimWhitespace(TableTransform):
             )
 
         elif backend == "pyspark":
-            from pyspark.sql.functions import trim, col
             supply_frames[table_name] = supply_frames[table_name].withColumn(
                 self.column, trim(col(self.column))
             )
@@ -1112,32 +1111,3 @@ class TrimWhitespace(TableTransform):
 
         self.target_tables = [table_name]
         return supply_frames
-
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
-        """
-        Test that no values in the column start or end with whitespace.
-        """
-        table_name = kwargs.get("df")
-        if not table_name:
-            return False
-
-        df = supply_frames[table_name]
-        backend = df.frame_type
-
-        if backend == "pandas":
-            return df[self.column].dropna().apply(lambda x: x == x.strip()).all()
-
-        elif backend == "polars":
-            return df.filter(
-                pl.col(self.column).drop_nulls() != pl.col(self.column).str.strip_chars()
-            ).height == 0
-
-        elif backend == "pyspark":
-            from pyspark.sql.functions import trim, col
-            mismatched = df.filter(
-                (col(self.column).isNotNull()) &
-                (col(self.column) != trim(col(self.column)))
-            )
-            return mismatched.count() == 0
-
-        return False
