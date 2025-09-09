@@ -97,11 +97,9 @@ class MetaFrame(MultiTable):
 
         Args:
             path (str): Path to the data file to load.
-            format (str, optional): File format of the data. Defaults to "parquet".
-                                  Supported formats: "parquet", "csv", "json", etc.
+            format (str, optional): File format of the data. Defaults to "parquet". Supported formats: "parquet", "csv", "json", etc.
             table_name (str, optional): Name to assign to the table. Defaults to "".
-            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
-                                      Supported types: "pyspark", "pandas", "polars".
+            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark". Supported types: "pyspark", "pandas", "polars".
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
