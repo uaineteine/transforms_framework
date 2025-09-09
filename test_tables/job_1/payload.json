@@ -26,6 +26,11 @@
       "name": "state",
       "format": "csv",
       "path": "../test_tables/job_1/state.csv"
+    },
+    {
+      "name": "decimal_table",
+      "format": "csv",
+      "path": "../test_tables/job_1/decimal_table.csv"
     }
   ]
 }
