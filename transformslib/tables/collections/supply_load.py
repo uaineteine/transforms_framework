@@ -33,7 +33,6 @@ class SupplyLoad(TableCollection):
                 "path": "path/to/data.parquet",
                 "format": "parquet"
             },
-            ...
         ]
     }
     

@@ -56,11 +56,8 @@ class TransformColumnMappingType(IntEnum):  # unused
     Enum defining default column mapping behavior during transformations.
 
     Values:
-        ALL_INPUT_COLUMNS (-2): All columns from input tables map to same-named
-            columns in output tables by default.
-        BREAK_LINEAGE (-1): No default mappings; lineage is broken.
-        0 and above: Only columns from the specified input table index are mapped
-            by default.
+        ALL_INPUT_COLUMNS (-2): All columns from input tables map to same-name columns in output tables by default.
+        BREAK_LINEAGE (-1): No default mappings; lineage is broken. 0 and above: Only columns from the specified input table index are mapped by default.
     """
     ALL_INPUT_COLUMNS = -2
     BREAK_LINEAGE = -1

@@ -255,6 +255,11 @@
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.ReplaceByCondition.transforms"><code class="docutils literal notranslate"><span class="pre">ReplaceByCondition.transforms()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber"><code class="docutils literal notranslate"><span class="pre">RoundNumber</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber.error_check"><code class="docutils literal notranslate"><span class="pre">RoundNumber.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber.transforms"><code class="docutils literal notranslate"><span class="pre">RoundNumber.transforms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter"><code class="docutils literal notranslate"><span class="pre">SimpleFilter</span></code></a><ul>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter.error_check"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter.transforms"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.transforms()</span></code></a></li>
@@ -269,6 +274,11 @@
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace</span></code></a><ul>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.error_check"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.transforms"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate"><code class="docutils literal notranslate"><span class="pre">TruncateDate</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.error_check"><code class="docutils literal notranslate"><span class="pre">TruncateDate.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.transforms"><code class="docutils literal notranslate"><span class="pre">TruncateDate.transforms()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -567,16 +577,9 @@ to_table_ver: Version of the destination table.</p>
 <dt class="sig sig-object py" id="transformslib.mapping.maps.TransformColumnMappingType">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.mapping.maps.</span></span><span class="sig-name descname"><span class="pre">TransformColumnMappingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.mapping.maps.TransformColumnMappingType" title="Link to this definition"></a></dt>
 <dd><p>Enum defining default column mapping behavior during transformations.</p>
-<dl>
-<dt>Values:</dt><dd><dl class="simple">
-<dt>ALL_INPUT_COLUMNS (-2): All columns from input tables map to same-named</dt><dd><p>columns in output tables by default.</p>
-</dd>
-</dl>
-<p>BREAK_LINEAGE (-1): No default mappings; lineage is broken.
-0 and above: Only columns from the specified input table index are mapped</p>
-<blockquote>
-<div><p>by default.</p>
-</div></blockquote>
+<dl class="simple">
+<dt>Values:</dt><dd><p>ALL_INPUT_COLUMNS (-2): All columns from input tables map to same-name columns in output tables by default.
+BREAK_LINEAGE (-1): No default mappings; lineage is broken. 0 and above: Only columns from the specified input table index are mapped by default.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -863,10 +866,7 @@ that match the specified name patterns. It supports:
 - Wildcard patterns: “clus_*”, “<em>_2023”, “table</em>”
 - Multiple patterns: “clus_*”, “table1”, “table3”</p>
 <dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>name_patterns (str): Variable number of name patterns to match against.</dt><dd><p>Can be exact names or wildcard patterns.</p>
-</dd>
-</dl>
+<dt>Args:</dt><dd><p>name_patterns (str): Variable number of name patterns to match against. Can be exact names or wildcard patterns.</p>
 </dd>
 <dt>Returns:</dt><dd><p>TableCollection: A new TableCollection instance containing only the matching tables.</p>
 </dd>
@@ -955,13 +955,14 @@ multiple related datasets (supplies) from a single configuration source.</p>
 <p>The JSON configuration should follow this structure:
 {</p>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>“supply”: [</dt><dd><dl class="simple">
 <dt>{</dt><dd><p>“name”: “table_name”,
 “path”: “path/to/data.parquet”,
 “format”: “parquet”</p>
 </dd>
 </dl>
+<p>},</p>
 </dd>
 </dl>
 <p>]</p>
@@ -1580,14 +1581,14 @@ FileExistsError: If the file exists and overwrite is False.</p>
 <dd><p>A specialised string class for validating and managing header names.</p>
 <p>This class ensures header names:
 - Are not empty
-- Contain only uppercase letters and digits
-- Have no spaces or special characters</p>
+- Contain only uppercase letters, digits, and underscores
+- Have no spaces or other special characters</p>
 <dl>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CUSTOMERNAME&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>  <span class="c1"># Invalid (not all caps)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER DATE&quot;</span><span class="p">)</span>    <span class="c1"># Invalid (contains space)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>              <span class="c1"># Invalid (empty)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CUSTOMER_NAME&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER_123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>   <span class="c1"># Invalid (not all caps)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER DATE&quot;</span><span class="p">)</span>     <span class="c1"># Invalid (contains space)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>               <span class="c1"># Invalid (empty)</span>
 </pre></div>
 </div>
 </dd>
@@ -1914,6 +1915,24 @@ based on unique values of a specified column.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">RoundNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber" title="Link to this definition"></a></dt>
+<dd><p>Transform class to round numeric values in a specified column to a given number of decimal places.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is numeric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber.transforms" title="Link to this definition"></a></dt>
+<dd><p>Round the numeric column to the specified number of decimal places.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SimpleFilter">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">SimpleFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SimpleFilter" title="Link to this definition"></a></dt>
 <dd><p>Transform class for filtering rows in a DataFrame using a simple column comparison.</p>
@@ -1973,6 +1992,24 @@ based on unique values of a specified column.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">TruncateDate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'month'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate" title="Link to this definition"></a></dt>
+<dd><p>Transform class to truncate date values in a specified column to year or month level.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of datetime type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate.transforms" title="Link to this definition"></a></dt>
+<dd><p>Truncate the date column to the specified level.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-transformslib.transforms.base">
 <span id="transformslib-transforms-base"></span><h1>transformslib.transforms.base<a class="headerlink" href="#module-transformslib.transforms.base" title="Link to this heading"></a></h1>
@@ -1988,7 +2025,7 @@ based on unique values of a specified column.</p>
 can be safely applied to the provided data.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
 </dd>
 <dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.
 ValueError: If validation fails.</p>
@@ -2012,7 +2049,7 @@ ValueError: If validation fails.</p>
 <p>This method should contain the actual transformation logic for the data.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
 <blockquote>
 <div><p>the keys are dataframe parameter names and values are table names in supply_frames.</p>
 </div></blockquote>
@@ -2114,7 +2151,7 @@ as a pipeline event. It also performs error checking before transformation
 and testing after transformation if the transform is testable.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
 </dd>
 <dt>Returns:</dt><dd><p>MetaFrame: The transformed MetaFrame.</p>
 </dd>
@@ -2135,7 +2172,7 @@ and testing after transformation if the transform is testable.</p>
 can be safely applied to the provided data.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
 </dd>
 <dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.
 ValueError: If validation fails.</p>
@@ -2160,7 +2197,7 @@ ValueError: If validation fails.</p>
 correctly and the results meet expected criteria.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
 </dd>
 <dt>Returns:</dt><dd><p>bool: True if test passes, False otherwise.</p>
 </dd>
@@ -2182,7 +2219,7 @@ correctly and the results meet expected criteria.</p>
 <p>This method should contain the actual transformation logic for the data.</p>
 <dl>
 <dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-<a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
+<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
 <blockquote>
 <div><p>the keys are dataframe parameter names and values are table names in supply_frames.</p>
 </div></blockquote>
@@ -2329,8 +2366,8 @@ to indicate UTC, and attempts to convert it into a <cite>datetime</cite> object.
 <p>The path is built using the <cite>main_dir</cite> directory and includes the job ID.
 The file is assumed to be named <cite>transforms.json</cite> and located in a subdirectory
 named <cite>job_&lt;job_id&gt;</cite>.</p>
-<section id="id15">
-<h2>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id13">
+<h2>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>job_id<span class="classifier">int</span></dt><dd><p>The identifier for the job.</p>
 </dd>
@@ -2340,8 +2377,8 @@ named <cite>job_&lt;job_id&gt;</cite>.</p>
 </dd>
 </dl>
 </section>
-<section id="id16">
-<h2>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="id14">
+<h2>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>str</dt><dd><p>The full path to the <cite>transforms.json</cite> file for the specified job.</p>
 </dd>

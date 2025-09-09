@@ -79,8 +79,7 @@ class TableCollection:
         - Multiple patterns: "clus_*", "table1", "table3"
         
         Args:
-            *name_patterns (str): Variable number of name patterns to match against.
-                                Can be exact names or wildcard patterns.
+            name_patterns (str): Variable number of name patterns to match against. Can be exact names or wildcard patterns.
         
         Returns:
             TableCollection: A new TableCollection instance containing only the matching tables.
