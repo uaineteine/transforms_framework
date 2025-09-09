@@ -12,6 +12,10 @@ if __name__ == "__main__":
     from transformslib.transforms.atomiclib import *
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
+    
+    
+    #tmp
+    from pyspark.sql.functions import to_date
 
     # Create Spark session
     print("Creating Spark session")
@@ -166,10 +170,14 @@ if __name__ == "__main__":
     # Test 14: TruncateDate
     # -------------------------------
     print("Truncating a date to year and month levels")
-    #supply_frames = TruncateDate("date", "year").apply(supply_frames, df="date_table")
-    #supply_frames["date_table"].show()
-    #supply_frames = TruncateDate("date", "month").apply(supply_frames, df="date_table")
-    #supply_frames["date_table"].show()
+    # Convert string to date
+    supply_frames["date_table"].df = supply_frames["date_table"].df.withColumn("event_date", to_date("event_date", "yyyy-MM-dd"))
+    
+    supply_frames = TruncateDate("date", "year").apply(supply_frames, df="date_table")
+    supply_frames["date_table"].show()
+    supply_frames = TruncateDate("date", "month").apply(supply_frames, df="date_table")
+    supply_frames["date_table"].show()
+    #print(supply_frames["date_table"].dtypes)
 
     # -------------------------------
     # Repeated tests to continue
