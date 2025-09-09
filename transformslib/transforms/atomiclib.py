@@ -6,6 +6,7 @@ from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when, trim, date_trunc
+from pyspark.sql.functions import round as spark_round
 
 import polars as pl
 import pandas as pd
@@ -1286,6 +1287,91 @@ class TruncateDate(TableTransform):
 
         else:
             raise NotImplementedError(f"TruncateDate not implemented for backend '{backend}'")
+
+        # Log event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+class RoundNumber(TableTransform):
+    """
+    Transform class to round numeric values in a specified column to a given number of decimal places.
+    """
+
+    def __init__(self, column: str, decimals: int = 1):
+        """
+        Initialise a RoundNumber transform.
+
+        Args:
+            column (str): The name of the column to modify.
+            decimals (int): The number of decimal places to round to.
+        """
+        if not isinstance(decimals, int):
+            raise ValueError("decimals must be an integer")
+
+        super().__init__(
+            "RoundNumber",
+            f"Rounds values in column '{column}' to {decimals} decimal places",
+            [column],
+            "RndNum",
+            testable_transform=False
+        )
+        self.column = column
+        self.decimals = decimals
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target column exists and is numeric.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+
+        backend = supply_frames[table_name]
+        if backend == "pandas":
+            if not pd.api.types.is_numeric_dtype(supply_frames[table_name].df[self.column]):
+                raise TypeError(f"Column '{self.column}' must be numeric in pandas")
+
+        elif backend == "polars":
+            if supply_frames[table_name].schema[self.column] not in {pl.Float32, pl.Float64, pl.Int32, pl.Int64}:
+                raise TypeError(f"Column '{self.column}' must be numeric in polars")
+
+        elif backend == "pyspark":
+            if supply_frames[table_name].dtypes[self.column] not in {'DoubleType()', 'FloatType()', 'IntegerType()', 'LongType()', 'DecimalType()'}:
+                raise TypeError(f"Column '{self.column}' must be numeric in pyspark")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Round the numeric column to the specified number of decimal places.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pandas":
+            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].round(self.decimals)
+
+        elif backend == "polars":
+            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
+                pl.col(self.column).round(self.decimals).alias(self.column)
+            )
+
+        elif backend == "pyspark":
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                self.column, spark_round(col(self.column), self.decimals)
+            )
+
+        else:
+            raise NotImplementedError(f"RoundNumber not implemented for backend '{backend}'")
 
         # Log event
         self.log_info = TransformEvent(
