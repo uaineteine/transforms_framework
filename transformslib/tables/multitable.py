@@ -691,4 +691,30 @@ class MultiTable:
             self.df = self.df.sample(withReplacement=False, fraction=frac, seed=seed)
         else:
             raise NotImplementedError(f"Sampling not supported for frame type {self.frame_type}")
+    
+    @property
+    def dtypes(self) -> dict:
+        """
+        Get the data types of each column in the DataFrame.
+
+        Returns:
+            dict: A dictionary where keys are column names and values are their data types.
+
+        Raises:
+            ValueError: If the frame_type is unsupported.
+
+        Example:
+            >>> mt.dtypes
+            {'col1': 'int64', 'col2': 'string', ...}
+        """
+        if self.frame_type == "pandas":
+            return self.df.dtypes.apply(lambda dtype: dtype.name).to_dict()
         
+        elif self.frame_type == "polars":
+            return {col: str(self.df.schema[col]) for col in self.df.columns}
+        
+        elif self.frame_type == "pyspark":
+            return {field.name: str(field.dataType) for field in self.df.schema.fields}
+        
+        else:
+            raise ValueError("Unsupported frame_type")

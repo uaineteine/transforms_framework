@@ -5,7 +5,9 @@ from transformslib.events.pipeevent import TransformEvent
 from transformslib.transforms.base import TableTransform
 from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when
+from pyspark.sql.functions import col, when, trim
+from pyspark.sql.types import StringType
+
 import polars as pl
 import pandas as pd
 
@@ -1069,13 +1071,13 @@ class TrimWhitespace(TableTransform):
 
         backend = supply_frames[table_name].frame_type
         if backend == "pandas":
-            if not pd.api.types.is_string_dtype(supply_frames[table_name][self.column]):
+            if not pd.api.types.is_string_dtype(supply_frames[table_name].df[self.column]):
                 raise TypeError(f"Column '{self.column}' must be of string dtype in pandas")
         elif backend == "polars":
             if supply_frames[table_name].schema[self.column] != pl.Utf8:
                 raise TypeError(f"Column '{self.column}' must be of string type in polars")
         elif backend == "pyspark":
-            if dict(supply_frames[table_name].dtypes)[self.column] != "string":
+            if supply_frames[table_name].dtypes[self.column] != 'StringType()':
                 raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
 
     def transforms(self, supply_frames: TableCollection, **kwargs):
@@ -1086,21 +1088,113 @@ class TrimWhitespace(TableTransform):
         backend = supply_frames[table_name].frame_type
 
         if backend == "pandas":
-            supply_frames[table_name][self.column] = supply_frames[table_name][self.column].str.strip()
+            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.strip()
 
         elif backend == "polars":
-            supply_frames[table_name] = supply_frames[table_name].with_columns(
+            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
                 pl.col(self.column).str.strip_chars().alias(self.column)
             )
 
         elif backend == "pyspark":
-            supply_frames[table_name] = supply_frames[table_name].withColumn(
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
                 self.column, trim(col(self.column))
             )
         else:
             raise NotImplementedError(f"TrimWhitespace not implemented for backend '{backend}'")
 
         # Log the transform event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.column],
+            output_variables=[self.column],
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+class ForceCase(TableTransform):
+    """
+    Transform class to force string values in a specified column to upper or lower case.
+    """
+
+    def __init__(self, column: str, case: str = "lower"):
+        """
+        Initialise a ForceCase transform.
+
+        Args:
+            column (str): The name of the column to modify.
+            case (str): The case to apply: 'lower' or 'upper'.
+        """
+        if case not in {"lower", "upper"}:
+            raise ValueError("case must be either 'lower' or 'upper'")
+
+        super().__init__(
+            "ForceCase",
+            f"Forces {case}case in column '{column}'",
+            [column],
+            "ForceCase",
+            testable_transform=False
+        )
+        self.column = column
+        self.case = case
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target column exists and is of string type.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        if self.column not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+
+        backend = supply_frames[table_name]
+        if backend == "pandas":
+            if not pd.api.types.is_string_dtype(supply_frames[table_name].df[self.column]):
+                raise TypeError(f"Column '{self.column}' must be of string dtype in pandas")
+        elif backend == "polars":
+            if supply_frames[table_name].schema[self.column] != pl.Utf8:
+                raise TypeError(f"Column '{self.column}' must be of string type in polars")
+        elif backend == "pyspark":
+            if supply_frames[table_name].dtypes[self.column] != 'StringType()':
+                raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Force case in the specified column.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pandas":
+            if self.case == "lower":
+                supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.lower()
+            else:
+                supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.upper()
+
+        elif backend == "polars":
+            if self.case == "lower":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
+                    pl.col(self.column).str.to_lowercase().alias(self.column)
+                )
+            else:
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
+                    pl.col(self.column).str.to_uppercase().alias(self.column)
+                )
+
+        elif backend == "pyspark":
+            from pyspark.sql.functions import lower, upper, col
+            func = lower if self.case == "lower" else upper
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                self.column, func(col(self.column))
+            )
+
+        else:
+            raise NotImplementedError(f"ForceCase not implemented for backend '{backend}'")
+
+        # Log event
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],

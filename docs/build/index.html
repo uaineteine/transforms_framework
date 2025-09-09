@@ -151,6 +151,7 @@
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.concat"><code class="docutils literal notranslate"><span class="pre">MultiTable.concat()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.distinct"><code class="docutils literal notranslate"><span class="pre">MultiTable.distinct()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.drop"><code class="docutils literal notranslate"><span class="pre">MultiTable.drop()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.dtypes"><code class="docutils literal notranslate"><span class="pre">MultiTable.dtypes</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.explode"><code class="docutils literal notranslate"><span class="pre">MultiTable.explode()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.get_pandas_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_pandas_frame()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.tables.multitable.MultiTable.get_polars_lazy_frame"><code class="docutils literal notranslate"><span class="pre">MultiTable.get_polars_lazy_frame()</span></code></a></li>
@@ -225,6 +226,11 @@
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.ExplodeColumn.transforms"><code class="docutils literal notranslate"><span class="pre">ExplodeColumn.transforms()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase"><code class="docutils literal notranslate"><span class="pre">ForceCase</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase.error_check"><code class="docutils literal notranslate"><span class="pre">ForceCase.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase.transforms"><code class="docutils literal notranslate"><span class="pre">ForceCase.transforms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable"><code class="docutils literal notranslate"><span class="pre">JoinTable</span></code></a><ul>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable.error_check"><code class="docutils literal notranslate"><span class="pre">JoinTable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable.test"><code class="docutils literal notranslate"><span class="pre">JoinTable.test()</span></code></a></li>
@@ -258,6 +264,11 @@
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.error_check"><code class="docutils literal notranslate"><span class="pre">SubsetTable.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.test"><code class="docutils literal notranslate"><span class="pre">SubsetTable.test()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.transforms"><code class="docutils literal notranslate"><span class="pre">SubsetTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.error_check"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.transforms"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.transforms()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1276,6 +1287,23 @@ If None, considers all columns.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.dtypes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtypes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.dtypes" title="Link to this definition"></a></dt>
+<dd><p>Get the data types of each column in the DataFrame.</p>
+<dl>
+<dt>Returns:</dt><dd><p>dict: A dictionary where keys are column names and values are their data types.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mt</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="go">{&#39;col1&#39;: &#39;int64&#39;, &#39;col2&#39;: &#39;string&#39;, ...}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.explode">
 <span class="sig-name descname"><span class="pre">explode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.explode" title="Link to this definition"></a></dt>
@@ -1771,6 +1799,24 @@ FileExistsError: If the file exists and overwrite is False.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ForceCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lower'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase" title="Link to this definition"></a></dt>
+<dd><p>Transform class to force string values in a specified column to upper or lower case.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of string type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase.transforms" title="Link to this definition"></a></dt>
+<dd><p>Force case in the specified column.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="transformslib.transforms.atomiclib.JoinTable">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">JoinTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('_left',</span> <span class="pre">'_right')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.JoinTable" title="Link to this definition"></a></dt>
 <dd><p>Transform class for joining two tables in a TableCollection.</p>
@@ -1905,6 +1951,24 @@ based on unique values of a specified column.</p>
 <dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SubsetTable.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SubsetTable.transforms" title="Link to this definition"></a></dt>
 <dd><p>Subset the DataFrame to retain only the specified variables.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">TrimWhitespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace" title="Link to this definition"></a></dt>
+<dd><p>Transform class for trimming leading and trailing whitespace from string values in a specified column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of string type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace.transforms" title="Link to this definition"></a></dt>
+<dd><p>Trim leading and trailing whitespace in the specified column.</p>
 </dd></dl>
 
 </dd></dl>
