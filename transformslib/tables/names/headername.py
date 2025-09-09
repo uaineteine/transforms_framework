@@ -6,15 +6,15 @@ class Headername(str):
 
     This class ensures header names:
     - Are not empty
-    - Contain only uppercase letters and digits
-    - Have no spaces or special characters
+    - Contain only uppercase letters, digits, and underscores
+    - Have no spaces or other special characters
 
     Example:
-        >>> Headername("CUSTOMERNAME")  # Valid
-        >>> Headername("ORDER123")      # Valid
-        >>> Headername("CustomerName")  # Invalid (not all caps)
-        >>> Headername("ORDER DATE")    # Invalid (contains space)
-        >>> Headername("")              # Invalid (empty)
+        >>> Headername("CUSTOMER_NAME")  # Valid
+        >>> Headername("ORDER_123")      # Valid
+        >>> Headername("CustomerName")   # Invalid (not all caps)
+        >>> Headername("ORDER DATE")     # Invalid (contains space)
+        >>> Headername("")               # Invalid (empty)
     """
 
     @staticmethod
@@ -28,7 +28,7 @@ class Headername(str):
         Returns:
             bool: True if valid, False otherwise.
         """
-        pattern = r"^[A-Z0-9]+$"
+        pattern = r"^[A-Z0-9_]+$"
         return bool(re.match(pattern, name))
 
     def __new__(cls, header_name: str):
@@ -40,7 +40,6 @@ class Headername(str):
         if not cls.acceptable_format(header_name):
             raise ValueError(
                 f"Invalid header name format: '{header_name}'. "
-                "Headers must be ALL CAPS and contain only letters and digits—no spaces or symbols."
+                "Headers must be ALL CAPS and contain only letters, digits, and underscores—no spaces or other symbols."
             )
         return str.__new__(cls, header_name)
-
