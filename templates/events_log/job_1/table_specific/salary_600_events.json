@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "dff712e6-07ea-489b-a8ce-9c5fa67c4aea",
-  "timestamp": "2025-09-08T15:19:15.926541+00:00",
+  "uuid": "08d54e51-bd4e-4352-a756-d03e96c027f5",
+  "timestamp": "2025-09-09T23:08:38.731878+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "8785bb57-c9cf-40f1-92b2-707530f54fba",
-  "timestamp": "2025-09-08T15:19:16.321577+00:00",
+  "uuid": "6e9ac2d3-4bf3-4b1d-8439-9e5701afcc4b",
+  "timestamp": "2025-09-09T23:08:40.112200+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -73,8 +73,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "d31eb05f-ab99-463c-8a3d-2aca923eabb6",
-  "timestamp": "2025-09-08T15:19:29.702384+00:00",
+  "uuid": "e2491b66-4f47-43c4-8ada-539f9eff0848",
+  "timestamp": "2025-09-09T23:08:57.654614+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_600.parquet as parquet (pyspark)",

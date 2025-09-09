@@ -1,30 +1,30 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/array_like.csv",
+    "filepath": "../test_tables/job_1/decimal_table.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "2d6a6908-02d4-4126-a6c1-54f6cfd0faaf",
-  "timestamp": "2025-09-09T23:08:39.271397+00:00",
+  "uuid": "988e0ff3-82b1-4130-a86f-2a6e53ca5481",
+  "timestamp": "2025-09-09T23:08:39.822527+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
+  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
 {
   "log_info": {
     "input_tables": [
-      "array_like"
+      "decimal_table"
     ],
     "output_tables": [
-      "array_like"
+      "decimal_table"
     ],
     "input_variables": [
-      "VAR3"
+      "VALUE2"
     ],
     "output_variables": [
-      "VAR3"
+      "VALUE2"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -32,47 +32,46 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "462fc4f8-82c7-4f41-82e2-6fe566ce71d2",
-  "timestamp": "2025-09-09T23:08:48.995283+00:00",
+  "uuid": "d3f63ab7-44fa-4e3f-923c-164fcc8e486a",
+  "timestamp": "2025-09-09T23:08:49.216586+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
-  "event_description": "Explodes column 'VAR3' into multiple rows",
+  "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
   "meta_version": "1.0",
-  "name": "ExplodeColumn",
+  "name": "RoundNumber",
   "transform_type": "TableTransform",
-  "testable_transform": true,
+  "testable_transform": false,
   "version_pyspark": "4.0.0",
   "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
-    "df": "array_like"
+    "df": "decimal_table"
   },
-  "transform_id": "ExplodeCol",
+  "transform_id": "RndNum",
   "target_tables": [
-    "array_like"
+    "decimal_table"
   ],
   "target_variables": [
-    "VAR3"
+    "VALUE2"
   ],
-  "column": "VAR3",
-  "sep": " ",
-  "outer": true,
-  "class_type": "ExplodeColumn"
+  "column": "VALUE2",
+  "decimals": 3,
+  "class_type": "RoundNumber"
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\array_like.parquet",
+    "filepath": "..\\test_tables\\output\\decimal_table.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "966ed7d3-eda8-40e2-9693-51d849bbe6a2",
-  "timestamp": "2025-09-09T23:08:56.246688+00:00",
+  "uuid": "06090d66-00fa-45f7-aa51-b5d06999029c",
+  "timestamp": "2025-09-09T23:08:56.763564+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\array_like.parquet",
+  "filepath": "..\\test_tables\\output\\decimal_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

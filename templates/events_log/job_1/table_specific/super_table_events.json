@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "7a47096f-a416-47d0-9a4b-fadbb2ea9d9c",
-  "timestamp": "2025-09-08T15:19:16.063762+00:00",
+  "uuid": "4186323b-be3f-4e96-9c9c-86ba2838abb2",
+  "timestamp": "2025-09-09T23:08:39.002588+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
@@ -33,8 +33,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "21efc46f-ec0c-4058-95e9-4440be5e254e",
-  "timestamp": "2025-09-08T15:19:25.268493+00:00",
+  "uuid": "a775bc09-dcb6-4e8b-b116-1f236a1177ef",
+  "timestamp": "2025-09-09T23:08:49.709302+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
@@ -84,8 +84,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "c9d0f30d-57f3-49b3-822c-ada1755d62b9",
-  "timestamp": "2025-09-08T15:19:25.476576+00:00",
+  "uuid": "4d240dab-5020-446c-abfe-a570854fb45b",
+  "timestamp": "2025-09-09T23:08:49.964271+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -114,7 +114,7 @@
       "example_join"
     ],
     "output_tables": [
-      "final"
+      "super_table"
     ],
     "input_variables": [
       [
@@ -128,8 +128,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "3e25843f-9539-405f-aefc-18e3cf9507a5",
-  "timestamp": "2025-09-08T15:19:26.098917+00:00",
+  "uuid": "20ad33e8-c966-446e-9d06-f6b1ddca262e",
+  "timestamp": "2025-09-09T23:08:50.682245+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and example_join on NAME (outer)",
@@ -142,11 +142,11 @@
   "version_pandas": "2.3.2",
   "version_python": "3.11.9",
   "params": {
-    "output_table": "final"
+    "output_table": "super_table"
   },
   "transform_id": "JoinTbl",
   "target_tables": [
-    "final"
+    "super_table"
   ],
   "target_variables": [
     "NAME"
@@ -165,17 +165,110 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\final.parquet",
+    "input_tables": [
+      "super_table"
+    ],
+    "output_tables": [
+      "super_table"
+    ],
+    "input_variables": [
+      "NAME"
+    ],
+    "output_variables": [
+      "NAME"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "9c8262df-1a14-4cc3-a690-9032b9fe66cc",
+  "timestamp": "2025-09-09T23:08:52.257757+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Trims whitespace from column 'NAME'",
+  "meta_version": "1.0",
+  "name": "TrimWhitespace",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "super_table"
+  },
+  "transform_id": "Trim",
+  "target_tables": [
+    "super_table"
+  ],
+  "target_variables": [
+    "NAME"
+  ],
+  "column": "NAME",
+  "class_type": "TrimWhitespace"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "super_table"
+    ],
+    "output_tables": [
+      "super_table"
+    ],
+    "input_variables": [
+      "NAME"
+    ],
+    "output_variables": [
+      "NAME"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "cab28a53-f767-4ed0-8860-e30b5fe9b781",
+  "timestamp": "2025-09-09T23:08:52.278918+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Forces uppercase in column 'NAME'",
+  "meta_version": "1.0",
+  "name": "ForceCase",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "super_table"
+  },
+  "transform_id": "ForceCase",
+  "target_tables": [
+    "super_table"
+  ],
+  "target_variables": [
+    "NAME"
+  ],
+  "column": "NAME",
+  "case": "upper",
+  "class_type": "ForceCase"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\super_table.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "f7c13d57-330d-4d73-ab58-1fb701c604aa",
-  "timestamp": "2025-09-08T15:19:32.250918+00:00",
+  "uuid": "f1d0aa4b-e494-4140-9348-9956d87059a7",
+  "timestamp": "2025-09-09T23:09:00.165042+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\final.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\output\\super_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\final.parquet",
+  "filepath": "..\\test_tables\\output\\super_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

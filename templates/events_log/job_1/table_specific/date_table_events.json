@@ -1,0 +1,125 @@
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/date_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "977356d2-e212-4650-a138-9510038fce85",
+  "timestamp": "2025-09-09T23:08:40.112200+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "date_table"
+    ],
+    "output_tables": [
+      "date_table"
+    ],
+    "input_variables": [
+      "EVENT_DATE"
+    ],
+    "output_variables": [
+      "EVENT_DATE"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "6e469744-f56d-403a-b35e-a24000d1e7ae",
+  "timestamp": "2025-09-09T23:08:49.382167+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Truncates dates in column 'EVENT_DATE' to month level",
+  "meta_version": "1.0",
+  "name": "TruncateDate",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "date_table"
+  },
+  "transform_id": "TruncDate",
+  "target_tables": [
+    "date_table"
+  ],
+  "target_variables": [
+    "EVENT_DATE"
+  ],
+  "column": "EVENT_DATE",
+  "level": "month",
+  "class_type": "TruncateDate"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "date_table"
+    ],
+    "output_tables": [
+      "date_table"
+    ],
+    "input_variables": [
+      "EVENT_DATE"
+    ],
+    "output_variables": [
+      "EVENT_DATE"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "ed620b7b-af1d-4ad7-9e3c-a1f14edd6ac6",
+  "timestamp": "2025-09-09T23:08:49.591985+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "transform",
+  "event_description": "Truncates dates in column 'EVENT_DATE' to year level",
+  "meta_version": "1.0",
+  "name": "TruncateDate",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.0",
+  "version_polars": "1.33.0",
+  "version_pandas": "2.3.2",
+  "version_python": "3.11.9",
+  "params": {
+    "df": "date_table"
+  },
+  "transform_id": "TruncDate",
+  "target_tables": [
+    "date_table"
+  ],
+  "target_variables": [
+    "EVENT_DATE"
+  ],
+  "column": "EVENT_DATE",
+  "level": "year",
+  "class_type": "TruncateDate"
+}
+{
+  "log_info": {
+    "filepath": "..\\test_tables\\output\\date_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "3c1df6d6-e092-42e2-862e-af720d73df81",
+  "timestamp": "2025-09-09T23:08:56.970406+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "event_type": "write",
+  "event_description": "Wrote table to ..\\test_tables\\output\\date_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "..\\test_tables\\output\\date_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

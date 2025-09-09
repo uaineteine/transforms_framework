@@ -173,9 +173,9 @@ if __name__ == "__main__":
     # Convert string to date
     supply_frames["date_table"].df = supply_frames["date_table"].df.withColumn("EVENT_DATE", to_date("EVENT_DATE", "yyyy-MM-dd"))
     
-    supply_frames = TruncateDate("EVENT_DATE", "year").apply(supply_frames, df="date_table")
-    supply_frames["date_table"].show()
     supply_frames = TruncateDate("EVENT_DATE", "month").apply(supply_frames, df="date_table")
+    supply_frames["date_table"].show()
+    supply_frames = TruncateDate("EVENT_DATE", "year").apply(supply_frames, df="date_table")
     supply_frames["date_table"].show()
     #print(supply_frames["date_table"].dtypes)
 

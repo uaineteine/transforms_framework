@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "13d9aa08-6c75-41a9-a183-493d10189811",
-  "timestamp": "2025-09-08T15:19:16.063762+00:00",
+  "uuid": "6ec404d5-f0d5-4895-874a-d31144db1f03",
+  "timestamp": "2025-09-09T23:08:39.002588+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
@@ -33,8 +33,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "b5801712-bfae-4401-99fe-563f99d85cc4",
-  "timestamp": "2025-09-08T15:19:25.268493+00:00",
+  "uuid": "0afe2f11-e822-4517-be51-d84eaee4f11a",
+  "timestamp": "2025-09-09T23:08:49.709302+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
@@ -84,8 +84,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8a64d6aa-5db0-4d2e-a7b3-5428ee536f13",
-  "timestamp": "2025-09-08T15:19:25.476576+00:00",
+  "uuid": "7a55e8cb-c8e2-4bb1-a20e-55469dbd576e",
+  "timestamp": "2025-09-09T23:08:49.964271+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -113,8 +113,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "66cd4fa7-f777-4352-af33-bebca8eda160",
-  "timestamp": "2025-09-08T15:19:31.556957+00:00",
+  "uuid": "2302b35b-6208-45d5-89ec-98ed2c5760b1",
+  "timestamp": "2025-09-09T23:08:59.349410+00:00",
   "executed_user": "Daniel Stamer-Squair",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
