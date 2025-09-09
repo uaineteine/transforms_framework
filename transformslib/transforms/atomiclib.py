@@ -1147,7 +1147,7 @@ class ForceCase(TableTransform):
         table_name = kwargs.get("df")
         if not table_name:
             raise ValueError("Must specify 'df' parameter with table name")
-        if self.column not in df.columns:
+        if self.column not in supply_frames[table_name].columns:
             raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
 
         backend = supply_frames[table_name]
