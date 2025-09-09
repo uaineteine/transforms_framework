@@ -1097,16 +1097,10 @@ description attributes.</p>
 the load operation as the first event in the pipeline.</p>
 <dl>
 <dt>Args:</dt><dd><p>path (str): Path to the data file to load.
-format (str, optional): File format of the data. Defaults to “parquet”.</p>
-<blockquote>
-<div><p>Supported formats: “parquet”, “csv”, “json”, etc.</p>
-</div></blockquote>
-<p>table_name (str, optional): Name to assign to the table. Defaults to “”.
-frame_type (str, optional): Type of DataFrame to create. Defaults to “pyspark”.</p>
-<blockquote>
-<div><p>Supported types: “pyspark”, “pandas”, “polars”.</p>
-</div></blockquote>
-<p>spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+format (str, optional): File format of the data. Defaults to “parquet”. Supported formats: “parquet”, “csv”, “json”, etc.
+table_name (str, optional): Name to assign to the table. Defaults to “”.
+frame_type (str, optional): Type of DataFrame to create. Defaults to “pyspark”. Supported types: “pyspark”, “pandas”, “polars”.
+spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 <dt>Returns:</dt><dd><p>MetaFrame: A new MetaFrame instance with the loaded data and an initial load event.</p>
 </dd>
