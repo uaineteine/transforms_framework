@@ -1091,12 +1091,12 @@ class TrimWhitespace(TableTransform):
             supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.strip()
 
         elif backend == "polars":
-            supply_frames[table_name] = supply_frames[table_name].df.with_columns(
+            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
                 pl.col(self.column).str.strip_chars().alias(self.column)
             )
 
         elif backend == "pyspark":
-            supply_frames[table_name] = supply_frames[table_name].df.withColumn(
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
                 self.column, trim(col(self.column))
             )
         else:
