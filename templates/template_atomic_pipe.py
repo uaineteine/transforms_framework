@@ -156,6 +156,22 @@ if __name__ == "__main__":
     supply_frames["array_like"].show()
 
     # -------------------------------
+    # Test 13: RoundNumber
+    # -------------------------------
+    print("Rounding a number to 3 decimal places")
+    supply_frames = RoundNumber("VALUE2", 3).apply(supply_frames, df="decimal_table")
+    supply_frames["decimal_table"].show()
+
+    # -------------------------------
+    # Test 14: TruncateDate
+    # -------------------------------
+    print("Truncating a date to year and month levels")
+    #supply_frames = TruncateDate("date", "year").apply(supply_frames, df="date_table")
+    #supply_frames["date_table"].show()
+    #supply_frames = TruncateDate("date", "month").apply(supply_frames, df="date_table")
+    #supply_frames["date_table"].show()
+
+    # -------------------------------
     # Repeated tests to continue
     # -------------------------------
 
