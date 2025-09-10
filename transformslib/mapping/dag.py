@@ -93,35 +93,22 @@ def set_default_network_options(net: Network) -> Network:
     net.set_options(options)
     return net
 
-def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
+def build_di_graph(logs:list) -> nx.DiGraph:
     """
-    Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) 
-    and edges are transforms.
-
-    Args:
-        job_id (int): Job identifier.
-        run_id (int): Run identifier.
-        height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., "100%").
+    From a list of json logs of transforms, produce a directed graph
     """
-
-    # Load transform events
-    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
-
     #quick error check
     if len(logs) == 0:
         raise ValueError("JSON log for transforms was parsed empty")
 
-    # Check meta version
-    this_version = logs[0].get("meta_version", "")
-    meta.expected_meta_version(this_version)
-
-    events = sorted(logs, key=reader.parse_ts)
+    #sort the logs in order of timestamp
+    logs = sorted(logs, key=reader.parse_ts)
 
     # Build table-versioned DAG (nodes = tables; new node for each output at event time)
     G = nx.DiGraph()
     latest_node_for_table = {}
 
-    for event in events:
+    for event in logs:
         ts_dt = reader.parse_ts(event)
         ts_short = ts_dt.strftime("%H:%M:%S.%f")
 
@@ -184,6 +171,27 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         for inp_node in input_nodes:
             for out_node in output_nodes:
                 G.add_edge(inp_node, out_node, label=transform_name)
+        
+        return G
+
+
+def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
+    """
+    Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) 
+    and edges are transforms.
+
+    Args:
+        job_id (int): Job identifier.
+        run_id (int): Run identifier.
+        height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., "100%").
+    """
+
+    # Load transform events
+    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
+
+    # Check meta version
+    this_version = logs[0].get("meta_version", "")
+    meta.expected_meta_version(this_version)
 
     # Height handling
     if isinstance(height, (int, float)):
@@ -192,7 +200,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         height_str = height
     else:
         raise TypeError("height must be int, float, or str")
-
+    
     # Render PyVis
     net = Network(
         height=height_str,
@@ -202,12 +210,14 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900):
         cdn_resources="in_line",
         layout=True  # Enable layout for hierarchical organization
     )
-
-    net.from_nx(G)
     net = set_default_network_options(net)
 
+    # Build table-versioned DAG (nodes = tables; new node for each output at event time)
+    G = build_di_graph(logs)
+    net.from_nx(G)
+
     # Calculate total runtime
-    timestamps = [evt.get("timestamp") for evt in events if evt.get("timestamp")]
+    timestamps = [evt.get("timestamp") for evt in logs if evt.get("timestamp")]
     total_runtime = calculate_total_runtime(timestamps)
     runtime_str = reader.format_timedelta(total_runtime) if total_runtime else "Unknown"
 
