@@ -318,6 +318,15 @@ class JoinTable(TableTransform):
     Transform class for joining two tables in a TableCollection.
     """
 
+    # Define as a static, class-level property
+    ACCEPTABLE_JOIN_TYPES: list[str] = ["inner", "left", "right", "outer", "cross"]
+
+    LEFT_JOIN:str = "left"
+    RIGHT_JOIN:str = "right"
+    INNER_JOIN:str = "inner"
+    OUTER_JOIN:str = "outer"
+    CROSS_JOIN:str = "cross"
+
     def __init__(
         self,
         left_table: str,
@@ -333,7 +342,7 @@ class JoinTable(TableTransform):
             left_table (str): Name of the left table.
             right_table (str): Name of the right table.
             join_columns (Union[str, List[str]]): Column(s) to join on.
-            join_type (str): Type of join ('inner', 'left', 'right', 'outer').
+            join_type (str): Type of join ('inner', 'left', 'right', 'outer', 'cross').
             suffixes (tuple): Suffixes for overlapping columns.
         """
         super().__init__(
@@ -346,7 +355,7 @@ class JoinTable(TableTransform):
         self.left_table = left_table
         self.right_table = right_table
         self.join_columns = [join_columns] if isinstance(join_columns, str) else join_columns
-        if join_type not in ["inner", "left", "right", "outer"]:
+        if join_type not in JoinTable.ACCEPTABLE_JOIN_TYPES:
             raise ValueError("join_type for JoinTable Transform must be one of left, right, inner, outer")
         self.join_type = join_type
         self.suffixes = suffixes
@@ -428,6 +437,11 @@ class JoinTable(TableTransform):
         output_table = kwargs.get("output_table", f"{self.left_table}_{self.right_table}_joined")
         if output_table not in supply_frames:
             return False
+        
+        if self.join_type == self.CROSS_JOIN:
+            # Cross joins don't guarantee join columns in output
+            return supply_frames[output_table].nrow > 0
+        
         # Check join columns exist in output
         cols = supply_frames[output_table].columns
         return all(col in cols for col in self.join_columns)

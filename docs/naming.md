@@ -57,12 +57,14 @@ except ValueError as e:
 - Automatically converts input to uppercase
 - Allows only letters and digits
 - No spaces, symbols, or special characters permitted
+- Underscores are allowed
 - Extends the built-in `str` class for seamless integration
 
 **Validation Rules:**
 - Must not be empty
 - Must contain only uppercase letters (A-Z) and digits (0-9)
 - No spaces, underscores, or special characters
+- Underscores are allowed
 - Input is automatically converted to uppercase
 
 **Examples:**
@@ -73,6 +75,7 @@ from transformslib.tables.names.headername import Headername
 valid_headers = [
     Headername("CUSTOMERNAME"),   # All caps letters
     Headername("ORDER123"),       # Letters and numbers
+    Headername("CUSTOMER_NAME")   # Underscored column name
     Headername("customername"),   # Automatically converted to CUSTOMERNAME
     Headername("order123"),       # Automatically converted to ORDER123
 ]
