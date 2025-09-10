@@ -1,4 +1,4 @@
-# Meta Transforms Framework - Beta v0.6.1
+# Meta Transforms Framework - Beta v0.6.2
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
