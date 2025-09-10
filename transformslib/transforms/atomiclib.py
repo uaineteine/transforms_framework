@@ -313,6 +313,8 @@ class ComplexFilter(TableTransform):
 
         return supply_frames
 
+acceptable_join_types = ["inner", "left", "right", "outer"]
+
 class JoinTable(TableTransform):
     """
     Transform class for joining two tables in a TableCollection.
@@ -346,7 +348,7 @@ class JoinTable(TableTransform):
         self.left_table = left_table
         self.right_table = right_table
         self.join_columns = [join_columns] if isinstance(join_columns, str) else join_columns
-        if join_type not in ["inner", "left", "right", "outer"]:
+        if join_type not in acceptable_join_types:
             raise ValueError("join_type for JoinTable Transform must be one of left, right, inner, outer")
         self.join_type = join_type
         self.suffixes = suffixes
