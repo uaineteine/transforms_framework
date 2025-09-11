@@ -233,6 +233,9 @@ class SupplyLoad(TableCollection):
             self.seed = seed
         else:
             self.sample = False
+            self.sample_frac = None
+            self.sample_rows = None
+            self.seed = seed
 
         self.load_supplies(spark=spark)
 
