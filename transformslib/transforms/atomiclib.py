@@ -1398,3 +1398,82 @@ class RoundNumber(TableTransform):
 
         self.target_tables = [table_name]
         return supply_frames
+
+class UnionTables(TableTransform):
+    """
+    Transform class to perform a union of two tables with matching schemas.
+    """
+    def __init__(self, left_table: str, right_table: str, union_all: bool = False):
+        """
+        Initialise a UnionTables transform.
+
+        Args:
+            left_table (str): Name of the first table.
+            right_table (str): Name of the second table.
+            union_all (bool): If True, performs UNION ALL (includes duplicates).
+        """
+        super().__init__(
+            "UnionTables",
+            f"Union of '{left_table}' and '{right_table}' with union_all={union_all}",
+            [left_table, right_table],
+            "UnionSQL",
+            testable_transform=False
+        )
+        self.left_table = left_table
+        self.right_table = right_table
+        self.union_all = union_all
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that both tables exist and have matching schemas.
+        """
+        if self.left_table not in supply_frames or self.right_table not in supply_frames:
+            raise ValueError("Both tables must exist in supply_frames")
+
+        left_cols = set(supply_frames[self.left_table].columns)
+        right_cols = set(supply_frames[self.right_table].columns)
+
+        if left_cols != right_cols:
+            raise ValueError("Schemas do not match for union operation")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Perform the union operation.
+        """
+        backend = supply_frames[self.left_table].frame_type
+
+        if backend == "pandas":
+            df = pd.concat(
+                [supply_frames[self.left_table].df, supply_frames[self.right_table].df],
+                ignore_index=True
+            )
+            if not self.union_all:
+                df = df.drop_duplicates()
+
+        elif backend == "polars":
+            df = supply_frames[self.left_table].df.vstack(supply_frames[self.right_table].df)
+            if not self.union_all:
+                df = df.unique()
+
+        elif backend == "pyspark":
+            df = supply_frames[self.left_table].df.union(supply_frames[self.right_table].df)
+            if not self.union_all:
+                df = df.dropDuplicates()
+
+        else:
+            raise NotImplementedError(f"UnionTables not implemented for backend '{backend}'")
+
+        # Store result in a new table
+        union_table_name = f"{self.left_table}_union_{self.right_table}"
+        supply_frames[union_table_name] = supply_frames[self.left_table].clone_with_new_df(df)
+
+        self.log_info = TransformEvent(
+            input_tables=[self.left_table, self.right_table],
+            output_tables=[union_table_name],
+            input_variables=[],
+            output_variables=[],
+        )
+        supply_frames[union_table_name].add_event(self)
+
+        self.target_tables = [union_table_name]
+        return supply_frames
