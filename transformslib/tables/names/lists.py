@@ -1,6 +1,6 @@
 import json
 
-from transformslib.tables.names.headername import Headername
+from transformslib.tables.names.colname import Colname
 
 def auto_capitalise_list(list_of_strings: list[str]) -> list[str]:
     return [var.upper() for var in list_of_strings]
@@ -42,7 +42,7 @@ class VarList(NamedList):
 
     def acceptable_format(self) -> bool:
         for str_item in self:
-            check = Headername.acceptable_format(str_item)
+            check = Colname.acceptable_format(str_item)
             if check == False:
                 return False
         #implied else

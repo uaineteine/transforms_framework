@@ -1,8 +1,8 @@
 import re
 
-class Headername(str):
+class Colname(str):
     """
-    A specialised string class for validating and managing header names.
+    A specialised string class for validating and managing column names.
 
     This class ensures header names:
     - Are not empty
@@ -10,11 +10,11 @@ class Headername(str):
     - Have no spaces or other special characters
 
     Example:
-        >>> Headername("CUSTOMER_NAME")  # Valid
-        >>> Headername("ORDER_123")      # Valid
-        >>> Headername("CustomerName")   # Invalid (not all caps)
-        >>> Headername("ORDER DATE")     # Invalid (contains space)
-        >>> Headername("")               # Invalid (empty)
+        >>> Colname("CUSTOMER_NAME")  # Valid
+        >>> Colname("ORDER_123")      # Valid
+        >>> Colname("CustomerName")   # Invalid (not all caps)
+        >>> Colname("ORDER DATE")     # Invalid (contains space)
+        >>> Colname("")               # Invalid (empty)
     """
 
     @staticmethod

@@ -31,7 +31,7 @@ This program provides a data transformation framework for working with tables (D
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
 |   |   |-- names/
-|   |   |   |-- headername.py
+|   |   |   |-- colname.py
 |   |   |   |-- lists.py
 |   |   |   `-- tablename.py
 |   |   |-- metaframe.py

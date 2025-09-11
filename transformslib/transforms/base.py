@@ -2,7 +2,7 @@ from transformslib.events.pipeevent import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from transformslib.tables.names.lists import VarList
-from transformslib.tables.names.headername import Headername
+from transformslib.tables.names.colname import Colname
 from transformslib.transforms.reader import transform_log_loc
 
 import sys
@@ -239,9 +239,9 @@ class TableTransform(Transform):
             acts_on_variables = acts_on_variables[0]
 
         if isinstance(acts_on_variables, str):
-            self.target_variables = [Headername(acts_on_variables)]
+            self.target_variables = [Colname(acts_on_variables)]
         elif isinstance(acts_on_variables, list) and all(isinstance(v, str) for v in acts_on_variables):
-            self.target_variables = [Headername(var) for var in acts_on_variables]
+            self.target_variables = [Colname(var) for var in acts_on_variables]
         else:
             raise ValueError("acts_on_variables must be a string, a list of strings, or None")
 

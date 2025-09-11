@@ -49,7 +49,7 @@ except ValueError as e:
     print(e)
 ```
 
-### 2. Headername
+### 2. Colname
 **Purpose:** Validates and standardises column header names with strict formatting rules.
 
 **Features:**
@@ -69,30 +69,30 @@ except ValueError as e:
 
 **Examples:**
 ```python
-from transformslib.tables.names.headername import Headername
+from transformslib.tables.names.colname import Colname
 
 # Valid header names
 valid_headers = [
-    Headername("CUSTOMERNAME"),   # All caps letters
-    Headername("ORDER123"),       # Letters and numbers
-    Headername("CUSTOMER_NAME")   # Underscored column name
-    Headername("customername"),   # Automatically converted to CUSTOMERNAME
-    Headername("order123"),       # Automatically converted to ORDER123
+    Colname("CUSTOMERNAME"),   # All caps letters
+    Colname("ORDER123"),       # Letters and numbers
+    Colname("CUSTOMER_NAME")   # Underscored column name
+    Colname("customername"),   # Automatically converted to CUSTOMERNAME
+    Colname("order123"),       # Automatically converted to ORDER123
 ]
 
 # Invalid header names (will raise ValueError)
 try:
-    Headername("CUSTOMER_NAME")   # No underscores
+    Colname("CUSTOMER_NAME")   # No underscores
 except ValueError as e:
     print(e)
 
 try:
-    Headername("ORDER DATE")      # No spaces
+    Colname("ORDER DATE")      # No spaces
 except ValueError as e:
     print(e)
 
 try:
-    Headername("")                # Cannot be empty
+    Colname("")                # Cannot be empty
 except ValueError as e:
     print(e)
 ```
@@ -134,7 +134,7 @@ print(var_list)  # NamedList(['NAME', 'AGE', 'CITY', 'SALARY', 'DEPARTMENT'])
 
 **Features:**
 - Extends `NamedList` functionality
-- Validates all items using `Headername` rules
+- Validates all items using `Colname` rules
 - Ensures all variable names are properly formatted
 - Raises `ValueError` for invalid formats
 - Automatic uppercase conversion
