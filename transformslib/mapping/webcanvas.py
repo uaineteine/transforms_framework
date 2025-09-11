@@ -1,4 +1,5 @@
 from transformslib import meta
+from typing import List
 
 def generate_doctype() -> str:
     return '<!DOCTYPE html>'
@@ -134,19 +135,87 @@ def generate_css() -> str:
             font-weight: 500;
         }
 
+        /* Tab Container Styles */
+        .tab-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .tab-nav {
+            display: flex;
+            background-color: var(--white);
+            border-radius: 0.75rem 0.75rem 0 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 0;
+            overflow-x: auto;
+            flex-shrink: 0;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-700);
+            transition: all 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-button:hover {
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .tab-button.active {
+            color: var(--header-color);
+            border-bottom-color: var(--header-color);
+            background-color: var(--gray-100);
+        }
+
+        .tab-button:first-child {
+            border-radius: 0.75rem 0 0 0;
+        }
+
+        .tab-button:last-child {
+            border-radius: 0 0.75rem 0 0;
+        }
+
+        /* Tab Content Styles */
+        .tab-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tab-pane {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tab-pane.active {
+            display: flex;
+        }
+
         /* Main content area (Graph and Side Panel) */
         .main-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 1rem; /* p-4 */
             overflow: hidden;
         }
 
         @media (min-width: 768px) {
             .main-container {
                 flex-direction: row;
-                padding: 1.5rem; /* sm:p-6 */
             }
         }
 
@@ -154,11 +223,11 @@ def generate_css() -> str:
         .graph-panel {
             position: relative;
             background-color: var(--white);
-            border-radius: 0.75rem; /* rounded-xl */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
             flex: 1;
             margin-bottom: 1rem; /* mb-4 */
             overflow: hidden;
+            border-radius: 0 0 0.75rem 0.75rem;
         }
 
         @media (min-width: 768px) {
@@ -179,7 +248,7 @@ def generate_css() -> str:
         /* Right Side Info Panel styles */
         .info-panel {
             background-color: var(--white);
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0 0 0.75rem 0.75rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
             padding: 1rem; /* p-4 */
             width: 100%;
@@ -243,13 +312,195 @@ def generate_head() -> str:
 </head>
 """
 
-def generate_script(report_generated_time: str = None, node_count: int = None, edge_count: int = None) -> str:
+def generate_script(report_generated_time: str = None, node_count: int = None, edge_count: int = None, tab_contents: List[dict] = None) -> str:
     # If report_generated_time is provided, use it; otherwise fall back to current time
     time_script = f"document.getElementById('lastUpdated').innerText = '{report_generated_time}';" if report_generated_time else "const now = new Date(); document.getElementById('lastUpdated').innerText = now.toLocaleString();"
     
     # Use provided counts or fall back to 'N/A'
     node_count_str = str(node_count) if node_count is not None else 'N/A'
     edge_count_str = str(edge_count) if edge_count is not None else 'N/A'
+    
+    # Tab switching function (only included if tabs are used)
+    tab_script = ""
+    if tab_contents:
+        tab_script = """
+        // Tab switching functionality
+        window.showTab = function(tabId) {
+            // Hide all tab panes
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab pane
+            const selectedPane = document.getElementById('pane-' + tabId);
+            if (selectedPane) {
+                selectedPane.classList.add('active');
+            }
+            
+            // Add active class to selected tab button
+            const selectedButton = document.getElementById('tab-' + tabId);
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+            }
+        };
+        
+        // Setup network events for all tabs
+        function setupNetworkEventsForTab(tabId) {
+            const networkVarName = 'network' + (tabId ? '_' + tabId : '');
+            
+            function setupEvents() {
+                if (typeof window[networkVarName] !== 'undefined') {
+                    const network = window[networkVarName];
+                    const infoPanel = document.getElementById('selected-info' + (tabId ? '-' + tabId : ''));
+                    const detailsTitle = infoPanel ? infoPanel.closest('div').querySelector('.details-title') : null;
+                    
+                    function updateInfoPanel(title, content) {
+                        if (detailsTitle) {
+                            detailsTitle.textContent = title;
+                        }
+                        if (infoPanel) {
+                            infoPanel.innerHTML = content;
+                        }
+                    }
+                    
+                    function formatTooltipContent(tooltipText) {
+                        const lines = tooltipText.split('\\n');
+                        let html = '';
+                        
+                        lines.forEach(line => {
+                            if (line.trim() === '') return;
+                            
+                            if (line.includes(':')) {
+                                const [label, value] = line.split(':', 2);
+                                html += `<p><strong>${label.trim()}:</strong> ${value.trim()}</p>`;
+                            } else {
+                                html += `<p>${line.trim()}</p>`;
+                            }
+                        });
+                        
+                        return html || '<p>No details available</p>';
+                    }
+                    
+                    // Handle node hover
+                    network.on("hoverNode", function (params) {
+                        const nodeId = params.node;
+                        const nodeData = network.body.data.nodes.get(nodeId);
+                        
+                        if (nodeData && nodeData.title) {
+                            const title = nodeData.label || 'Node Details';
+                            const content = formatTooltipContent(nodeData.title);
+                            updateInfoPanel(title, content);
+                        }
+                    });
+                    
+                    // Handle edge hover
+                    network.on("hoverEdge", function (params) {
+                        const edgeId = params.edge;
+                        const edgeData = network.body.data.edges.get(edgeId);
+                        
+                        if (edgeData) {
+                            const title = edgeData.label || 'Transform';
+                            const content = `<p><strong>Transform:</strong> ${edgeData.label || 'Unknown'}</p>`;
+                            updateInfoPanel(title, content);
+                        }
+                    });
+                    
+                    // Reset to default when not hovering
+                    network.on("blurNode", function (params) {
+                        updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                    });
+                    
+                    network.on("blurEdge", function (params) {
+                        updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                    });
+                } else {
+                    // Retry after a short delay if network is not ready
+                    setTimeout(setupEvents, 100);
+                }
+            }
+            
+            setupEvents();
+        }
+        """
+    else:
+        # Single network setup (backward compatibility)
+        tab_script = """
+        // Function to update the right-hand panel with node/edge information
+        function updateInfoPanel(title, content) {
+            const detailsTitle = document.getElementById('selected-info').closest('div').querySelector('.details-title');
+            const selectedInfo = document.getElementById('selected-info');
+            
+            if (detailsTitle) {
+                detailsTitle.textContent = title;
+            }
+            if (selectedInfo) {
+                selectedInfo.innerHTML = content;
+            }
+        }
+        
+        // Function to format tooltip content for the right panel
+        function formatTooltipContent(tooltipText) {
+            const lines = tooltipText.split('\\n');
+            let html = '';
+            
+            lines.forEach(line => {
+                if (line.trim() === '') return;
+                
+                if (line.includes(':')) {
+                    const [label, value] = line.split(':', 2);
+                    html += `<p><strong>${label.trim()}:</strong> ${value.trim()}</p>`;
+                } else {
+                    html += `<p>${line.trim()}</p>`;
+                }
+            });
+            
+            return html || '<p>No details available</p>';
+        }
+        
+        // Wait for network to be available and add event listeners
+        function setupNetworkEvents() {
+            if (typeof network !== 'undefined') {
+                // Handle node hover
+                network.on("hoverNode", function (params) {
+                    const nodeId = params.node;
+                    const nodeData = network.body.data.nodes.get(nodeId);
+                    
+                    if (nodeData && nodeData.title) {
+                        const title = nodeData.label || 'Node Details';
+                        const content = formatTooltipContent(nodeData.title);
+                        updateInfoPanel(title, content);
+                    }
+                });
+                
+                // Handle edge hover
+                network.on("hoverEdge", function (params) {
+                    const edgeId = params.edge;
+                    const edgeData = network.body.data.edges.get(edgeId);
+                    
+                    if (edgeData) {
+                        const title = edgeData.label || 'Transform';
+                        const content = `<p><strong>Transform:</strong> ${edgeData.label || 'Unknown'}</p>`;
+                        updateInfoPanel(title, content);
+                    }
+                });
+                
+                // Reset to default when not hovering
+                network.on("blurNode", function (params) {
+                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                });
+                
+                network.on("blurEdge", function (params) {
+                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
+                });
+            } else {
+                // Retry after a short delay if network is not ready
+                setTimeout(setupNetworkEvents, 100);
+            }
+        }
+        """
     
     return f"""
     <script>
@@ -352,6 +603,13 @@ def generate_script(report_generated_time: str = None, node_count: int = None, e
             {time_script}
             document.getElementById('nodeCount').innerText = '{node_count_str}';
             document.getElementById('edgeCount').innerText = '{edge_count_str}';
+            
+            {tab_script}
+            
+            // Setup when DOM is loaded
+            setTimeout(() => {{
+                {("setupNetworkEventsForTab();" if tab_contents else "setupNetworkEvents();")}
+            }}, 500);
         }});
     </script>
     """
@@ -409,6 +667,68 @@ def generate_main(CONTENT:str='<p class="text-center text-gray-400 text-lg">Past
         </aside>
 
     </main>
+    """
+
+
+def generate_tabbed_main(tab_contents: List[dict]) -> str:
+    """
+    Generate main content with tabbed interface for multiple graphs.
+    
+    Args:
+        tab_contents: List of dicts with keys: 'id', 'title', 'content', 'node_count', 'edge_count'
+    """
+    if not tab_contents:
+        return generate_main('<p class="text-center text-gray-400 text-lg">No graph content available.</p>')
+    
+    # Generate tab navigation
+    tab_nav_html = ""
+    for i, tab in enumerate(tab_contents):
+        active_class = " active" if i == 0 else ""
+        tab_nav_html += f"""
+            <button class="tab-button{active_class}" onclick="showTab('{tab['id']}')" id="tab-{tab['id']}">
+                {tab['title']} ({tab.get('node_count', 'N/A')} nodes)
+            </button>
+        """
+    
+    # Generate tab content panes
+    tab_panes_html = ""
+    for i, tab in enumerate(tab_contents):
+        active_class = " active" if i == 0 else ""
+        tab_panes_html += f"""
+            <div class="tab-pane{active_class}" id="pane-{tab['id']}">
+                <div class="main-container">
+                    <!-- Graph Container -->
+                    <div id="graph-panel-{tab['id']}" class="graph-panel">
+                        <div id="network-container-{tab['id']}">
+                            {tab['content']}
+                        </div>
+                    </div>
+
+                    <!-- Right Side Info Panel -->
+                    <aside id="info-panel-{tab['id']}" class="info-panel info-panel-scroll">
+                        <div>
+                            <h2 class="details-title">Selected Item Details</h2>
+                            <div id="selected-info-{tab['id']}" class="details-content">
+                                <p>Select a node or edge in the graph to see its details here.</p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        """
+    
+    return f"""
+    <div class="tab-container">
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            {tab_nav_html}
+        </nav>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+            {tab_panes_html}
+        </div>
+    </div>
     """
 
 def generate_html() -> str:
