@@ -6,23 +6,23 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
+        "AGE": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "name": {
+        "NAME": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
+        "VAR": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "position": {
+        "POSITION": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "skill": {
+        "SKILL": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -34,25 +34,17 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
+        "SALARY": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "name": {
+        "NAME": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "AGE": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
         }
       }
     },
@@ -62,23 +54,19 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "NAME": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
+        "CITY": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "position": {
+        "COUNTRY": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "skill": {
+        "REGION": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -90,23 +78,15 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "VAR1": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
+        "VAR2": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "VAR3": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -118,25 +98,17 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "VALUE1": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "VALUE2": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "VALUE3": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         }
       }
     },
@@ -146,23 +118,15 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
+        "ID": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "name": {
+        "NAME": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "EVENT_DATE": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -174,23 +138,11 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "CITY": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "STATE": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
