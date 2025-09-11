@@ -167,6 +167,34 @@
           "dtype_output": "String"
         }
       }
+    },
+    {
+      "table_name": "state",
+      "input_file_path": "../test_tables/job_1/state.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
     }
   ],
   "sample_size": 1000000,

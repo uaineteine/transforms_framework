@@ -23,9 +23,9 @@ if __name__ == "__main__":
 
     # load pipeline tables
     job_id = 1
-    run_id = 1
+    #run_id = 1
     
-    supply_frames = SupplyLoad(job_id, run_id, spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad(job_id, spark=spark) #sample_rows=xyz
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary

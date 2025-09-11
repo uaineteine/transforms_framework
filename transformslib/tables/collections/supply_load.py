@@ -20,7 +20,7 @@ def get_supply_file(job_id:int, run_id:int = None) -> str:
     if run_id is None:
         # New sampling input method - use sampling_state.json
         print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
-        return f"test_tables/job_{job_id}/sampling_state.json"
+        return f"../test_tables/job_{job_id}/sampling_state.json"
     else:
         return legacy_get_payload_file(job_id, run_id)
 
@@ -35,7 +35,7 @@ def legacy_get_payload_file(job_id: int, run_id: int) -> str:
         string of the legacy payload path
     """
     print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
-    return f"test_tables/job_{job_id}/payload.json"
+    return f"../test_tables/job_{job_id}/payload.json"
 
 
 def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
@@ -105,9 +105,6 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
 
         # Handle path normalization - sampling_state.json may use relative paths
         file_path = item["input_file_path"]
-        if file_path.startswith("../"):
-            # Remove the ../ prefix to make it relative to current directory
-            file_path = file_path[3:]
 
         print(f"Loading table '{name}' from {file_path} (format: {item['file_format']})")
 
