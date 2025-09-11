@@ -1,0 +1,45 @@
+tables
+======
+
+transformslib.tables.collections.collection
+-------------------------------------------
+
+.. automodule:: transformslib.tables.collections.collection
+   :members:
+
+transformslib.tables.collections.supply_load
+--------------------------------------------
+
+.. automodule:: transformslib.tables.collections.supply_load
+   :members:
+
+transformslib.tables.metaframe
+------------------------------
+
+.. automodule:: transformslib.tables.metaframe
+   :members:
+
+transformslib.tables.multitable
+-------------------------------
+
+.. automodule:: transformslib.tables.multitable
+   :members:
+
+transformslib.tables.names.colname
+----------------------------------
+
+.. automodule:: transformslib.tables.names.colname
+   :members:
+
+transformslib.tables.names.lists
+--------------------------------
+
+.. automodule:: transformslib.tables.names.lists
+   :members:
+
+transformslib.tables.names.tablename
+------------------------------------
+
+.. automodule:: transformslib.tables.names.tablename
+   :members:
+

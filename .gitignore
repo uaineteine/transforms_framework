@@ -21,7 +21,8 @@ transformslib/__pycache__/*
 transformslib/mapping/__pycache__/*
 transformslib/mapping/webcanvas/__pycache__/tailwindcss.cpython-310.pyc
 templates/transform_dags/*
-
-# Event logs generated during testing and runtime
-events_log/job_*/table_specific/*.json
-events_log/job_*/transforms.json
+docs/source/events.rst
+docs/source/mapping.rst
+docs/source/tables.rst
+docs/source/transforms.rst
+docs/source/transformslib_root.rst
