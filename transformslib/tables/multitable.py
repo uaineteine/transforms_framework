@@ -77,6 +77,19 @@ class MultiTable:
         >>> print(f"Variables: {mf.nvars}")
     """
 
+    def sort_columns(self):
+        """
+        sort columns alphabetically in-place. Defaults to True.
+        """
+        # Inline sort for each frame type
+        if self.frame_type == "pandas":
+            self.df = self.df[sorted(self.df.columns)]
+        elif self.frame_type == "polars":
+            self.df = self.df.select(sorted(self.df.columns))
+        elif self.frame_type == "pyspark":
+            self.df = self.df.select(*sorted(self.df.columns))
+        return self
+    
     @staticmethod
     def infer_table_name(src_path: str) -> str:
         """
