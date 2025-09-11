@@ -4,7 +4,7 @@ from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 
-def get_payload_file(job_id:int, run_id:int = None) -> str:
+def get_supply_file(job_id:int, run_id:int = None) -> str:
     """
     Return the path location of the input payload.
     
@@ -22,9 +22,20 @@ def get_payload_file(job_id:int, run_id:int = None) -> str:
         print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
         return f"test_tables/job_{job_id}/sampling_state.json"
     else:
-        # Legacy method - use payload.json
-        print(f"Using legacy payload method for job_id={job_id}, run_id={run_id}")
-        return f"test_tables/job_{job_id}/payload.json"
+        return legacy_get_payload_file(job_id, run_id)
+
+
+def legacy_get_payload_file(job_id: int, run_id: int) -> str:
+    """
+    Return the path location of the legacy input payload (payload.json).
+    Args:
+        job_id (int): A job id to get the path of configuration file containing supply definitions.
+        run_id (int): A run id to get the path of configuration file containing supply definitions.
+    Returns:
+        string of the legacy payload path
+    """
+    print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
+    return f"test_tables/job_{job_id}/payload.json"
 
 
 def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
@@ -214,7 +225,7 @@ class SupplyLoad(TableCollection):
         self.run = run_id
         
         #identify the load dir and payload loc
-        self.supply_load_src = get_payload_file(job_id, run_id)
+        self.supply_load_src = get_supply_file(job_id, run_id)
         
         #gather the source payload location
         # Only check transform log if run_id is provided (legacy mode)
