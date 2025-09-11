@@ -1548,6 +1548,7 @@ _transform_names = [name for name, _, _ in _transforms]
 # Export all transforms and the listme function
 __all__ = _transform_names + ['listme']
 
-# Show the count whenever the module is imported
-print(f"\n🔧 Transforms Library: {len(_transforms)} transforms available")
-print("   Use listme() to see all available transforms in a table format.\n")
+# Show the count whenever the module is imported (but not when run as main)
+if __name__ != '__main__':
+    print(f"\n🔧 Transforms Library: {len(_transforms)} transforms available")
+    print("   Use listme() to see all available transforms in a table format.\n")
