@@ -624,6 +624,9 @@ def render_subgraph_dags(job_id: int, run_id: int, height: Union[int, float, str
     print("Subgraph DAGs saved to: " + html_file)
     
     return html_file
+
+
+def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.
 
@@ -820,7 +823,7 @@ def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> 
     full_html = build_dag(job_id, run_id, height=height)
 
     # Save UTF-8 HTML
-    html_file = output_loc(job_id=job_id, run_id=run_id)\
+    html_file = output_loc(job_id=job_id, run_id=run_id)
 
     os.makedirs(os.path.dirname(html_file), exist_ok=True)
     with open(html_file, "w", encoding="utf-8") as f:
