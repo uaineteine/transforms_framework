@@ -63,12 +63,6 @@ transformslib.mapping.dag
 .. automodule:: transformslib.mapping.dag
    :members:
 
-transformslib.mapping.maps
-==========================
-
-.. automodule:: transformslib.mapping.maps
-   :members:
-
 transformslib.mapping.webcanvas
 ===============================
 
