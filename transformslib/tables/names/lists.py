@@ -5,6 +5,9 @@ from transformslib.tables.names.colname import Colname
 def auto_lowercase_list(list_of_strings: list[str]) -> list[str]:
     return [var.lower() for var in list_of_strings]
 
+def auto_capitalise_list(list_of_strings: list[str]) -> list[str]:
+    return [var.upper() for var in list_of_strings]
+
 class NamedList(list[str]):
     def __init__(self, items: list[str]):
         if not all(isinstance(item, str) for item in items):
