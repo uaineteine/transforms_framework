@@ -1,0 +1,214 @@
+{
+  "sample_files": [
+    {
+      "table_name": "positions",
+      "input_file_path": "../test_tables/job_1/positions.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "salary",
+      "input_file_path": "../test_tables/job_1/salary.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "location",
+      "input_file_path": "../test_tables/job_1/location.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "array_like",
+      "input_file_path": "../test_tables/job_1/array_like.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "decimal_table",
+      "input_file_path": "../test_tables/job_1/decimal_table.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "date_table",
+      "input_file_path": "../test_tables/job_1/date_table.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    },
+    {
+      "table_name": "state",
+      "input_file_path": "../test_tables/job_1/state.csv",
+      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "file_format": "csv",
+      "dtypes": {
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_source": "String",
+          "dtype_output": "String"
+        }
+      }
+    }
+  ],
+  "sample_size": 1000000,
+  "file_count": 2,
+  "sas_kwargs": {},
+  "started_at": "2023-09-09T14:53:26.081836",
+  "completed": true,
+  "completed_at": "2023-09-09T14:53:26.105687",
+  "file_kwargs": {
+    "uri": "jobs/test/1/payload/1/data/DCSKINPRODUCT.sas7bdat"
+  },
+  "log_path": "//payload/1/data/netflix.csv",
+  "ingest_sampling_config": {
+    "sample_size": 1000000,
+    "included_file_count": 2
+  }
+}
