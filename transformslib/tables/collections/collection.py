@@ -1,4 +1,6 @@
 from transformslib.tables.metaframe import MetaFrame
+from transformslib.events.pipeevent import PipelineEvent
+from transformslib.transforms.reader import transform_log_loc
 import fnmatch
 from typing import List
 import os
@@ -386,8 +388,9 @@ class TableCollection:
         """
         Save all tables in the collection to the specified output directory.
         
-        This method iterates through all tables in the collection and calls their save()
-        method to persist the data to files in the specified directory.
+        This method iterates through all tables in the collection and calls their write()
+        method to persist the data to files in the specified directory. It also logs
+        write events to the global transforms.json file for DAG generation.
 
         Args:
             output_dir (str): The directory where all tables should be saved.
@@ -404,10 +407,44 @@ class TableCollection:
 
         os.makedirs(output_dir, exist_ok=True)
 
+        # Get the global transforms log location for logging write events
+        transforms_log_path = transform_log_loc(job_id=1, run_id=1)
+
         for table in self.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
             output_path = str(Path(output_path))
             table.write(path=output_path, spark=spark)
+            
+            # Also log the write event to the global transforms.json for DAG generation
+            # Create a unique output identifier for the write operation
+            write_output_name = f"{str(table.table_name)}_written"
+            
+            # Create log_info structure expected by DAG builder
+            log_info = {
+                "input_tables": [str(table.table_name)],
+                "output_tables": [write_output_name],  # Create a virtual output table for the write operation
+                "input_variables": [],
+                "output_variables": [],
+                "created_variables": None,
+                "renamed_variables": None,
+                "removed_variables": None,
+                "num_input_frames": 1,
+                "num_output_frames": 1
+            }
+            write_event = PipelineEvent(
+                event_type="write",
+                event_payload=log_info,  # Use log_info structure for compatibility
+                event_description=f"Wrote table {table.table_name} to {output_path} as parquet",
+                log_location=transforms_log_path
+            )
+            # Add additional attributes that DAG builder expects
+            write_event.name = "Write"
+            write_event.testable_transform = False
+            write_event.filepath = output_path
+            write_event.out_format = "parquet"
+            # Set indent_depth to None for single-line JSON like the original transforms
+            write_event.indent_depth = None
+            write_event.log()
         
         self.save_events()
                 

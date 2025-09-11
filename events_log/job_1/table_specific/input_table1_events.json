@@ -1,0 +1,51 @@
+{
+  "log_info": {
+    "filepath": "/tmp/test_dag_output/input_table1.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "d4ca674c-608a-4c67-b92d-4239500919a5",
+  "timestamp": "2025-09-11T10:54:33.049109+00:00",
+  "executed_user": "runner",
+  "event_type": "write",
+  "event_description": "Wrote table to /tmp/test_dag_output/input_table1.parquet as parquet (pandas)",
+  "meta_version": "1.0",
+  "filepath": "/tmp/test_dag_output/input_table1.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "/tmp/test_dag_output/input_table1.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "ef404472-b903-4d9b-ba66-448720315a8c",
+  "timestamp": "2025-09-11T10:55:10.739221+00:00",
+  "executed_user": "runner",
+  "event_type": "write",
+  "event_description": "Wrote table to /tmp/test_dag_output/input_table1.parquet as parquet (pandas)",
+  "meta_version": "1.0",
+  "filepath": "/tmp/test_dag_output/input_table1.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "/tmp/test_dag_output/input_table1.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "a016e8c7-6476-440e-9447-ecc077aa6adc",
+  "timestamp": "2025-09-11T10:55:37.538922+00:00",
+  "executed_user": "runner",
+  "event_type": "write",
+  "event_description": "Wrote table to /tmp/test_dag_output/input_table1.parquet as parquet (pandas)",
+  "meta_version": "1.0",
+  "filepath": "/tmp/test_dag_output/input_table1.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

@@ -1,0 +1,17 @@
+{
+  "log_info": {
+    "filepath": "/tmp/test_full_pipeline/employee_data.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "12d5da37-93ad-4637-937a-cf594404c429",
+  "timestamp": "2025-09-11T10:56:38.822797+00:00",
+  "executed_user": "runner",
+  "event_type": "write",
+  "event_description": "Wrote table to /tmp/test_full_pipeline/employee_data.parquet as parquet (pandas)",
+  "meta_version": "1.0",
+  "filepath": "/tmp/test_full_pipeline/employee_data.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
