@@ -358,31 +358,36 @@ class MultiTable:
     @staticmethod
     def load_native_df(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
-        Load a DataFrame from a file and return a MultiTable instance.
-        
-        This static method provides a convenient way to load data from various file formats
-        and create a dataframe. It supports multiple file formats
-        and DataFrame frameworks.
+        Load a DataFrame from a file and return a DataFrame instance.
 
-        Args:
-            path (str): Path to the data file to load.
-            format (str, optional): File format of the data. Defaults to "parquet".
-                                  Supported formats: "parquet", "csv", "sas".
-            table_name (str, optional): Name to assign to the table. If empty, will be
-                                      inferred from the file path. Defaults to "".
-            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
-                                      Supported types: "pyspark", "pandas", "polars".
-            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+        This static method provides a convenient way to load data from various file formats and create a dataframe. It supports multiple file formats and DataFrame frameworks.
 
-        Returns:
-            dataframe: A pyspark, polars or pandas dataframe.
+        Parameters
+        ----------
+        path : str
+            Path to the data file to load.
+        format : str, optional
+            File format of the data. Defaults to "parquet". Supported formats: "parquet", "csv", "sas".
+        table_name : str, optional
+            Name to assign to the table. If empty, will be inferred from the file path. Defaults to "".
+        frame_type : str, optional
+            Type of DataFrame to create. Defaults to "pyspark". Supported types: "pyspark", "pandas", "polars".
+        spark : optional
+            SparkSession object (required for PySpark frame_type). Defaults to None.
 
-        Raises:
-            FileNotFoundError: If the specified path does not exist.
-            ValueError: If the format or frame_type is not supported.
-            ValueError: If spark is None when frame_type is "pyspark".
-            Exception: If there are issues loading the data.
+        Returns
+        -------
+        dataframe : pyspark.sql.DataFrame or pandas.DataFrame or polars.LazyFrame
+            A pyspark, polars or pandas dataframe.
 
+        Raises
+        ------
+        FileNotFoundError
+            If the specified path does not exist.
+        ValueError
+            If the format or frame_type is not supported, or if spark is None when frame_type is "pyspark".
+        Exception
+            If there are issues loading the data.
         """
         if frame_type == "pyspark":
             df = _load_spark_df(path, format, table_name, spark)
@@ -398,40 +403,46 @@ class MultiTable:
     def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, auto_capitalise = False, spark=None):
         """
         Load a DataFrame from a file and return a MultiTable instance.
-        
-        This static method provides a convenient way to load data from various file formats
-        and create a MultiTable with appropriate metadata. It supports multiple file formats
-        and DataFrame frameworks.
 
-        Args:
-            path (str): Path to the data file to load.
-            format (str, optional): File format of the data. Defaults to "parquet".
-                                  Supported formats: "parquet", "csv", "sas".
-            table_name (str, optional): Name to assign to the table. If empty, will be
-                                      inferred from the file path. Defaults to "".
-            frame_type (str, optional): Type of DataFrame to create. Defaults to "pyspark".
-                                      Supported types: "pyspark", "pandas", "polars".
-            auto_capitalise (bool, optional): Automatically capitalise column names. Defaults to False.
-            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+        This static method provides a convenient way to load data from various file formats and create a MultiTable with appropriate metadata. It supports multiple file formats and DataFrame frameworks.
 
-        Returns:
-            MultiTable: A new MultiTable instance with the loaded data and metadata.
+        Parameters
+        ----------
+        path : str
+            Path to the data file to load.
+        format : str, optional
+            File format of the data. Defaults to "parquet". Supported formats: "parquet", "csv", "sas".
+        table_name : str, optional
+            Name to assign to the table. If empty, will be inferred from the file path. Defaults to "".
+        frame_type : str, optional
+            Type of DataFrame to create. Defaults to "pyspark". Supported types: "pyspark", "pandas", "polars".
+        auto_capitalise : bool, optional
+            Automatically capitalise column names. Defaults to False.
+        spark : optional
+            SparkSession object (required for PySpark frame_type). Defaults to None.
 
-        Raises:
-            FileNotFoundError: If the specified path does not exist.
-            ValueError: If the format or frame_type is not supported.
-            ValueError: If spark is None when frame_type is "pyspark".
-            Exception: If there are issues loading the data.
+        Returns
+        -------
+        MultiTable
+            A new MultiTable instance with the loaded data and metadata.
 
-        Example:
-            >>> # Load a PySpark DataFrame
-            >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="pyspark", spark=spark)
-            >>> 
-            >>> # Load a Pandas DataFrame
-            >>> mf = MultiTable.load("data.csv", format="csv", table_name="my_table", frame_type="pandas")
-            >>> 
-            >>> # Load a Polars DataFrame
-            >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="polars")
+        Raises
+        ------
+        FileNotFoundError
+            If the specified path does not exist.
+        ValueError
+            If the format or frame_type is not supported, or if spark is None when frame_type is "pyspark".
+        Exception
+            If there are issues loading the data.
+
+        Examples
+        --------
+        >>> # Load a PySpark DataFrame
+        >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="pyspark", spark=spark)
+        >>> # Load a Pandas DataFrame
+        >>> mf = MultiTable.load("data.csv", format="csv", table_name="my_table", frame_type="pandas")
+        >>> # Load a Polars DataFrame
+        >>> mf = MultiTable.load("data.parquet", format="parquet", table_name="my_table", frame_type="polars")
         """
         df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
 
@@ -586,16 +597,23 @@ class MultiTable:
         """
         Write the DataFrame to a file in the specified format.
 
-        Args:
-            path (str): Destination file path.
-            format (str, optional): File format to write. Defaults to "parquet".
-                                  Supported formats: "parquet", "csv", "sas" (for PySpark).
-            overwrite (bool, optional): If True, overwrites existing files. Defaults to True.
-            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+        Parameters
+        ----------
+        path : str
+            Destination file path.
+        format : str, optional
+            File format to write. Defaults to "parquet". Supported formats: "parquet", "csv", "sas" (for PySpark).
+        overwrite : bool, optional
+            If True, overwrites existing files. Defaults to True.
+        spark : optional
+            SparkSession object (required for PySpark frame_type). Defaults to None.
 
-        Raises:
-            ValueError: If the frame_type is unsupported.
-            FileExistsError: If the file exists and overwrite is False.
+        Raises
+        ------
+        ValueError
+            If the frame_type is unsupported.
+        FileExistsError
+            If the file exists and overwrite is False.
         """
         MultiTable.write_native_df(self.df, path, format, self.frame_type, overwrite, spark)
         
