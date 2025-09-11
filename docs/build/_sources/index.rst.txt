@@ -111,10 +111,10 @@ transformslib.tables.multitable
 .. automodule:: transformslib.tables.multitable
    :members:
 
-transformslib.tables.names.headername
-=====================================
+transformslib.tables.names.colname
+==================================
 
-.. automodule:: transformslib.tables.names.headername
+.. automodule:: transformslib.tables.names.colname
    :members:
 
 transformslib.tables.names.lists

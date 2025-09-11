@@ -75,7 +75,6 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
- | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
@@ -86,6 +85,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -93,7 +93,7 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#transformslib.tables.names.headername.Headername.acceptable_format">acceptable_format() (transformslib.tables.names.headername.Headername static method)</a>
+      <li><a href="index.html#transformslib.tables.names.colname.Colname.acceptable_format">acceptable_format() (transformslib.tables.names.colname.Colname static method)</a>
 
       <ul>
         <li><a href="index.html#transformslib.tables.names.tablename.Tablename.acceptable_format">(transformslib.tables.names.tablename.Tablename static method)</a>
@@ -131,12 +131,14 @@
 </li>
       <li><a href="index.html#transformslib.events.jsonlog.JSONLog.class_type">class_type (transformslib.events.jsonlog.JSONLog property)</a>
 </li>
-      <li><a href="index.html#transformslib.tables.multitable.MultiTable.columns">columns (transformslib.tables.multitable.MultiTable property)</a>
+      <li><a href="index.html#transformslib.tables.names.colname.Colname">Colname (class in transformslib.tables.names.colname)</a>
 </li>
-      <li><a href="index.html#transformslib.transforms.atomiclib.ComplexFilter">ComplexFilter (class in transformslib.transforms.atomiclib)</a>
+      <li><a href="index.html#transformslib.tables.multitable.MultiTable.columns">columns (transformslib.tables.multitable.MultiTable property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#transformslib.transforms.atomiclib.ComplexFilter">ComplexFilter (class in transformslib.transforms.atomiclib)</a>
+</li>
       <li><a href="index.html#transformslib.tables.multitable.MultiTable.concat">concat() (transformslib.tables.multitable.MultiTable method)</a>
 </li>
       <li><a href="index.html#transformslib.transforms.atomiclib.ConcatColumns">ConcatColumns (class in transformslib.transforms.atomiclib)</a>
@@ -210,6 +212,8 @@
 </li>
         <li><a href="index.html#transformslib.transforms.atomiclib.TruncateDate.error_check">(transformslib.transforms.atomiclib.TruncateDate method)</a>
 </li>
+        <li><a href="index.html#transformslib.transforms.atomiclib.UnionTables.error_check">(transformslib.transforms.atomiclib.UnionTables method)</a>
+</li>
         <li><a href="index.html#transformslib.transforms.base.MacroTransform.error_check">(transformslib.transforms.base.MacroTransform method)</a>
 </li>
         <li><a href="index.html#transformslib.transforms.base.Transform.error_check">(transformslib.transforms.base.Transform method)</a>
@@ -276,14 +280,6 @@
       <li><a href="index.html#transformslib.tables.collections.collection.TableCollection.get_table">get_table() (transformslib.tables.collections.collection.TableCollection method)</a>
 </li>
       <li><a href="index.html#transformslib.tables.collections.collection.TableCollection.get_table_names">get_table_names() (transformslib.tables.collections.collection.TableCollection method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="H">H</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#transformslib.tables.names.headername.Headername">Headername (class in transformslib.tables.names.headername)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -375,7 +371,7 @@
 </li>
         <li><a href="index.html#module-transformslib.tables.multitable">transformslib.tables.multitable</a>
 </li>
-        <li><a href="index.html#module-transformslib.tables.names.headername">transformslib.tables.names.headername</a>
+        <li><a href="index.html#module-transformslib.tables.names.colname">transformslib.tables.names.colname</a>
 </li>
         <li><a href="index.html#module-transformslib.tables.names.lists">transformslib.tables.names.lists</a>
 </li>
@@ -597,6 +593,8 @@
 </li>
         <li><a href="index.html#transformslib.transforms.atomiclib.TruncateDate.transforms">(transformslib.transforms.atomiclib.TruncateDate method)</a>
 </li>
+        <li><a href="index.html#transformslib.transforms.atomiclib.UnionTables.transforms">(transformslib.transforms.atomiclib.UnionTables method)</a>
+</li>
         <li><a href="index.html#transformslib.transforms.base.MacroTransform.transforms">(transformslib.transforms.base.MacroTransform method)</a>
 </li>
         <li><a href="index.html#transformslib.transforms.base.Transform.transforms">(transformslib.transforms.base.Transform method)</a>
@@ -689,10 +687,10 @@
 </li>
       </ul></li>
       <li>
-    transformslib.tables.names.headername
+    transformslib.tables.names.colname
 
       <ul>
-        <li><a href="index.html#module-transformslib.tables.names.headername">module</a>
+        <li><a href="index.html#module-transformslib.tables.names.colname">module</a>
 </li>
       </ul></li>
       <li>
@@ -742,6 +740,14 @@
       <li><a href="index.html#transformslib.transforms.atomiclib.TrimWhitespace">TrimWhitespace (class in transformslib.transforms.atomiclib)</a>
 </li>
       <li><a href="index.html#transformslib.transforms.atomiclib.TruncateDate">TruncateDate (class in transformslib.transforms.atomiclib)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#transformslib.transforms.atomiclib.UnionTables">UnionTables (class in transformslib.transforms.atomiclib)</a>
 </li>
   </ul></td>
 </tr></table>

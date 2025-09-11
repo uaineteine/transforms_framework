@@ -171,9 +171,9 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-transformslib.tables.names.headername">transformslib.tables.names.headername</a><ul>
-<li><a class="reference internal" href="#transformslib.tables.names.headername.Headername"><code class="docutils literal notranslate"><span class="pre">Headername</span></code></a><ul>
-<li><a class="reference internal" href="#transformslib.tables.names.headername.Headername.acceptable_format"><code class="docutils literal notranslate"><span class="pre">Headername.acceptable_format()</span></code></a></li>
+<li><a class="reference internal" href="#module-transformslib.tables.names.colname">transformslib.tables.names.colname</a><ul>
+<li><a class="reference internal" href="#transformslib.tables.names.colname.Colname"><code class="docutils literal notranslate"><span class="pre">Colname</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.tables.names.colname.Colname.acceptable_format"><code class="docutils literal notranslate"><span class="pre">Colname.acceptable_format()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -281,6 +281,11 @@
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate"><code class="docutils literal notranslate"><span class="pre">TruncateDate</span></code></a><ul>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.error_check"><code class="docutils literal notranslate"><span class="pre">TruncateDate.error_check()</span></code></a></li>
 <li><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.transforms"><code class="docutils literal notranslate"><span class="pre">TruncateDate.transforms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables"><code class="docutils literal notranslate"><span class="pre">UnionTables</span></code></a><ul>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables.error_check"><code class="docutils literal notranslate"><span class="pre">UnionTables.error_check()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables.transforms"><code class="docutils literal notranslate"><span class="pre">UnionTables.transforms()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1588,29 +1593,29 @@ FileExistsError: If the file exists and overwrite is False.</p>
 </dd></dl>
 
 </section>
-<section id="module-transformslib.tables.names.headername">
-<span id="transformslib-tables-names-headername"></span><h1>transformslib.tables.names.headername<a class="headerlink" href="#module-transformslib.tables.names.headername" title="Link to this heading"></a></h1>
+<section id="module-transformslib.tables.names.colname">
+<span id="transformslib-tables-names-colname"></span><h1>transformslib.tables.names.colname<a class="headerlink" href="#module-transformslib.tables.names.colname" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="transformslib.tables.names.headername.Headername">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.names.headername.</span></span><span class="sig-name descname"><span class="pre">Headername</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.names.headername.Headername" title="Link to this definition"></a></dt>
-<dd><p>A specialised string class for validating and managing header names.</p>
+<dt class="sig sig-object py" id="transformslib.tables.names.colname.Colname">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.names.colname.</span></span><span class="sig-name descname"><span class="pre">Colname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.names.colname.Colname" title="Link to this definition"></a></dt>
+<dd><p>A specialised string class for validating and managing column names.</p>
 <p>This class ensures header names:
 - Are not empty
 - Contain only uppercase letters, digits, and underscores
 - Have no spaces or other special characters</p>
 <dl>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CUSTOMER_NAME&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER_123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>   <span class="c1"># Invalid (not all caps)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;ORDER DATE&quot;</span><span class="p">)</span>     <span class="c1"># Invalid (contains space)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Headername</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>               <span class="c1"># Invalid (empty)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;CUSTOMER_NAME&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;ORDER_123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>   <span class="c1"># Invalid (not all caps)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;ORDER DATE&quot;</span><span class="p">)</span>     <span class="c1"># Invalid (contains space)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>               <span class="c1"># Invalid (empty)</span>
 </pre></div>
 </div>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="transformslib.tables.names.headername.Headername.acceptable_format">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acceptable_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.tables.names.headername.Headername.acceptable_format" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="transformslib.tables.names.colname.Colname.acceptable_format">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acceptable_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.tables.names.colname.Colname.acceptable_format" title="Link to this definition"></a></dt>
 <dd><p>Validate header name format.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>name (str): The header name to validate.</p>
@@ -2021,6 +2026,24 @@ based on unique values of a specified column.</p>
 <dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate.transforms">
 <span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate.transforms" title="Link to this definition"></a></dt>
 <dd><p>Truncate the date column to the specified level.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">UnionTables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">union_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables" title="Link to this definition"></a></dt>
+<dd><p>Transform class to perform a union of two tables with matching schemas.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that both tables exist and have matching schemas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables.transforms" title="Link to this definition"></a></dt>
+<dd><p>Perform the union operation.</p>
 </dd></dl>
 
 </dd></dl>
