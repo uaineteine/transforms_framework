@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "c2b3f3a9-0980-475d-a2a4-f8df92275816",
-  "timestamp": "2025-09-10T02:50:46.332283+00:00",
+  "uuid": "99b7f24b-94fc-42e2-9995-5d9441f60def",
+  "timestamp": "2025-09-11T10:26:25.298191+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
@@ -33,8 +33,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "342a01dc-083a-44a2-bb6a-0fcb9c9c52c1",
-  "timestamp": "2025-09-10T02:50:54.862256+00:00",
+  "uuid": "908afab6-c784-47a0-8d5b-1bc09f2a4286",
+  "timestamp": "2025-09-11T10:26:32.710997+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
@@ -84,8 +84,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b80dd378-a43a-49e2-9db1-49c6a36f0aa0",
-  "timestamp": "2025-09-10T02:50:55.063260+00:00",
+  "uuid": "18808e3d-b67b-416d-b548-7ed28014f10d",
+  "timestamp": "2025-09-11T10:26:32.863994+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -113,8 +113,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "9f5a36e8-e9f3-4277-af48-20d66bd2f50d",
-  "timestamp": "2025-09-10T02:51:02.583476+00:00",
+  "uuid": "b1e61cef-7050-4fdb-a231-a6b4dbf9bee1",
+  "timestamp": "2025-09-11T10:26:40.296391+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",

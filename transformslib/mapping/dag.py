@@ -171,8 +171,8 @@ def build_di_graph(logs:list) -> nx.DiGraph:
         for inp_node in input_nodes:
             for out_node in output_nodes:
                 G.add_edge(inp_node, out_node, label=transform_name)
-        
-        return G
+    
+    return G
 
 
 def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> str:

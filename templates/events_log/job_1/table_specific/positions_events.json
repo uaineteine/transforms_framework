@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "aaf9622d-5278-45ba-bcf4-04df9a2b8cca",
-  "timestamp": "2025-09-10T02:50:45.639252+00:00",
+  "uuid": "f1a4e70b-d35d-4400-94ef-51a2ce0a7fa5",
+  "timestamp": "2025-09-11T10:26:24.828670+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "da7e80f7-0c96-4b70-a107-b772920f8460",
-  "timestamp": "2025-09-10T02:50:49.945917+00:00",
+  "uuid": "b9748fc3-74f4-4703-99ea-0ac037a036d2",
+  "timestamp": "2025-09-11T10:26:28.065791+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -80,8 +80,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "0c7e391a-c575-431d-a988-a2e09d01515b",
-  "timestamp": "2025-09-10T02:50:50.234427+00:00",
+  "uuid": "64f40c47-8f49-4582-bbb0-4e261aac6aaa",
+  "timestamp": "2025-09-11T10:26:28.331826+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -109,8 +109,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "fcc56787-43dd-4078-937d-dfab32f20d5c",
-  "timestamp": "2025-09-10T02:51:01.429232+00:00",
+  "uuid": "01816118-df1f-4eb6-bdc9-2b80b8911a17",
+  "timestamp": "2025-09-11T10:26:39.248778+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",

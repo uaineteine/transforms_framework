@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "5d568ec7-0462-48e9-ac80-cb9a84a86856",
-  "timestamp": "2025-09-10T02:50:47.573316+00:00",
+  "uuid": "7b5f220f-94c1-4e8b-b7d9-ccd8d7a5fafc",
+  "timestamp": "2025-09-11T10:26:25.834704+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
@@ -32,8 +32,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "63896261-eba2-4fb9-afac-32e4066e359b",
-  "timestamp": "2025-09-10T02:50:54.679224+00:00",
+  "uuid": "76a44bda-7b12-43e1-9d92-3e3263d1f9c2",
+  "timestamp": "2025-09-11T10:26:32.520473+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Truncates dates in column 'EVENT_DATE' to month level",
@@ -79,8 +79,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "da636b51-ae05-4016-82bc-7e56cb1e2e10",
-  "timestamp": "2025-09-10T02:50:54.779740+00:00",
+  "uuid": "80cd31e6-bafe-4ebe-8eab-ab853490499a",
+  "timestamp": "2025-09-11T10:26:32.618995+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Truncates dates in column 'EVENT_DATE' to year level",
@@ -112,8 +112,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "7898b9be-1997-410a-87a0-c346f59718aa",
-  "timestamp": "2025-09-10T02:51:00.503202+00:00",
+  "uuid": "1c1044b5-cf8f-4e1b-bdbd-c74891902a76",
+  "timestamp": "2025-09-11T10:26:38.050773+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\date_table.parquet as parquet (pyspark)",

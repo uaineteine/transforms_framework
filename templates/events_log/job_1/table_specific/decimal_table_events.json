@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "e49d55dc-56f8-4196-a27f-e958b06abbcc",
-  "timestamp": "2025-09-10T02:50:47.272316+00:00",
+  "uuid": "286628e3-4d12-49ec-a17b-8df961713124",
+  "timestamp": "2025-09-11T10:26:25.639705+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
@@ -32,8 +32,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "faff9e9f-a27e-4cf4-8359-a011f276fdb7",
-  "timestamp": "2025-09-10T02:50:54.552219+00:00",
+  "uuid": "b4b3223c-9db5-40b5-9d7f-0e012b861e2c",
+  "timestamp": "2025-09-11T10:26:32.422474+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
@@ -65,8 +65,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "1b261e3a-0f24-49a5-9053-04d2b30e8e3a",
-  "timestamp": "2025-09-10T02:51:00.378200+00:00",
+  "uuid": "6b0b9dc0-4ae5-4720-b353-5bbae8cf51c9",
+  "timestamp": "2025-09-11T10:26:37.894775+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",
