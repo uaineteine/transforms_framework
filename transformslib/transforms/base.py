@@ -141,7 +141,7 @@ class Transform(PipelineEvent):
             ...         df = supply_frames[kwargs.get('df')]
             ...         return len(df.columns) > 0
         """
-        raise NotImplemented("Child classes to override this method")
+        raise NotImplementedError("Child classes to override this method")
         return True  # Default implementation always passes
     
     def __call__(self, supply_frames: SupplyLoad, **kwargs):
@@ -331,16 +331,26 @@ class MacroTransform(Transform):
             testable_transform=testable_flag,
             macro_uuid=self.macro_uuid
         )
-        self.transforms = transforms
+        self.transform_list = transforms
         #self.log_location = "events_log/job_1/treatments.json"
 
     def error_check(self, supply_frames, **kwargs):
-        for t in self.transforms:
+        for t in self.transform_list:
             t.error_check(supply_frames, **kwargs)
 
     def transforms(self, supply_frames, **kwargs):
-        for t in self.transforms:
+        for t in self.transform_list:
             # Set the macro UUID on the transform before applying
             t.macro_uuid = self.macro_uuid
             supply_frames = t.apply(supply_frames, **kwargs)
         return supply_frames
+
+    def test(self, supply_frames, **kwargs) -> bool:
+        """
+        Test that all child transforms pass their tests.
+        """
+        for t in self.transform_list:
+            if t.testable_transform:
+                if not t.test(supply_frames, **kwargs):
+                    return False
+        return True

@@ -79,3 +79,69 @@
   "src_format": "parquet",
   "class_type": "PipelineEvent"
 }
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/decimal_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "a9f1e5ac-5f5e-4215-890d-c0bdd611acb0",
+  "timestamp": "2025-09-11T16:07:35.439506+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/decimal_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "bc56b9c2-1081-4d9d-b2f1-df01112a15cc",
+  "timestamp": "2025-09-11T16:07:38.423002+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/decimal_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/decimal_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/decimal_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "dec260d9-36c9-47e3-aaf0-3ec5f276264f",
+  "timestamp": "2025-09-11T16:12:14.696051+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/decimal_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "2c66e963-fe72-46e4-864e-ce543c5823d8",
+  "timestamp": "2025-09-11T16:12:18.125653+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/decimal_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/decimal_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
