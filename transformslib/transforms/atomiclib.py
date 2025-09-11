@@ -1,5 +1,6 @@
 from typing import List, Union, Dict, Callable
 import inspect
+import sys
 
 from transformslib.events.pipeevent import TransformEvent
 from transformslib.transforms.base import TableTransform
@@ -1477,3 +1478,76 @@ class UnionTables(TableTransform):
 
         self.target_tables = [union_table_name]
         return supply_frames
+
+
+# Transform discovery and listing functionality
+def _discover_transforms():
+    """
+    Discover all TableTransform subclasses in the current module.
+    Returns a list of tuples (class_name, class_obj, description).
+    """
+    current_module = sys.modules[__name__]
+    transforms = []
+    
+    for name in dir(current_module):
+        obj = getattr(current_module, name)
+        if (inspect.isclass(obj) and 
+            issubclass(obj, TableTransform) and 
+            obj is not TableTransform):
+            
+            # Extract description from docstring
+            description = ""
+            if obj.__doc__:
+                lines = obj.__doc__.strip().split('\n')
+                if lines:
+                    description = lines[0].strip()
+            
+            transforms.append((name, obj, description))
+    
+    return sorted(transforms)
+
+
+def listme():
+    """
+    Display all available transforms in a neat table format.
+    """
+    transforms = _discover_transforms()
+    
+    if not transforms:
+        print("No transforms found.")
+        return
+    
+    print("\n" + "="*80)
+    print(" TRANSFORMS LIBRARY - Available Transform Classes")
+    print("="*80)
+    print(f" Total Transforms: {len(transforms)}")
+    print("="*80)
+    
+    # Calculate column widths
+    max_name_width = max(len(name) for name, _, _ in transforms)
+    max_desc_width = 80 - max_name_width - 5  # Leave space for formatting
+    
+    print(f"{'Transform Name':<{max_name_width}} | Description")
+    print("-" * max_name_width + "-+-" + "-" * max_desc_width)
+    
+    for name, _, description in transforms:
+        # Truncate description if too long
+        if len(description) > max_desc_width:
+            description = description[:max_desc_width-3] + "..."
+        print(f"{name:<{max_name_width}} | {description}")
+    
+    print("="*80)
+    print(" Use help(ClassName) for detailed information about any transform.")
+    print("="*80 + "\n")
+
+
+# Automatically discover and set up __all__ with all transforms
+_transforms = _discover_transforms()
+_transform_names = [name for name, _, _ in _transforms]
+
+# Export all transforms and the listme function
+__all__ = _transform_names + ['listme']
+
+# Show the count whenever the module is imported
+print(f"\n🔧 Transforms Library: {len(_transforms)} transforms available")
+print("   Use listme() to see all available transforms in a table format.\n")
