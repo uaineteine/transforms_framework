@@ -1,4 +1,5 @@
 import json
+from typing import Dict, Any
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
@@ -18,10 +19,100 @@ def get_payload_file(job_id:int, run_id:int = None) -> str:
     
     if run_id is None:
         # New sampling input method - use sampling_state.json
+        print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
         return f"test_tables/job_{job_id}/sampling_state.json"
     else:
         # Legacy method - use payload.json
+        print(f"Using legacy payload method for job_id={job_id}, run_id={run_id}")
         return f"test_tables/job_{job_id}/payload.json"
+
+
+def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
+                     sample: bool, sample_rows: int = None, sample_frac: float = None, 
+                     seed: int = None, spark=None) -> None:
+    """
+    Load supplies from legacy payload.json format.
+    
+    Args:
+        data (Dict[str, Any]): The parsed JSON data from payload.json
+        tables (list): List to append loaded tables to
+        named_tables (Dict[str, Any]): Dictionary to store named table references
+        sample (bool): Whether to apply sampling to loaded tables
+        sample_rows (int, optional): Number of rows to sample
+        sample_frac (float, optional): Fraction of rows to sample
+        seed (int, optional): Random seed for reproducible sampling
+        spark: SparkSession object for PySpark operations
+    """
+    print("Loading supplies from legacy payload.json format")
+    supply = data.get("supply", [])
+    
+    for item in supply:
+        name = item.get("name")
+        if not name:
+            raise ValueError("Each supply item must have a 'name' field")
+
+        print(f"Loading table '{name}' from {item['path']} (format: {item['format']})")
+        
+        table = MetaFrame.load(
+            path=item["path"],
+            format=item["format"],
+            frame_type="pyspark",
+            spark=spark
+        )
+
+        # Apply sampling if requested
+        if sample:
+            table.sample(n=sample_rows, frac=sample_frac, seed=seed)
+
+        tables.append(table)
+        named_tables[name] = table
+
+
+def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
+                            sample: bool, sample_rows: int = None, sample_frac: float = None,
+                            seed: int = None, spark=None) -> None:
+    """
+    Load supplies from new sampling_state.json format.
+    
+    Args:
+        data (Dict[str, Any]): The parsed JSON data from sampling_state.json
+        tables (list): List to append loaded tables to
+        named_tables (Dict[str, Any]): Dictionary to store named table references
+        sample (bool): Whether to apply sampling to loaded tables
+        sample_rows (int, optional): Number of rows to sample
+        sample_frac (float, optional): Fraction of rows to sample
+        seed (int, optional): Random seed for reproducible sampling
+        spark: SparkSession object for PySpark operations
+    """
+    print("Loading supplies from new sampling_state.json format")
+    sample_files = data.get("sample_files", [])
+    
+    for item in sample_files:
+        name = item.get("table_name")
+        if not name:
+            raise ValueError("Each sample file item must have a 'table_name' field")
+
+        # Handle path normalization - sampling_state.json may use relative paths
+        file_path = item["input_file_path"]
+        if file_path.startswith("../"):
+            # Remove the ../ prefix to make it relative to current directory
+            file_path = file_path[3:]
+
+        print(f"Loading table '{name}' from {file_path} (format: {item['file_format']})")
+
+        table = MetaFrame.load(
+            path=file_path,
+            format=item["file_format"],
+            frame_type="pyspark",
+            spark=spark
+        )
+
+        # Apply sampling if requested
+        if sample:
+            table.sample(n=sample_rows, frac=sample_frac, seed=seed)
+
+        tables.append(table)
+        named_tables[name] = table
 
 class SupplyLoad(TableCollection):
     """
@@ -166,6 +257,8 @@ class SupplyLoad(TableCollection):
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
             >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)  # Legacy method
         """
+        print(f"Starting supply loading from: {self.supply_load_src}")
+        
         try:
             with open(self.supply_load_src, 'r') as file:
                 data = json.load(file)
@@ -173,10 +266,28 @@ class SupplyLoad(TableCollection):
                 # Determine format based on the structure of the JSON file
                 if "sample_files" in data:
                     # New sampling input method (sampling_state.json format)
-                    self._load_from_sampling_state(data, spark)
+                    load_from_sampling_state(
+                        data=data, 
+                        tables=self.tables, 
+                        named_tables=self.named_tables,
+                        sample=self.sample,
+                        sample_rows=self.sample_rows,
+                        sample_frac=self.sample_frac,
+                        seed=self.seed,
+                        spark=spark
+                    )
                 elif "supply" in data:
                     # Legacy format (payload.json format)
-                    self._load_from_payload(data, spark)
+                    load_from_payload(
+                        data=data,
+                        tables=self.tables,
+                        named_tables=self.named_tables,
+                        sample=self.sample,
+                        sample_rows=self.sample_rows,
+                        sample_frac=self.sample_frac,
+                        seed=self.seed,
+                        spark=spark
+                    )
                 else:
                     raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
 
@@ -185,53 +296,7 @@ class SupplyLoad(TableCollection):
         
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON format in supply load file")
+        
+        print(f"Successfully loaded {len(self.tables)} tables")
 
-    def _load_from_payload(self, data, spark):
-        """Load supplies from legacy payload.json format."""
-        supply = data.get("supply", [])
-        for item in supply:
-            name = item.get("name")
-            if not name:
-                raise ValueError("Each supply item must have a 'name' field")
 
-            table = MetaFrame.load(
-                path=item["path"],
-                format=item["format"],
-                frame_type="pyspark",
-                spark=spark
-            )
-
-            # Apply sampling if requested
-            if self.sample:
-                table.sample(n=self.sample_rows, frac=self.sample_frac, seed=self.seed)
-
-            self.tables.append(table)
-            self.named_tables[name] = table
-
-    def _load_from_sampling_state(self, data, spark):
-        """Load supplies from new sampling_state.json format."""
-        sample_files = data.get("sample_files", [])
-        for item in sample_files:
-            name = item.get("table_name")
-            if not name:
-                raise ValueError("Each sample file item must have a 'table_name' field")
-
-            # Handle path normalization - sampling_state.json may use relative paths
-            file_path = item["input_file_path"]
-            if file_path.startswith("../"):
-                # Remove the ../ prefix to make it relative to current directory
-                file_path = file_path[3:]
-
-            table = MetaFrame.load(
-                path=file_path,
-                format=item["file_format"],
-                frame_type="pyspark",
-                spark=spark
-            )
-
-            # Apply sampling if requested
-            if self.sample:
-                table.sample(n=self.sample_rows, frac=self.sample_frac, seed=self.seed)
-
-            self.tables.append(table)
-            self.named_tables[name] = table
