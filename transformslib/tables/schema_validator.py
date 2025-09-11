@@ -93,9 +93,6 @@ class SchemaValidator:
         actual_columns = set(df.columns)
         expected_columns = set(expected_dtypes.keys())
         
-        print(f"Debug - Table '{table_name}' actual columns: {sorted(actual_columns)}")
-        print(f"Debug - Table '{table_name}' expected columns: {sorted(expected_columns)}")
-        
         # Check for missing columns
         missing_columns = expected_columns - actual_columns
         if missing_columns:
