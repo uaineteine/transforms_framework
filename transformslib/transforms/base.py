@@ -5,6 +5,7 @@ from transformslib.tables.names.lists import VarList
 from transformslib.tables.names.colname import Colname
 from transformslib.transforms.reader import transform_log_loc
 
+import uuid
 import sys
 import pyspark
 import polars as pl
@@ -37,7 +38,7 @@ class Transform(PipelineEvent):
         >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
     """
 
-    def __init__(self, name: str, description: str, transform_type: str, testable_transform: bool = True):
+    def __init__(self, name: str, description: str, transform_type: str, testable_transform: bool = True, macro_uuid: str = None):
         """
         Initialise a Transform with name, description, and type.
 
@@ -46,13 +47,14 @@ class Transform(PipelineEvent):
             description (str): A detailed description of what the transformation does.
             transform_type (str): The category or type of transformation.
             testable_transform (bool): Whether this transform can be tested. Defaults to True.
+            macro_uuid (str, optional): UUID of the macro operation this transform is part of. Defaults to None.
 
         Example:
             >>> transform = Transform("DataClean", "Remove null values", "cleaning")
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        super().__init__("transform", None, event_description=description, log_location=def_log_location)
+        super().__init__("transform", None, event_description=description, log_location=def_log_location, macro_uuid=macro_uuid)
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
@@ -251,7 +253,8 @@ class TableTransform(Transform):
         description: str,
         acts_on_variables: str | list[str] | None,
         transform_id: str,
-        testable_transform: bool = False
+        testable_transform: bool = False,
+        macro_uuid: str = None
     ):
         """
         Initialise a TableTransform with target variables.
@@ -263,6 +266,7 @@ class TableTransform(Transform):
                 Can be None if the transform does not act on specific variables.
             transform_id (str): Unique identifier for the transform.
             testable_transform (bool): Whether this transform can be tested. Defaults to False.
+            macro_uuid (str, optional): UUID of the macro operation this transform is part of. Defaults to None.
 
         Raises:
             ValueError: If transform_id is blank.
@@ -272,7 +276,7 @@ class TableTransform(Transform):
             >>> TableTransform("ColumnSelect", "Select columns", ["col1", "col2"], "transform_002")
             >>> TableTransform("DistinctRows", "Remove duplicates", None, "transform_003")
         """
-        super().__init__(name, description, "TableTransform", testable_transform=testable_transform)
+        super().__init__(name, description, "TableTransform", testable_transform=testable_transform, macro_uuid=macro_uuid)
 
         if not transform_id:
             raise ValueError("Transform ID must be non-blank")
@@ -314,6 +318,9 @@ class MacroTransform(Transform):
     A transform that applies multiple atomic transforms in sequence.
     """
     def __init__(self, transforms: list[TableTransform], Name: str = "MacroTransform", Description: str = "Applies multiple transforms in sequence", macro_id: str = "untagged"):
+        # Generate a unique macro UUID for this instance
+        self.macro_uuid = str(uuid.uuid4())
+        
         # Derive testable flag: True if any child is testable
         testable_flag = any(t.testable_transform for t in transforms)
 
@@ -321,7 +328,8 @@ class MacroTransform(Transform):
             name=Name,
             description=Description,
             transform_type=macro_id,
-            testable_transform=testable_flag
+            testable_transform=testable_flag,
+            macro_uuid=self.macro_uuid
         )
         self.transforms = transforms
         #self.log_location = "events_log/job_1/treatments.json"
@@ -332,5 +340,7 @@ class MacroTransform(Transform):
 
     def transforms(self, supply_frames, **kwargs):
         for t in self.transforms:
+            # Set the macro UUID on the transform before applying
+            t.macro_uuid = self.macro_uuid
             supply_frames = t.apply(supply_frames, **kwargs)
         return supply_frames

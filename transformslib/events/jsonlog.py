@@ -14,7 +14,7 @@ class JSONLog:
     def gen_new_uuid(self):
         self.uuid = _create_uuid()
 
-    def __init__(self, log_payload, log_location: str = "", indent_depth: int = 2, persistent_uuid:bool = False):
+    def __init__(self, log_payload, log_location: str = "", indent_depth: int = 2, persistent_uuid:bool = False, macro_uuid: str = None):
         """
         Create a JSONLog event.
 
@@ -23,6 +23,7 @@ class JSONLog:
             log_location (str, optional): File path for writing. Defaults to "".
             indent_depth (int, optional): JSON indentation. Defaults to 2.
             persistent_uuid (bool, optional): Create new UUID on each log event or keep the same one. Default is false.
+            macro_uuid (str, optional): UUID of the macro operation this event is part of. Defaults to None.
         """
         #included in log
         self.log_info = log_payload
@@ -30,6 +31,7 @@ class JSONLog:
         self.uuid = _create_uuid()
         self.timestamp = datetime.now(timezone.utc).isoformat()
         self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+        self.macro_uuid = macro_uuid
 
         #excluded from log
         self.log_exclusions = ["log_location", "indent_depth", "log_exclusions" , "persistent_uuid"]

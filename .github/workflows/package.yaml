@@ -26,11 +26,6 @@ jobs:
       - name: Build package
         shell: bash
         run: python build.py
-      - name: Build documentation (show warnings, do not fail)
-        shell: bash
-        run: |
-          make -C docs html || true
-        continue-on-error: true
       - name: Upload documentation (docs/build) as zip
         uses: actions/upload-artifact@v4
         with:

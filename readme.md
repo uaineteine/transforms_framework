@@ -1,6 +1,6 @@
-# Meta Transforms Framework - Beta v0.6.3
+# Meta Transforms Framework - Beta v0.7.0
 
-![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.6.3](https://img.shields.io/badge/version-0.6.3-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml)
+![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.7.0](https://img.shields.io/badge/version-0.7.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml)
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 

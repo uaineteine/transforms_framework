@@ -77,6 +77,19 @@ class MultiTable:
         >>> print(f"Variables: {mf.nvars}")
     """
 
+    def sort_columns(self):
+        """
+        sort columns alphabetically in-place. Defaults to True.
+        """
+        # Inline sort for each frame type
+        if self.frame_type == "pandas":
+            self.df = self.df[sorted(self.df.columns)]
+        elif self.frame_type == "polars":
+            self.df = self.df.select(sorted(self.df.columns))
+        elif self.frame_type == "pyspark":
+            self.df = self.df.select(*sorted(self.df.columns))
+        return self
+    
     @staticmethod
     def infer_table_name(src_path: str) -> str:
         """
@@ -549,18 +562,25 @@ class MultiTable:
         """
         if frame_type == "pyspark":
             mode = "overwrite" if overwrite else "error"
-            print(f"Writing to {path} as {format} with mode={mode}")
-            dataframe.write.mode(mode).format(format).save(path)
-        
+            print(f"Writing to {path} as {format} with mode={mode} (compression=zstd)")
+            if format == "parquet":
+                dataframe.write.mode(mode).option("compression", "zstd").format(format).save(path)
+            else:
+                dataframe.write.mode(mode).format(format).save(path)
         elif frame_type == "pandas":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
-            dataframe.to_parquet(path, index=False)
-        
+            if format == "parquet":
+                dataframe.to_parquet(path, index=False, compression="zstd")
+            else:
+                dataframe.to_parquet(path, index=False)
         elif frame_type == "polars":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
-            dataframe.sink_parquet(path)
+            if format == "parquet":
+                dataframe.sink_parquet(path, compression="zstd", compression_level=1)
+            else:
+                dataframe.sink_parquet(path)
 
     def write(self, path:str, format: str = "parquet", overwrite: bool = True, spark=None):
         """
