@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "b54a04f8-a17c-4c25-a809-2ff9410b1423",
-  "timestamp": "2025-09-10T02:50:46.557798+00:00",
+  "uuid": "e22fb84a-e1d5-4840-902e-3987e3b7f402",
+  "timestamp": "2025-09-11T10:26:25.483704+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
@@ -32,8 +32,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "04339617-3096-42cc-86ad-b23fdef69bfe",
-  "timestamp": "2025-09-10T02:50:54.418221+00:00",
+  "uuid": "7dc05229-3d5d-4d26-9976-c2222803d41e",
+  "timestamp": "2025-09-11T10:26:32.279474+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Explodes column 'VAR3' into multiple rows",
@@ -66,8 +66,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "dba01897-8685-4de1-a7a7-c2c686091cd8",
-  "timestamp": "2025-09-10T02:51:00.073197+00:00",
+  "uuid": "026d0427-7af8-4b3b-993e-57446157890f",
+  "timestamp": "2025-09-11T10:26:37.710778+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",

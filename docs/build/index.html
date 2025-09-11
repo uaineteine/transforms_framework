@@ -132,7 +132,10 @@
 <li><a class="reference internal" href="#transformslib.tables.collections.supply_load.SupplyLoad.load_supplies"><code class="docutils literal notranslate"><span class="pre">SupplyLoad.load_supplies()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_payload_file"><code class="docutils literal notranslate"><span class="pre">get_payload_file()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_supply_file"><code class="docutils literal notranslate"><span class="pre">get_supply_file()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.collections.supply_load.legacy_get_payload_file"><code class="docutils literal notranslate"><span class="pre">legacy_get_payload_file()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_from_payload"><code class="docutils literal notranslate"><span class="pre">load_from_payload()</span></code></a></li>
+<li><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_from_sampling_state"><code class="docutils literal notranslate"><span class="pre">load_from_sampling_state()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-transformslib.tables.metaframe">transformslib.tables.metaframe</a><ul>
@@ -973,12 +976,15 @@ end_name (str): The ending name (inclusive).</p>
 <span id="transformslib-tables-collections-supply-load"></span><h1>transformslib.tables.collections.supply_load<a class="headerlink" href="#module-transformslib.tables.collections.supply_load" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.SupplyLoad">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SupplyLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SupplyLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad" title="Link to this definition"></a></dt>
 <dd><p>A specialised collection manager for loading and managing supply data from JSON configuration files.</p>
 <p>This class extends TableCollection to provide automated loading of multiple data sources
-from a JSON configuration file. It’s designed for scenarios where you need to load
-multiple related datasets (supplies) from a single configuration source.</p>
-<p>The JSON configuration should follow this structure:
+from a JSON configuration file. It supports two input methods:</p>
+<ol class="arabic simple">
+<li><p>Legacy payload.json format (requires both job_id and run_id)</p></li>
+<li><p>New sampling input method using sampling_state.json (requires only job_id)</p></li>
+</ol>
+<p>Legacy JSON configuration should follow this structure:
 {</p>
 <blockquote>
 <div><dl>
@@ -994,18 +1000,39 @@ multiple related datasets (supplies) from a single configuration source.</p>
 <p>]</p>
 </div></blockquote>
 <p>}</p>
-<dl>
-<dt>Attributes:</dt><dd><p>supply_load_src (str): The path to the JSON configuration file.</p>
+<p>New sampling state JSON configuration follows this structure:
+{</p>
+<blockquote>
+<div><dl>
+<dt>“sample_files”: [</dt><dd><dl>
+<dt>{</dt><dd><p>“table_name”: “table_name”,
+“input_file_path”: “path/to/data.csv”,
+“file_format”: “csv”,
+“dtypes”: {</p>
+<blockquote>
+<div><p>“column1”: {“dtype_source”: “String”, “dtype_output”: “String”},
+“column2”: {“dtype_source”: “Int64”, “dtype_output”: “Int64”}</p>
+</div></blockquote>
+<p>}</p>
 </dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># JSON file: supply_config.json</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># {</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#     &quot;supply&quot;: [</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#         {&quot;name&quot;: &quot;customers&quot;, &quot;path&quot;: &quot;data/customers.parquet&quot;, &quot;format&quot;: &quot;parquet&quot;},</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#         {&quot;name&quot;: &quot;orders&quot;, &quot;path&quot;: &quot;data/orders.parquet&quot;, &quot;format&quot;: &quot;parquet&quot;}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#     ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># }</span>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>]</p>
+</div></blockquote>
+<p>}</p>
+<dl>
+<dt>Attributes:</dt><dd><p>supply_load_src (str): The path to the JSON configuration file.
+job (int): The job ID for the current operation.
+run (int): The run ID for the current operation (None for new sampling input method).</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># New sampling input method (job_id only)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="s2">&quot;supply_config.json&quot;</span><span class="p">,</span> <span class="n">spark</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Legacy method (job_id and run_id)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">customers_table</span> <span class="o">=</span> <span class="n">supply_loader</span><span class="p">[</span><span class="s2">&quot;customers&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">orders_table</span> <span class="o">=</span> <span class="n">supply_loader</span><span class="p">[</span><span class="s2">&quot;orders&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span>
@@ -1019,9 +1046,10 @@ multiple related datasets (supplies) from a single configuration source.</p>
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.SupplyLoad.load_supplies">
 <span class="sig-name descname"><span class="pre">load_supplies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad.load_supplies" title="Link to this definition"></a></dt>
 <dd><p>Load supply data from the JSON configuration file.</p>
-<p>This method reads the JSON configuration file and creates MetaFrame instances
-for each supply item. It validates that each supply item has the required fields,
-loads the data using the specified format and path, and optionally applies sampling.</p>
+<p>This method reads either a payload.json (legacy) or sampling_state.json (new sampling input method)
+configuration file and creates MetaFrame instances for each supply item. It validates that each 
+supply item has the required fields, loads the data using the specified format and path, and 
+optionally applies sampling.</p>
 <dl>
 <dt>Args:</dt><dd><p>spark: SparkSession object required for PySpark operations. Defaults to None.</p>
 </dd>
@@ -1029,8 +1057,8 @@ loads the data using the specified format and path, and optionally applies sampl
 ValueError: If the JSON format is invalid or missing required fields.
 Exception: If there are issues loading any of the data files.</p>
 </dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="s2">&quot;config.json&quot;</span><span class="p">,</span> <span class="n">spark</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span><span class="o">.</span><span class="n">load_supplies</span><span class="p">(</span><span class="n">sample_frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>  <span class="c1"># New sampling input method</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>  <span class="c1"># Legacy method</span>
 </pre></div>
 </div>
 </dd>
@@ -1040,14 +1068,66 @@ Exception: If there are issues loading any of the data files.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_payload_file">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_payload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_payload_file" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_supply_file">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_supply_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_supply_file" title="Link to this definition"></a></dt>
 <dd><p>Return the path location of the input payload.</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>job_id (int): A job id to get the path of configuration file containing supply definitions.
-run_id (int): A run id to get the path of configuration file containing supply definitions.</p>
+run_id (int, optional): A run id to get the path of configuration file containing supply definitions.</p>
+<blockquote>
+<div><p>If None, returns path to sampling_state.json for the new sampling input method.</p>
+</div></blockquote>
 </dd>
 <dt>Returns:</dt><dd><p>string of the payload path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.legacy_get_payload_file">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">legacy_get_payload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.legacy_get_payload_file" title="Link to this definition"></a></dt>
+<dd><p>Return the path location of the legacy input payload (payload.json).
+Args:</p>
+<blockquote>
+<div><p>job_id (int): A job id to get the path of configuration file containing supply definitions.
+run_id (int): A run id to get the path of configuration file containing supply definitions.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>string of the legacy payload path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_from_payload">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_from_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">named_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_from_payload" title="Link to this definition"></a></dt>
+<dd><p>Load supplies from legacy payload.json format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (Dict[str, Any]): The parsed JSON data from payload.json
+tables (list): List to append loaded tables to
+named_tables (Dict[str, Any]): Dictionary to store named table references
+sample (bool): Whether to apply sampling to loaded tables
+sample_rows (int, optional): Number of rows to sample
+sample_frac (float, optional): Fraction of rows to sample
+seed (int, optional): Random seed for reproducible sampling
+spark: SparkSession object for PySpark operations</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_from_sampling_state">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_from_sampling_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">named_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_from_sampling_state" title="Link to this definition"></a></dt>
+<dd><p>Load supplies from new sampling_state.json format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (Dict[str, Any]): The parsed JSON data from sampling_state.json
+tables (list): List to append loaded tables to
+named_tables (Dict[str, Any]): Dictionary to store named table references
+sample (bool): Whether to apply sampling to loaded tables
+sample_rows (int, optional): Number of rows to sample
+sample_frac (float, optional): Fraction of rows to sample
+seed (int, optional): Random seed for reproducible sampling
+spark: SparkSession object for PySpark operations</p>
 </dd>
 </dl>
 </dd></dl>

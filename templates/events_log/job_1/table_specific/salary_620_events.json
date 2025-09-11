@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "d004411a-5504-4b18-ac5f-8af7b8fb26e2",
-  "timestamp": "2025-09-10T02:50:46.023765+00:00",
+  "uuid": "f3afdf7d-6fb1-427b-a5b0-0ba4db0e7d19",
+  "timestamp": "2025-09-11T10:26:25.110670+00:00",
   "executed_user": "Daniel",
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "904e4087-7da9-4ea7-a29c-4dba8b4056a5",
-  "timestamp": "2025-09-10T02:50:47.573316+00:00",
+  "uuid": "d7a92266-fea8-452c-aaf3-68c6c4a41ef7",
+  "timestamp": "2025-09-11T10:26:25.999705+00:00",
   "executed_user": "Daniel",
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
@@ -73,8 +73,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "ae9dad65-ae85-4d9a-a5ff-ac4cc78aa1f2",
-  "timestamp": "2025-09-10T02:51:00.769713+00:00",
+  "uuid": "c14c8950-a85f-4a4b-b74b-768a294957b3",
+  "timestamp": "2025-09-11T10:26:38.571775+00:00",
   "executed_user": "Daniel",
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_620.parquet as parquet (pyspark)",
