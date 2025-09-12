@@ -274,8 +274,9 @@ but with a more descriptive name for clarity.</p>
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.save_all">
 <span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
 <dd><p>Save all tables in the collection to the specified output directory.</p>
-<p>This method iterates through all tables in the collection and calls their save()
-method to persist the data to files in the specified directory.</p>
+<p>This method iterates through all tables in the collection and calls their write()
+method to persist the data to files in the specified directory. It also logs
+write events to the global transforms.json file for DAG generation.</p>
 <dl>
 <dt>Args:</dt><dd><p>output_dir (str): The directory where all tables should be saved.</p>
 </dd>
@@ -920,74 +921,93 @@ extensions to create a valid table name.</p>
 <dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.load">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_capitalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.load" title="Link to this definition"></a></dt>
 <dd><p>Load a DataFrame from a file and return a MultiTable instance.</p>
-<p>This static method provides a convenient way to load data from various file formats
-and create a MultiTable with appropriate metadata. It supports multiple file formats
-and DataFrame frameworks.</p>
-<dl>
-<dt>Args:</dt><dd><p>path (str): Path to the data file to load.
-format (str, optional): File format of the data. Defaults to “parquet”.</p>
-<blockquote>
-<div><p>Supported formats: “parquet”, “csv”, “sas”.</p>
-</div></blockquote>
+<p>This static method provides a convenient way to load data from various file formats and create a MultiTable with appropriate metadata. It supports multiple file formats and DataFrame frameworks.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
 <dl class="simple">
-<dt>table_name (str, optional): Name to assign to the table. If empty, will be</dt><dd><p>inferred from the file path. Defaults to “”.</p>
+<dt>path<span class="classifier">str</span></dt><dd><p>Path to the data file to load.</p>
 </dd>
-<dt>frame_type (str, optional): Type of DataFrame to create. Defaults to “pyspark”.</dt><dd><p>Supported types: “pyspark”, “pandas”, “polars”.</p>
+<dt>format<span class="classifier">str, optional</span></dt><dd><p>File format of the data. Defaults to “parquet”. Supported formats: “parquet”, “csv”, “sas”.</p>
+</dd>
+<dt>table_name<span class="classifier">str, optional</span></dt><dd><p>Name to assign to the table. If empty, will be inferred from the file path. Defaults to “”.</p>
+</dd>
+<dt>frame_type<span class="classifier">str, optional</span></dt><dd><p>Type of DataFrame to create. Defaults to “pyspark”. Supported types: “pyspark”, “pandas”, “polars”.</p>
+</dd>
+<dt>auto_capitalise<span class="classifier">bool, optional</span></dt><dd><p>Automatically capitalise column names. Defaults to False.</p>
+</dd>
+<dt>spark<span class="classifier">optional</span></dt><dd><p>SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 </dl>
-<p>auto_capitalise (bool, optional): Automatically capitalise column names. Defaults to False.
-spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>MultiTable</dt><dd><p>A new MultiTable instance with the loaded data and metadata.</p>
 </dd>
-<dt>Returns:</dt><dd><p>MultiTable: A new MultiTable instance with the loaded data and metadata.</p>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>FileNotFoundError</dt><dd><p>If the specified path does not exist.</p>
 </dd>
-<dt>Raises:</dt><dd><p>FileNotFoundError: If the specified path does not exist.
-ValueError: If the format or frame_type is not supported.
-ValueError: If spark is None when frame_type is “pyspark”.
-Exception: If there are issues loading the data.</p>
+<dt>ValueError</dt><dd><p>If the format or frame_type is not supported, or if spark is None when frame_type is “pyspark”.</p>
 </dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a PySpark DataFrame</span>
+<dt>Exception</dt><dd><p>If there are issues loading the data.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a PySpark DataFrame</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;pyspark&quot;</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a Pandas DataFrame</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a Polars DataFrame</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiTable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;my_table&quot;</span><span class="p">,</span> <span class="n">frame_type</span><span class="o">=</span><span class="s2">&quot;polars&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-</dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.load_native_df">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_native_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.load_native_df" title="Link to this definition"></a></dt>
-<dd><p>Load a DataFrame from a file and return a MultiTable instance.</p>
-<p>This static method provides a convenient way to load data from various file formats
-and create a dataframe. It supports multiple file formats
-and DataFrame frameworks.</p>
-<dl>
-<dt>Args:</dt><dd><p>path (str): Path to the data file to load.
-format (str, optional): File format of the data. Defaults to “parquet”.</p>
-<blockquote>
-<div><p>Supported formats: “parquet”, “csv”, “sas”.</p>
-</div></blockquote>
+<dd><p>Load a DataFrame from a file and return a DataFrame instance.</p>
+<p>This static method provides a convenient way to load data from various file formats and create a dataframe. It supports multiple file formats and DataFrame frameworks.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <dl class="simple">
-<dt>table_name (str, optional): Name to assign to the table. If empty, will be</dt><dd><p>inferred from the file path. Defaults to “”.</p>
+<dt>path<span class="classifier">str</span></dt><dd><p>Path to the data file to load.</p>
 </dd>
-<dt>frame_type (str, optional): Type of DataFrame to create. Defaults to “pyspark”.</dt><dd><p>Supported types: “pyspark”, “pandas”, “polars”.</p>
+<dt>format<span class="classifier">str, optional</span></dt><dd><p>File format of the data. Defaults to “parquet”. Supported formats: “parquet”, “csv”, “sas”.</p>
 </dd>
-</dl>
-<p>spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+<dt>table_name<span class="classifier">str, optional</span></dt><dd><p>Name to assign to the table. If empty, will be inferred from the file path. Defaults to “”.</p>
 </dd>
-<dt>Returns:</dt><dd><p>dataframe: A pyspark, polars or pandas dataframe.</p>
+<dt>frame_type<span class="classifier">str, optional</span></dt><dd><p>Type of DataFrame to create. Defaults to “pyspark”. Supported types: “pyspark”, “pandas”, “polars”.</p>
 </dd>
-<dt>Raises:</dt><dd><p>FileNotFoundError: If the specified path does not exist.
-ValueError: If the format or frame_type is not supported.
-ValueError: If spark is None when frame_type is “pyspark”.
-Exception: If there are issues loading the data.</p>
+<dt>spark<span class="classifier">optional</span></dt><dd><p>SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 </dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dataframe<span class="classifier">pyspark.sql.DataFrame or pandas.DataFrame or polars.LazyFrame</span></dt><dd><p>A pyspark, polars or pandas dataframe.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Raises<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>FileNotFoundError</dt><dd><p>If the specified path does not exist.</p>
+</dd>
+<dt>ValueError</dt><dd><p>If the format or frame_type is not supported, or if spark is None when frame_type is “pyspark”.</p>
+</dd>
+<dt>Exception</dt><dd><p>If there are issues loading the data.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py property">
@@ -1087,19 +1107,28 @@ truncate (bool, optional): Whether to truncate long strings. Defaults to True.</
 <dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.write">
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.write" title="Link to this definition"></a></dt>
 <dd><p>Write the DataFrame to a file in the specified format.</p>
-<dl>
-<dt>Args:</dt><dd><p>path (str): Destination file path.
-format (str, optional): File format to write. Defaults to “parquet”.</p>
-<blockquote>
-<div><p>Supported formats: “parquet”, “csv”, “sas” (for PySpark).</p>
-</div></blockquote>
-<p>overwrite (bool, optional): If True, overwrites existing files. Defaults to True.
-spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>path<span class="classifier">str</span></dt><dd><p>Destination file path.</p>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError: If the frame_type is unsupported.
-FileExistsError: If the file exists and overwrite is False.</p>
+<dt>format<span class="classifier">str, optional</span></dt><dd><p>File format to write. Defaults to “parquet”. Supported formats: “parquet”, “csv”, “sas” (for PySpark).</p>
+</dd>
+<dt>overwrite<span class="classifier">bool, optional</span></dt><dd><p>If True, overwrites existing files. Defaults to True.</p>
+</dd>
+<dt>spark<span class="classifier">optional</span></dt><dd><p>SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 </dl>
+</section>
+<section id="id5">
+<h3>Raises<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the frame_type is unsupported.</p>
+</dd>
+<dt>FileExistsError</dt><dd><p>If the file exists and overwrite is False.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
@@ -1119,12 +1148,12 @@ FileExistsError: If the file exists and overwrite is False.</p>
 <dd><p>A specialised string class for validating and managing column names.</p>
 <p>This class ensures header names:
 - Are not empty
-- Contain only uppercase letters, digits, and underscores
+- Contain only lowercase letters, digits, and underscores
 - Have no spaces or other special characters</p>
 <dl>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;CUSTOMER_NAME&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;ORDER_123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>   <span class="c1"># Invalid (not all caps)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;customer_name&quot;</span><span class="p">)</span>  <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;order_123&quot;</span><span class="p">)</span>      <span class="c1"># Valid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;CustomerName&quot;</span><span class="p">)</span>   <span class="c1"># Invalid (not all lowercase)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;ORDER DATE&quot;</span><span class="p">)</span>     <span class="c1"># Invalid (contains space)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Colname</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>               <span class="c1"># Invalid (empty)</span>
 </pre></div>
