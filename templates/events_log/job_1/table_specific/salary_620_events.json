@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "2bf781d1-6d3f-482b-825a-048f66203dd2",
-  "timestamp": "2025-09-12T02:25:59.952760+00:00",
-  "executed_user": "Daniel",
+  "uuid": "c5a898e3-3f8c-43df-9eca-15d0a53c6093",
+  "timestamp": "2025-09-12T18:01:10.434274+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
@@ -19,11 +19,11 @@
       "salary"
     ],
     "output_tables": [
-      "salary_700",
-      "salary_620",
-      "salary_500",
       "salary_600",
-      "salary_400"
+      "salary_700",
+      "salary_500",
+      "salary_400",
+      "salary_620"
     ],
     "input_variables": [
       [
@@ -37,9 +37,9 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "d3518f80-0f24-403e-b9ee-86281fb79990",
-  "timestamp": "2025-09-12T02:26:01.091762+00:00",
-  "executed_user": "Daniel",
+  "uuid": "c45149c0-35ba-4198-bb4a-6d773507d993",
+  "timestamp": "2025-09-12T18:01:12.130087+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'salary'",
@@ -48,19 +48,19 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "salary"
   },
   "transform_id": "PartVal",
   "target_tables": [
-    "salary_700",
-    "salary_620",
-    "salary_500",
     "salary_600",
-    "salary_400"
+    "salary_700",
+    "salary_500",
+    "salary_400",
+    "salary_620"
   ],
   "target_variables": [
     "salary"
@@ -75,9 +75,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "911f82a1-3b36-433b-a89d-224f9c4ecc24",
-  "timestamp": "2025-09-12T02:26:14.470409+00:00",
-  "executed_user": "Daniel",
+  "uuid": "483b6d8d-9715-4214-9779-3b20f2fb78be",
+  "timestamp": "2025-09-12T18:01:32.295950+00:00",
+  "executed_user": "Daniel Stamer-Squair",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_620.parquet as parquet (pyspark)",

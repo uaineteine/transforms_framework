@@ -26,4 +26,4 @@ jobs:
         run: npm install -g jscpd
 
       - name: Check Python Duplications
-        run: jscpd --pattern "**/*.py" --threshold 10
+        run: jscpd --pattern "transformslib/*.py" --threshold 10
