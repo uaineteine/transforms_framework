@@ -39,113 +39,17 @@ Dependencies
 
 
 
-transformslib.events.eventlog
-=============================
-
-.. automodule:: transformslib.events.eventlog
-   :members:
-
-transformslib.events.jsonlog
-============================
-
-.. automodule:: transformslib.events.jsonlog
-   :members:
-
-transformslib.events.pipeevent
-==============================
-
-.. automodule:: transformslib.events.pipeevent
-   :members:
-
-transformslib.mapping.dag
+Contents
 =========================
 
-.. automodule:: transformslib.mapping.dag
-   :members:
+.. toctree::
+   :maxdepth: 2
 
-transformslib.mapping.webcanvas
-===============================
-
-.. automodule:: transformslib.mapping.webcanvas
-   :members:
-
-transformslib.meta
-==================
-
-.. automodule:: transformslib.meta
-   :members:
-
-transformslib.setup
-===================
-
-.. automodule:: transformslib.setup
-   :members:
-
-transformslib.tables.collections.collection
-===========================================
-
-.. automodule:: transformslib.tables.collections.collection
-   :members:
-
-transformslib.tables.collections.supply_load
-============================================
-
-.. automodule:: transformslib.tables.collections.supply_load
-   :members:
-
-transformslib.tables.metaframe
-==============================
-
-.. automodule:: transformslib.tables.metaframe
-   :members:
-
-transformslib.tables.multitable
-===============================
-
-.. automodule:: transformslib.tables.multitable
-   :members:
-
-transformslib.tables.names.colname
-==================================
-
-.. automodule:: transformslib.tables.names.colname
-   :members:
-
-transformslib.tables.names.lists
-================================
-
-.. automodule:: transformslib.tables.names.lists
-   :members:
-
-transformslib.tables.names.tablename
-====================================
-
-.. automodule:: transformslib.tables.names.tablename
-   :members:
-
-transformslib.transforms.atomiclib
-==================================
-
-.. automodule:: transformslib.transforms.atomiclib
-   :members:
-
-transformslib.transforms.base
-=============================
-
-.. automodule:: transformslib.transforms.base
-   :members:
-
-transformslib.transforms.macrolib
-=================================
-
-.. automodule:: transformslib.transforms.macrolib
-   :members:
-
-transformslib.transforms.reader
-===============================
-
-.. automodule:: transformslib.transforms.reader
-   :members:
+   transformslib_root
+   events
+   mapping
+   tables
+   transforms
 
 
 Release History
