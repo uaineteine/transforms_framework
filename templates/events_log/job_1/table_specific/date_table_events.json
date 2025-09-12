@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "7b5f220f-94c1-4e8b-b7d9-ccd8d7a5fafc",
-  "timestamp": "2025-09-11T10:26:25.834704+00:00",
-  "executed_user": "Daniel",
+  "uuid": "8cb7775e-6479-4a40-94ae-b6609fe3edf2",
+  "timestamp": "2025-09-11T15:14:41.996408+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
   "meta_version": "1.0",
@@ -32,9 +33,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "76a44bda-7b12-43e1-9d92-3e3263d1f9c2",
-  "timestamp": "2025-09-11T10:26:32.520473+00:00",
-  "executed_user": "Daniel",
+  "uuid": "5b06c292-206c-445e-aa4f-33ea9420047c",
+  "timestamp": "2025-09-11T15:14:48.595316+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Truncates dates in column 'EVENT_DATE' to month level",
   "meta_version": "1.0",
@@ -42,9 +44,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "date_table"
   },
@@ -79,9 +81,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "80cd31e6-bafe-4ebe-8eab-ab853490499a",
-  "timestamp": "2025-09-11T10:26:32.618995+00:00",
-  "executed_user": "Daniel",
+  "uuid": "6df75fe6-8c41-4eda-96a9-6353f86a1929",
+  "timestamp": "2025-09-11T15:14:48.711490+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Truncates dates in column 'EVENT_DATE' to year level",
   "meta_version": "1.0",
@@ -89,9 +92,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "date_table"
   },
@@ -112,13 +115,80 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "1c1044b5-cf8f-4e1b-bdbd-c74891902a76",
-  "timestamp": "2025-09-11T10:26:38.050773+00:00",
-  "executed_user": "Daniel",
+  "uuid": "68ebd4a0-a8f3-4fe9-a634-997681b0c225",
+  "timestamp": "2025-09-11T15:14:53.088705+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\date_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\date_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/date_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "9ed0e457-9507-4d24-ae25-20a83ac6d3ec",
+  "timestamp": "2025-09-11T16:07:35.558712+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/date_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "578b8837-661a-459c-a348-5388ef08b7e0",
+  "timestamp": "2025-09-11T16:07:38.536513+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/date_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/date_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/date_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "59443581-3f90-403c-8576-0a4203e3e4e6",
+  "timestamp": "2025-09-11T16:12:14.831802+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/date_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "7e9fbc54-3d2e-4623-be23-74423cef7a17",
+  "timestamp": "2025-09-11T16:12:18.232867+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/date_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/date_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

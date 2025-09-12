@@ -7,14 +7,13 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 def get_supply_file(job_id:int, run_id:int = None) -> str:
     """
     Return the path location of the input payload.
-    
+
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
-        run_id (int, optional): A run id to get the path of configuration file containing supply definitions.
-                               If None, returns path to sampling_state.json for the new sampling input method.
-        
+        run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, returns path to sampling_state.json for the new sampling input method.
+
     Returns:
-        string of the payload path
+        str: The payload path.
     """
     
     if run_id is None:
@@ -28,11 +27,13 @@ def get_supply_file(job_id:int, run_id:int = None) -> str:
 def legacy_get_payload_file(job_id: int, run_id: int) -> str:
     """
     Return the path location of the legacy input payload (payload.json).
+
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int): A run id to get the path of configuration file containing supply definitions.
+
     Returns:
-        string of the legacy payload path
+        str: The legacy payload path.
     """
     print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
     return f"../test_tables/job_{job_id}/payload.json"
@@ -43,7 +44,7 @@ def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str
                      seed: int = None, spark=None) -> None:
     """
     Load supplies from legacy payload.json format.
-    
+
     Args:
         data (Dict[str, Any]): The parsed JSON data from payload.json
         tables (list): List to append loaded tables to
@@ -53,6 +54,9 @@ def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str
         sample_frac (float, optional): Fraction of rows to sample
         seed (int, optional): Random seed for reproducible sampling
         spark: SparkSession object for PySpark operations
+
+    Returns:
+        None
     """
     print("Loading supplies from legacy payload.json format")
     supply = data.get("supply", [])
@@ -84,7 +88,7 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
                             seed: int = None, spark=None) -> None:
     """
     Load supplies from new sampling_state.json format.
-    
+
     Args:
         data (Dict[str, Any]): The parsed JSON data from sampling_state.json
         tables (list): List to append loaded tables to
@@ -94,6 +98,9 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
         sample_frac (float, optional): Fraction of rows to sample
         seed (int, optional): Random seed for reproducible sampling
         spark: SparkSession object for PySpark operations
+
+    Returns:
+        None
     """
     print("Loading supplies from new sampling_state.json format")
     sample_files = data.get("sample_files", [])
@@ -125,54 +132,56 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
 class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
-    
-    This class extends TableCollection to provide automated loading of multiple data sources
-    from a JSON configuration file. It supports two input methods:
-    
+
+    This class extends TableCollection to provide automated loading of multiple data sources from a JSON configuration file. It supports two input methods:
+
     1. Legacy payload.json format (requires both job_id and run_id)
     2. New sampling input method using sampling_state.json (requires only job_id)
-    
-    Legacy JSON configuration should follow this structure:
-    {
-        "supply": [
-            {
-                "name": "table_name",
-                "path": "path/to/data.parquet",
-                "format": "parquet"
-            },
-        ]
-    }
-    
-    New sampling state JSON configuration follows this structure:
-    {
-        "sample_files": [
-            {
-                "table_name": "table_name",
-                "input_file_path": "path/to/data.csv",
-                "file_format": "csv",
-                "dtypes": {
-                    "column1": {"dtype_source": "String", "dtype_output": "String"},
-                    "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
+
+    Legacy JSON configuration should follow this structure::
+
+        {
+            "supply": [
+                {
+                    "name": "table_name",
+                    "path": "path/to/data.parquet",
+                    "format": "parquet"
+                },
+            ]
+        }
+
+    New sampling state JSON configuration follows this structure::
+
+        {
+            "sample_files": [
+                {
+                    "table_name": "table_name",
+                    "input_file_path": "path/to/data.csv",
+                    "file_format": "csv",
+                    "dtypes": {
+                        "column1": {"dtype_source": "String", "dtype_output": "String"},
+                        "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
+                    }
                 }
-            }
-        ]
-    }
-    
+            ]
+        }
+
     Attributes:
         supply_load_src (str): The path to the JSON configuration file.
         job (int): The job ID for the current operation.
         run (int): The run ID for the current operation (None for new sampling input method).
-    
+
     Example:
+
         >>> # New sampling input method (job_id only)
         >>> supply_loader = SupplyLoad(job_id=1, spark=spark)
-        >>> 
+
         >>> # Legacy method (job_id and run_id)
         >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
-        >>> 
+
         >>> customers_table = supply_loader["customers"]
         >>> orders_table = supply_loader["orders"]
-        >>> 
+
         >>> # Save events for all loaded tables
         >>> supply_loader.save_events()
     """
@@ -180,16 +189,14 @@ class SupplyLoad(TableCollection):
     def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
-        
+
         This constructor loads the JSON configuration file and automatically creates
         MetaFrame instances for each supply item defined in the configuration.
         All tables are loaded as PySpark DataFrames by default.
 
         Args:
             job_id (int): A job id to get the path of configuration file containing supply definitions.
-            run_id (int, optional): A run id to get the path of configuration file containing supply definitions.
-                                   If None, uses the new sampling input method with sampling_state.json.
-                                   If provided, uses the legacy payload.json format.
+            run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, uses the new sampling input method with sampling_state.json. If provided, uses the legacy payload.json format.
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
@@ -197,20 +204,20 @@ class SupplyLoad(TableCollection):
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
-            ValueError: If the output transform file already exists suggesting the run has been made before.
-                       (Only applies when run_id is provided for legacy mode)
+            ValueError: If the output transform file already exists suggesting the run has been made before. (Only applies when run_id is provided for legacy mode)
             Exception: If there are issues loading any of the data files.
 
         Example:
+
             >>> from pyspark.sql import SparkSession
             >>> spark = SparkSession.builder.appName("SupplyLoad").getOrCreate()
-            >>> 
+
             >>> # New sampling input method
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)
-            >>> 
+
             >>> # Legacy method
             >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
-            >>> 
+
             >>> print(f"Loaded {len(supply_loader)} tables")
         """
         
@@ -250,10 +257,10 @@ class SupplyLoad(TableCollection):
     def load_supplies(self, spark=None):
         """
         Load supply data from the JSON configuration file.
-        
+
         This method reads either a payload.json (legacy) or sampling_state.json (new sampling input method)
-        configuration file and creates MetaFrame instances for each supply item. It validates that each 
-        supply item has the required fields, loads the data using the specified format and path, and 
+        configuration file and creates MetaFrame instances for each supply item. It validates that each
+        supply item has the required fields, loads the data using the specified format and path, and
         optionally applies sampling.
 
         Args:
@@ -265,6 +272,7 @@ class SupplyLoad(TableCollection):
             Exception: If there are issues loading any of the data files.
 
         Example:
+
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
             >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)  # Legacy method
         """
@@ -310,4 +318,36 @@ class SupplyLoad(TableCollection):
         
         print(f"Successfully loaded {len(self.tables)} tables")
 
+    @staticmethod
+    def wipe_run_outputs(job_id: int, run_id: int = None):
+        """
+        Wipe the outputs and results of a previous run for a given job_id (and optionally run_id).
+        This removes the transform log and any output files/directories associated with the run.
+        """
+        import os
+        import shutil
+        from transformslib.transforms.reader import transform_log_loc
 
+        # Remove transform log (legacy mode)
+        if run_id is not None:
+            log_path = transform_log_loc(job_id, run_id)
+            if os.path.exists(log_path):
+                os.remove(log_path)
+                print(f"Removed transform log: {log_path}")
+            else:
+                print(f"No transform log found at: {log_path}")
+
+        # Remove output files in test_tables/output/job_<job_id> or similar
+        output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../test_tables/output'))
+        if os.path.exists(output_dir):
+            for entry in os.listdir(output_dir):
+                if entry.startswith('job_') and entry == f'job_{job_id}':
+                    full_path = os.path.join(output_dir, entry)
+                    if os.path.isdir(full_path):
+                        shutil.rmtree(full_path)
+                        print(f"Removed output directory: {full_path}")
+                    else:
+                        os.remove(full_path)
+                        print(f"Removed output file: {full_path}")
+        else:
+            print(f"No output directory found at: {output_dir}")

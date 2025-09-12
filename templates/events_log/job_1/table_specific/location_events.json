@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "99b7f24b-94fc-42e2-9995-5d9441f60def",
-  "timestamp": "2025-09-11T10:26:25.298191+00:00",
-  "executed_user": "Daniel",
+  "uuid": "fd667a02-071b-4f40-974f-95dc82bc4de2",
+  "timestamp": "2025-09-11T15:14:41.533084+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
   "meta_version": "1.0",
@@ -33,9 +34,10 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "908afab6-c784-47a0-8d5b-1bc09f2a4286",
-  "timestamp": "2025-09-11T10:26:32.710997+00:00",
-  "executed_user": "Daniel",
+  "uuid": "dc7c1324-473f-4612-b925-50a73f01c18c",
+  "timestamp": "2025-09-11T15:14:48.792544+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Joins location and state on CITY (outer)",
   "meta_version": "1.0",
@@ -43,9 +45,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "output_table": "location"
   },
@@ -84,9 +86,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "18808e3d-b67b-416d-b548-7ed28014f10d",
-  "timestamp": "2025-09-11T10:26:32.863994+00:00",
-  "executed_user": "Daniel",
+  "uuid": "bb153614-8468-4a66-8841-f9e267ee5a5e",
+  "timestamp": "2025-09-11T15:14:48.952667+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -94,9 +97,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "location"
   },
@@ -113,13 +116,80 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "b1e61cef-7050-4fdb-a231-a6b4dbf9bee1",
-  "timestamp": "2025-09-11T10:26:40.296391+00:00",
-  "executed_user": "Daniel",
+  "uuid": "c6d736c2-1b48-412c-ac93-d2f03da8bc56",
+  "timestamp": "2025-09-11T15:14:54.398641+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\location.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "03f330fd-6108-40a2-8d45-f0ca0a31fa98",
+  "timestamp": "2025-09-11T16:07:35.183998+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/location.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "60597ece-1a08-48b9-b322-8c061266b662",
+  "timestamp": "2025-09-11T16:07:38.174813+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/location.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/location.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "117e4c03-78c7-481f-87d1-53830ab8ebaf",
+  "timestamp": "2025-09-11T16:12:14.416004+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/location.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "7d04e99f-f0a9-4ec2-8802-1a98a42f08d6",
+  "timestamp": "2025-09-11T16:12:17.902866+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/location.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/location.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

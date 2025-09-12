@@ -12,7 +12,7 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [],
@@ -22,11 +22,12 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "85b6963c-a5fa-4d62-bcd1-8d3afc80d921",
-  "timestamp": "2025-09-11T10:26:25.999705+00:00",
+  "uuid": "ec222cca-edc1-44dd-821a-a782ff237535",
+  "timestamp": "2025-09-12T02:20:27.319985+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "event_description": "Partitions a DataFrame into subtables by 'salary'",
   "meta_version": "1.0",
   "name": "PartitionByValue",
   "transform_type": "TableTransform",
@@ -47,9 +48,9 @@
     "salary_400"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
-  "partition_column": "SALARY",
+  "partition_column": "salary",
   "suffix_format": "_{value}",
   "class_type": "PartitionByValue"
 }
@@ -63,7 +64,7 @@
     ],
     "input_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "output_variables": [],
@@ -71,15 +72,16 @@
     "renamed_variables": null,
     "removed_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "dac9706f-b1cb-4f37-aefc-b1f4c8e58aae",
-  "timestamp": "2025-09-11T10:26:28.065791+00:00",
+  "uuid": "fa17608b-bdfd-4be0-abd2-7fceda62190b",
+  "timestamp": "2025-09-12T02:20:30.195302+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
   "meta_version": "1.0",
@@ -98,10 +100,10 @@
     "positions"
   ],
   "target_variables": [
-    "VAR"
+    "var"
   ],
   "deleted_variables": [
-    "VAR"
+    "var"
   ],
   "class_type": "DropVariable"
 }
@@ -115,22 +117,23 @@
     ],
     "input_variables": [
       [
-        "SALARY",
-        "AGE"
+        "salary",
+        "age"
       ]
     ],
     "output_variables": [],
     "created_variables": null,
     "renamed_variables": null,
     "removed_variables": [
-      "NAME"
+      "name"
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b3d5a30e-d654-49b5-8c6d-dcc348f445c9",
-  "timestamp": "2025-09-11T10:26:28.222792+00:00",
+  "uuid": "6ff2423a-564c-4282-93f4-3400e500446a",
+  "timestamp": "2025-09-12T02:20:30.432302+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
   "meta_version": "1.0",
@@ -149,8 +152,8 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY",
-    "AGE"
+    "salary",
+    "age"
   ],
   "class_type": "SubsetTable"
 }
@@ -170,9 +173,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "6141c7c9-54f6-403d-a18b-67c75727a98c",
-  "timestamp": "2025-09-11T10:26:28.331826+00:00",
+  "uuid": "6fa8b50d-af09-4eb3-a65c-41fabf39fe7f",
+  "timestamp": "2025-09-12T02:20:30.644303+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -209,9 +213,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e6bd0b3b-a30e-422d-9db9-82081cd9f7c4",
-  "timestamp": "2025-09-11T10:26:28.839854+00:00",
+  "uuid": "abf19350-374d-4921-bd4e-4c7c85c97cb3",
+  "timestamp": "2025-09-12T02:20:31.696824+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -242,12 +247,12 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "created_variables": null,
@@ -256,9 +261,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7282048f-6c66-436a-b002-764230889438",
-  "timestamp": "2025-09-11T10:26:29.172855+00:00",
+  "uuid": "1dbba5f8-0284-4449-8edb-55aaf575caa9",
+  "timestamp": "2025-09-12T02:20:32.178856+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
   "meta_version": "1.0",
@@ -277,13 +283,13 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
   "rename_map": {
-    "SALARY": "INCOME"
+    "salary": "income"
   },
   "new_names": [
-    "INCOME"
+    "income"
   ],
   "class_type": "RenameTable"
 }
@@ -303,9 +309,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cfd06ba7-9098-43e4-bf9c-616e746c88ae",
-  "timestamp": "2025-09-11T10:26:29.369859+00:00",
+  "uuid": "5167578f-a15f-4bcb-a935-efdac5e53016",
+  "timestamp": "2025-09-12T02:20:32.371858+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
   "meta_version": "1.0",
@@ -328,7 +335,7 @@
     "pyspark": {}
   },
   "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"income\") >= 600)",
   "class_type": "ComplexFilter"
 }
 {
@@ -342,7 +349,7 @@
     ],
     "input_variables": [
       [
-        "AGE"
+        "age"
       ]
     ],
     "output_variables": [],
@@ -352,11 +359,12 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "d9db1a2d-9d27-4da2-8c69-608720b29c45",
-  "timestamp": "2025-09-11T10:26:29.624856+00:00",
+  "uuid": "2417bcec-ba95-48c0-b810-576776432f50",
+  "timestamp": "2025-09-12T02:20:32.698855+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins positions and salary on AGE (inner)",
+  "event_description": "Joins positions and salary on age (inner)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
@@ -373,12 +381,12 @@
     "example_join"
   ],
   "target_variables": [
-    "AGE"
+    "age"
   ],
   "left_table": "positions",
   "right_table": "salary",
   "join_columns": [
-    "AGE"
+    "age"
   ],
   "join_type": "inner",
   "suffixes": [
@@ -397,7 +405,7 @@
     ],
     "input_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "output_variables": [],
@@ -407,11 +415,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b79f0003-10f0-43ef-b206-83081b61a170",
-  "timestamp": "2025-09-11T10:26:30.670887+00:00",
+  "uuid": "11310a51-f2cf-44ca-951c-f11694cb6c1e",
+  "timestamp": "2025-09-12T02:20:33.932854+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Filters rows where INCOME > 600",
+  "event_description": "Filters rows where income > 600",
   "meta_version": "1.0",
   "name": "SimpleFilter",
   "transform_type": "TableTransform",
@@ -428,9 +437,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">",
   "value": 600,
   "class_type": "SimpleFilter"
@@ -445,24 +454,25 @@
     ],
     "input_variables": [
       [
-        "AGE",
-        "SKILL"
+        "age",
+        "skill"
       ]
     ],
     "output_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "created_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "renamed_variables": null,
     "removed_variables": null,
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "9d98110b-53cc-4f61-88ac-f1712cbfbd92",
-  "timestamp": "2025-09-11T10:26:31.071886+00:00",
+  "uuid": "c202cc00-5624-4941-bad0-b2ca2dd04ab4",
+  "timestamp": "2025-09-12T02:20:34.493855+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
   "meta_version": "1.0",
@@ -475,15 +485,15 @@
   "version_python": "3.10.8",
   "params": {
     "df": "example_join",
-    "output_var": "CONCATTED"
+    "output_var": "concatted"
   },
   "transform_id": "ConcCols",
   "target_tables": [
     "example_join"
   ],
   "target_variables": [
-    "AGE",
-    "SKILL"
+    "age",
+    "skill"
   ],
   "separator": "_",
   "class_type": "ConcatColumns"
@@ -497,10 +507,10 @@
       "example_join"
     ],
     "input_variables": [
-      "INCOME"
+      "income"
     ],
     "output_variables": [
-      "INCOME"
+      "income"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -508,11 +518,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "43a040da-6c8d-4638-881b-bf0f64ba014a",
-  "timestamp": "2025-09-11T10:26:31.630446+00:00",
+  "uuid": "55b7b04b-3cbd-4a44-8001-9671be651daf",
+  "timestamp": "2025-09-12T02:20:35.124891+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
+  "event_description": "Replaces values in 'income' where income >= 610 with 600",
   "meta_version": "1.0",
   "name": "ReplaceByCondition",
   "transform_type": "TableTransform",
@@ -529,9 +540,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">=",
   "value": 610,
   "replacement": 600,
@@ -546,10 +557,10 @@
       "array_like"
     ],
     "input_variables": [
-      "VAR3"
+      "var3"
     ],
     "output_variables": [
-      "VAR3"
+      "var3"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -557,11 +568,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "000e89ff-40f6-4431-85c3-2c1c43e74c78",
-  "timestamp": "2025-09-11T10:26:32.279474+00:00",
+  "uuid": "8519ad01-adc1-4c6b-8331-901a5bbb76f3",
+  "timestamp": "2025-09-12T02:20:36.036937+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Explodes column 'VAR3' into multiple rows",
+  "event_description": "Explodes column 'var3' into multiple rows",
   "meta_version": "1.0",
   "name": "ExplodeColumn",
   "transform_type": "TableTransform",
@@ -578,9 +590,9 @@
     "array_like"
   ],
   "target_variables": [
-    "VAR3"
+    "var3"
   ],
-  "column": "VAR3",
+  "column": "var3",
   "sep": " ",
   "outer": true,
   "class_type": "ExplodeColumn"
@@ -594,10 +606,10 @@
       "decimal_table"
     ],
     "input_variables": [
-      "VALUE2"
+      "value2"
     ],
     "output_variables": [
-      "VALUE2"
+      "value2"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -605,11 +617,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "9da4dd5e-99d5-4c23-b0d2-4b62fcae18df",
-  "timestamp": "2025-09-11T10:26:32.422474+00:00",
+  "uuid": "69f7cdde-79e2-459b-ac6c-7729b063c341",
+  "timestamp": "2025-09-12T02:20:36.248937+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
+  "event_description": "Rounds values in column 'value2' to 3 decimal places",
   "meta_version": "1.0",
   "name": "RoundNumber",
   "transform_type": "TableTransform",
@@ -626,9 +639,9 @@
     "decimal_table"
   ],
   "target_variables": [
-    "VALUE2"
+    "value2"
   ],
-  "column": "VALUE2",
+  "column": "value2",
   "decimals": 3,
   "class_type": "RoundNumber"
 }
@@ -641,10 +654,10 @@
       "date_table"
     ],
     "input_variables": [
-      "EVENT_DATE"
+      "event_date"
     ],
     "output_variables": [
-      "EVENT_DATE"
+      "event_date"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -652,11 +665,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8819138d-2b59-41eb-a441-dd031e4b6299",
-  "timestamp": "2025-09-11T10:26:32.520473+00:00",
+  "uuid": "d59df565-cd52-4817-8f53-65da9aab2425",
+  "timestamp": "2025-09-12T02:20:36.406514+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Truncates dates in column 'EVENT_DATE' to month level",
+  "event_description": "Truncates dates in column 'event_date' to month level",
   "meta_version": "1.0",
   "name": "TruncateDate",
   "transform_type": "TableTransform",
@@ -673,9 +687,9 @@
     "date_table"
   ],
   "target_variables": [
-    "EVENT_DATE"
+    "event_date"
   ],
-  "column": "EVENT_DATE",
+  "column": "event_date",
   "level": "month",
   "class_type": "TruncateDate"
 }
@@ -688,10 +702,10 @@
       "date_table"
     ],
     "input_variables": [
-      "EVENT_DATE"
+      "event_date"
     ],
     "output_variables": [
-      "EVENT_DATE"
+      "event_date"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -699,11 +713,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5444f5f1-7acc-46d7-b629-2a70cbabee20",
-  "timestamp": "2025-09-11T10:26:32.618995+00:00",
+  "uuid": "015aeb28-5421-4447-b113-3c02ac8bc3d4",
+  "timestamp": "2025-09-12T02:20:36.512537+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Truncates dates in column 'EVENT_DATE' to year level",
+  "event_description": "Truncates dates in column 'event_date' to year level",
   "meta_version": "1.0",
   "name": "TruncateDate",
   "transform_type": "TableTransform",
@@ -720,9 +735,9 @@
     "date_table"
   ],
   "target_variables": [
-    "EVENT_DATE"
+    "event_date"
   ],
-  "column": "EVENT_DATE",
+  "column": "event_date",
   "level": "year",
   "class_type": "TruncateDate"
 }
@@ -737,7 +752,7 @@
     ],
     "input_variables": [
       [
-        "CITY"
+        "city"
       ]
     ],
     "output_variables": [],
@@ -747,11 +762,12 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "3ad51a8e-6414-4553-a6f9-bdb39f311e2a",
-  "timestamp": "2025-09-11T10:26:32.710997+00:00",
+  "uuid": "9b031a10-3c4f-4fdb-81f6-a5964df27f3f",
+  "timestamp": "2025-09-12T02:20:36.625051+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins location and state on CITY (outer)",
+  "event_description": "Joins location and state on city (outer)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
@@ -768,12 +784,12 @@
     "location"
   ],
   "target_variables": [
-    "CITY"
+    "city"
   ],
   "left_table": "location",
   "right_table": "state",
   "join_columns": [
-    "CITY"
+    "city"
   ],
   "join_type": "outer",
   "suffixes": [
@@ -798,9 +814,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "3de14efa-fdce-4661-af27-c3862b5e322d",
-  "timestamp": "2025-09-11T10:26:32.863994+00:00",
+  "uuid": "18a7d096-3b24-4ee0-abf2-06c861819461",
+  "timestamp": "2025-09-12T02:20:37.158948+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -832,7 +849,7 @@
     ],
     "input_variables": [
       [
-        "NAME"
+        "name"
       ]
     ],
     "output_variables": [],
@@ -842,11 +859,12 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "8ecb0157-f89f-41e7-8baa-df1843afa8a7",
-  "timestamp": "2025-09-11T10:26:33.353519+00:00",
+  "uuid": "930094d1-1919-46d4-9a42-7b0d07721bde",
+  "timestamp": "2025-09-12T02:20:37.678463+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins location and example_join on NAME (outer)",
+  "event_description": "Joins location and example_join on name (outer)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
@@ -863,12 +881,12 @@
     "super_table"
   ],
   "target_variables": [
-    "NAME"
+    "name"
   ],
   "left_table": "location",
   "right_table": "example_join",
   "join_columns": [
-    "NAME"
+    "name"
   ],
   "join_type": "outer",
   "suffixes": [
@@ -886,10 +904,10 @@
       "super_table"
     ],
     "input_variables": [
-      "NAME"
+      "name"
     ],
     "output_variables": [
-      "NAME"
+      "name"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -897,11 +915,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e9204712-97f4-47be-b54d-14c5e434696a",
-  "timestamp": "2025-09-11T10:26:34.773650+00:00",
+  "uuid": "f1a5785d-df18-481f-ac94-39da018ad3a4",
+  "timestamp": "2025-09-12T02:20:39.496721+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Trims whitespace from column 'NAME'",
+  "event_description": "Trims whitespace from column 'name'",
   "meta_version": "1.0",
   "name": "TrimWhitespace",
   "transform_type": "TableTransform",
@@ -918,9 +937,9 @@
     "super_table"
   ],
   "target_variables": [
-    "NAME"
+    "name"
   ],
-  "column": "NAME",
+  "column": "name",
   "class_type": "TrimWhitespace"
 }
 {
@@ -932,10 +951,10 @@
       "super_table"
     ],
     "input_variables": [
-      "NAME"
+      "name"
     ],
     "output_variables": [
-      "NAME"
+      "name"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -943,11 +962,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "4c8775aa-0ba2-43b1-b2af-e484b722c84c",
-  "timestamp": "2025-09-11T10:26:34.785651+00:00",
+  "uuid": "51659513-f9e1-433c-95e1-4a7faa1416fb",
+  "timestamp": "2025-09-12T02:20:39.508721+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Forces uppercase in column 'NAME'",
+  "event_description": "Forces uppercase in column 'name'",
   "meta_version": "1.0",
   "name": "ForceCase",
   "transform_type": "TableTransform",
@@ -964,446 +984,23 @@
     "super_table"
   ],
   "target_variables": [
-    "NAME"
+    "name"
   ],
-  "column": "NAME",
+  "column": "name",
   "case": "upper",
   "class_type": "ForceCase"
 }
-{
-  "log_info": {
-    "input_tables": [
-      "salary"
-    ],
-    "output_tables": [
-      "salary_700",
-      "salary_620",
-      "salary_500",
-      "salary_600",
-      "salary_400"
-    ],
-    "input_variables": [
-      [
-        "SALARY"
-      ]
-    ],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 5
-  },
-  "uuid": "545a301c-b3b2-4ff1-9958-a26bff40ecf4",
-  "timestamp": "2025-09-11T10:52:58.779168+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
-  "meta_version": "1.0",
-  "name": "PartitionByValue",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "salary"
-  },
-  "transform_id": "PartVal",
-  "target_tables": [
-    "salary_700",
-    "salary_620",
-    "salary_500",
-    "salary_600",
-    "salary_400"
-  ],
-  "target_variables": [
-    "SALARY"
-  ],
-  "partition_column": "SALARY",
-  "suffix_format": "_{value}",
-  "class_type": "PartitionByValue"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "positions"
-    ],
-    "output_tables": [
-      "positions"
-    ],
-    "input_variables": [
-      [
-        "VAR"
-      ]
-    ],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": [
-      [
-        "VAR"
-      ]
-    ],
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "9cc13999-1d73-461a-91db-0a16dadf9d16",
-  "timestamp": "2025-09-11T10:53:00.411934+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Removes specified variable(s) from a dataframe",
-  "meta_version": "1.0",
-  "name": "DropVariable",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "positions"
-  },
-  "transform_id": "DropVar",
-  "target_tables": [
-    "positions"
-  ],
-  "target_variables": [
-    "VAR"
-  ],
-  "deleted_variables": [
-    "VAR"
-  ],
-  "class_type": "DropVariable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "salary"
-    ],
-    "output_tables": [
-      "salary"
-    ],
-    "input_variables": [
-      [
-        "SALARY",
-        "AGE"
-      ]
-    ],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": [
-      "NAME"
-    ],
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "55b444df-b129-48f9-8796-3847af0ff5a9",
-  "timestamp": "2025-09-11T10:53:00.523135+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Subsets a dataframe to retain only specified variable(s)",
-  "meta_version": "1.0",
-  "name": "SubsetTable",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "salary"
-  },
-  "transform_id": "SubsetTbl",
-  "target_tables": [
-    "salary"
-  ],
-  "target_variables": [
-    "SALARY",
-    "AGE"
-  ],
-  "class_type": "SubsetTable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "positions"
-    ],
-    "output_tables": [
-      "positions"
-    ],
-    "input_variables": [],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "4687efbd-5aed-4b4a-8e39-a93909ed08bf",
-  "timestamp": "2025-09-11T10:53:00.618797+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Removes duplicate rows from a DataFrame",
-  "meta_version": "1.0",
-  "name": "DistinctTable",
-  "transform_type": "TableTransform",
-  "testable_transform": false,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "positions"
-  },
-  "transform_id": "DistinctTbl",
-  "target_tables": [
-    "positions"
-  ],
-  "target_variables": [],
-  "class_type": "DistinctTable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "salary"
-    ],
-    "output_tables": [
-      "salary"
-    ],
-    "input_variables": [],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "0aabcc05-ff3e-434c-aa4d-a12a07e3adcc",
-  "timestamp": "2025-09-11T10:53:01.051780+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Removes duplicate rows from a DataFrame",
-  "meta_version": "1.0",
-  "name": "DistinctTable",
-  "transform_type": "TableTransform",
-  "testable_transform": false,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "salary"
-  },
-  "transform_id": "DistinctTbl",
-  "target_tables": [
-    "salary"
-  ],
-  "target_variables": [],
-  "class_type": "DistinctTable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "salary"
-    ],
-    "output_tables": [
-      "salary"
-    ],
-    "input_variables": [
-      [
-        "SALARY"
-      ]
-    ],
-    "output_variables": [
-      [
-        "INCOME"
-      ]
-    ],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "88f1999c-adc2-42b9-8dd8-69c771d4b9fb",
-  "timestamp": "2025-09-11T10:53:01.317960+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Renames specified columns in a dataframe",
-  "meta_version": "1.0",
-  "name": "RenameTable",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "salary"
-  },
-  "transform_id": "RenmTbl",
-  "target_tables": [
-    "salary"
-  ],
-  "target_variables": [
-    "SALARY"
-  ],
-  "rename_map": {
-    "SALARY": "INCOME"
-  },
-  "new_names": [
-    "INCOME"
-  ],
-  "class_type": "RenameTable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "salary"
-    ],
-    "output_tables": [
-      "salary"
-    ],
-    "input_variables": [],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "482917c2-65db-4a12-89d2-e53acf437f90",
-  "timestamp": "2025-09-11T10:53:01.447190+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Filters rows in a dataframe using a backend-specific condition",
-  "meta_version": "1.0",
-  "name": "ComplexFilter",
-  "transform_type": "TableTransform",
-  "testable_transform": false,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "salary"
-  },
-  "transform_id": "RowFilter",
-  "target_tables": [
-    "salary"
-  ],
-  "target_variables": [],
-  "condition_map": {
-    "pyspark": {}
-  },
-  "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
-  "class_type": "ComplexFilter"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "positions",
-      "salary"
-    ],
-    "output_tables": [
-      "example_join"
-    ],
-    "input_variables": [
-      [
-        "AGE"
-      ]
-    ],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 2,
-    "num_output_frames": 1
-  },
-  "uuid": "2116b883-acd4-4059-9b8e-89c5b98e3ee4",
-  "timestamp": "2025-09-11T10:53:01.628927+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Joins positions and salary on AGE (inner)",
-  "meta_version": "1.0",
-  "name": "JoinTable",
-  "transform_type": "TableTransform",
-  "testable_transform": true,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "output_table": "example_join"
-  },
-  "transform_id": "JoinTbl",
-  "target_tables": [
-    "example_join"
-  ],
-  "target_variables": [
-    "AGE"
-  ],
-  "left_table": "positions",
-  "right_table": "salary",
-  "join_columns": [
-    "AGE"
-  ],
-  "join_type": "inner",
-  "suffixes": [
-    "_left",
-    "_right"
-  ],
-  "class_type": "JoinTable"
-}
-{
-  "log_info": {
-    "input_tables": [
-      "example_join"
-    ],
-    "output_tables": [
-      "example_join"
-    ],
-    "input_variables": [
-      [
-        "INCOME"
-      ]
-    ],
-    "output_variables": [],
-    "created_variables": null,
-    "renamed_variables": null,
-    "removed_variables": null,
-    "num_input_frames": 1,
-    "num_output_frames": 1
-  },
-  "uuid": "eb4d14a9-71eb-4c1b-baf8-d8049ce0f820",
-  "timestamp": "2025-09-11T10:53:02.464932+00:00",
-  "executed_user": "runner",
-  "event_type": "transform",
-  "event_description": "Filters rows where INCOME > 600",
-  "meta_version": "1.0",
-  "name": "SimpleFilter",
-  "transform_type": "TableTransform",
-  "testable_transform": false,
-  "version_pyspark": "4.0.1",
-  "version_polars": "1.33.1",
-  "version_pandas": "2.3.2",
-  "version_python": "3.12.3",
-  "params": {
-    "df": "example_join"
-  },
-  "transform_id": "SimpleFilter",
-  "target_tables": [
-    "example_join"
-  ],
-  "target_variables": [
-    "INCOME"
-  ],
-  "column": "INCOME",
-  "op": ">",
-  "value": 600,
-  "class_type": "SimpleFilter"
-}
+{"log_info": {"input_tables": ["array_like"], "output_tables": ["array_like_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "c143728b-9b3e-4b4b-b5f7-3cac210481e9", "timestamp": "2025-09-12T02:20:42.880908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table array_like to ..\\test_tables\\output\\array_like.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\array_like.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["decimal_table"], "output_tables": ["decimal_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "996e031f-d6a8-4c08-bdef-726dd2d5277e", "timestamp": "2025-09-12T02:20:43.060910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table decimal_table to ..\\test_tables\\output\\decimal_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\decimal_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "3de15dd6-dacd-4962-8948-29af937261a1", "timestamp": "2025-09-12T02:20:43.199911+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ..\\test_tables\\output\\date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["state"], "output_tables": ["state_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "cecb035a-7a9a-44de-afbb-8b2f3d1aa722", "timestamp": "2025-09-12T02:20:43.332910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table state to ..\\test_tables\\output\\state.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\state.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_700"], "output_tables": ["salary_700_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "7451d234-e6e3-4475-99e4-b7ee37e6bf19", "timestamp": "2025-09-12T02:20:43.480908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_700 to ..\\test_tables\\output\\salary_700.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_700.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_620"], "output_tables": ["salary_620_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "66c8fcef-027e-407f-a55b-0b7a92184d4a", "timestamp": "2025-09-12T02:20:43.611909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_620 to ..\\test_tables\\output\\salary_620.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_620.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_500"], "output_tables": ["salary_500_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "430f7dce-4f4e-407b-abd6-9d2fc33c0c8f", "timestamp": "2025-09-12T02:20:43.719909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_500 to ..\\test_tables\\output\\salary_500.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_500.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_600"], "output_tables": ["salary_600_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0defab99-3f01-400a-a43f-ea8ae9438d76", "timestamp": "2025-09-12T02:20:43.824909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_600 to ..\\test_tables\\output\\salary_600.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_600.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_400"], "output_tables": ["salary_400_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0d387757-9e39-4744-9614-b93a13d6199a", "timestamp": "2025-09-12T02:20:43.940908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_400 to ..\\test_tables\\output\\salary_400.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_400.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["positions"], "output_tables": ["positions_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "868a615d-069d-4c15-badb-dfd712f270de", "timestamp": "2025-09-12T02:20:44.180907+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table positions to ..\\test_tables\\output\\positions.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\positions.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary"], "output_tables": ["salary_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a4435b55-aec2-45a2-858c-ad4cbf3168a9", "timestamp": "2025-09-12T02:20:44.416908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary to ..\\test_tables\\output\\salary.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["example_join"], "output_tables": ["example_join_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "6bd21243-5593-4c02-8cbd-f79688c4fb80", "timestamp": "2025-09-12T02:20:44.790911+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table example_join to ..\\test_tables\\output\\example_join.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\example_join.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a251c7bd-e7b2-45b4-b54c-9b5e5b50f620", "timestamp": "2025-09-12T02:20:45.152910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ..\\test_tables\\output\\location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["super_table"], "output_tables": ["super_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "5a396ede-3dc0-4e84-a8b4-58d5082936ee", "timestamp": "2025-09-12T02:20:45.839909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table super_table to ..\\test_tables\\output\\super_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\super_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}

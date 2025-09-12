@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "286628e3-4d12-49ec-a17b-8df961713124",
-  "timestamp": "2025-09-11T10:26:25.639705+00:00",
-  "executed_user": "Daniel",
+  "uuid": "68d3f8d8-9569-4352-8130-402182c89a36",
+  "timestamp": "2025-09-11T15:14:41.863422+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
   "meta_version": "1.0",
@@ -32,9 +33,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b4b3223c-9db5-40b5-9d7f-0e012b861e2c",
-  "timestamp": "2025-09-11T10:26:32.422474+00:00",
-  "executed_user": "Daniel",
+  "uuid": "5be6a95b-f417-4279-aa7b-bc98f0c3d700",
+  "timestamp": "2025-09-11T15:14:48.490744+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
   "meta_version": "1.0",
@@ -42,9 +44,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "decimal_table"
   },
@@ -65,13 +67,80 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "6b0b9dc0-4ae5-4720-b353-5bbae8cf51c9",
-  "timestamp": "2025-09-11T10:26:37.894775+00:00",
-  "executed_user": "Daniel",
+  "uuid": "2124615e-57a1-4f76-a4ec-1b35f0eca6a8",
+  "timestamp": "2025-09-11T15:14:52.979783+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\decimal_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/decimal_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "a9f1e5ac-5f5e-4215-890d-c0bdd611acb0",
+  "timestamp": "2025-09-11T16:07:35.439506+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/decimal_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "bc56b9c2-1081-4d9d-b2f1-df01112a15cc",
+  "timestamp": "2025-09-11T16:07:38.423002+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/decimal_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/decimal_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/decimal_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "dec260d9-36c9-47e3-aaf0-3ec5f276264f",
+  "timestamp": "2025-09-11T16:12:14.696051+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/decimal_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "2c66e963-fe72-46e4-864e-ce543c5823d8",
+  "timestamp": "2025-09-11T16:12:18.125653+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/decimal_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/decimal_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

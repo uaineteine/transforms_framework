@@ -38,7 +38,7 @@ class PipelineEvent(Event):
         class_type (str): Constant string identifying this event type.
     """
 
-    def __init__(self, event_type: str, event_payload: str, event_description: str = "", log_location: str = ""):
+    def __init__(self, event_type: str, event_payload: str, event_description: str = "", log_location: str = "", macro_uuid: str = None):
         """
         Create a PipelineEvent.
 
@@ -47,6 +47,7 @@ class PipelineEvent(Event):
             event_payload (str): A short message or payload describing the operation.
             event_description (str, optional): A detailed description of the operation. Defaults to "".
             log_location (str, optional): Path to the log file. Defaults to "".
+            macro_uuid (str, optional): UUID of the macro operation this event is part of. Defaults to None.
 
         Example:
             >>> event = PipelineEvent(
@@ -63,6 +64,7 @@ class PipelineEvent(Event):
             event_payload=event_payload,
             event_description=event_description,
             log_location=log_location,
+            macro_uuid=macro_uuid
         )
 
         self.meta_version = meta.meta_version

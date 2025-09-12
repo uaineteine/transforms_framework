@@ -2,6 +2,9 @@ import json
 
 from transformslib.tables.names.colname import Colname
 
+def auto_lowercase_list(list_of_strings: list[str]) -> list[str]:
+    return [var.lower() for var in list_of_strings]
+
 def auto_capitalise_list(list_of_strings: list[str]) -> list[str]:
     return [var.upper() for var in list_of_strings]
 
@@ -9,9 +12,9 @@ class NamedList(list[str]):
     def __init__(self, items: list[str]):
         if not all(isinstance(item, str) for item in items):
             raise TypeError("All items must be strings.")
-        capitalised = auto_capitalise_list(items)
+        lowercased = auto_lowercase_list(items)
         super().__init__()
-        self.extend(capitalised)
+        self.extend(lowercased)
     
     def __repr__(self):
         return f"NamedList({list(self)})"

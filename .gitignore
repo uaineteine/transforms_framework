@@ -21,3 +21,11 @@ transformslib/__pycache__/*
 transformslib/mapping/__pycache__/*
 transformslib/mapping/webcanvas/__pycache__/tailwindcss.cpython-310.pyc
 templates/transform_dags/*
+docs/source/events.rst
+docs/source/mapping.rst
+docs/source/tables.rst
+docs/source/transforms.rst
+docs/source/transformslib_root.rst
+templates/events_log/job_1/table_specific/*_events.json
+templates/events_log/job_1/transforms.json
+templates/events_log/job_1/treatments.json

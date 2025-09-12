@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "f1a4e70b-d35d-4400-94ef-51a2ce0a7fa5",
-  "timestamp": "2025-09-11T10:26:24.828670+00:00",
-  "executed_user": "Daniel",
+  "uuid": "0430774a-8419-4496-9e5c-a66d363a1863",
+  "timestamp": "2025-09-11T15:14:41.171399+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
   "meta_version": "1.0",
@@ -36,9 +37,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b9748fc3-74f4-4703-99ea-0ac037a036d2",
-  "timestamp": "2025-09-11T10:26:28.065791+00:00",
-  "executed_user": "Daniel",
+  "uuid": "c8448742-6521-45f8-a7c1-b060f2899108",
+  "timestamp": "2025-09-11T15:14:44.806721+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
   "meta_version": "1.0",
@@ -46,9 +48,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "positions"
   },
@@ -80,9 +82,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "64f40c47-8f49-4582-bbb0-4e261aac6aaa",
-  "timestamp": "2025-09-11T10:26:28.331826+00:00",
-  "executed_user": "Daniel",
+  "uuid": "af842eb0-a3f5-4d27-bb46-b8b076db5dd0",
+  "timestamp": "2025-09-11T15:14:44.995787+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -90,9 +93,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "positions"
   },
@@ -109,13 +112,80 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "01816118-df1f-4eb6-bdc9-2b80b8911a17",
-  "timestamp": "2025-09-11T10:26:39.248778+00:00",
-  "executed_user": "Daniel",
+  "uuid": "612782d2-bd87-42dd-9ab3-e989907c32a5",
+  "timestamp": "2025-09-11T15:14:53.736332+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\positions.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/positions.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "72bc48c4-6f8c-4da0-9341-b0b5c31d83cc",
+  "timestamp": "2025-09-11T16:07:34.794459+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/positions.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "9ff64f77-bd57-42c1-9052-41720877b90e",
+  "timestamp": "2025-09-11T16:07:37.874810+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/positions.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/positions.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/positions.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "3fe08257-993d-4971-b03a-931f0e7b2987",
+  "timestamp": "2025-09-11T16:12:14.018157+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/positions.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "fcd4c5d5-f633-40c6-832c-f9633d4ff4c1",
+  "timestamp": "2025-09-11T16:12:17.663530+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/positions.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/positions.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

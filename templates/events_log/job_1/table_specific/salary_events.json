@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "868bc6e6-9870-43a0-8376-12081293ee64",
-  "timestamp": "2025-09-11T10:26:25.110670+00:00",
-  "executed_user": "Daniel",
+  "uuid": "b64cb7bf-def0-45f4-bd44-4f769876b192",
+  "timestamp": "2025-09-11T15:14:41.324002+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
   "meta_version": "1.0",
@@ -35,9 +36,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "81785112-0ebf-45da-af28-8e14b99836dc",
-  "timestamp": "2025-09-11T10:26:28.222792+00:00",
-  "executed_user": "Daniel",
+  "uuid": "fd94d60c-409b-4716-b0ae-7f1c0c6c8af1",
+  "timestamp": "2025-09-11T15:14:44.906889+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
   "meta_version": "1.0",
@@ -45,9 +47,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "salary"
   },
@@ -77,9 +79,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "eb14e94f-6253-479a-9d8d-baa16193e937",
-  "timestamp": "2025-09-11T10:26:28.839854+00:00",
-  "executed_user": "Daniel",
+  "uuid": "190c3aad-8ba3-464b-8cf5-0f611a820fe4",
+  "timestamp": "2025-09-11T15:14:45.590877+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -87,9 +90,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "salary"
   },
@@ -124,9 +127,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e5aa0545-076a-4810-b110-77927ad1751e",
-  "timestamp": "2025-09-11T10:26:29.172855+00:00",
-  "executed_user": "Daniel",
+  "uuid": "e2b3caab-2802-426f-b391-b973e9377aba",
+  "timestamp": "2025-09-11T15:14:45.968548+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
   "meta_version": "1.0",
@@ -134,9 +138,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "salary"
   },
@@ -171,9 +175,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cf1bd154-5116-4014-8021-7f388e5a5b0e",
-  "timestamp": "2025-09-11T10:26:29.369859+00:00",
-  "executed_user": "Daniel",
+  "uuid": "8ab4d28e-fb65-4fe6-8096-93f591a237b9",
+  "timestamp": "2025-09-11T15:14:46.074832+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
   "meta_version": "1.0",
@@ -181,9 +186,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.32.3",
+  "version_polars": "1.33.0",
   "version_pandas": "2.3.2",
-  "version_python": "3.10.8",
+  "version_python": "3.11.9",
   "params": {
     "df": "salary"
   },
@@ -205,13 +210,380 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "9a16ceb3-34e0-4160-be47-d99d80451f67",
-  "timestamp": "2025-09-11T10:26:39.534326+00:00",
-  "executed_user": "Daniel",
+  "uuid": "250485cb-b7ed-4988-86dc-84ddb6c31028",
+  "timestamp": "2025-09-11T15:14:53.907377+00:00",
+  "executed_user": "Daniel Stamer-Squair",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\salary.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/salary.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "bfa4b706-96b0-42da-a6cd-69e64ce7624c",
+  "timestamp": "2025-09-11T16:07:34.992325+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "4a967d0a-d085-4464-bc6e-5d127fab16c1",
+  "timestamp": "2025-09-11T16:07:36.563945+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9fc4209b-5fcd-44fe-85e3-c1613ced37da",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary >= 650 with 650",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": ">=",
+  "value": 650,
+  "replacement": 650,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "d7a0f6ca-4844-46a5-a1e5-d9ee3ede27f7",
+  "timestamp": "2025-09-11T16:07:36.564195+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9fc4209b-5fcd-44fe-85e3-c1613ced37da",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary < 450 with 450",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": "<",
+  "value": 450,
+  "replacement": 450,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "755d7feb-66bd-4a4b-9677-f62168a946fc",
+  "timestamp": "2025-09-11T16:07:36.563945+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9fc4209b-5fcd-44fe-85e3-c1613ced37da",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary >= 650 with 650",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": ">=",
+  "value": 650,
+  "replacement": 650,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "d0b760a5-050b-41b4-b10c-e38f730f4ce4",
+  "timestamp": "2025-09-11T16:07:36.564195+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9fc4209b-5fcd-44fe-85e3-c1613ced37da",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary < 450 with 450",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": false,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": "<",
+  "value": 450,
+  "replacement": 450,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/salary.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "11915f0c-aa54-4c01-843e-7eb1dd17acf8",
+  "timestamp": "2025-09-11T16:07:38.045137+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/salary.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/salary.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/salary.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "f70bfe28-93c8-4c01-809c-1f3a4f76cc0a",
+  "timestamp": "2025-09-11T16:12:14.237187+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "c2426b6f-c382-4ec0-9ee4-aa531769bb7d",
+  "timestamp": "2025-09-11T16:12:15.799870+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "18c25f61-0449-4fa2-b2e8-9c3c82fdd945",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary > 650 with 650",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": ">",
+  "value": 650,
+  "replacement": 650,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "77ca0894-40ed-4675-ae29-c84025f2f80d",
+  "timestamp": "2025-09-11T16:12:15.800124+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "18c25f61-0449-4fa2-b2e8-9c3c82fdd945",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary < 450 with 450",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": "<",
+  "value": 450,
+  "replacement": 450,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/salary.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "3d971adf-cf61-48c4-b7f5-229694b428e8",
+  "timestamp": "2025-09-11T16:12:17.799884+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/salary.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/salary.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"
