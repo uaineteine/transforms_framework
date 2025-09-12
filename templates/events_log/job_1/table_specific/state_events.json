@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "4eecef4f-641f-4978-a8de-7496c1dcaaec",
-  "timestamp": "2025-09-12T02:26:01.091762+00:00",
+  "uuid": "bb196139-f3bf-4b9b-b19c-4c8b272e1b4f",
+  "timestamp": "2025-09-12T05:21:39.174425+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
@@ -19,8 +19,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "3e96ffbc-395a-4714-bd3d-4bf27ab9b61e",
-  "timestamp": "2025-09-12T02:26:14.189895+00:00",
+  "uuid": "8934e048-1afa-47e3-879c-d85d9967b3a3",
+  "timestamp": "2025-09-12T05:21:53.620105+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",

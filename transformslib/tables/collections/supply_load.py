@@ -68,13 +68,36 @@ def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str
             raise ValueError("Each supply item must have a 'name' field")
 
         print(f"Loading table '{name}' from {item['path']} (format: {item['format']})")
-        
+
         table = MetaFrame.load(
             path=item["path"],
             format=item["format"],
             frame_type="pyspark",
             spark=spark
         )
+
+        # If CSV, cast columns to expected dtypes if provided
+        if item["format"].lower() == "csv" and "dtypes" in item:
+            print(f"Casting columns for table '{name}' to expected schema...")
+            dtypes = item["dtypes"]
+            # Build a dict of column: pyspark type string
+            pyspark_type_map = {
+                "String": "string",
+                "Int64": "long",
+                "Float64": "double",
+                "Boolean": "boolean"
+            }
+            from pyspark.sql.functions import col
+            for colname, dtypeinfo in dtypes.items():
+                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
+                if target_type in pyspark_type_map:
+                    spark_type = pyspark_type_map[target_type]
+                    try:
+                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
+                    except Exception as e:
+                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
+                else:
+                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
 
         # Apply sampling if requested
         if sample:
@@ -124,16 +147,36 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
             spark=spark
         )
 
+        # If CSV, cast columns to expected dtypes if provided
+        if item["file_format"].lower() == "csv" and "dtypes" in item:
+            print(f"Casting columns for table '{name}' to expected schema...")
+            dtypes = item["dtypes"]
+            pyspark_type_map = {
+                "String": "string",
+                "Int64": "long",
+                "Float64": "double",
+                "Boolean": "boolean"
+            }
+            from pyspark.sql.functions import col
+            for colname, dtypeinfo in dtypes.items():
+                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
+                if target_type in pyspark_type_map:
+                    spark_type = pyspark_type_map[target_type]
+                    try:
+                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
+                    except Exception as e:
+                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
+                else:
+                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
+
         # Perform schema validation if enabled and dtypes are provided
         if enable_schema_validation and "dtypes" in item:
             try:
                 print(f"Validating schema for table '{name}'...")
                 dtypes = item["dtypes"]
-                
                 # Print schema summary for transparency
                 schema_summary = SchemaValidator.get_schema_summary(dtypes)
                 print(schema_summary)
-                
                 # Validate the schema
                 SchemaValidator.validate_schema(
                     df=table.df,
@@ -142,15 +185,11 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
                     table_name=name
                 )
                 print(f"✓ Schema validation passed for table '{name}'")
-                
             except SchemaValidationError as e:
                 print(f"✗ Schema validation failed for table '{name}': {e}")
-                # You can choose to raise the error or just warn
-                # For now, we'll raise it to ensure data integrity
                 raise e
             except Exception as e:
                 print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
-                # Continue loading even if schema validation has unexpected errors
         elif enable_schema_validation:
             print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
 
