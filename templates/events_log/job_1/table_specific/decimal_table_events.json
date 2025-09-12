@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "77c8f3ef-8856-4e1d-a803-8e4d9dec4b7a",
-  "timestamp": "2025-09-12T02:26:00.765759+00:00",
+  "uuid": "c81e98d5-d979-4043-af3a-9ed1875343a7",
+  "timestamp": "2025-09-12T05:21:38.741428+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
@@ -33,8 +33,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "4e611db4-3630-4002-a474-0b86ab095595",
-  "timestamp": "2025-09-12T02:26:08.155057+00:00",
+  "uuid": "f279fa0d-a44f-46f7-85c5-caa6a53b46d2",
+  "timestamp": "2025-09-12T05:21:47.181191+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -67,8 +67,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "65232560-89b4-463d-91ab-0c63e869d9ed",
-  "timestamp": "2025-09-12T02:26:13.904895+00:00",
+  "uuid": "bc97d005-89d0-4b12-a01c-d2a7337b4bd5",
+  "timestamp": "2025-09-12T05:21:53.371070+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",

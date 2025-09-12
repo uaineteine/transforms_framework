@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "c8e4ad06-e1ff-4f15-ba32-3cb1978c1b48",
-  "timestamp": "2025-09-12T02:25:59.952760+00:00",
+  "uuid": "feda0dab-6419-44a2-bcd3-7c25ad7ae494",
+  "timestamp": "2025-09-12T05:21:38.028428+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
@@ -19,11 +19,11 @@
       "salary"
     ],
     "output_tables": [
-      "salary_700",
-      "salary_620",
-      "salary_500",
       "salary_600",
-      "salary_400"
+      "salary_700",
+      "salary_500",
+      "salary_400",
+      "salary_620"
     ],
     "input_variables": [
       [
@@ -37,8 +37,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "011cdce5-73b7-4cd9-b2ae-dfeae61396d8",
-  "timestamp": "2025-09-12T02:26:01.091762+00:00",
+  "uuid": "fefd17e1-ce40-43a7-9508-d0e87023b305",
+  "timestamp": "2025-09-12T05:21:39.202426+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -56,11 +56,11 @@
   },
   "transform_id": "PartVal",
   "target_tables": [
-    "salary_700",
-    "salary_620",
-    "salary_500",
     "salary_600",
-    "salary_400"
+    "salary_700",
+    "salary_500",
+    "salary_400",
+    "salary_620"
   ],
   "target_variables": [
     "salary"
@@ -75,8 +75,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "edfc238e-9b37-4bbc-93e3-69583f7e93ea",
-  "timestamp": "2025-09-12T02:26:14.580408+00:00",
+  "uuid": "f04918cd-b99e-49f4-9e55-bee61c5a5d45",
+  "timestamp": "2025-09-12T05:21:54.026105+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",

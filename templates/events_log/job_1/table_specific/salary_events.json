@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "f9637c8e-1400-4a1f-be34-88ed826b88ac",
-  "timestamp": "2025-09-12T02:25:59.952760+00:00",
+  "uuid": "293ba5bb-3b06-43b0-a2ca-4bd08f3d5abc",
+  "timestamp": "2025-09-12T05:21:38.028428+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
@@ -31,13 +31,13 @@
     "created_variables": null,
     "renamed_variables": null,
     "removed_variables": [
-      "name"
+      "NAME"
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "444910bb-317e-4e46-a880-09f967d1e3fa",
-  "timestamp": "2025-09-12T02:26:03.569369+00:00",
+  "uuid": "ac85b2aa-ac9f-4dd8-8027-716dc6505c3e",
+  "timestamp": "2025-09-12T05:21:41.236028+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -79,8 +79,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "089bdd2f-f36b-49fc-b5ad-e27f03353468",
-  "timestamp": "2025-09-12T02:26:04.340401+00:00",
+  "uuid": "1f0bd6cc-e9b1-4af3-871b-d0d819b769af",
+  "timestamp": "2025-09-12T05:21:42.343229+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -127,8 +127,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "4a2174d6-3036-4828-b3ed-3a387a0bc554",
-  "timestamp": "2025-09-12T02:26:04.787950+00:00",
+  "uuid": "39076189-e677-4e84-90f8-fb270404682b",
+  "timestamp": "2025-09-12T05:21:42.746229+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -175,8 +175,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cf4b23c5-d7b3-4f89-9e19-dbe0a910fa6a",
-  "timestamp": "2025-09-12T02:26:05.000950+00:00",
+  "uuid": "618d6379-f3d7-4c13-956e-5fa28b3cfbf2",
+  "timestamp": "2025-09-12T05:21:42.973228+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -210,8 +210,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "694d4040-0a4c-4e64-8894-5007506bc81b",
-  "timestamp": "2025-09-12T02:26:15.272931+00:00",
+  "uuid": "405f1013-66c9-45bb-a4e8-2e051e429cfe",
+  "timestamp": "2025-09-12T05:21:54.715105+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",

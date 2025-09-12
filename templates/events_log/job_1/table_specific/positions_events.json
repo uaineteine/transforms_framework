@@ -4,8 +4,8 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "455b7643-1866-460d-a8a8-44f9d4555d49",
-  "timestamp": "2025-09-12T02:25:59.664757+00:00",
+  "uuid": "df978db1-5ec2-4b87-8b16-f9ebf0f43358",
+  "timestamp": "2025-09-12T05:21:36.977424+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
@@ -37,8 +37,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "885bd027-ea48-4609-b986-ecd9fbddf9dd",
-  "timestamp": "2025-09-12T02:26:03.409855+00:00",
+  "uuid": "03556e34-caf9-4245-b9ac-3206ac12c607",
+  "timestamp": "2025-09-12T05:21:41.102029+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -82,8 +82,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5da41b80-c36a-4aca-af86-29ce06cf7150",
-  "timestamp": "2025-09-12T02:26:03.691368+00:00",
+  "uuid": "0a3fe639-500e-429f-a379-f7c91a5d603b",
+  "timestamp": "2025-09-12T05:21:41.366063+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -112,8 +112,8 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "5502ddb9-fe8a-4840-9d35-e2acb03098a9",
-  "timestamp": "2025-09-12T02:26:15.037931+00:00",
+  "uuid": "9095bb44-9f43-4fb6-8eb1-2026706ebb6d",
+  "timestamp": "2025-09-12T05:21:54.512104+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
