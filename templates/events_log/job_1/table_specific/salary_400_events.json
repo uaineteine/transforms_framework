@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "70cd9a29-ef65-4139-aac9-ae6f71fb7de4",
-  "timestamp": "2025-09-11T10:26:25.110670+00:00",
+  "uuid": "5be200c0-fa53-4154-bf9d-50a9fbc9240a",
+  "timestamp": "2025-09-12T02:25:59.952760+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
   "meta_version": "1.0",
@@ -26,7 +27,7 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [],
@@ -36,11 +37,12 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "3e057a6e-1bae-48ca-9bc5-60d0c43de207",
-  "timestamp": "2025-09-11T10:26:25.999705+00:00",
+  "uuid": "36e1dead-b8b6-4ba2-936e-2e1599da9418",
+  "timestamp": "2025-09-12T02:26:01.091762+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "event_description": "Partitions a DataFrame into subtables by 'salary'",
   "meta_version": "1.0",
   "name": "PartitionByValue",
   "transform_type": "TableTransform",
@@ -61,9 +63,9 @@
     "salary_400"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
-  "partition_column": "SALARY",
+  "partition_column": "salary",
   "suffix_format": "_{value}",
   "class_type": "PartitionByValue"
 }
@@ -73,9 +75,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "b7b014b6-593c-47e5-8ba6-2c4e1402ecc4",
-  "timestamp": "2025-09-11T10:26:38.973772+00:00",
+  "uuid": "27df39d2-5dc3-41a8-b324-6ade4bc2977d",
+  "timestamp": "2025-09-12T02:26:14.780408+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_400.parquet as parquet (pyspark)",
   "meta_version": "1.0",

@@ -6,23 +6,23 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "AGE": {
+        "age": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "NAME": {
+        "name": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "VAR": {
+        "var": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "POSITION": {
+        "position": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "SKILL": {
+        "skill": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -34,7 +34,7 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "SALARY": {
+        "salary": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
@@ -42,7 +42,7 @@
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "AGE": {
+        "age": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         }
@@ -54,19 +54,19 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "NAME": {
+        "name": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "CITY": {
+        "city": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "COUNTRY": {
+        "country": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "REGION": {
+        "region": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -78,15 +78,15 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "VAR1": {
+        "var1": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "VAR2": {
+        "var2": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "VAR3": {
+        "var3": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -98,17 +98,17 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "VALUE1": {
-          "dtype_source": "Double",
-          "dtype_output": "Double"
+        "value1": {
+          "dtype_source": "String",
+          "dtype_output": "String"
         },
-        "VALUE2": {
-          "dtype_source": "Double",
-          "dtype_output": "Double"
+        "value2": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         },
-        "VALUE3": {
-          "dtype_source": "Double",
-          "dtype_output": "Double"
+        "value3": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         }
       }
     },
@@ -118,17 +118,17 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "ID": {
+        "id": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "NAME": {
+        "name": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "EVENT_DATE": {
+        "event_date": {
           "dtype_source": "String",
-          "dtype_output": "Date"
+          "dtype_output": "String"
         }
       }
     },
@@ -138,11 +138,11 @@
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "CITY": {
+        "city": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "STATE": {
+        "state": {
           "dtype_source": "String",
           "dtype_output": "String"
         }

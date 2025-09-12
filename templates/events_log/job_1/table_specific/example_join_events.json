@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "b336a9c5-3a3d-4b3d-a0e1-58d35131f4ee",
-  "timestamp": "2025-09-11T10:26:24.828670+00:00",
+  "uuid": "c3dc8e6b-798e-4d62-a1bb-2dc24cacd06d",
+  "timestamp": "2025-09-12T02:25:59.664757+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
   "meta_version": "1.0",
@@ -22,7 +23,7 @@
     ],
     "input_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "output_variables": [],
@@ -30,15 +31,16 @@
     "renamed_variables": null,
     "removed_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "40bb6bc6-830a-4cea-b381-1319841e4496",
-  "timestamp": "2025-09-11T10:26:28.065791+00:00",
+  "uuid": "68a59538-ab61-4eb2-8c7a-0b68e8bb9515",
+  "timestamp": "2025-09-12T02:26:03.409855+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
   "meta_version": "1.0",
@@ -57,10 +59,10 @@
     "positions"
   ],
   "target_variables": [
-    "VAR"
+    "var"
   ],
   "deleted_variables": [
-    "VAR"
+    "var"
   ],
   "class_type": "DropVariable"
 }
@@ -80,9 +82,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "ed9da428-8914-43db-a85a-94702d98f821",
-  "timestamp": "2025-09-11T10:26:28.331826+00:00",
+  "uuid": "f4d70c52-df28-4888-8ae3-4c1ed334fdf1",
+  "timestamp": "2025-09-12T02:26:03.691368+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -114,7 +117,7 @@
     ],
     "input_variables": [
       [
-        "AGE"
+        "age"
       ]
     ],
     "output_variables": [],
@@ -124,11 +127,12 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "c765de8c-e679-4858-a56e-580078f723d9",
-  "timestamp": "2025-09-11T10:26:29.624856+00:00",
+  "uuid": "d778fe12-5ff3-4ee0-b4af-cabcfa24d2ae",
+  "timestamp": "2025-09-12T02:26:05.297948+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins positions and salary on AGE (inner)",
+  "event_description": "Joins positions and salary on age (inner)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
@@ -145,12 +149,12 @@
     "example_join"
   ],
   "target_variables": [
-    "AGE"
+    "age"
   ],
   "left_table": "positions",
   "right_table": "salary",
   "join_columns": [
-    "AGE"
+    "age"
   ],
   "join_type": "inner",
   "suffixes": [
@@ -169,7 +173,7 @@
     ],
     "input_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "output_variables": [],
@@ -179,11 +183,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "f779f169-8592-47b6-b020-4a2a3a67d089",
-  "timestamp": "2025-09-11T10:26:30.670887+00:00",
+  "uuid": "e7456eea-b7f3-4781-8312-17fd328cce03",
+  "timestamp": "2025-09-12T02:26:06.418023+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Filters rows where INCOME > 600",
+  "event_description": "Filters rows where income > 600",
   "meta_version": "1.0",
   "name": "SimpleFilter",
   "transform_type": "TableTransform",
@@ -200,9 +205,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">",
   "value": 600,
   "class_type": "SimpleFilter"
@@ -217,24 +222,25 @@
     ],
     "input_variables": [
       [
-        "AGE",
-        "SKILL"
+        "age",
+        "skill"
       ]
     ],
     "output_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "created_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "renamed_variables": null,
     "removed_variables": null,
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "60fa60f3-90dc-4526-babb-4912f8b4b06e",
-  "timestamp": "2025-09-11T10:26:31.071886+00:00",
+  "uuid": "3c2123c0-48bf-49f4-9d81-5cf73a7d9875",
+  "timestamp": "2025-09-12T02:26:06.812020+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
   "meta_version": "1.0",
@@ -247,15 +253,15 @@
   "version_python": "3.10.8",
   "params": {
     "df": "example_join",
-    "output_var": "CONCATTED"
+    "output_var": "concatted"
   },
   "transform_id": "ConcCols",
   "target_tables": [
     "example_join"
   ],
   "target_variables": [
-    "AGE",
-    "SKILL"
+    "age",
+    "skill"
   ],
   "separator": "_",
   "class_type": "ConcatColumns"
@@ -269,10 +275,10 @@
       "example_join"
     ],
     "input_variables": [
-      "INCOME"
+      "income"
     ],
     "output_variables": [
-      "INCOME"
+      "income"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -280,11 +286,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "629a2851-02b5-46bd-870e-ebe42c9eca3a",
-  "timestamp": "2025-09-11T10:26:31.630446+00:00",
+  "uuid": "40264896-8a8f-476a-8699-b5a2e4be0d73",
+  "timestamp": "2025-09-12T02:26:07.293021+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
+  "event_description": "Replaces values in 'income' where income >= 610 with 600",
   "meta_version": "1.0",
   "name": "ReplaceByCondition",
   "transform_type": "TableTransform",
@@ -301,9 +308,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">=",
   "value": 610,
   "replacement": 600,
@@ -315,9 +322,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "3fc548f8-c54c-4dc5-8bf4-4f250c421efa",
-  "timestamp": "2025-09-11T10:26:39.893838+00:00",
+  "uuid": "63af7611-fdbc-435f-be0e-d2aaf7abec4e",
+  "timestamp": "2025-09-12T02:26:15.964936+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\example_join.parquet as parquet (pyspark)",
   "meta_version": "1.0",

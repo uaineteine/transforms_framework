@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "868bc6e6-9870-43a0-8376-12081293ee64",
-  "timestamp": "2025-09-11T10:26:25.110670+00:00",
+  "uuid": "f9637c8e-1400-4a1f-be34-88ed826b88ac",
+  "timestamp": "2025-09-12T02:25:59.952760+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
   "meta_version": "1.0",
@@ -22,22 +23,23 @@
     ],
     "input_variables": [
       [
-        "SALARY",
-        "AGE"
+        "salary",
+        "age"
       ]
     ],
     "output_variables": [],
     "created_variables": null,
     "renamed_variables": null,
     "removed_variables": [
-      "NAME"
+      "name"
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "81785112-0ebf-45da-af28-8e14b99836dc",
-  "timestamp": "2025-09-11T10:26:28.222792+00:00",
+  "uuid": "444910bb-317e-4e46-a880-09f967d1e3fa",
+  "timestamp": "2025-09-12T02:26:03.569369+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
   "meta_version": "1.0",
@@ -56,8 +58,8 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY",
-    "AGE"
+    "salary",
+    "age"
   ],
   "class_type": "SubsetTable"
 }
@@ -77,9 +79,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "eb14e94f-6253-479a-9d8d-baa16193e937",
-  "timestamp": "2025-09-11T10:26:28.839854+00:00",
+  "uuid": "089bdd2f-f36b-49fc-b5ad-e27f03353468",
+  "timestamp": "2025-09-12T02:26:04.340401+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -110,12 +113,12 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "created_variables": null,
@@ -124,9 +127,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e5aa0545-076a-4810-b110-77927ad1751e",
-  "timestamp": "2025-09-11T10:26:29.172855+00:00",
+  "uuid": "4a2174d6-3036-4828-b3ed-3a387a0bc554",
+  "timestamp": "2025-09-12T02:26:04.787950+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
   "meta_version": "1.0",
@@ -145,13 +149,13 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
   "rename_map": {
-    "SALARY": "INCOME"
+    "salary": "income"
   },
   "new_names": [
-    "INCOME"
+    "income"
   ],
   "class_type": "RenameTable"
 }
@@ -171,9 +175,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cf1bd154-5116-4014-8021-7f388e5a5b0e",
-  "timestamp": "2025-09-11T10:26:29.369859+00:00",
+  "uuid": "cf4b23c5-d7b3-4f89-9e19-dbe0a910fa6a",
+  "timestamp": "2025-09-12T02:26:05.000950+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
   "meta_version": "1.0",
@@ -196,7 +201,7 @@
     "pyspark": {}
   },
   "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"income\") >= 600)",
   "class_type": "ComplexFilter"
 }
 {
@@ -205,9 +210,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "9a16ceb3-34e0-4160-be47-d99d80451f67",
-  "timestamp": "2025-09-11T10:26:39.534326+00:00",
+  "uuid": "694d4040-0a4c-4e64-8894-5007506bc81b",
+  "timestamp": "2025-09-12T02:26:15.272931+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",
   "meta_version": "1.0",

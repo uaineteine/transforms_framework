@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "99b7f24b-94fc-42e2-9995-5d9441f60def",
-  "timestamp": "2025-09-11T10:26:25.298191+00:00",
+  "uuid": "f82c5b2f-9ac2-4d4b-aaa8-31584b46f7da",
+  "timestamp": "2025-09-12T02:26:00.250760+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
   "meta_version": "1.0",
@@ -23,7 +24,7 @@
     ],
     "input_variables": [
       [
-        "CITY"
+        "city"
       ]
     ],
     "output_variables": [],
@@ -33,11 +34,12 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "908afab6-c784-47a0-8d5b-1bc09f2a4286",
-  "timestamp": "2025-09-11T10:26:32.710997+00:00",
+  "uuid": "ffc10e17-42b9-4d15-879d-822c3243284e",
+  "timestamp": "2025-09-12T02:26:08.536055+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins location and state on CITY (outer)",
+  "event_description": "Joins location and state on city (outer)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
@@ -54,12 +56,12 @@
     "location"
   ],
   "target_variables": [
-    "CITY"
+    "city"
   ],
   "left_table": "location",
   "right_table": "state",
   "join_columns": [
-    "CITY"
+    "city"
   ],
   "join_type": "outer",
   "suffixes": [
@@ -84,9 +86,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "18808e3d-b67b-416d-b548-7ed28014f10d",
-  "timestamp": "2025-09-11T10:26:32.863994+00:00",
+  "uuid": "6fb58d70-17e1-4cdf-83b1-e214643ebb09",
+  "timestamp": "2025-09-12T02:26:08.759059+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -113,9 +116,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "b1e61cef-7050-4fdb-a231-a6b4dbf9bee1",
-  "timestamp": "2025-09-11T10:26:40.296391+00:00",
+  "uuid": "1786dc4e-cb10-46a7-bba2-dae406a51f84",
+  "timestamp": "2025-09-12T02:26:16.345932+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
   "meta_version": "1.0",

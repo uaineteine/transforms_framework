@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "286628e3-4d12-49ec-a17b-8df961713124",
-  "timestamp": "2025-09-11T10:26:25.639705+00:00",
+  "uuid": "77c8f3ef-8856-4e1d-a803-8e4d9dec4b7a",
+  "timestamp": "2025-09-12T02:26:00.765759+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
   "meta_version": "1.0",
@@ -21,10 +22,10 @@
       "decimal_table"
     ],
     "input_variables": [
-      "VALUE2"
+      "value2"
     ],
     "output_variables": [
-      "VALUE2"
+      "value2"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -32,11 +33,12 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b4b3223c-9db5-40b5-9d7f-0e012b861e2c",
-  "timestamp": "2025-09-11T10:26:32.422474+00:00",
+  "uuid": "4e611db4-3630-4002-a474-0b86ab095595",
+  "timestamp": "2025-09-12T02:26:08.155057+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
+  "event_description": "Rounds values in column 'value2' to 3 decimal places",
   "meta_version": "1.0",
   "name": "RoundNumber",
   "transform_type": "TableTransform",
@@ -53,9 +55,9 @@
     "decimal_table"
   ],
   "target_variables": [
-    "VALUE2"
+    "value2"
   ],
-  "column": "VALUE2",
+  "column": "value2",
   "decimals": 3,
   "class_type": "RoundNumber"
 }
@@ -65,9 +67,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "6b0b9dc0-4ae5-4720-b353-5bbae8cf51c9",
-  "timestamp": "2025-09-11T10:26:37.894775+00:00",
+  "uuid": "65232560-89b4-463d-91ab-0c63e869d9ed",
+  "timestamp": "2025-09-12T02:26:13.904895+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",

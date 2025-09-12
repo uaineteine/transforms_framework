@@ -36,14 +36,17 @@ class Macro:
         self.output_variables = output_variables
         self.macro_log_loc = macro_log_location
 
-    def apply(self):
+    def apply(self, **kwargs):
         """
         Applies the macro transformation to the input tables and logs the operation.
+
+        Args:
+            **kwargs: Keyword arguments to pass to the underlying transforms.
 
         :return: Transformed table frames.
         :rtype: dict[str, pd.DataFrame]
         """
-        return_frames = self.macros.apply(self.input_tables)
+        return_frames = self.macros.apply(self.input_tables, **kwargs)
         self.log()
         return return_frames
 
@@ -51,7 +54,17 @@ class Macro:
         """
         Logs the macro transformation metadata to a JSON file.
         """
-        json_info = self.__dict__
+        # Create a serializable version of the object dict
+        json_info = {
+            'input_tables': [str(table) for table in self.input_tables.get_table_names()],
+            'output_tables': self.output_tables,
+            'input_variables': self.input_variables,
+            'output_variables': self.output_variables,
+            'macro_log_loc': self.macro_log_loc,
+            'macro_name': self.macros.name,
+            'macro_description': self.macros.event_description,
+            'macro_type': self.macros.transform_type
+        }
         with open(self.macro_log_loc, 'w') as f:
             json.dump(json_info, f, indent=2)
 
@@ -80,13 +93,13 @@ class TopBottomCode(Macro):
             var_transforms = [
                 ReplaceByCondition(
                     column=var,
-                    op=">=",
+                    op=">",
                     value=max_value,
                     replacement=max_value
                 ),
                 ReplaceByCondition(
                     column=var,
-                    op="<=",
+                    op="<",
                     value=min_value,
                     replacement=min_value
                 )
@@ -103,7 +116,7 @@ class TopBottomCode(Macro):
         super().__init__(
             macro_transform=macro,
             input_tables=input_tables,
-            output_tables=input_tables.table_names(),
+            output_tables=input_tables.get_table_names(),
             input_variables=input_variables,
             output_variables=input_variables
         )

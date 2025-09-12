@@ -11,7 +11,7 @@ on:
 
 jobs:
   package:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -23,14 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install setuptools wheel
           pip install -r requirements.txt
+          pip install -r docs/requirements.txt
       - name: Build package
-        shell: bash
         run: python build.py
-      - name: Build documentation (show warnings, do not fail)
-        shell: bash
-        run: |
-          make -C docs html || true
-        continue-on-error: true
       - name: Upload documentation (docs/build) as zip
         uses: actions/upload-artifact@v4
         with:

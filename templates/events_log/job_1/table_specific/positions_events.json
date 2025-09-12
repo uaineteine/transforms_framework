@@ -4,9 +4,10 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "f1a4e70b-d35d-4400-94ef-51a2ce0a7fa5",
-  "timestamp": "2025-09-11T10:26:24.828670+00:00",
+  "uuid": "455b7643-1866-460d-a8a8-44f9d4555d49",
+  "timestamp": "2025-09-12T02:25:59.664757+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
   "meta_version": "1.0",
@@ -22,7 +23,7 @@
     ],
     "input_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "output_variables": [],
@@ -30,15 +31,16 @@
     "renamed_variables": null,
     "removed_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b9748fc3-74f4-4703-99ea-0ac037a036d2",
-  "timestamp": "2025-09-11T10:26:28.065791+00:00",
+  "uuid": "885bd027-ea48-4609-b986-ecd9fbddf9dd",
+  "timestamp": "2025-09-12T02:26:03.409855+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
   "meta_version": "1.0",
@@ -57,10 +59,10 @@
     "positions"
   ],
   "target_variables": [
-    "VAR"
+    "var"
   ],
   "deleted_variables": [
-    "VAR"
+    "var"
   ],
   "class_type": "DropVariable"
 }
@@ -80,9 +82,10 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "64f40c47-8f49-4582-bbb0-4e261aac6aaa",
-  "timestamp": "2025-09-11T10:26:28.331826+00:00",
+  "uuid": "5da41b80-c36a-4aca-af86-29ce06cf7150",
+  "timestamp": "2025-09-12T02:26:03.691368+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
   "meta_version": "1.0",
@@ -109,9 +112,10 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "01816118-df1f-4eb6-bdc9-2b80b8911a17",
-  "timestamp": "2025-09-11T10:26:39.248778+00:00",
+  "uuid": "5502ddb9-fe8a-4840-9d35-e2acb03098a9",
+  "timestamp": "2025-09-12T02:26:15.037931+00:00",
   "executed_user": "Daniel",
+  "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",
   "meta_version": "1.0",
