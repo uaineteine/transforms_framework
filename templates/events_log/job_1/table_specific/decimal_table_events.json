@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "68d3f8d8-9569-4352-8130-402182c89a36",
-  "timestamp": "2025-09-11T15:14:41.863422+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "77c8f3ef-8856-4e1d-a803-8e4d9dec4b7a",
+  "timestamp": "2025-09-12T02:26:00.765759+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
@@ -22,10 +22,10 @@
       "decimal_table"
     ],
     "input_variables": [
-      "VALUE2"
+      "value2"
     ],
     "output_variables": [
-      "VALUE2"
+      "value2"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -33,20 +33,20 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5be6a95b-f417-4279-aa7b-bc98f0c3d700",
-  "timestamp": "2025-09-11T15:14:48.490744+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "4e611db4-3630-4002-a474-0b86ab095595",
+  "timestamp": "2025-09-12T02:26:08.155057+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Rounds values in column 'VALUE2' to 3 decimal places",
+  "event_description": "Rounds values in column 'value2' to 3 decimal places",
   "meta_version": "1.0",
   "name": "RoundNumber",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "decimal_table"
   },
@@ -55,9 +55,9 @@
     "decimal_table"
   ],
   "target_variables": [
-    "VALUE2"
+    "value2"
   ],
-  "column": "VALUE2",
+  "column": "value2",
   "decimals": 3,
   "class_type": "RoundNumber"
 }
@@ -67,9 +67,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "2124615e-57a1-4f76-a4ec-1b35f0eca6a8",
-  "timestamp": "2025-09-11T15:14:52.979783+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "65232560-89b4-463d-91ab-0c63e869d9ed",
+  "timestamp": "2025-09-12T02:26:13.904895+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",

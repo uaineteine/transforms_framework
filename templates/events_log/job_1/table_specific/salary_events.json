@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "b64cb7bf-def0-45f4-bd44-4f769876b192",
-  "timestamp": "2025-09-11T15:14:41.324002+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "f9637c8e-1400-4a1f-be34-88ed826b88ac",
+  "timestamp": "2025-09-12T02:25:59.952760+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
@@ -23,22 +23,22 @@
     ],
     "input_variables": [
       [
-        "SALARY",
-        "AGE"
+        "salary",
+        "age"
       ]
     ],
     "output_variables": [],
     "created_variables": null,
     "renamed_variables": null,
     "removed_variables": [
-      "NAME"
+      "name"
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "fd94d60c-409b-4716-b0ae-7f1c0c6c8af1",
-  "timestamp": "2025-09-11T15:14:44.906889+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "444910bb-317e-4e46-a880-09f967d1e3fa",
+  "timestamp": "2025-09-12T02:26:03.569369+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Subsets a dataframe to retain only specified variable(s)",
@@ -47,9 +47,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -58,8 +58,8 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY",
-    "AGE"
+    "salary",
+    "age"
   ],
   "class_type": "SubsetTable"
 }
@@ -79,9 +79,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "190c3aad-8ba3-464b-8cf5-0f611a820fe4",
-  "timestamp": "2025-09-11T15:14:45.590877+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "089bdd2f-f36b-49fc-b5ad-e27f03353468",
+  "timestamp": "2025-09-12T02:26:04.340401+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -90,9 +90,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -113,12 +113,12 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "created_variables": null,
@@ -127,9 +127,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "e2b3caab-2802-426f-b391-b973e9377aba",
-  "timestamp": "2025-09-11T15:14:45.968548+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "4a2174d6-3036-4828-b3ed-3a387a0bc554",
+  "timestamp": "2025-09-12T02:26:04.787950+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Renames specified columns in a dataframe",
@@ -138,9 +138,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -149,13 +149,13 @@
     "salary"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
   "rename_map": {
-    "SALARY": "INCOME"
+    "salary": "income"
   },
   "new_names": [
-    "INCOME"
+    "income"
   ],
   "class_type": "RenameTable"
 }
@@ -175,9 +175,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8ab4d28e-fb65-4fe6-8096-93f591a237b9",
-  "timestamp": "2025-09-11T15:14:46.074832+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "cf4b23c5-d7b3-4f89-9e19-dbe0a910fa6a",
+  "timestamp": "2025-09-12T02:26:05.000950+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Filters rows in a dataframe using a backend-specific condition",
@@ -186,9 +186,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -201,7 +201,7 @@
     "pyspark": {}
   },
   "backend": "pyspark",
-  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"INCOME\") >= 600)",
+  "condition_string": "\"pyspark\": lambda df: df.filter(col(\"income\") >= 600)",
   "class_type": "ComplexFilter"
 }
 {
@@ -210,9 +210,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "250485cb-b7ed-4988-86dc-84ddb6c31028",
-  "timestamp": "2025-09-11T15:14:53.907377+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "694d4040-0a4c-4e64-8894-5007506bc81b",
+  "timestamp": "2025-09-12T02:26:15.272931+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",

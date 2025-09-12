@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "0430774a-8419-4496-9e5c-a66d363a1863",
-  "timestamp": "2025-09-11T15:14:41.171399+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "455b7643-1866-460d-a8a8-44f9d4555d49",
+  "timestamp": "2025-09-12T02:25:59.664757+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
@@ -23,7 +23,7 @@
     ],
     "input_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "output_variables": [],
@@ -31,15 +31,15 @@
     "renamed_variables": null,
     "removed_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "c8448742-6521-45f8-a7c1-b060f2899108",
-  "timestamp": "2025-09-11T15:14:44.806721+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "885bd027-ea48-4609-b986-ecd9fbddf9dd",
+  "timestamp": "2025-09-12T02:26:03.409855+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -48,9 +48,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -59,10 +59,10 @@
     "positions"
   ],
   "target_variables": [
-    "VAR"
+    "var"
   ],
   "deleted_variables": [
-    "VAR"
+    "var"
   ],
   "class_type": "DropVariable"
 }
@@ -82,9 +82,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "af842eb0-a3f5-4d27-bb46-b8b076db5dd0",
-  "timestamp": "2025-09-11T15:14:44.995787+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "5da41b80-c36a-4aca-af86-29ce06cf7150",
+  "timestamp": "2025-09-12T02:26:03.691368+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -93,9 +93,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -112,9 +112,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "612782d2-bd87-42dd-9ab3-e989907c32a5",
-  "timestamp": "2025-09-11T15:14:53.736332+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "5502ddb9-fe8a-4840-9d35-e2acb03098a9",
+  "timestamp": "2025-09-12T02:26:15.037931+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",

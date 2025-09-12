@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "fd667a02-071b-4f40-974f-95dc82bc4de2",
-  "timestamp": "2025-09-11T15:14:41.533084+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "f82c5b2f-9ac2-4d4b-aaa8-31584b46f7da",
+  "timestamp": "2025-09-12T02:26:00.250760+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/location.csv",
@@ -24,7 +24,7 @@
     ],
     "input_variables": [
       [
-        "CITY"
+        "city"
       ]
     ],
     "output_variables": [],
@@ -34,20 +34,20 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "dc7c1324-473f-4612-b925-50a73f01c18c",
-  "timestamp": "2025-09-11T15:14:48.792544+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "ffc10e17-42b9-4d15-879d-822c3243284e",
+  "timestamp": "2025-09-12T02:26:08.536055+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins location and state on CITY (outer)",
+  "event_description": "Joins location and state on city (outer)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "output_table": "location"
   },
@@ -56,12 +56,12 @@
     "location"
   ],
   "target_variables": [
-    "CITY"
+    "city"
   ],
   "left_table": "location",
   "right_table": "state",
   "join_columns": [
-    "CITY"
+    "city"
   ],
   "join_type": "outer",
   "suffixes": [
@@ -86,9 +86,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "bb153614-8468-4a66-8841-f9e267ee5a5e",
-  "timestamp": "2025-09-11T15:14:48.952667+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "6fb58d70-17e1-4cdf-83b1-e214643ebb09",
+  "timestamp": "2025-09-12T02:26:08.759059+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -97,9 +97,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "location"
   },
@@ -116,9 +116,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "c6d736c2-1b48-412c-ac93-d2f03da8bc56",
-  "timestamp": "2025-09-11T15:14:54.398641+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "1786dc4e-cb10-46a7-bba2-dae406a51f84",
+  "timestamp": "2025-09-12T02:26:16.345932+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
