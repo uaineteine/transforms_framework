@@ -80,3 +80,69 @@
   "src_format": "parquet",
   "class_type": "PipelineEvent"
 }
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/array_like.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "70fe2ed9-0c79-4f02-ae0b-d6803432b42f",
+  "timestamp": "2025-09-11T16:07:35.319315+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/array_like.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "d5b291c2-bff9-4e5a-8147-55fe27234d68",
+  "timestamp": "2025-09-11T16:07:38.293091+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/array_like.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/array_like.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/array_like.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "d38b445f-8b74-4c9b-9eb6-e762cf29cb56",
+  "timestamp": "2025-09-11T16:12:14.552351+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/array_like.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "60667ea7-aff7-4324-9a50-62cd5dee6a8f",
+  "timestamp": "2025-09-11T16:12:18.014536+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/array_like.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/array_like.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

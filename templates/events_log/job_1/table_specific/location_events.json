@@ -128,3 +128,69 @@
   "src_format": "parquet",
   "class_type": "PipelineEvent"
 }
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "03f330fd-6108-40a2-8d45-f0ca0a31fa98",
+  "timestamp": "2025-09-11T16:07:35.183998+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/location.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "60597ece-1a08-48b9-b322-8c061266b662",
+  "timestamp": "2025-09-11T16:07:38.174813+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/location.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/location.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/location.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "117e4c03-78c7-481f-87d1-53830ab8ebaf",
+  "timestamp": "2025-09-11T16:12:14.416004+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/location.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "7d04e99f-f0a9-4ec2-8802-1a98a42f08d6",
+  "timestamp": "2025-09-11T16:12:17.902866+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/location.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/location.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}

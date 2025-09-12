@@ -127,3 +127,69 @@
   "src_format": "parquet",
   "class_type": "PipelineEvent"
 }
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/date_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "9ed0e457-9507-4d24-ae25-20a83ac6d3ec",
+  "timestamp": "2025-09-11T16:07:35.558712+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/date_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "578b8837-661a-459c-a348-5388ef08b7e0",
+  "timestamp": "2025-09-11T16:07:38.536513+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/date_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/date_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/job_1/date_table.csv",
+    "table_name": "",
+    "src_format": "csv"
+  },
+  "uuid": "59443581-3f90-403c-8576-0a4203e3e4e6",
+  "timestamp": "2025-09-11T16:12:14.831802+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "load",
+  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "meta_version": "1.0",
+  "class_type": "PipelineEvent"
+}
+{
+  "log_info": {
+    "filepath": "../test_tables/output/date_table.parquet",
+    "table_name": {},
+    "out_format": "parquet"
+  },
+  "uuid": "7e9fbc54-3d2e-4623-be23-74423cef7a17",
+  "timestamp": "2025-09-11T16:12:18.232867+00:00",
+  "executed_user": "runner",
+  "macro_uuid": null,
+  "event_type": "write",
+  "event_description": "Wrote table to ../test_tables/output/date_table.parquet as parquet (pyspark)",
+  "meta_version": "1.0",
+  "filepath": "../test_tables/output/date_table.parquet",
+  "table_name": {},
+  "src_format": "parquet",
+  "class_type": "PipelineEvent"
+}
