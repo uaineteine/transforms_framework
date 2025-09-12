@@ -184,9 +184,9 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
                     frame_type=table.frame_type,
                     table_name=name
                 )
-                print(f"✓ Schema validation passed for table '{name}'")
+                print(f"Schema validation passed for table '{name}'")
             except SchemaValidationError as e:
-                print(f"✗ Schema validation failed for table '{name}': {e}")
+                print(f"Schema validation failed for table '{name}': {e}")
                 raise e
             except Exception as e:
                 print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
