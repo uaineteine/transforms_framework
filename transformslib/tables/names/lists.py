@@ -29,10 +29,11 @@ class NamedList(list[str]):
     def overlap(self, other: list[str]) -> list[str]:
         return NamedList(list(set(self) & set(other)))
 
-    def extend_with(self, other:list[str]) -> None:
+    def extend_with(self, other:list[str]) -> 'NamedList':
         combined = list(set(self) | set(other))
         self.clear()
         self.extend(combined)
+        return self
 
 class VarList(NamedList):
     def __init__(self, items: list[str]):
