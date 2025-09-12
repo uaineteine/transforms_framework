@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "813795b7-49b4-4985-8834-0cce1b05235b",
-  "timestamp": "2025-09-11T15:14:41.324002+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "c8e4ad06-e1ff-4f15-ba32-3cb1978c1b48",
+  "timestamp": "2025-09-12T02:25:59.952760+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
@@ -27,7 +27,7 @@
     ],
     "input_variables": [
       [
-        "SALARY"
+        "salary"
       ]
     ],
     "output_variables": [],
@@ -37,20 +37,20 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "8eeb838e-ab7a-4c6a-8eb7-e7f9989eb615",
-  "timestamp": "2025-09-11T15:14:42.119608+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "011cdce5-73b7-4cd9-b2ae-dfeae61396d8",
+  "timestamp": "2025-09-12T02:26:01.091762+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Partitions a DataFrame into subtables by 'SALARY'",
+  "event_description": "Partitions a DataFrame into subtables by 'salary'",
   "meta_version": "1.0",
   "name": "PartitionByValue",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -63,9 +63,9 @@
     "salary_400"
   ],
   "target_variables": [
-    "SALARY"
+    "salary"
   ],
-  "partition_column": "SALARY",
+  "partition_column": "salary",
   "suffix_format": "_{value}",
   "class_type": "PartitionByValue"
 }
@@ -75,9 +75,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "8d66a6dd-0128-41cb-9d76-a94e9df2d2ae",
-  "timestamp": "2025-09-11T15:14:53.444800+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "edfc238e-9b37-4bbc-93e3-69583f7e93ea",
+  "timestamp": "2025-09-12T02:26:14.580408+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\salary_500.parquet as parquet (pyspark)",

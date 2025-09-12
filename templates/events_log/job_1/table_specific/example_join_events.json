@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "2f3c2ffe-288c-4306-8d2a-d6c3a3272165",
-  "timestamp": "2025-09-11T15:14:41.171399+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "c3dc8e6b-798e-4d62-a1bb-2dc24cacd06d",
+  "timestamp": "2025-09-12T02:25:59.664757+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
@@ -23,7 +23,7 @@
     ],
     "input_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "output_variables": [],
@@ -31,15 +31,15 @@
     "renamed_variables": null,
     "removed_variables": [
       [
-        "VAR"
+        "var"
       ]
     ],
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "c7527d9f-3e20-498a-a25d-9b5a323b72d3",
-  "timestamp": "2025-09-11T15:14:44.806721+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "68a59538-ab61-4eb2-8c7a-0b68e8bb9515",
+  "timestamp": "2025-09-12T02:26:03.409855+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -48,9 +48,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -59,10 +59,10 @@
     "positions"
   ],
   "target_variables": [
-    "VAR"
+    "var"
   ],
   "deleted_variables": [
-    "VAR"
+    "var"
   ],
   "class_type": "DropVariable"
 }
@@ -82,9 +82,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "cca8468c-2d32-4d16-adb3-952593765d9b",
-  "timestamp": "2025-09-11T15:14:44.995787+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "f4d70c52-df28-4888-8ae3-4c1ed334fdf1",
+  "timestamp": "2025-09-12T02:26:03.691368+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -93,9 +93,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -117,7 +117,7 @@
     ],
     "input_variables": [
       [
-        "AGE"
+        "age"
       ]
     ],
     "output_variables": [],
@@ -127,20 +127,20 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "dbef7d45-90d8-4ea6-b950-eeda4beffe29",
-  "timestamp": "2025-09-11T15:14:46.283383+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "d778fe12-5ff3-4ee0-b4af-cabcfa24d2ae",
+  "timestamp": "2025-09-12T02:26:05.297948+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Joins positions and salary on AGE (inner)",
+  "event_description": "Joins positions and salary on age (inner)",
   "meta_version": "1.0",
   "name": "JoinTable",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "output_table": "example_join"
   },
@@ -149,12 +149,12 @@
     "example_join"
   ],
   "target_variables": [
-    "AGE"
+    "age"
   ],
   "left_table": "positions",
   "right_table": "salary",
   "join_columns": [
-    "AGE"
+    "age"
   ],
   "join_type": "inner",
   "suffixes": [
@@ -173,7 +173,7 @@
     ],
     "input_variables": [
       [
-        "INCOME"
+        "income"
       ]
     ],
     "output_variables": [],
@@ -183,20 +183,20 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "381830ac-d3d3-4c3e-bc8e-26a126ebc433",
-  "timestamp": "2025-09-11T15:14:47.135094+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "e7456eea-b7f3-4781-8312-17fd328cce03",
+  "timestamp": "2025-09-12T02:26:06.418023+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Filters rows where INCOME > 600",
+  "event_description": "Filters rows where income > 600",
   "meta_version": "1.0",
   "name": "SimpleFilter",
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "example_join"
   },
@@ -205,9 +205,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">",
   "value": 600,
   "class_type": "SimpleFilter"
@@ -222,24 +222,24 @@
     ],
     "input_variables": [
       [
-        "AGE",
-        "SKILL"
+        "age",
+        "skill"
       ]
     ],
     "output_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "created_variables": [
-      "CONCATTED"
+      "concatted"
     ],
     "renamed_variables": null,
     "removed_variables": null,
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "bf6bc220-3126-460b-bb29-8f9e5d364364",
-  "timestamp": "2025-09-11T15:14:47.482825+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "3c2123c0-48bf-49f4-9d81-5cf73a7d9875",
+  "timestamp": "2025-09-12T02:26:06.812020+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Concatenante multiple columns together in a dataframe",
@@ -248,20 +248,20 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "example_join",
-    "output_var": "CONCATTED"
+    "output_var": "concatted"
   },
   "transform_id": "ConcCols",
   "target_tables": [
     "example_join"
   ],
   "target_variables": [
-    "AGE",
-    "SKILL"
+    "age",
+    "skill"
   ],
   "separator": "_",
   "class_type": "ConcatColumns"
@@ -275,10 +275,10 @@
       "example_join"
     ],
     "input_variables": [
-      "INCOME"
+      "income"
     ],
     "output_variables": [
-      "INCOME"
+      "income"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -286,20 +286,20 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7901d8cf-2644-4ad2-818d-04598f7fad1c",
-  "timestamp": "2025-09-11T15:14:47.810147+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "40264896-8a8f-476a-8699-b5a2e4be0d73",
+  "timestamp": "2025-09-12T02:26:07.293021+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Replaces values in 'INCOME' where INCOME >= 610 with 600",
+  "event_description": "Replaces values in 'income' where income >= 610 with 600",
   "meta_version": "1.0",
   "name": "ReplaceByCondition",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "example_join"
   },
@@ -308,9 +308,9 @@
     "example_join"
   ],
   "target_variables": [
-    "INCOME"
+    "income"
   ],
-  "column": "INCOME",
+  "column": "income",
   "op": ">=",
   "value": 610,
   "replacement": 600,
@@ -322,9 +322,9 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "f6b776ba-e123-4d2d-8346-f0a57f8bc424",
-  "timestamp": "2025-09-11T15:14:54.150414+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "63af7611-fdbc-435f-be0e-d2aaf7abec4e",
+  "timestamp": "2025-09-12T02:26:15.964936+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\example_join.parquet as parquet (pyspark)",

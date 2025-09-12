@@ -22,8 +22,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "ec222cca-edc1-44dd-821a-a782ff237535",
-  "timestamp": "2025-09-12T02:20:27.319985+00:00",
+  "uuid": "64fcad0f-0142-40dc-bf72-38bb2d401540",
+  "timestamp": "2025-09-12T02:26:01.091762+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -78,8 +78,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "fa17608b-bdfd-4be0-abd2-7fceda62190b",
-  "timestamp": "2025-09-12T02:20:30.195302+00:00",
+  "uuid": "c6f8c78f-c198-4351-be0f-242dce459a13",
+  "timestamp": "2025-09-12T02:26:03.409855+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -130,8 +130,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "6ff2423a-564c-4282-93f4-3400e500446a",
-  "timestamp": "2025-09-12T02:20:30.432302+00:00",
+  "uuid": "eb5942b4-ce3a-4716-9866-4ee3141145c3",
+  "timestamp": "2025-09-12T02:26:03.569369+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -173,8 +173,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "6fa8b50d-af09-4eb3-a65c-41fabf39fe7f",
-  "timestamp": "2025-09-12T02:20:30.644303+00:00",
+  "uuid": "8fcbab2a-e555-4d40-b200-bd964e443a34",
+  "timestamp": "2025-09-12T02:26:03.691368+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -213,8 +213,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "abf19350-374d-4921-bd4e-4c7c85c97cb3",
-  "timestamp": "2025-09-12T02:20:31.696824+00:00",
+  "uuid": "96eb9328-1bf3-4048-a36c-d604fecdd60c",
+  "timestamp": "2025-09-12T02:26:04.340401+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -261,8 +261,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "1dbba5f8-0284-4449-8edb-55aaf575caa9",
-  "timestamp": "2025-09-12T02:20:32.178856+00:00",
+  "uuid": "c2fc1461-6b40-4acd-82e7-8ee691fdf259",
+  "timestamp": "2025-09-12T02:26:04.787950+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -309,8 +309,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5167578f-a15f-4bcb-a935-efdac5e53016",
-  "timestamp": "2025-09-12T02:20:32.371858+00:00",
+  "uuid": "13fecf5e-ef93-4ebf-80ad-988d2a685a8f",
+  "timestamp": "2025-09-12T02:26:05.000950+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -359,8 +359,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "2417bcec-ba95-48c0-b810-576776432f50",
-  "timestamp": "2025-09-12T02:20:32.698855+00:00",
+  "uuid": "51451e82-ba88-4ac8-bdc5-466a1a4dba0c",
+  "timestamp": "2025-09-12T02:26:05.297948+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -415,8 +415,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "11310a51-f2cf-44ca-951c-f11694cb6c1e",
-  "timestamp": "2025-09-12T02:20:33.932854+00:00",
+  "uuid": "d98ac7ae-46ea-403c-8755-8369c6087567",
+  "timestamp": "2025-09-12T02:26:06.418023+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -469,8 +469,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "c202cc00-5624-4941-bad0-b2ca2dd04ab4",
-  "timestamp": "2025-09-12T02:20:34.493855+00:00",
+  "uuid": "137e8cb9-c71d-4922-85a1-a3a0f5c36e2d",
+  "timestamp": "2025-09-12T02:26:06.812020+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -518,8 +518,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "55b7b04b-3cbd-4a44-8001-9671be651daf",
-  "timestamp": "2025-09-12T02:20:35.124891+00:00",
+  "uuid": "1fea22e6-ac22-4392-8754-bbac87106c82",
+  "timestamp": "2025-09-12T02:26:07.293021+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -568,8 +568,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8519ad01-adc1-4c6b-8331-901a5bbb76f3",
-  "timestamp": "2025-09-12T02:20:36.036937+00:00",
+  "uuid": "edb41023-121a-4d59-9e9a-93ec5b28a90e",
+  "timestamp": "2025-09-12T02:26:08.016055+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -617,8 +617,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "69f7cdde-79e2-459b-ac6c-7729b063c341",
-  "timestamp": "2025-09-12T02:20:36.248937+00:00",
+  "uuid": "cb613450-6a91-40ab-88f4-a7057868ba9a",
+  "timestamp": "2025-09-12T02:26:08.155057+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -665,8 +665,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "d59df565-cd52-4817-8f53-65da9aab2425",
-  "timestamp": "2025-09-12T02:20:36.406514+00:00",
+  "uuid": "de2f95f5-3750-4872-a096-e13b0818451b",
+  "timestamp": "2025-09-12T02:26:08.292055+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -713,8 +713,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "015aeb28-5421-4447-b113-3c02ac8bc3d4",
-  "timestamp": "2025-09-12T02:20:36.512537+00:00",
+  "uuid": "b9c7d9ff-188c-4279-87b4-2bf35e7e11f6",
+  "timestamp": "2025-09-12T02:26:08.447059+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -762,8 +762,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "9b031a10-3c4f-4fdb-81f6-a5964df27f3f",
-  "timestamp": "2025-09-12T02:20:36.625051+00:00",
+  "uuid": "2060698d-9db9-4ccd-9b03-fd33ebe308bd",
+  "timestamp": "2025-09-12T02:26:08.536055+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -814,8 +814,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "18a7d096-3b24-4ee0-abf2-06c861819461",
-  "timestamp": "2025-09-12T02:20:37.158948+00:00",
+  "uuid": "157fdb71-a60e-4f1d-9f44-cfbca8c1728a",
+  "timestamp": "2025-09-12T02:26:08.759059+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -859,8 +859,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "930094d1-1919-46d4-9a42-7b0d07721bde",
-  "timestamp": "2025-09-12T02:20:37.678463+00:00",
+  "uuid": "23b0018a-0413-409d-8500-8b008da06427",
+  "timestamp": "2025-09-12T02:26:09.281055+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -915,8 +915,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "f1a5785d-df18-481f-ac94-39da018ad3a4",
-  "timestamp": "2025-09-12T02:20:39.496721+00:00",
+  "uuid": "3e576d2a-9ae1-4663-afd1-33daef2ac2d2",
+  "timestamp": "2025-09-12T02:26:10.745054+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -962,8 +962,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "51659513-f9e1-433c-95e1-4a7faa1416fb",
-  "timestamp": "2025-09-12T02:20:39.508721+00:00",
+  "uuid": "2d997f2b-9228-46aa-92b4-dd042bd52243",
+  "timestamp": "2025-09-12T02:26:10.777058+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -990,17 +990,17 @@
   "case": "upper",
   "class_type": "ForceCase"
 }
-{"log_info": {"input_tables": ["array_like"], "output_tables": ["array_like_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "c143728b-9b3e-4b4b-b5f7-3cac210481e9", "timestamp": "2025-09-12T02:20:42.880908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table array_like to ..\\test_tables\\output\\array_like.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\array_like.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["decimal_table"], "output_tables": ["decimal_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "996e031f-d6a8-4c08-bdef-726dd2d5277e", "timestamp": "2025-09-12T02:20:43.060910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table decimal_table to ..\\test_tables\\output\\decimal_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\decimal_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "3de15dd6-dacd-4962-8948-29af937261a1", "timestamp": "2025-09-12T02:20:43.199911+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ..\\test_tables\\output\\date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["state"], "output_tables": ["state_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "cecb035a-7a9a-44de-afbb-8b2f3d1aa722", "timestamp": "2025-09-12T02:20:43.332910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table state to ..\\test_tables\\output\\state.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\state.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary_700"], "output_tables": ["salary_700_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "7451d234-e6e3-4475-99e4-b7ee37e6bf19", "timestamp": "2025-09-12T02:20:43.480908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_700 to ..\\test_tables\\output\\salary_700.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_700.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary_620"], "output_tables": ["salary_620_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "66c8fcef-027e-407f-a55b-0b7a92184d4a", "timestamp": "2025-09-12T02:20:43.611909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_620 to ..\\test_tables\\output\\salary_620.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_620.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary_500"], "output_tables": ["salary_500_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "430f7dce-4f4e-407b-abd6-9d2fc33c0c8f", "timestamp": "2025-09-12T02:20:43.719909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_500 to ..\\test_tables\\output\\salary_500.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_500.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary_600"], "output_tables": ["salary_600_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0defab99-3f01-400a-a43f-ea8ae9438d76", "timestamp": "2025-09-12T02:20:43.824909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_600 to ..\\test_tables\\output\\salary_600.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_600.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary_400"], "output_tables": ["salary_400_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0d387757-9e39-4744-9614-b93a13d6199a", "timestamp": "2025-09-12T02:20:43.940908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_400 to ..\\test_tables\\output\\salary_400.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_400.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["positions"], "output_tables": ["positions_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "868a615d-069d-4c15-badb-dfd712f270de", "timestamp": "2025-09-12T02:20:44.180907+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table positions to ..\\test_tables\\output\\positions.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\positions.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["salary"], "output_tables": ["salary_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a4435b55-aec2-45a2-858c-ad4cbf3168a9", "timestamp": "2025-09-12T02:20:44.416908+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary to ..\\test_tables\\output\\salary.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["example_join"], "output_tables": ["example_join_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "6bd21243-5593-4c02-8cbd-f79688c4fb80", "timestamp": "2025-09-12T02:20:44.790911+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table example_join to ..\\test_tables\\output\\example_join.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\example_join.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a251c7bd-e7b2-45b4-b54c-9b5e5b50f620", "timestamp": "2025-09-12T02:20:45.152910+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ..\\test_tables\\output\\location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
-{"log_info": {"input_tables": ["super_table"], "output_tables": ["super_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "5a396ede-3dc0-4e84-a8b4-58d5082936ee", "timestamp": "2025-09-12T02:20:45.839909+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table super_table to ..\\test_tables\\output\\super_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\super_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["array_like"], "output_tables": ["array_like_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "c7afd06d-d5a1-4957-bfbe-c9559b20b83d", "timestamp": "2025-09-12T02:26:13.756375+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table array_like to ..\\test_tables\\output\\array_like.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\array_like.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["decimal_table"], "output_tables": ["decimal_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "4c2e1105-e4cc-4100-b813-05c33e2d6587", "timestamp": "2025-09-12T02:26:13.904895+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table decimal_table to ..\\test_tables\\output\\decimal_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\decimal_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "c2e6c31e-b688-4a8d-8be0-b35810e9adc2", "timestamp": "2025-09-12T02:26:14.048896+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ..\\test_tables\\output\\date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["state"], "output_tables": ["state_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a36f41f1-6e35-4103-bad9-66cc073aff0a", "timestamp": "2025-09-12T02:26:14.189895+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table state to ..\\test_tables\\output\\state.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\state.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_700"], "output_tables": ["salary_700_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a2fcf661-addc-458b-aa25-931cae8d381a", "timestamp": "2025-09-12T02:26:14.338896+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_700 to ..\\test_tables\\output\\salary_700.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_700.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_620"], "output_tables": ["salary_620_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a579e2f6-2a2c-4766-9446-364a31ca7872", "timestamp": "2025-09-12T02:26:14.470409+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_620 to ..\\test_tables\\output\\salary_620.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_620.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_500"], "output_tables": ["salary_500_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "3cf9f059-f7de-4a8a-b105-0ba991097e88", "timestamp": "2025-09-12T02:26:14.580408+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_500 to ..\\test_tables\\output\\salary_500.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_500.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_600"], "output_tables": ["salary_600_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "5a59824f-5fbd-4731-b3d5-8d0df835aea3", "timestamp": "2025-09-12T02:26:14.682410+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_600 to ..\\test_tables\\output\\salary_600.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_600.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary_400"], "output_tables": ["salary_400_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "6353a3ca-a2a2-455f-95f0-82d7b8e9a9d6", "timestamp": "2025-09-12T02:26:14.780408+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary_400 to ..\\test_tables\\output\\salary_400.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary_400.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["positions"], "output_tables": ["positions_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "8dff9d1c-7b2d-44b2-8039-65da93d5ba84", "timestamp": "2025-09-12T02:26:15.037931+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table positions to ..\\test_tables\\output\\positions.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\positions.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary"], "output_tables": ["salary_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0b0bcd68-1404-45f3-8502-5e255646f435", "timestamp": "2025-09-12T02:26:15.272931+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary to ..\\test_tables\\output\\salary.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\salary.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["example_join"], "output_tables": ["example_join_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "dad74b18-dacd-4eac-88b9-857fd136f468", "timestamp": "2025-09-12T02:26:15.964936+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table example_join to ..\\test_tables\\output\\example_join.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\example_join.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "db503bee-e6fe-499e-bd40-b9855b135bb6", "timestamp": "2025-09-12T02:26:16.345932+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ..\\test_tables\\output\\location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["super_table"], "output_tables": ["super_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "f90afe43-bd16-49df-bcf4-4b290ebf2be9", "timestamp": "2025-09-12T02:26:17.108444+00:00", "executed_user": "Daniel", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table super_table to ..\\test_tables\\output\\super_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "..\\test_tables\\output\\super_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}

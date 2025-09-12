@@ -4,9 +4,9 @@
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "90d24f41-5ba7-4475-bd70-7578a038848e",
-  "timestamp": "2025-09-11T15:14:41.675714+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "c18509d7-7204-4936-8039-a0f623d16360",
+  "timestamp": "2025-09-12T02:26:00.574760+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
   "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
@@ -22,10 +22,10 @@
       "array_like"
     ],
     "input_variables": [
-      "VAR3"
+      "var3"
     ],
     "output_variables": [
-      "VAR3"
+      "var3"
     ],
     "created_variables": null,
     "renamed_variables": null,
@@ -33,20 +33,20 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "1c163a87-97b8-49fc-b0b5-e33e6c0a10a4",
-  "timestamp": "2025-09-11T15:14:48.337536+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "848fe2f7-3e04-49d9-a0ee-f742bf9e8397",
+  "timestamp": "2025-09-12T02:26:08.016055+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
-  "event_description": "Explodes column 'VAR3' into multiple rows",
+  "event_description": "Explodes column 'var3' into multiple rows",
   "meta_version": "1.0",
   "name": "ExplodeColumn",
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "array_like"
   },
@@ -55,9 +55,9 @@
     "array_like"
   ],
   "target_variables": [
-    "VAR3"
+    "var3"
   ],
-  "column": "VAR3",
+  "column": "var3",
   "sep": " ",
   "outer": true,
   "class_type": "ExplodeColumn"
@@ -68,80 +68,14 @@
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "6e02dd82-7d49-4712-8292-a7949b5e9140",
-  "timestamp": "2025-09-11T15:14:52.832174+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "c1068c61-fc58-4a16-b4c5-42d6e0f69894",
+  "timestamp": "2025-09-12T02:26:13.756375+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
   "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",
   "meta_version": "1.0",
   "filepath": "..\\test_tables\\output\\array_like.parquet",
-  "table_name": {},
-  "src_format": "parquet",
-  "class_type": "PipelineEvent"
-}
-{
-  "log_info": {
-    "filepath": "../test_tables/job_1/array_like.csv",
-    "table_name": "",
-    "src_format": "csv"
-  },
-  "uuid": "70fe2ed9-0c79-4f02-ae0b-d6803432b42f",
-  "timestamp": "2025-09-11T16:07:35.319315+00:00",
-  "executed_user": "runner",
-  "macro_uuid": null,
-  "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
-  "meta_version": "1.0",
-  "class_type": "PipelineEvent"
-}
-{
-  "log_info": {
-    "filepath": "../test_tables/output/array_like.parquet",
-    "table_name": {},
-    "out_format": "parquet"
-  },
-  "uuid": "d5b291c2-bff9-4e5a-8147-55fe27234d68",
-  "timestamp": "2025-09-11T16:07:38.293091+00:00",
-  "executed_user": "runner",
-  "macro_uuid": null,
-  "event_type": "write",
-  "event_description": "Wrote table to ../test_tables/output/array_like.parquet as parquet (pyspark)",
-  "meta_version": "1.0",
-  "filepath": "../test_tables/output/array_like.parquet",
-  "table_name": {},
-  "src_format": "parquet",
-  "class_type": "PipelineEvent"
-}
-{
-  "log_info": {
-    "filepath": "../test_tables/job_1/array_like.csv",
-    "table_name": "",
-    "src_format": "csv"
-  },
-  "uuid": "d38b445f-8b74-4c9b-9eb6-e762cf29cb56",
-  "timestamp": "2025-09-11T16:12:14.552351+00:00",
-  "executed_user": "runner",
-  "macro_uuid": null,
-  "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
-  "meta_version": "1.0",
-  "class_type": "PipelineEvent"
-}
-{
-  "log_info": {
-    "filepath": "../test_tables/output/array_like.parquet",
-    "table_name": {},
-    "out_format": "parquet"
-  },
-  "uuid": "60667ea7-aff7-4324-9a50-62cd5dee6a8f",
-  "timestamp": "2025-09-11T16:12:18.014536+00:00",
-  "executed_user": "runner",
-  "macro_uuid": null,
-  "event_type": "write",
-  "event_description": "Wrote table to ../test_tables/output/array_like.parquet as parquet (pyspark)",
-  "meta_version": "1.0",
-  "filepath": "../test_tables/output/array_like.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"
