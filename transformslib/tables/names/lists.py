@@ -42,6 +42,16 @@ class NamedList(list[str]):
         super().__init__()
         self.extend(lowercased)
     
+    def extend(self, items: list[str]) -> None:
+        """
+        Extend the NamedList with unique items from another list, matching extend_with logic.
+
+        :param items: List of string items to add.
+        :type items: list[str]
+        :raises TypeError: If any item is not a string.
+        """
+        self.extend_with(items)
+    
     def __repr__(self):
         """
         Return a string representation of the NamedList.
@@ -95,13 +105,13 @@ class NamedList(list[str]):
         self.extend(combined)
         return self
 
-class VarList(NamedList):
+class ColList(NamedList):
     """
     A NamedList with additional validation for acceptable column name formats.
     """
     def __init__(self, items: list[str]):
         """
-        Initialize a VarList and check that all items are in an acceptable format.
+        Initialize a ColList and check that all items are in an acceptable format.
 
         :param items: List of string items.
         :type items: list[str]
@@ -115,7 +125,7 @@ class VarList(NamedList):
 
     def acceptable_format(self) -> bool:
         """
-        Check if all items in the VarList are in an acceptable column name format.
+        Check if all items in the ColList are in an acceptable column name format.
 
         :return: True if all items are acceptable, False otherwise.
         :rtype: bool
@@ -128,7 +138,7 @@ class VarList(NamedList):
 
     def acceptable_format_check(self):
         """
-        Raise ValueError if any item in the VarList is not in an acceptable format.
+        Raise ValueError if any item in the ColList is not in an acceptable format.
 
         :raises ValueError: If any item is not in an acceptable format.
         """
@@ -138,18 +148,18 @@ class VarList(NamedList):
 
 # if __name__ == "__main__":
 #     # Basic valid input
-#     a = VarList(["foo", "bar", "baz"])
+#     a = ColList(["foo", "bar", "baz"])
 #     print("List A:", a)
 
 #     # Input with pure numbers and spaces
 #     try:
-#         b = VarList(["123", "hello world", "BAR"])
+#         b = ColList(["123", "hello world", "BAR"])
 #         print("List B:", b)
 #     except ValueError as e:
 #         print("Caught ValueError for List B:", e)
 
 #     # Overlap test
-#     c = VarList(["bar", "qux", "456"])
+#     c = ColList(["bar", "qux", "456"])
 #     print("Overlap A & C:", a.overlap(c))
 
 #     # Extend test

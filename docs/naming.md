@@ -129,7 +129,7 @@ var_list.extend_with(other_list)
 print(var_list)  # NamedList(['name', 'age', 'city', 'salary', 'department'])
 ```
 
-### 4. VarList
+### 4. ColList
 **Purpose:** A validated list for variable names that must conform to header naming conventions.
 
 **Features:**
@@ -141,15 +141,15 @@ print(var_list)  # NamedList(['name', 'age', 'city', 'salary', 'department'])
 
 **Examples:**
 ```python
-from transformslib.tables.names.lists import VarList
+from transformslib.tables.names.lists import ColList
 
 # Valid variable list
-valid_vars = VarList(["customerid", "ordernumber", "amount123"])
-print(valid_vars)  # VarList(['customerid', 'ordernumber', 'amount123'])
+valid_vars = ColList(["customerid", "ordernumber", "amount123"])
+print(valid_vars)  # ColList(['customerid', 'ordernumber', 'amount123'])
 
 # Invalid variable list (will raise ValueError)
 try:
-    invalid_vars = VarList(["customer id", "order-number", "amount@"])
+    invalid_vars = ColList(["customer id", "order-number", "amount@"])
 except ValueError as e:
     print(e)  # Column names must be in correct format
 
@@ -157,6 +157,6 @@ except ValueError as e:
 print(valid_vars.to_json())
 other_vars = ["productid", "customerid"]
 overlap = valid_vars.overlap(other_vars)
-print(overlap)  # VarList(['customerid'])
+print(overlap)  # ColList(['customerid'])
 ```
 

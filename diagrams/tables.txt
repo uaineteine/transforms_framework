@@ -96,7 +96,7 @@ class NamedList{
     extend_with(self, other)
 }
 
-class VarList{
+class ColList{
     __init__(self, items)
     acceptable_format(self)
     acceptable_format_check(self)
@@ -110,7 +110,7 @@ class Tablename{
 MultiTable <|-- MetaFrame
 TableCollection <|-- SupplyLoad
 str <|-- Headername
-NamedList <|-- VarList
+NamedList <|-- ColList
 str <|-- Tablename
 
 note top of MetaFrame

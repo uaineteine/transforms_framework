@@ -43,3 +43,9 @@ transformslib.tables.names.tablename
 .. automodule:: transformslib.tables.names.tablename
    :members:
 
+transformslib.tables.schema_validator
+-------------------------------------
+
+.. automodule:: transformslib.tables.schema_validator
+   :members:
+

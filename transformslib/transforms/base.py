@@ -1,7 +1,7 @@
 from transformslib.events.pipeevent import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
-from transformslib.tables.names.lists import VarList
+from transformslib.tables.names.lists import ColList
 from transformslib.tables.names.colname import Colname
 from transformslib.transforms.reader import transform_log_loc
 
@@ -285,9 +285,9 @@ class TableTransform(Transform):
         self.target_tables = []
         self.update_target_variables(acts_on_variables)
         
-        # Validate target variables using VarList
+        # Validate target variables using ColList
         try:
-            self.target_variables = VarList(self.target_variables)
+            self.target_variables = ColList(self.target_variables)
         except ValueError as e:
             raise ValueError(f"Invalid header names: {e}")
 
