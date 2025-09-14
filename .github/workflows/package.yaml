@@ -2,6 +2,12 @@ name: Package
 
 on:
   workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create GitHub release'
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - master
@@ -26,6 +32,11 @@ jobs:
           pip install -r docs/requirements.txt
       - name: Build package
         run: python build.py
+      - name: Create GitHub Release
+        if: github.event.inputs.create_release == 'true' || (github.event_name == 'push' && github.ref == 'refs/heads/master')
+        run: python build.py --release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload documentation (docs/build) as zip
         uses: actions/upload-artifact@v4
         with:
@@ -38,5 +49,12 @@ jobs:
         with:
           name: dist-tarballs
           path: dist/*.tar.gz
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Upload dist/*.whl as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-wheels
+          path: dist/*.whl
           if-no-files-found: warn
           retention-days: 7

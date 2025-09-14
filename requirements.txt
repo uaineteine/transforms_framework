@@ -6,3 +6,4 @@ sparkpolars
 uainepydat
 pyvis
 networkx
+requests

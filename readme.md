@@ -404,6 +404,25 @@ pip install -r requirements.txt
 python build.py
 ```
 
+### GitHub Release Creation
+
+The build script now supports creating GitHub releases automatically. To create a release with the built artifacts:
+
+```powershell
+# Create a GitHub release (requires GITHUB_TOKEN environment variable)
+python build.py --release
+
+# Or provide the token directly
+python build.py --release --github-token YOUR_TOKEN
+```
+
+The release will:
+- Use the version from `meta/version.txt` as the tag (e.g., `v1.0`)
+- Include the changelog from `meta/changelog.txt` as the release description
+- Upload both the `.whl` and `.tar.gz` files as downloadable assets
+
+### Build Process Details
+
 What the build script does (python build.py):
 1. Pre-renders setup.py
    - Reads requirements.txt (if present) and inlines them into install_requires
@@ -418,5 +437,16 @@ What the build script does (python build.py):
    - If a docs/ folder exists, changes into docs/ and executes builddocs.bat
    - Returns to the project root when finished
    - For detailed instructions on building the documentation, see [Documentation Build Process](docs/docsbuild.md).
+5. Creates GitHub release (if --release flag is used)
+   - Creates a new release tag based on the version
+   - Uploads the built artifacts as downloadable assets
 
 After a successful build, you should see the generated distribution files under `dist/`.
+
+### GitHub Workflow Integration
+
+The package workflow has been updated to automatically create releases when:
+- The workflow is manually triggered with the "Create GitHub release" option enabled
+- Code is pushed to the master branch
+
+Both the wheel (.whl) and source distribution (.tar.gz) files will be available for download from the GitHub release page.
