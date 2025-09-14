@@ -186,14 +186,23 @@ class DistinctTable(TableTransform):
         table_name = kwargs.get("df")
         self.target_tables = [table_name]
 
+        # Capture row count before transformation
+        input_row_count = supply_frames[table_name].nrow
+
+        supply_frames[table_name] = supply_frames[table_name].distinct()
+        
+        # Capture row count after transformation
+        output_row_count = supply_frames[table_name].nrow
+
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[],
-            output_variables=[]
+            output_variables=[],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts={table_name: output_row_count}
             )
 
-        supply_frames[table_name] = supply_frames[table_name].distinct()
         supply_frames[table_name].add_event(self)
 
         return supply_frames
@@ -300,14 +309,23 @@ class ComplexFilter(TableTransform):
         lmda = self.condition_map[self.backend]
         self.condition_string = _get_lambda_source(lmda)
 
+        # Capture row count before transformation
+        input_row_count = supply_frames[table_name].nrow
+
+        supply_frames[table_name].df = lmda(supply_frames[table_name].df) 
+        
+        # Capture row count after transformation
+        output_row_count = supply_frames[table_name].nrow
+
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[],
-            output_variables=[]
+            output_variables=[],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts={table_name: output_row_count}
             )
 
-        supply_frames[table_name].df = lmda(supply_frames[table_name].df) 
         supply_frames[table_name].add_event(self)
 
         self.target_tables = [table_name]
@@ -385,6 +403,10 @@ class JoinTable(TableTransform):
         output_table = kwargs.get("output_table", f"{self.left_table}_{self.right_table}_joined")
         self.target_tables = [output_table]
 
+        # Capture row counts before transformation
+        left_row_count = supply_frames[self.left_table].nrow
+        right_row_count = supply_frames[self.right_table].nrow
+
         # Pandas join
         if backend == "pandas":
             joined = left_df.merge(
@@ -413,18 +435,26 @@ class JoinTable(TableTransform):
         # Add joined table to TableCollection
         if output_table == self.left_table:
             supply_frames[self.left_table].df = joined
+            # Capture row count after transformation
+            output_row_count = supply_frames[self.left_table].nrow
         elif output_table == self.right_table:
             supply_frames[self.right_table].df = joined
+            # Capture row count after transformation
+            output_row_count = supply_frames[self.right_table].nrow
         else:
             # Create a new table entry, copying metadata from left_table
             supply_frames[output_table] = supply_frames[self.left_table].copy(new_name=output_table)
             supply_frames[output_table].df = joined
+            # Capture row count after transformation
+            output_row_count = supply_frames[output_table].nrow
 
         self.log_info = TransformEvent(
             input_tables=[self.left_table, self.right_table],
             output_tables=[output_table],
             input_variables=[self.vars],
-            output_variables=[]
+            output_variables=[],
+            input_row_counts={self.left_table: left_row_count, self.right_table: right_row_count},
+            output_row_counts={output_table: output_row_count}
             )
         
         supply_frames[output_table].add_event(self)
@@ -489,6 +519,9 @@ class PartitionByValue(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
 
+        # Capture row count before transformation
+        input_row_count = supply_frames[table_name].nrow
+
         # Collect unique values
         if backend == "pandas":
             unique_values = supply_frames[table_name].df[self.partition_column].unique()
@@ -511,6 +544,7 @@ class PartitionByValue(TableTransform):
             new_table_name = f"{table_name}{self.suffix_format.format(value=value)}"
             new_table_names.append(new_table_name)
         
+        output_row_counts = {}
         for i,value in enumerate(unique_values):
             new_table_name = new_table_names[i]
             output_tables.append(new_table_name)
@@ -527,14 +561,19 @@ class PartitionByValue(TableTransform):
             supply_frames[new_table_name] = supply_frames[table_name].copy(new_name=new_table_name)
             supply_frames[new_table_name].df = partition_df
 
-            self.log_info = TransformEvent(
-                input_tables=[table_name],
-                output_tables=new_table_names,
-                input_variables=[self.vars],
-                output_variables=[]
-                )
+            # Capture row count for this partition
+            output_row_counts[new_table_name] = supply_frames[new_table_name].nrow
 
             supply_frames[new_table_name].add_event(self)
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=new_table_names,
+            input_variables=[self.vars],
+            output_variables=[],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts=output_row_counts
+            )
 
         self.target_tables = output_tables
         return supply_frames
@@ -597,6 +636,9 @@ class SimpleFilter(TableTransform):
         backend = supply_frames[table_name].frame_type
         df = supply_frames[table_name].df
 
+        # Capture row count before transformation
+        input_row_count = supply_frames[table_name].nrow
+
         # Build filter condition
         if backend == "pandas":
             if self.op == "==":
@@ -634,15 +676,21 @@ class SimpleFilter(TableTransform):
         # Assign filtered DataFrame
         if output_table == table_name:
             supply_frames[table_name].df = filtered
+            # Capture row count after transformation
+            output_row_count = supply_frames[table_name].nrow
         else:
             supply_frames[output_table] = supply_frames[table_name].copy(new_name=output_table)
             supply_frames[output_table].df = filtered
+            # Capture row count after transformation
+            output_row_count = supply_frames[output_table].nrow
             
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[output_table],
             input_variables=[self.vars],
-            output_variables=[]
+            output_variables=[],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts={output_table: output_row_count}
             )
         supply_frames[output_table].add_event(self)
 
@@ -951,13 +999,21 @@ class ExplodeColumn(TableTransform):
         table_name = kwargs.get("df")
         df = supply_frames[table_name]
 
+        # Capture row count before transformation
+        input_row_count = df.nrow
+
         df.explode(column=self.column, sep=self.sep, outer=self.outer)
+
+        # Capture row count after transformation
+        output_row_count = df.nrow
 
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[self.column],
             output_variables=[self.column],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts={table_name: output_row_count}
         )
         df.add_event(self)
 
@@ -1012,6 +1068,9 @@ class DropNAValues(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
 
+        # Capture row count before transformation
+        input_row_count = supply_frames[table_name].nrow
+
         # Apply backend-specific NA drop
         if backend == "pandas":
             supply_frames[table_name] = supply_frames[table_name].dropna(subset=[self.column])
@@ -1022,12 +1081,17 @@ class DropNAValues(TableTransform):
         else:
             raise NotImplementedError(f"DropNA not implemented for backend '{backend}'")
 
+        # Capture row count after transformation
+        output_row_count = supply_frames[table_name].nrow
+
         # Log event
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[self.column],
             output_variables=[self.column],
+            input_row_counts={table_name: input_row_count},
+            output_row_counts={table_name: output_row_count}
         )
         supply_frames[table_name].add_event(self)
 
@@ -1443,6 +1507,10 @@ class UnionTables(TableTransform):
         """
         backend = supply_frames[self.left_table].frame_type
 
+        # Capture row counts before transformation
+        left_row_count = supply_frames[self.left_table].nrow
+        right_row_count = supply_frames[self.right_table].nrow
+
         if backend == "pandas":
             df = pd.concat(
                 [supply_frames[self.left_table].df, supply_frames[self.right_table].df],
@@ -1468,11 +1536,16 @@ class UnionTables(TableTransform):
         union_table_name = f"{self.left_table}_union_{self.right_table}"
         supply_frames[union_table_name] = supply_frames[self.left_table].clone_with_new_df(df)
 
+        # Capture row count after transformation
+        output_row_count = supply_frames[union_table_name].nrow
+
         self.log_info = TransformEvent(
             input_tables=[self.left_table, self.right_table],
             output_tables=[union_table_name],
             input_variables=[],
             output_variables=[],
+            input_row_counts={self.left_table: left_row_count, self.right_table: right_row_count},
+            output_row_counts={union_table_name: output_row_count}
         )
         supply_frames[union_table_name].add_event(self)
 
