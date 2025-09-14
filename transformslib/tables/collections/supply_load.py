@@ -8,40 +8,42 @@ from transformslib.tables.schema_validator import SchemaValidator, SchemaValidat
 LOCAL_TEST_PATH = "../test_tables"
 WORM_PATH = "abfs://worm@prdct4fzchaeudia.dfs.core.windows.net"
 
-def get_supply_file(job_id:int, run_id:int = None) -> str:
+def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False) -> str:
     """
     Return the path location of the input payload.
 
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, returns path to sampling_state.json for the new sampling input method.
+        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
     Returns:
         str: The payload path.
     """
-    
+    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
     if run_id is None:
         # New sampling input method - use sampling_state.json
         print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
-        return f"{LOCAL_TEST_PATH}/prod/job_{job_id}/sampling_state.json"
+        return f"{base_path}/prod/job_{job_id}/sampling_state.json"
     else:
-        return legacy_get_payload_file(job_id, run_id)
+        return legacy_get_payload_file(job_id, run_id, use_test_path=use_test_path)
 
 
-def legacy_get_payload_file(job_id: int, run_id: int) -> str:
+def legacy_get_payload_file(job_id: int, run_id: int, use_test_path: bool = False) -> str:
     """
     Return the path location of the legacy input payload (payload.json).
 
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int): A run id to get the path of configuration file containing supply definitions.
+        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
     Returns:
         str: The legacy payload path.
     """
+    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
     print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
-    return f"../test_tables/job_{job_id}/payload.json"
-
+    return f"{base_path}/job_{job_id}/payload.json"
 
 def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
                      sample: bool, sample_rows: int = None, sample_frac: float = None, 
@@ -263,7 +265,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
+    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True, use_test_path: bool = False):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -281,6 +283,7 @@ class SupplyLoad(TableCollection):
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
+            use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -313,9 +316,9 @@ class SupplyLoad(TableCollection):
         self.job = job_id
         self.run = run_id
         self.enable_schema_validation = enable_schema_validation
-        
-        #identify the load dir and payload loc
-        self.supply_load_src = get_supply_file(job_id, run_id)
+        self.use_test_path = use_test_path
+
+        self.supply_load_src = get_supply_file(job_id, run_id, use_test_path=use_test_path)
         
         #gather the source payload location
         # Only check transform log if run_id is provided (legacy mode)

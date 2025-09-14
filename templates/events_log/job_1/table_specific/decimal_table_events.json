@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/decimal_table.csv",
+    "filepath": "../test_tables/prod/job_1/decimal_table.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "a7b83278-3968-4c25-9e92-fc2fb685143a",
-  "timestamp": "2025-09-14T06:09:38.679608+00:00",
+  "uuid": "5bc86462-fdef-4601-b281-a4c0f0de3b1d",
+  "timestamp": "2025-09-14T06:30:36.620866+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/decimal_table.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/decimal_table.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -33,8 +33,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "d710440b-aa4c-4128-b953-502d5e9e56aa",
-  "timestamp": "2025-09-14T06:09:44.971682+00:00",
+  "uuid": "79144604-10a1-46c9-b391-c23582d65820",
+  "timestamp": "2025-09-14T06:30:41.701899+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -63,18 +63,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\decimal_table.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\decimal_table.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "144cc098-2dec-469c-a672-e5cb7bd549b2",
-  "timestamp": "2025-09-14T06:09:50.395721+00:00",
+  "uuid": "85b8637e-2e62-431e-9ca4-34b47d8dfda0",
+  "timestamp": "2025-09-14T06:30:45.870615+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\decimal_table.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\decimal_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\decimal_table.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\decimal_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

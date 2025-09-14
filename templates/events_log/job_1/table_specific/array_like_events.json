@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/array_like.csv",
+    "filepath": "../test_tables/prod/job_1/array_like.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "81eeaad8-b812-4dfe-b2a9-fcf82f901f87",
-  "timestamp": "2025-09-14T06:09:38.506610+00:00",
+  "uuid": "05ba4dc4-c928-4200-be0c-4f1f593c3e10",
+  "timestamp": "2025-09-14T06:30:36.342843+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/array_like.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/array_like.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -33,8 +33,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "b718264b-fb09-4995-bdda-f1463ca05beb",
-  "timestamp": "2025-09-14T06:09:44.852680+00:00",
+  "uuid": "72be6ac0-3adb-4f6e-9be6-acc3fe9c4ff3",
+  "timestamp": "2025-09-14T06:30:41.581897+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -64,18 +64,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\array_like.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\array_like.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "deb30682-258a-4ea9-aa4f-7310a39a0eed",
-  "timestamp": "2025-09-14T06:09:50.244719+00:00",
+  "uuid": "0f7dff99-e37d-44d4-88bb-d6178745bd52",
+  "timestamp": "2025-09-14T06:30:45.726096+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\array_like.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\array_like.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\array_like.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\array_like.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

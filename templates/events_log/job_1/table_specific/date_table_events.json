@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/date_table.csv",
+    "filepath": "../test_tables/prod/job_1/date_table.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "7c0bcff1-cb23-496f-80fb-f7a3856f091e",
-  "timestamp": "2025-09-14T06:09:38.846607+00:00",
+  "uuid": "c7213637-37b9-4058-8af8-6ca27de1248e",
+  "timestamp": "2025-09-14T06:30:36.789383+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/date_table.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/date_table.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -33,8 +33,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "26d0363f-cea0-40ab-a448-44ec68f666bc",
-  "timestamp": "2025-09-14T06:09:45.106681+00:00",
+  "uuid": "ac64a7ee-1fbd-467e-b708-70f55b7b36b0",
+  "timestamp": "2025-09-14T06:30:41.806899+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -81,8 +81,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "329b9e53-b86e-472a-9879-667e8169704f",
-  "timestamp": "2025-09-14T06:09:45.207681+00:00",
+  "uuid": "b80df2d5-91b8-48f4-b239-aa4d254baa24",
+  "timestamp": "2025-09-14T06:30:41.940899+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -111,18 +111,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\date_table.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\date_table.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "581bc4c8-9ce8-4b2e-b662-ae4914e6eced",
-  "timestamp": "2025-09-14T06:09:50.520723+00:00",
+  "uuid": "10a2fda7-1f6a-4283-96d1-40bb1d6b40ef",
+  "timestamp": "2025-09-14T06:30:45.989614+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\date_table.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\date_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\date_table.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\date_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

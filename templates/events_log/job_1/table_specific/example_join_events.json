@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/positions.csv",
+    "filepath": "../test_tables/prod/job_1/positions.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "c4ea09d3-53cb-417e-9259-c23865ef039e",
-  "timestamp": "2025-09-14T06:09:36.833247+00:00",
+  "uuid": "ddee2e6b-55d2-44f0-869d-f0a2d482b02f",
+  "timestamp": "2025-09-14T06:30:34.891324+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/positions.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -37,8 +37,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "3fb2d91b-254f-4e33-aa2d-a9ca7e40803b",
-  "timestamp": "2025-09-14T06:09:40.457605+00:00",
+  "uuid": "1c84582a-040a-44e9-a72a-7b28bd36757f",
+  "timestamp": "2025-09-14T06:30:38.340900+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -82,8 +82,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "12758da7-71b9-4873-a05c-b8266d0ca681",
-  "timestamp": "2025-09-14T06:09:40.653609+00:00",
+  "uuid": "1e7417f0-1209-481a-bb07-1049dffd4ce3",
+  "timestamp": "2025-09-14T06:30:38.536897+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -127,8 +127,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "46abe8af-b9d1-4fd5-a69e-314e1656456d",
-  "timestamp": "2025-09-14T06:09:41.800605+00:00",
+  "uuid": "2cfda238-8225-4aa5-bbcd-7e4c6f994af6",
+  "timestamp": "2025-09-14T06:30:39.572898+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -183,8 +183,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "0c62c8b4-872b-44bc-90b7-a52ca4e226a9",
-  "timestamp": "2025-09-14T06:09:42.959604+00:00",
+  "uuid": "d1495009-6f37-4576-9e42-1eb982f1141a",
+  "timestamp": "2025-09-14T06:30:40.454897+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -237,8 +237,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "7480a0a9-9c7e-43b6-8301-5742a49bf01f",
-  "timestamp": "2025-09-14T06:09:43.488605+00:00",
+  "uuid": "4148e0ed-c278-4bb2-af03-b6afa915e9f2",
+  "timestamp": "2025-09-14T06:30:40.772902+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -286,8 +286,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "03654591-15be-4cc7-8fb2-a80a40b73d0f",
-  "timestamp": "2025-09-14T06:09:43.982126+00:00",
+  "uuid": "4efd8bf9-4b9c-43b6-8e86-3293a8393295",
+  "timestamp": "2025-09-14T06:30:41.062897+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -318,18 +318,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\example_join.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\example_join.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "a487000e-faf2-44c1-a463-deca35eebe89",
-  "timestamp": "2025-09-14T06:09:52.242751+00:00",
+  "uuid": "ee9c098d-cef8-45cf-956b-3776f2eadf7b",
+  "timestamp": "2025-09-14T06:30:47.337612+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\example_join.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\example_join.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\example_join.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\example_join.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

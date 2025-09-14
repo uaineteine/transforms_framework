@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/location.csv",
+    "filepath": "../test_tables/prod/job_1/location.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "273272dd-a6b3-49aa-903f-ad7be7b07e93",
-  "timestamp": "2025-09-14T06:09:38.328607+00:00",
+  "uuid": "26041dd1-199f-447d-90cf-885624b1770e",
+  "timestamp": "2025-09-14T06:30:36.164842+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/location.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -34,8 +34,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "dd33b04f-e9b0-4326-b9df-c54832cdd955",
-  "timestamp": "2025-09-14T06:09:45.289682+00:00",
+  "uuid": "093bcb77-211a-4f41-be63-f9b083814843",
+  "timestamp": "2025-09-14T06:30:42.086895+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -86,8 +86,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "081601b5-9326-4874-b914-d1b18bb26883",
-  "timestamp": "2025-09-14T06:09:45.434680+00:00",
+  "uuid": "bb9bbe3d-cbec-4921-b1bc-b52b68d8b815",
+  "timestamp": "2025-09-14T06:30:42.234415+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -131,8 +131,8 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "fa3d0750-aa24-44d3-8923-a950c2924b58",
-  "timestamp": "2025-09-14T06:09:45.878681+00:00",
+  "uuid": "1f1bb5b8-e09b-4574-8f43-47a55926d22d",
+  "timestamp": "2025-09-14T06:30:42.596418+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -187,8 +187,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "654ebd75-6277-471f-8d80-b2014c81eea6",
-  "timestamp": "2025-09-14T06:09:47.281680+00:00",
+  "uuid": "a410a4fe-43fd-4ece-ae91-39aad3f3c35a",
+  "timestamp": "2025-09-14T06:30:43.304416+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -234,8 +234,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "ca9a3218-88ce-4a2f-b658-1a669e86e31f",
-  "timestamp": "2025-09-14T06:09:47.308680+00:00",
+  "uuid": "385f8cf5-f4c6-4dd0-9c12-4f1ddb4161fb",
+  "timestamp": "2025-09-14T06:30:43.312416+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -264,18 +264,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\super_table.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\super_table.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "e52e2d1e-e592-4814-be1c-b7efe921667e",
-  "timestamp": "2025-09-14T06:09:53.259752+00:00",
+  "uuid": "f0d6a820-e825-4e41-80b8-e162a66b47fc",
+  "timestamp": "2025-09-14T06:30:48.119644+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\super_table.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\super_table.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\super_table.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\super_table.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

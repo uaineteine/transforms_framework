@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/salary.csv",
+    "filepath": "../test_tables/prod/job_1/salary.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "57b7670a-0fb1-41f7-8e87-5e671fffcd7d",
-  "timestamp": "2025-09-14T06:09:38.138604+00:00",
+  "uuid": "bc908dbd-7744-4909-b619-583c34e19484",
+  "timestamp": "2025-09-14T06:30:35.922842+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/salary.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -36,8 +36,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "764a7ce1-b254-4867-95b9-52415ce3cab8",
-  "timestamp": "2025-09-14T06:09:40.560606+00:00",
+  "uuid": "2a07ddf9-948d-4239-899f-990c0b99be9d",
+  "timestamp": "2025-09-14T06:30:38.441899+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -79,8 +79,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "4b7f251f-1960-4d1e-9358-fb4ebc64eb83",
-  "timestamp": "2025-09-14T06:09:41.101608+00:00",
+  "uuid": "80206413-2bc6-4d55-b9f8-42c7a6edbacd",
+  "timestamp": "2025-09-14T06:30:38.952898+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -127,8 +127,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "ba948a7b-2b9a-43dd-b8c2-ee54a23d3c80",
-  "timestamp": "2025-09-14T06:09:41.459606+00:00",
+  "uuid": "bd27ae1a-a43d-49d5-a188-e36f78553736",
+  "timestamp": "2025-09-14T06:30:39.255895+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -175,8 +175,8 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "8bf02dc7-992f-47a6-9de0-8ccdca9ecaab",
-  "timestamp": "2025-09-14T06:09:41.612606+00:00",
+  "uuid": "4c795639-b3fc-4772-9367-ef95ff794c84",
+  "timestamp": "2025-09-14T06:30:39.392900+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -206,18 +206,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\salary.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\salary.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "b9603f57-3962-4a9a-bb23-38e13d59155e",
-  "timestamp": "2025-09-14T06:09:51.947751+00:00",
+  "uuid": "75347004-715b-42b7-a3cc-951469865ba0",
+  "timestamp": "2025-09-14T06:30:47.053614+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\salary.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\salary.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\salary.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\salary.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

@@ -1,32 +1,32 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/state.csv",
+    "filepath": "../test_tables/prod/job_1/state.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "97365b6e-e945-43a9-8cb6-b7c9e061f50a",
-  "timestamp": "2025-09-14T06:09:38.999606+00:00",
+  "uuid": "cdd87a08-9955-4444-8f96-47d82b3f4e4d",
+  "timestamp": "2025-09-14T06:30:36.965897+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/state.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/state.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\state.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\state.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "e1c31b70-5c90-422a-877c-b17d8749842f",
-  "timestamp": "2025-09-14T06:09:50.615720+00:00",
+  "uuid": "cf2a311b-315f-40e5-8257-5fedf2839a97",
+  "timestamp": "2025-09-14T06:30:46.084616+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\state.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\state.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\state.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\state.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

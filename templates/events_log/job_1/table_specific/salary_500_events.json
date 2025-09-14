@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/salary.csv",
+    "filepath": "../test_tables/prod/job_1/salary.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "d0c8c9ba-5f4d-4023-bfc2-f4b689d42b0e",
-  "timestamp": "2025-09-14T06:09:38.138604+00:00",
+  "uuid": "0fcd1138-c16a-45b6-83f7-547789a5acfc",
+  "timestamp": "2025-09-14T06:30:35.922842+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/salary.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -37,8 +37,8 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "54c90212-bee6-43aa-b4fc-0333d5a7496f",
-  "timestamp": "2025-09-14T06:09:39.016609+00:00",
+  "uuid": "c0133632-fdf7-480e-988c-22d90008f8a4",
+  "timestamp": "2025-09-14T06:30:36.986898+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
@@ -71,18 +71,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\salary_500.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\salary_500.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "ca790a78-91c2-4880-97df-7ba19fe310c4",
-  "timestamp": "2025-09-14T06:09:51.143723+00:00",
+  "uuid": "755c58c9-7ff6-4f34-a3b1-5e0d6bc5dceb",
+  "timestamp": "2025-09-14T06:30:46.435613+00:00",
   "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\salary_500.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\salary_500.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\salary_500.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\salary_500.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"
