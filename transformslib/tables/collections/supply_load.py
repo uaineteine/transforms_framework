@@ -23,7 +23,7 @@ def get_supply_file(job_id:int, run_id:int = None) -> str:
     if run_id is None:
         # New sampling input method - use sampling_state.json
         print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
-        return f"../test_tables/job_{job_id}/sampling_state.json"
+        return f"{LOCAL_TEST_PATH}/prod/job_{job_id}/sampling_state.json"
     else:
         return legacy_get_payload_file(job_id, run_id)
 
