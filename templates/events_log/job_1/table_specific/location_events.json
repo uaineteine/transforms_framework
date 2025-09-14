@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/location.csv",
+    "filepath": "../test_tables/prod/job_1/location.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "a85f3c8c-5eca-4a2d-9715-ed67914ff1b3",
-  "timestamp": "2025-09-12T18:01:10.740852+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "659951eb-bcff-429d-9999-c3449b0bb3ad",
+  "timestamp": "2025-09-14T06:30:36.164842+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/location.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/location.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -34,9 +34,9 @@
     "num_input_frames": 2,
     "num_output_frames": 1
   },
-  "uuid": "40f2cca5-694c-465e-af52-f2e31caa5bd5",
-  "timestamp": "2025-09-12T18:01:23.554365+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "9af7addb-b375-4f56-89b0-f07152b4fbfb",
+  "timestamp": "2025-09-14T06:30:42.086895+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Joins location and state on city (outer)",
@@ -45,9 +45,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "output_table": "location"
   },
@@ -86,9 +86,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5413efbf-a2e3-4576-92c9-c59832363ebe",
-  "timestamp": "2025-09-12T18:01:23.805838+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "4617d6c2-6443-4e95-9987-a1847fda72f9",
+  "timestamp": "2025-09-14T06:30:42.234415+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -97,9 +97,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "location"
   },
@@ -112,18 +112,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\location.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\location.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "0a738a89-46f4-42c8-9080-6010f516b9a8",
-  "timestamp": "2025-09-12T18:01:33.776430+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "289e7607-79ab-4b1e-b191-792dfb7c444f",
+  "timestamp": "2025-09-14T06:30:47.602614+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\location.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\location.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\location.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\location.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

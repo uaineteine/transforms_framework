@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/salary.csv",
+    "filepath": "../test_tables/prod/job_1/salary.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "d384ae1a-2921-4067-8b13-c38825ad3688",
-  "timestamp": "2025-09-12T18:01:10.434274+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "bb5f894d-eefc-43a6-a87a-188039edc1f4",
+  "timestamp": "2025-09-14T06:30:35.922842+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/salary.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/salary.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -37,9 +37,9 @@
     "num_input_frames": 1,
     "num_output_frames": 5
   },
-  "uuid": "abc48871-1a25-4cae-95c9-7726e3b28f05",
-  "timestamp": "2025-09-12T18:01:12.130087+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "e5060793-e606-4217-9795-3577e7ba318e",
+  "timestamp": "2025-09-14T06:30:36.986898+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Partitions a DataFrame into subtables by 'salary'",
@@ -48,9 +48,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "salary"
   },
@@ -71,18 +71,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\salary_400.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\salary_400.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "448409b1-a4c3-4a9a-b1dd-81fabb11bf5f",
-  "timestamp": "2025-09-12T18:01:32.063532+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "245b4b98-4ede-4aad-a9dd-aafbf7a5ce33",
+  "timestamp": "2025-09-14T06:30:46.540612+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\salary_400.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\salary_400.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\salary_400.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\salary_400.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"

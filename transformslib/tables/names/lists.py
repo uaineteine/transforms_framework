@@ -42,16 +42,6 @@ class NamedList(list[str]):
         super().__init__()
         self.extend(lowercased)
     
-    def extend(self, items: list[str]) -> None:
-        """
-        Extend the NamedList with unique items from another list, matching extend_with logic.
-
-        :param items: List of string items to add.
-        :type items: list[str]
-        :raises TypeError: If any item is not a string.
-        """
-        self.extend_with(items)
-    
     def __repr__(self):
         """
         Return a string representation of the NamedList.

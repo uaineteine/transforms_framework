@@ -1,15 +1,15 @@
 {
   "log_info": {
-    "filepath": "../test_tables/job_1/positions.csv",
+    "filepath": "../test_tables/prod/job_1/positions.csv",
     "table_name": "",
     "src_format": "csv"
   },
-  "uuid": "9d814629-4f6d-49c0-9565-1edf4061f4c3",
-  "timestamp": "2025-09-12T18:01:08.904697+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "11b0d8e0-406b-43fc-8ffc-fe554eedba32",
+  "timestamp": "2025-09-14T06:30:34.891324+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "load",
-  "event_description": "Loaded  from ../test_tables/job_1/positions.csv",
+  "event_description": "Loaded  from ../test_tables/prod/job_1/positions.csv",
   "meta_version": "1.0",
   "class_type": "PipelineEvent"
 }
@@ -37,9 +37,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5c2896ee-0776-4f6c-a475-120675cad337",
-  "timestamp": "2025-09-12T18:01:15.372292+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "f0c65929-7fc3-4653-99b5-fa0312b32236",
+  "timestamp": "2025-09-14T06:30:38.340900+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes specified variable(s) from a dataframe",
@@ -48,9 +48,9 @@
   "transform_type": "TableTransform",
   "testable_transform": true,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -82,9 +82,9 @@
     "num_input_frames": 1,
     "num_output_frames": 1
   },
-  "uuid": "5760fdf5-f5cf-418b-b128-0ab49d6fb1ff",
-  "timestamp": "2025-09-12T18:01:15.834222+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "e83ac169-04c9-418a-9dbf-d8d039e9265f",
+  "timestamp": "2025-09-14T06:30:38.536897+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "transform",
   "event_description": "Removes duplicate rows from a DataFrame",
@@ -93,9 +93,9 @@
   "transform_type": "TableTransform",
   "testable_transform": false,
   "version_pyspark": "4.0.0",
-  "version_polars": "1.33.0",
+  "version_polars": "1.32.3",
   "version_pandas": "2.3.2",
-  "version_python": "3.11.9",
+  "version_python": "3.10.8",
   "params": {
     "df": "positions"
   },
@@ -108,18 +108,18 @@
 }
 {
   "log_info": {
-    "filepath": "..\\test_tables\\output\\positions.parquet",
+    "filepath": "..\\test_tables\\prod\\job_1\\output\\positions.parquet",
     "table_name": {},
     "out_format": "parquet"
   },
-  "uuid": "11010676-7c25-4672-b3aa-87ca1da644ac",
-  "timestamp": "2025-09-12T18:01:32.691789+00:00",
-  "executed_user": "Daniel Stamer-Squair",
+  "uuid": "ecd2b33f-de71-4a5c-b0d7-abe2a2cd2d04",
+  "timestamp": "2025-09-14T06:30:46.874616+00:00",
+  "executed_user": "Daniel",
   "macro_uuid": null,
   "event_type": "write",
-  "event_description": "Wrote table to ..\\test_tables\\output\\positions.parquet as parquet (pyspark)",
+  "event_description": "Wrote table to ..\\test_tables\\prod\\job_1\\output\\positions.parquet as parquet (pyspark)",
   "meta_version": "1.0",
-  "filepath": "..\\test_tables\\output\\positions.parquet",
+  "filepath": "..\\test_tables\\prod\\job_1\\output\\positions.parquet",
   "table_name": {},
   "src_format": "parquet",
   "class_type": "PipelineEvent"
