@@ -363,41 +363,47 @@ class SupplyLoad(TableCollection):
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
-            with open(self.supply_load_src, 'r') as file:
-                data = json.load(file)
-                
-                # Determine format based on the structure of the JSON file
-                if "sample_files" in data:
-                    # New sampling input method (sampling_state.json format)
-                    # Schema validation is only available for the new system
-                    load_from_sampling_state(
-                        data=data, 
-                        tables=self.tables, 
-                        named_tables=self.named_tables,
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark,
-                        enable_schema_validation=self.enable_schema_validation
-                    )
-                elif "supply" in data:
-                    # Legacy format (payload.json format)
-                    # Schema validation is not applied to legacy system
-                    if self.enable_schema_validation:
-                        print("Note: Schema validation is not available for legacy payload.json format")
-                    load_from_payload(
-                        data=data,
-                        tables=self.tables,
-                        named_tables=self.named_tables,
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark
-                    )
-                else:
-                    raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
+            if spark is not None:
+                # Use Spark to read the file as raw text, then parse with json
+                df = spark.read.text(self.supply_load_src)
+                raw_json = "\n".join(row.value for row in df.collect())
+                data = json.loads(raw_json)
+            else:
+                with open(self.supply_load_src, 'r') as file:
+                    data = json.load(file)
+        
+            # Determine format based on the structure of the JSON file
+            if "sample_files" in data:
+                # New sampling input method (sampling_state.json format)
+                # Schema validation is only available for the new system
+                load_from_sampling_state(
+                    data=data, 
+                    tables=self.tables, 
+                    named_tables=self.named_tables,
+                    sample=self.sample,
+                    sample_rows=self.sample_rows,
+                    sample_frac=self.sample_frac,
+                    seed=self.seed,
+                    spark=spark,
+                    enable_schema_validation=self.enable_schema_validation
+                )
+            elif "supply" in data:
+                # Legacy format (payload.json format)
+                # Schema validation is not applied to legacy system
+                if self.enable_schema_validation:
+                    print("Note: Schema validation is not available for legacy payload.json format")
+                load_from_payload(
+                    data=data,
+                    tables=self.tables,
+                    named_tables=self.named_tables,
+                    sample=self.sample,
+                    sample_rows=self.sample_rows,
+                    sample_frac=self.sample_frac,
+                    seed=self.seed,
+                    spark=spark
+                )
+            else:
+                raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
