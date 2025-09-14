@@ -1507,9 +1507,9 @@ def _discover_transforms():
     return sorted(transforms)
 
 
-def listme():
+def listatomic():
     """
-    Display all available transforms in a neat table format.
+    Display all available atomic transforms in a neat table format.
     """
     transforms = _discover_transforms()
     
@@ -1540,15 +1540,24 @@ def listme():
     print(" Use help(ClassName) for detailed information about any transform.")
     print("="*80 + "\n")
 
+# Backward compatibility alias
+def listme():
+    """
+    Legacy alias for listatomic(). Please use listatomic() instead.
+    """
+    import warnings
+    warnings.warn("listme() is deprecated, use listatomic() instead", DeprecationWarning, stacklevel=2)
+    return listatomic()
+
 
 # Automatically discover and set up __all__ with all transforms
 _transforms = _discover_transforms()
 _transform_names = [name for name, _, _ in _transforms]
 
-# Export all transforms and the listme function
-__all__ = _transform_names + ['listme']
+# Export all transforms and the listing functions
+__all__ = _transform_names + ['listatomic', 'listme']
 
 # Show the count whenever the module is imported (but not when run as main)
 if __name__ != '__main__':
     print(f"\n Transforms Library: {len(_transforms)} transforms available")
-    print("   Use listme() to see all available transforms in a table format.\n")
+    print("   Use listatomic() to see all available transforms in a table format.\n")
