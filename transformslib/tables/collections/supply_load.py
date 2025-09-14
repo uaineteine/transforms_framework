@@ -5,6 +5,9 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 
+LOCAL_TEST_PATH = "../test_tables"
+WORM_PATH = "abfs://worm@prdct4fzchaeudia.dfs.core.windows.net"
+
 def get_supply_file(job_id:int, run_id:int = None) -> str:
     """
     Return the path location of the input payload.
