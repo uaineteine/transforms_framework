@@ -1776,3 +1776,375 @@
   ],
   "class_type": "MacroTransform"
 }
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [
+      [
+        "age",
+        "name"
+      ]
+    ],
+    "output_variables": [
+      "concatenated_id"
+    ],
+    "created_variables": [
+      "concatenated_id"
+    ],
+    "renamed_variables": null,
+    "removed_variables": null,
+    "input_row_counts": null,
+    "output_row_counts": null,
+    "input_columns": {
+      "positions": [
+        "age",
+        "name",
+        "var",
+        "position",
+        "skill"
+      ]
+    },
+    "output_columns": {
+      "positions": [
+        "age",
+        "name",
+        "var",
+        "position",
+        "skill",
+        "concatenated_id"
+      ]
+    },
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "d5d8bbaf-122e-4d25-84d6-67a0de4a5f44",
+  "timestamp": "2025-09-15T07:56:54.130584+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "c8d22bae-b8f1-4197-a194-e07b4aa3719e",
+  "event_type": "transform",
+  "event_description": "Concatenante multiple columns together in a dataframe",
+  "meta_version": "1.0",
+  "name": "ConcatColumns",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "positions",
+    "output_var": "concatenated_id"
+  },
+  "transform_id": "ConcCols",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": [
+    "age",
+    "name"
+  ],
+  "separator": "_",
+  "class_type": "ConcatColumns"
+}
+{
+  "macro_uuid": "c8d22bae-b8f1-4197-a194-e07b4aa3719e",
+  "log_info": null,
+  "uuid": "028cd368-f27c-4bf2-9ea6-a1e091f6079e",
+  "timestamp": "2025-09-15T07:56:54.130854+00:00",
+  "executed_user": "runner",
+  "event_type": "transform",
+  "event_description": "Concatenates two ID columns with underscore separator",
+  "meta_version": "1.0",
+  "name": "ConcatenateIDs",
+  "transform_type": "ConcatIDs",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "positions",
+    "output_var": "concatenated_id"
+  },
+  "transform_list": [
+    {
+      "log_info": {
+        "input_tables": [
+          "positions"
+        ],
+        "output_tables": [
+          "positions"
+        ],
+        "input_variables": [
+          [
+            "age",
+            "name"
+          ]
+        ],
+        "output_variables": [
+          "concatenated_id"
+        ],
+        "created_variables": [
+          "concatenated_id"
+        ],
+        "renamed_variables": null,
+        "removed_variables": null,
+        "input_row_counts": null,
+        "output_row_counts": null,
+        "input_columns": {
+          "positions": [
+            "age",
+            "name",
+            "var",
+            "position",
+            "skill"
+          ]
+        },
+        "output_columns": {
+          "positions": [
+            "age",
+            "name",
+            "var",
+            "position",
+            "skill",
+            "concatenated_id"
+          ]
+        },
+        "num_input_frames": 1,
+        "num_output_frames": 1
+      },
+      "persistent_uuid": false,
+      "uuid": "d5d8bbaf-122e-4d25-84d6-67a0de4a5f44",
+      "timestamp": "2025-09-15T07:56:54.130584+00:00",
+      "executed_user": "runner",
+      "macro_uuid": "c8d22bae-b8f1-4197-a194-e07b4aa3719e",
+      "log_exclusions": [
+        "log_location",
+        "indent_depth",
+        "log_exclusions",
+        "persistent_uuid"
+      ],
+      "log_location": "events_log/job_1/transforms.json",
+      "indent_depth": 2,
+      "event_type": "transform",
+      "event_description": "Concatenante multiple columns together in a dataframe",
+      "meta_version": "1.0",
+      "name": "ConcatColumns",
+      "transform_type": "TableTransform",
+      "testable_transform": true,
+      "version_pyspark": "4.0.1",
+      "version_polars": "1.33.1",
+      "version_pandas": "2.3.2",
+      "version_python": "3.12.3",
+      "params": {
+        "df": "positions",
+        "output_var": "concatenated_id"
+      },
+      "transform_id": "ConcCols",
+      "target_tables": [
+        "positions"
+      ],
+      "target_variables": [
+        "age",
+        "name"
+      ],
+      "separator": "_"
+    }
+  ],
+  "class_type": "MacroTransform"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "positions"
+    ],
+    "output_tables": [
+      "positions"
+    ],
+    "input_variables": [
+      [
+        "synthetic_aeuid"
+      ]
+    ],
+    "output_variables": [],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": [
+      [
+        "synthetic_aeuid"
+      ]
+    ],
+    "input_row_counts": null,
+    "output_row_counts": null,
+    "input_columns": {
+      "positions": [
+        "age",
+        "name",
+        "var",
+        "position",
+        "skill",
+        "concatenated_id",
+        "synthetic_aeuid"
+      ]
+    },
+    "output_columns": {
+      "positions": [
+        "age",
+        "name",
+        "var",
+        "position",
+        "skill",
+        "concatenated_id"
+      ]
+    },
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "3676b3a6-075b-4b67-9a8a-daf8c8c519c3",
+  "timestamp": "2025-09-15T07:56:54.415694+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "0ba50b91-cf35-42aa-b7db-1a93d7cb7892",
+  "event_type": "transform",
+  "event_description": "Removes specified variable(s) from a dataframe",
+  "meta_version": "1.0",
+  "name": "DropVariable",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "positions"
+  },
+  "transform_id": "DropVar",
+  "target_tables": [
+    "positions"
+  ],
+  "target_variables": [
+    "synthetic_aeuid"
+  ],
+  "deleted_variables": [
+    "synthetic_aeuid"
+  ],
+  "class_type": "DropVariable"
+}
+{
+  "macro_uuid": "0ba50b91-cf35-42aa-b7db-1a93d7cb7892",
+  "log_info": null,
+  "uuid": "8c09baf0-3494-4a71-8198-c2350a054061",
+  "timestamp": "2025-09-15T07:56:54.415795+00:00",
+  "executed_user": "runner",
+  "event_type": "transform",
+  "event_description": "Drops missing IDs by removing synthetic_aeuid variable",
+  "meta_version": "1.0",
+  "name": "DropMissingIDs",
+  "transform_type": "DropMissing",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "positions"
+  },
+  "transform_list": [
+    {
+      "log_info": {
+        "input_tables": [
+          "positions"
+        ],
+        "output_tables": [
+          "positions"
+        ],
+        "input_variables": [
+          [
+            "synthetic_aeuid"
+          ]
+        ],
+        "output_variables": [],
+        "created_variables": null,
+        "renamed_variables": null,
+        "removed_variables": [
+          [
+            "synthetic_aeuid"
+          ]
+        ],
+        "input_row_counts": null,
+        "output_row_counts": null,
+        "input_columns": {
+          "positions": [
+            "age",
+            "name",
+            "var",
+            "position",
+            "skill",
+            "concatenated_id",
+            "synthetic_aeuid"
+          ]
+        },
+        "output_columns": {
+          "positions": [
+            "age",
+            "name",
+            "var",
+            "position",
+            "skill",
+            "concatenated_id"
+          ]
+        },
+        "num_input_frames": 1,
+        "num_output_frames": 1
+      },
+      "persistent_uuid": false,
+      "uuid": "3676b3a6-075b-4b67-9a8a-daf8c8c519c3",
+      "timestamp": "2025-09-15T07:56:54.415694+00:00",
+      "executed_user": "runner",
+      "macro_uuid": "0ba50b91-cf35-42aa-b7db-1a93d7cb7892",
+      "log_exclusions": [
+        "log_location",
+        "indent_depth",
+        "log_exclusions",
+        "persistent_uuid"
+      ],
+      "log_location": "events_log/job_1/transforms.json",
+      "indent_depth": 2,
+      "event_type": "transform",
+      "event_description": "Removes specified variable(s) from a dataframe",
+      "meta_version": "1.0",
+      "name": "DropVariable",
+      "transform_type": "TableTransform",
+      "testable_transform": true,
+      "version_pyspark": "4.0.1",
+      "version_polars": "1.33.1",
+      "version_pandas": "2.3.2",
+      "version_python": "3.12.3",
+      "params": {
+        "df": "positions"
+      },
+      "transform_id": "DropVar",
+      "target_tables": [
+        "positions"
+      ],
+      "target_variables": [
+        "synthetic_aeuid"
+      ],
+      "deleted_variables": [
+        "synthetic_aeuid"
+      ]
+    }
+  ],
+  "class_type": "MacroTransform"
+}
+{"log_info": {"input_tables": ["positions"], "output_tables": ["positions_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "b51f1c72-f82e-443b-b6a1-accacd2fede1", "timestamp": "2025-09-15T07:56:55.137162+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table positions to ../test_tables/output/positions.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/positions.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary"], "output_tables": ["salary_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "e3033e1c-a14a-4d6b-bf69-fc7253d61725", "timestamp": "2025-09-15T07:56:55.281080+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary to ../test_tables/output/salary.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/salary.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "78041980-597a-4e8d-9129-4e714a88b035", "timestamp": "2025-09-15T07:56:55.399342+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ../test_tables/output/location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["array_like"], "output_tables": ["array_like_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "90ef0872-5cb8-42f6-8872-4550bc39d7b7", "timestamp": "2025-09-15T07:56:55.509110+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table array_like to ../test_tables/output/array_like.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/array_like.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["decimal_table"], "output_tables": ["decimal_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "4843a9c7-2574-4f67-ab2f-f6c1638a22a1", "timestamp": "2025-09-15T07:56:55.687800+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table decimal_table to ../test_tables/output/decimal_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/decimal_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "d5e615c1-6dbc-42c8-96ee-465975f5a4d2", "timestamp": "2025-09-15T07:56:55.851909+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ../test_tables/output/date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["state"], "output_tables": ["state_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "2c16f68b-a02b-4aa7-8b3d-e3602b0c159e", "timestamp": "2025-09-15T07:56:55.975716+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table state to ../test_tables/output/state.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/state.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
