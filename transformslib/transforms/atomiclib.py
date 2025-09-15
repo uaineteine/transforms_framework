@@ -1125,11 +1125,11 @@ class DropNAValues(TableTransform):
 
         # Apply backend-specific NA drop
         if backend == "pandas":
-            supply_frames[table_name] = supply_frames[table_name].dropna(subset=[self.column])
+            supply_frames[table_name].df = supply_frames[table_name].df.dropna(subset=[self.column])
         elif backend == "polars":
-            supply_frames[table_name] = supply_frames[table_name].drop_nulls(subset=[self.column])
+            supply_frames[table_name].df = supply_frames[table_name].df.drop_nulls(subset=[self.column])
         elif backend == "pyspark":
-            supply_frames[table_name] = supply_frames[table_name].na.drop(subset=[self.column])
+            supply_frames[table_name].df = supply_frames[table_name].df.na.drop(subset=[self.column])
         else:
             raise NotImplementedError(f"DropNA not implemented for backend '{backend}'")
 
@@ -1161,11 +1161,11 @@ class DropNAValues(TableTransform):
         backend = supply_frames[table_name].frame_type
 
         if backend == "pandas":
-            return not supply_frames[table_name][self.column].isna().any()
+            return not supply_frames[table_name].df[self.column].isna().any()
         elif backend == "polars":
-            return supply_frames[table_name][self.column].null_count() == 0
+            return supply_frames[table_name].df[self.column].null_count() == 0
         elif backend == "pyspark":
-            return supply_frames[table_name].filter(col(self.column).isNull()).count() == 0
+            return supply_frames[table_name].df.filter(col(self.column).isNull()).count() == 0
         return False
 
 class TrimWhitespace(TableTransform):
