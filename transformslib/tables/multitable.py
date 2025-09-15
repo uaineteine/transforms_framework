@@ -1,6 +1,6 @@
 import os
 
-from typing import Union
+from typing import Union, List
 import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
@@ -698,8 +698,6 @@ class MultiTable:
             raise ValueError("Unsupported frame_type for explode")
 
         return None
-    
-    from typing import Union, List
 
     def sort(self, by: Union[str, List[str]], ascending: Union[bool, List[bool]] = True) -> "MultiTable":
         """
