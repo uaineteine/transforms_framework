@@ -10,6 +10,8 @@ class TransformEvent:
         created_variables: list[str] | None = None,
         renamed_variables: dict[str, str] | None = None,
         removed_variables: list[str] | None = None,
+        input_row_counts: dict[str, int] | None = None,
+        output_row_counts: dict[str, int] | None = None,
         ):
 
         self.input_tables = input_tables
@@ -19,6 +21,8 @@ class TransformEvent:
         self.created_variables = created_variables
         self.renamed_variables = renamed_variables
         self.removed_variables = removed_variables
+        self.input_row_counts = input_row_counts
+        self.output_row_counts = output_row_counts
 
          # derived attributes
         self.num_input_frames = len(input_tables)
@@ -38,7 +42,7 @@ class PipelineEvent(Event):
         class_type (str): Constant string identifying this event type.
     """
 
-    def __init__(self, event_type: str, event_payload: str, event_description: str = "", log_location: str = ""):
+    def __init__(self, event_type: str, event_payload: str, event_description: str = "", log_location: str = "", macro_uuid: str = None):
         """
         Create a PipelineEvent.
 
@@ -47,6 +51,7 @@ class PipelineEvent(Event):
             event_payload (str): A short message or payload describing the operation.
             event_description (str, optional): A detailed description of the operation. Defaults to "".
             log_location (str, optional): Path to the log file. Defaults to "".
+            macro_uuid (str, optional): UUID of the macro operation this event is part of. Defaults to None.
 
         Example:
             >>> event = PipelineEvent(
@@ -63,6 +68,7 @@ class PipelineEvent(Event):
             event_payload=event_payload,
             event_description=event_description,
             log_location=log_location,
+            macro_uuid=macro_uuid
         )
 
         self.meta_version = meta.meta_version

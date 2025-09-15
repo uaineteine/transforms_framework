@@ -13,7 +13,6 @@ if __name__ == "__main__":
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
     
-    
     #tmp
     from pyspark.sql.functions import to_date
 
@@ -25,13 +24,15 @@ if __name__ == "__main__":
     job_id = 1
     #run_id = 1
     
-    supply_frames = SupplyLoad(job_id, spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True) #sample_rows=xyz
+    
+    listatomic()
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
     # -------------------------------
-    print("Partitioning salary by SALARY")
-    partition_transform = PartitionByValue("SALARY")
+    print("Partitioning salary by salary")
+    partition_transform = PartitionByValue("salary")
     supply_frames = partition_transform.apply(supply_frames, df="salary")
     partitioned = supply_frames.select_by_names("salary_*")
     for t in partitioned.tables:
@@ -43,9 +44,9 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (positions):", supply_frames["positions"].columns)
 
-    supply_frames = DropVariable("VAR").apply(supply_frames, df="positions")
+    supply_frames = DropVariable("var").apply(supply_frames, df="positions")
 
-    print("After DropVariable (VAR) on positions:", supply_frames["positions"].columns)
+    print("After DropVariable (var) on positions:", supply_frames["positions"].columns)
     supply_frames["positions"].show()
 
     # -------------------------------
@@ -53,9 +54,9 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (salary):", supply_frames["salary"].columns)
 
-    supply_frames = SubsetTable(["SALARY", "AGE"]).apply(supply_frames, df="salary")
+    supply_frames = SubsetTable(["salary", "age"]).apply(supply_frames, df="salary")
 
-    print("After SubsetTable (keep SALARY) on salary:", supply_frames["salary"].columns)
+    print("After SubsetTable (keep salary) on salary:", supply_frames["salary"].columns)
     supply_frames["salary"].show()
 
     # -------------------------------
@@ -81,50 +82,50 @@ if __name__ == "__main__":
     # -------------------------------
     print("Original columns (salary):", supply_frames["salary"].columns)
 
-    supply_frames = RenameTable({"SALARY": "INCOME"}).apply(supply_frames, df="salary")
+    supply_frames = RenameTable({"salary": "income"}).apply(supply_frames, df="salary")
 
-    print("After RenameTable (SALARY -> INCOME) on salary:", supply_frames["salary"].columns)
+    print("After RenameTable (salary -> income) on salary:", supply_frames["salary"].columns)
     supply_frames["salary"].show()
 
     # -------------------------------
     # Test 7: ComplexFilter on salary
     # -------------------------------
-    print("Applying ComplexFilter (INCOME >= 600) on salary")
+    print("Applying ComplexFilter (income >= 600) on salary")
     
     #TODO 
     #make a simple filter type vs a complex one
 
     filter_transform = ComplexFilter(condition_map={
-        "pyspark": lambda df: df.filter(col("INCOME") >= 600)
+        "pyspark": lambda df: df.filter(col("income") >= 600)
     })
 
     supply_frames = filter_transform.apply(supply_frames, df="salary")
 
-    print("After ComplexFilter (INCOME > 600) on salary:")
+    print("After ComplexFilter (income > 600) on salary:")
     supply_frames["salary"].show()
 
     # -------------------------------
     # Test 8: JoinTable on positions and salary
     # -------------------------------
-    print("Joining positions and salary on AGE")
+    print("Joining positions and salary on age")
 
     join_transform = JoinTable(
         left_table="positions",
         right_table="salary",
-        join_columns="AGE",
+        join_columns="age",
         join_type="inner"
     )
 
     supply_frames = join_transform.apply(supply_frames, output_table="example_join")
 
-    print("After JoinTable (positions inner join salary on AGE):")
+    print("After JoinTable (positions inner join salary on age):")
     supply_frames["example_join"].show()
 
     # -------------------------------
     # Test 9: SimpleFilter on the joined table
     # -------------------------------
-    print("Applying SimpleFilter (INCOME > 600) on example_join")
-    supply_frames = SimpleFilter(column="INCOME", op=">", value=600).apply(supply_frames, df="example_join")
+    print("Applying SimpleFilter (income > 600) on example_join")
+    supply_frames = SimpleFilter(column="income", op=">", value=600).apply(supply_frames, df="example_join")
 
     print("After SimpleFilter:")
     supply_frames["example_join"].show()
@@ -133,22 +134,22 @@ if __name__ == "__main__":
     # Test 10: Concatenate variables
     # -------------------------------
     print("Concatenating variables")
-    supply_frames = ConcatColumns(variables_to_concat=["AGE", "SKILL"], sep="_").apply(supply_frames, df="example_join", output_var="CONCATTED")
-    print("After ConcatColumns (AGE, SKILL -> CONCATTED) on example_join:")
+    supply_frames = ConcatColumns(variables_to_concat=["age", "skill"], sep="_").apply(supply_frames, df="example_join", output_var="concatted")
+    print("After ConcatColumns (age, skill -> concatted) on example_join:")
     supply_frames["example_join"].show()
 
     # -------------------------------
     # Test 11: ReplaceByCondition
     # -------------------------------
-    print("Replacing values in INCOME where INCOME >= 610 with 600")
+    print("Replacing values in income where income >= 610 with 600")
     supply_frames = ReplaceByCondition(
-        column="INCOME",
+        column="income",
         op=">=",
         value=610,
         replacement=600
     ).apply(supply_frames, df="example_join")
 
-    print("After ReplaceByCondition (INCOME >= 610 -> 600):")
+    print("After ReplaceByCondition (income >= 610 -> 600):")
     supply_frames["example_join"].show()
 
     # -------------------------------
@@ -156,14 +157,14 @@ if __name__ == "__main__":
     # -------------------------------
     
     print("Exploding an array type test")
-    supply_frames = ExplodeColumn("VAR3", " ", True).apply(supply_frames, df="array_like")
+    supply_frames = ExplodeColumn("var3", " ", True).apply(supply_frames, df="array_like")
     supply_frames["array_like"].show()
 
     # -------------------------------
     # Test 13: RoundNumber
     # -------------------------------
     print("Rounding a number to 3 decimal places")
-    supply_frames = RoundNumber("VALUE2", 3).apply(supply_frames, df="decimal_table")
+    supply_frames = RoundNumber("value2", 3).apply(supply_frames, df="decimal_table")
     supply_frames["decimal_table"].show()
 
     # -------------------------------
@@ -171,11 +172,11 @@ if __name__ == "__main__":
     # -------------------------------
     print("Truncating a date to year and month levels")
     # Convert string to date
-    supply_frames["date_table"].df = supply_frames["date_table"].df.withColumn("EVENT_DATE", to_date("EVENT_DATE", "yyyy-MM-dd"))
+    supply_frames["date_table"].df = supply_frames["date_table"].df.withColumn("event_date", to_date("event_date", "yyyy-MM-dd"))
     
-    supply_frames = TruncateDate("EVENT_DATE", "month").apply(supply_frames, df="date_table")
+    supply_frames = TruncateDate("event_date", "month").apply(supply_frames, df="date_table")
     supply_frames["date_table"].show()
-    supply_frames = TruncateDate("EVENT_DATE", "year").apply(supply_frames, df="date_table")
+    supply_frames = TruncateDate("event_date", "year").apply(supply_frames, df="date_table")
     supply_frames["date_table"].show()
     #print(supply_frames["date_table"].dtypes)
 
@@ -187,7 +188,7 @@ if __name__ == "__main__":
     join_transform = JoinTable(
         left_table="location",
         right_table="state",
-        join_columns="CITY",
+        join_columns="city",
         join_type="outer"
     )
     print("first join complete")
@@ -197,16 +198,16 @@ if __name__ == "__main__":
     join_transform = JoinTable(
         left_table="location",
         right_table="example_join",
-        join_columns="NAME",
+        join_columns="name",
         join_type="outer"
     )
     supply_frames = join_transform.apply(supply_frames, output_table="super_table")
     print("second join complete")
     
-    supply_frames = TrimWhitespace("NAME").apply(supply_frames, df="super_table")
-    supply_frames = ForceCase("NAME", "upper").apply(supply_frames, df="super_table")
+    supply_frames = TrimWhitespace("name").apply(supply_frames, df="super_table")
+    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="super_table")
     
     supply_frames["super_table"].show()
 
     # save table output tables
-    supply_frames.save_all("../test_tables/output", spark=spark)
+    supply_frames.save_all(f"../test_tables/prod/job_{job_id}/output", spark=spark)

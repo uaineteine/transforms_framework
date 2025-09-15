@@ -2,7 +2,7 @@
   "sample_files": [
     {
       "table_name": "positions",
-      "input_file_path": "../test_tables/job_1/positions.csv",
+      "input_file_path": "../test_tables/prod/job_1/positions.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -30,55 +30,43 @@
     },
     {
       "table_name": "salary",
-      "input_file_path": "../test_tables/job_1/salary.csv",
+      "input_file_path": "../test_tables/prod/job_1/salary.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
+        "salary": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "name": {
+        "NAME": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "age": {
+          "dtype_source": "Int64",
+          "dtype_output": "Int64"
         }
       }
     },
     {
       "table_name": "location",
-      "input_file_path": "../test_tables/job_1/location.csv",
+      "input_file_path": "../test_tables/prod/job_1/location.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
         "name": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
+        "city": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "position": {
+        "country": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "skill": {
+        "region": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -86,27 +74,19 @@
     },
     {
       "table_name": "array_like",
-      "input_file_path": "../test_tables/job_1/array_like.csv",
+      "input_file_path": "../test_tables/prod/job_1/array_like.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "var1": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
+        "var2": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "var3": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -114,39 +94,31 @@
     },
     {
       "table_name": "decimal_table",
-      "input_file_path": "../test_tables/job_1/decimal_table.csv",
+      "input_file_path": "../test_tables/prod/job_1/decimal_table.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "value1": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "value2": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
-          "dtype_source": "String",
-          "dtype_output": "String"
+        "value3": {
+          "dtype_source": "Float64",
+          "dtype_output": "Float64"
         }
       }
     },
     {
       "table_name": "date_table",
-      "input_file_path": "../test_tables/job_1/date_table.csv",
+      "input_file_path": "../test_tables/prod/job_1/date_table.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
+        "id": {
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
@@ -154,15 +126,7 @@
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "event_date": {
           "dtype_source": "String",
           "dtype_output": "String"
         }
@@ -170,27 +134,15 @@
     },
     {
       "table_name": "state",
-      "input_file_path": "../test_tables/job_1/state.csv",
+      "input_file_path": "../test_tables/prod/job_1/state.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
-        "age": {
-          "dtype_source": "Int64",
-          "dtype_output": "Int64"
-        },
-        "name": {
+        "city": {
           "dtype_source": "String",
           "dtype_output": "String"
         },
-        "var": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "position": {
-          "dtype_source": "String",
-          "dtype_output": "String"
-        },
-        "skill": {
+        "state": {
           "dtype_source": "String",
           "dtype_output": "String"
         }

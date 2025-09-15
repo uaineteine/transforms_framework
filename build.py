@@ -7,7 +7,7 @@ import os
 # generate_setup.py
 
 package_name = "transformslib"
-version = "0.7.0"
+version = "0.10.0"
 author = ""
 author_email = ""
 url = ""
@@ -70,7 +70,15 @@ print("Package built successfully.")
 # Build documentation
 docs_dir = "docs"
 if os.path.exists(docs_dir):
+    print("Building documentation...")
     os.chdir(docs_dir)
-    subprocess.run(["builddocs.bat"], check=True)
-    print("Documentation built successfully.")
-    os.chdir("..")
+    try:
+        # Run the same commands as in builddocs.bat but cross-platform
+        subprocess.run(["python", "-m", "pre_compile_source"], check=True)
+        subprocess.run(["python", "-m", "sphinx", "source", "build"], check=True)
+        print("Documentation built successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Documentation build failed: {e}")
+        print("Continuing without documentation build...")
+    finally:
+        os.chdir("..")

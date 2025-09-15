@@ -3,41 +3,47 @@ from typing import Dict, Any
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
+from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 
-def get_supply_file(job_id:int, run_id:int = None) -> str:
+LOCAL_TEST_PATH = "../test_tables"
+WORM_PATH = "abfss://worm@prdct4fzchaeudia.dfs.core.windows.net"
+
+def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False) -> str:
     """
     Return the path location of the input payload.
 
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, returns path to sampling_state.json for the new sampling input method.
+        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
     Returns:
         str: The payload path.
     """
-    
+    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
     if run_id is None:
         # New sampling input method - use sampling_state.json
         print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
-        return f"../test_tables/job_{job_id}/sampling_state.json"
+        return f"{base_path}/prod/job_{job_id}/sampling_state.json"
     else:
-        return legacy_get_payload_file(job_id, run_id)
+        return legacy_get_payload_file(job_id, run_id, use_test_path=use_test_path)
 
 
-def legacy_get_payload_file(job_id: int, run_id: int) -> str:
+def legacy_get_payload_file(job_id: int, run_id: int, use_test_path: bool = False) -> str:
     """
     Return the path location of the legacy input payload (payload.json).
 
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int): A run id to get the path of configuration file containing supply definitions.
+        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
     Returns:
         str: The legacy payload path.
     """
+    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
     print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
-    return f"../test_tables/job_{job_id}/payload.json"
-
+    return f"{base_path}/job_{job_id}/payload.json"
 
 def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
                      sample: bool, sample_rows: int = None, sample_frac: float = None, 
@@ -67,13 +73,36 @@ def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str
             raise ValueError("Each supply item must have a 'name' field")
 
         print(f"Loading table '{name}' from {item['path']} (format: {item['format']})")
-        
+
         table = MetaFrame.load(
             path=item["path"],
             format=item["format"],
             frame_type="pyspark",
             spark=spark
         )
+
+        # If CSV, cast columns to expected dtypes if provided
+        if item["format"].lower() == "csv" and "dtypes" in item:
+            print(f"Casting columns for table '{name}' to expected schema...")
+            dtypes = item["dtypes"]
+            # Build a dict of column: pyspark type string
+            pyspark_type_map = {
+                "String": "string",
+                "Int64": "long",
+                "Float64": "double",
+                "Boolean": "boolean"
+            }
+            from pyspark.sql.functions import col
+            for colname, dtypeinfo in dtypes.items():
+                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
+                if target_type in pyspark_type_map:
+                    spark_type = pyspark_type_map[target_type]
+                    try:
+                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
+                    except Exception as e:
+                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
+                else:
+                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
 
         # Apply sampling if requested
         if sample:
@@ -85,10 +114,10 @@ def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str
 
 def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
                             sample: bool, sample_rows: int = None, sample_frac: float = None,
-                            seed: int = None, spark=None) -> None:
+                            seed: int = None, spark=None, enable_schema_validation: bool = True) -> None:
     """
-    Load supplies from new sampling_state.json format.
-
+    Load supplies from new sampling_state.json format with optional schema validation.
+    
     Args:
         data (Dict[str, Any]): The parsed JSON data from sampling_state.json
         tables (list): List to append loaded tables to
@@ -98,6 +127,7 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
         sample_frac (float, optional): Fraction of rows to sample
         seed (int, optional): Random seed for reproducible sampling
         spark: SparkSession object for PySpark operations
+        enable_schema_validation (bool): Whether to perform schema validation. Defaults to True.
 
     Returns:
         None
@@ -122,6 +152,52 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
             spark=spark
         )
 
+        # If CSV, cast columns to expected dtypes if provided
+        if item["file_format"].lower() == "csv" and "dtypes" in item:
+            print(f"Casting columns for table '{name}' to expected schema...")
+            dtypes = item["dtypes"]
+            pyspark_type_map = {
+                "String": "string",
+                "Int64": "long",
+                "Float64": "double",
+                "Boolean": "boolean"
+            }
+            from pyspark.sql.functions import col
+            for colname, dtypeinfo in dtypes.items():
+                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
+                if target_type in pyspark_type_map:
+                    spark_type = pyspark_type_map[target_type]
+                    try:
+                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
+                    except Exception as e:
+                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
+                else:
+                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
+
+        # Perform schema validation if enabled and dtypes are provided
+        if enable_schema_validation and "dtypes" in item:
+            try:
+                print(f"Validating schema for table '{name}'...")
+                dtypes = item["dtypes"]
+                # Print schema summary for transparency
+                schema_summary = SchemaValidator.get_schema_summary(dtypes)
+                print(schema_summary)
+                # Validate the schema
+                SchemaValidator.validate_schema(
+                    df=table.df,
+                    expected_dtypes=dtypes,
+                    frame_type=table.frame_type,
+                    table_name=name
+                )
+                print(f"Schema validation passed for table '{name}'")
+            except SchemaValidationError as e:
+                print(f"Schema validation failed for table '{name}': {e}")
+                raise e
+            except Exception as e:
+                print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
+        elif enable_schema_validation:
+            print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
+
         # Apply sampling if requested
         if sample:
             table.sample(n=sample_rows, frac=sample_frac, seed=seed)
@@ -137,31 +213,31 @@ class SupplyLoad(TableCollection):
 
     1. Legacy payload.json format (requires both job_id and run_id)
     2. New sampling input method using sampling_state.json (requires only job_id)
-
-    Legacy JSON configuration should follow this structure::
-
-        {
-            "supply": [
-                {
-                    "name": "table_name",
-                    "path": "path/to/data.parquet",
-                    "format": "parquet"
-                },
-            ]
-        }
-
-    New sampling state JSON configuration follows this structure::
-
-        {
-            "sample_files": [
-                {
-                    "table_name": "table_name",
-                    "input_file_path": "path/to/data.csv",
-                    "file_format": "csv",
-                    "dtypes": {
-                        "column1": {"dtype_source": "String", "dtype_output": "String"},
-                        "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
-                    }
+    
+    The new sampling system includes schema validation capabilities that automatically verify
+    loaded data against the expected schema defined in the dtypes field.
+    
+    Legacy JSON configuration should follow this structure:
+    {
+        "supply": [
+            {
+                "name": "table_name",
+                "path": "path/to/data.parquet",
+                "format": "parquet"
+            },
+        ]
+    }
+    
+    New sampling state JSON configuration follows this structure:
+    {
+        "sample_files": [
+            {
+                "table_name": "table_name",
+                "input_file_path": "path/to/data.csv",
+                "file_format": "csv",
+                "dtypes": {
+                    "column1": {"dtype_source": "String", "dtype_output": "String"},
+                    "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
                 }
             ]
         }
@@ -170,13 +246,16 @@ class SupplyLoad(TableCollection):
         supply_load_src (str): The path to the JSON configuration file.
         job (int): The job ID for the current operation.
         run (int): The run ID for the current operation (None for new sampling input method).
-
+        enable_schema_validation (bool): Whether schema validation is enabled (new system only).
+    
     Example:
-
-        >>> # New sampling input method (job_id only)
+        >>> # New sampling input method with schema validation (default)
         >>> supply_loader = SupplyLoad(job_id=1, spark=spark)
-
-        >>> # Legacy method (job_id and run_id)
+        >>> 
+        >>> # New sampling input method without schema validation
+        >>> supply_loader = SupplyLoad(job_id=1, spark=spark, enable_schema_validation=False)
+        >>> 
+        >>> # Legacy method (schema validation not available)
         >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
 
         >>> customers_table = supply_loader["customers"]
@@ -186,7 +265,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None):
+    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True, use_test_path: bool = False):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -201,21 +280,30 @@ class SupplyLoad(TableCollection):
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
             spark: SparkSession object required for loading PySpark DataFrames. Defaults to None.
+            enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
+                                                     Only applies when run_id is None (new system).
+                                                     Defaults to True.
+            use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
-            ValueError: If the output transform file already exists suggesting the run has been made before. (Only applies when run_id is provided for legacy mode)
+            ValueError: If the output transform file already exists suggesting the run has been made before.
+                       (Only applies when run_id is provided for legacy mode)
+            SchemaValidationError: If schema validation fails (only for new sampling system).
             Exception: If there are issues loading any of the data files.
 
         Example:
 
             >>> from pyspark.sql import SparkSession
             >>> spark = SparkSession.builder.appName("SupplyLoad").getOrCreate()
-
-            >>> # New sampling input method
+            >>> 
+            >>> # New sampling input method with schema validation (default)
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)
-
-            >>> # Legacy method
+            >>> 
+            >>> # New sampling input method without schema validation
+            >>> supply_loader = SupplyLoad(job_id=1, spark=spark, enable_schema_validation=False)
+            >>> 
+            >>> # Legacy method (schema validation not applied)
             >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
 
             >>> print(f"Loaded {len(supply_loader)} tables")
@@ -227,9 +315,10 @@ class SupplyLoad(TableCollection):
         #run parameters
         self.job = job_id
         self.run = run_id
-        
-        #identify the load dir and payload loc
-        self.supply_load_src = get_supply_file(job_id, run_id)
+        self.enable_schema_validation = enable_schema_validation
+        self.use_test_path = use_test_path
+
+        self.supply_load_src = get_supply_file(job_id, run_id, use_test_path=use_test_path)
         
         #gather the source payload location
         # Only check transform log if run_id is provided (legacy mode)
@@ -259,9 +348,9 @@ class SupplyLoad(TableCollection):
         Load supply data from the JSON configuration file.
 
         This method reads either a payload.json (legacy) or sampling_state.json (new sampling input method)
-        configuration file and creates MetaFrame instances for each supply item. It validates that each
-        supply item has the required fields, loads the data using the specified format and path, and
-        optionally applies sampling.
+        configuration file and creates MetaFrame instances for each supply item. It validates that each 
+        supply item has the required fields, loads the data using the specified format and path, and 
+        optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
 
         Args:
             spark: SparkSession object required for PySpark operations. Defaults to None.
@@ -269,6 +358,7 @@ class SupplyLoad(TableCollection):
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
             ValueError: If the JSON format is invalid or missing required fields.
+            SchemaValidationError: If schema validation fails (only for new sampling system).
             Exception: If there are issues loading any of the data files.
 
         Example:
@@ -279,36 +369,47 @@ class SupplyLoad(TableCollection):
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
-            with open(self.supply_load_src, 'r') as file:
-                data = json.load(file)
-                
-                # Determine format based on the structure of the JSON file
-                if "sample_files" in data:
-                    # New sampling input method (sampling_state.json format)
-                    load_from_sampling_state(
-                        data=data, 
-                        tables=self.tables, 
-                        named_tables=self.named_tables,
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark
-                    )
-                elif "supply" in data:
-                    # Legacy format (payload.json format)
-                    load_from_payload(
-                        data=data,
-                        tables=self.tables,
-                        named_tables=self.named_tables,
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark
-                    )
-                else:
-                    raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
+            if spark is not None:
+                # Use Spark to read the file as raw text, then parse with json
+                df = spark.read.text(self.supply_load_src)
+                raw_json = "\n".join(row.value for row in df.collect())
+                data = json.loads(raw_json)
+            else:
+                with open(self.supply_load_src, 'r') as file:
+                    data = json.load(file)
+        
+            # Determine format based on the structure of the JSON file
+            if "sample_files" in data:
+                # New sampling input method (sampling_state.json format)
+                # Schema validation is only available for the new system
+                load_from_sampling_state(
+                    data=data, 
+                    tables=self.tables, 
+                    named_tables=self.named_tables,
+                    sample=self.sample,
+                    sample_rows=self.sample_rows,
+                    sample_frac=self.sample_frac,
+                    seed=self.seed,
+                    spark=spark,
+                    enable_schema_validation=self.enable_schema_validation
+                )
+            elif "supply" in data:
+                # Legacy format (payload.json format)
+                # Schema validation is not applied to legacy system
+                if self.enable_schema_validation:
+                    print("Note: Schema validation is not available for legacy payload.json format")
+                load_from_payload(
+                    data=data,
+                    tables=self.tables,
+                    named_tables=self.named_tables,
+                    sample=self.sample,
+                    sample_rows=self.sample_rows,
+                    sample_frac=self.sample_frac,
+                    seed=self.seed,
+                    spark=spark
+                )
+            else:
+                raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")

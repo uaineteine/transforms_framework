@@ -53,8 +53,8 @@ except ValueError as e:
 **Purpose:** Validates and standardises column header names with strict formatting rules.
 
 **Features:**
-- Enforces uppercase-only column headers
-- Automatically converts input to uppercase
+- Enforces lowercase-only column headers
+- Automatically converts input to lowercase
 - Allows only letters and digits
 - No spaces, symbols, or special characters permitted
 - Underscores are allowed
@@ -62,10 +62,10 @@ except ValueError as e:
 
 **Validation Rules:**
 - Must not be empty
-- Must contain only uppercase letters (A-Z) and digits (0-9)
-- No spaces, underscores, or special characters
+- Must contain only lowercase letters (a-z) and digits (0-9)
+- No spaces or special characters except underscores
 - Underscores are allowed
-- Input is automatically converted to uppercase
+- Input is automatically converted to lowercase
 
 **Examples:**
 ```python
@@ -73,21 +73,21 @@ from transformslib.tables.names.colname import Colname
 
 # Valid header names
 valid_headers = [
-    Colname("CUSTOMERNAME"),   # All caps letters
-    Colname("ORDER123"),       # Letters and numbers
-    Colname("CUSTOMER_NAME")   # Underscored column name
-    Colname("customername"),   # Automatically converted to CUSTOMERNAME
-    Colname("order123"),       # Automatically converted to ORDER123
+    Colname("customername"),   # All lowercase letters
+    Colname("order123"),       # Letters and numbers
+    Colname("customer_name"),   # Underscored column name
+    Colname("CUSTOMERNAME"),   # Automatically converted to customername
+    Colname("ORDER123"),       # Automatically converted to order123
 ]
 
 # Invalid header names (will raise ValueError)
 try:
-    Colname("CUSTOMER_NAME")   # No underscores
+    Colname("customer name")   # No spaces
 except ValueError as e:
     print(e)
 
 try:
-    Colname("ORDER DATE")      # No spaces
+    Colname("order-date")      # No hyphens
 except ValueError as e:
     print(e)
 
@@ -98,11 +98,11 @@ except ValueError as e:
 ```
 
 ### 3. NamedList
-**Purpose:** A specialised list for managing collections of string names with automatic capitalisation.
+**Purpose:** A specialised list for managing collections of string names with automatic lowercase conversion.
 
 **Features:**
 - Extends built-in `list` functionality
-- Automatically converts all items to uppercase
+- Automatically converts all items to lowercase
 - Provides utility methods for list operations
 - JSON serialisation support
 - Set operations for overlap and extension
@@ -113,23 +113,23 @@ from transformslib.tables.names.lists import NamedList
 
 # Create a named list
 var_list = NamedList(["name", "age", "city"])
-print(var_list)  # NamedList(['NAME', 'AGE', 'CITY'])
+print(var_list)  # NamedList(['name', 'age', 'city'])
 
 # Properties and methods
 print(f"Count: {var_list.count}")  # Count: 3
 print(var_list.to_json())  # JSON representation
 
 # Set operations
-other_list = ["AGE", "SALARY", "DEPARTMENT"]
+other_list = ["age", "salary", "department"]
 overlap = var_list.overlap(other_list)
-print(overlap)  # NamedList(['AGE'])
+print(overlap)  # NamedList(['age'])
 
 # Extend with unique values
-var_list.extend(other_list)
-print(var_list)  # NamedList(['NAME', 'AGE', 'CITY', 'SALARY', 'DEPARTMENT'])
+var_list.extend_with(other_list)
+print(var_list)  # NamedList(['name', 'age', 'city', 'salary', 'department'])
 ```
 
-### 4. VarList
+### 4. ColList
 **Purpose:** A validated list for variable names that must conform to header naming conventions.
 
 **Features:**
@@ -137,26 +137,26 @@ print(var_list)  # NamedList(['NAME', 'AGE', 'CITY', 'SALARY', 'DEPARTMENT'])
 - Validates all items using `Colname` rules
 - Ensures all variable names are properly formatted
 - Raises `ValueError` for invalid formats
-- Automatic uppercase conversion
+- Automatic lowercase conversion
 
 **Examples:**
 ```python
-from transformslib.tables.names.lists import VarList
+from transformslib.tables.names.lists import ColList
 
 # Valid variable list
-valid_vars = VarList(["customerid", "ordernumber", "amount123"])
-print(valid_vars)  # VarList(['CUSTOMERID', 'ORDERNUMBER', 'AMOUNT123'])
+valid_vars = ColList(["customerid", "ordernumber", "amount123"])
+print(valid_vars)  # ColList(['customerid', 'ordernumber', 'amount123'])
 
 # Invalid variable list (will raise ValueError)
 try:
-    invalid_vars = VarList(["customer_id", "order number", "amount"])
+    invalid_vars = ColList(["customer id", "order-number", "amount@"])
 except ValueError as e:
     print(e)  # Column names must be in correct format
 
 # All NamedList methods are available
 print(valid_vars.to_json())
-other_vars = ["PRODUCTID", "CUSTOMERID"]
+other_vars = ["productid", "customerid"]
 overlap = valid_vars.overlap(other_vars)
-print(overlap)  # VarList(['CUSTOMERID'])
+print(overlap)  # ColList(['customerid'])
 ```
 

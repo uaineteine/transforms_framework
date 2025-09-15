@@ -142,11 +142,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables.transforms"><code class="docutils literal notranslate"><span class="pre">UnionTables.transforms()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.listme"><code class="docutils literal notranslate"><span class="pre">listme()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.base">transformslib.transforms.base</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform"><code class="docutils literal notranslate"><span class="pre">MacroTransform</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.error_check"><code class="docutils literal notranslate"><span class="pre">MacroTransform.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.test"><code class="docutils literal notranslate"><span class="pre">MacroTransform.test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.transforms"><code class="docutils literal notranslate"><span class="pre">MacroTransform.transforms()</span></code></a></li>
 </ul>
 </li>
@@ -574,6 +576,12 @@ based on unique values of a specified column.</p>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.listme">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">listme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.listme" title="Link to this definition"></a></dt>
+<dd><p>Display all available transforms in a neat table format.</p>
+</dd></dl>
+
 </section>
 <section id="module-transformslib.transforms.base">
 <span id="transformslib-transforms-base"></span><h2>transformslib.transforms.base<a class="headerlink" href="#module-transformslib.transforms.base" title="Link to this heading"></a></h2>
@@ -604,6 +612,12 @@ ValueError: If validation fails.</p>
 </div>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.MacroTransform.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.base.MacroTransform.test" title="Link to this definition"></a></dt>
+<dd><p>Test that all child transforms pass their tests.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -639,7 +653,7 @@ ValueError: If validation fails.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.transforms.base.TableTransform">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">TableTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.TableTransform" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">TableTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.TableTransform" title="Link to this definition"></a></dt>
 <dd><p>Specialised transform class for operations that act on specific table variables.</p>
 <p>This class extends Transform to provide variable-level tracking and management
 for transformations that operate on specific columns or variables within a table.
@@ -683,7 +697,7 @@ list[str]: Single variable if one, list if multiple.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.transforms.base.Transform">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.Transform" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.Transform" title="Link to this definition"></a></dt>
 <dd><p>Base class for data transformation operations with automatic event logging.</p>
 <p>This class provides the foundation for implementing data transformations in the pipeline.
 It extends PipelineEvent to automatically log transformation operations and provides
@@ -828,8 +842,12 @@ and logging the transformation metadata.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.transforms.macrolib.Macro.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro.apply" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro.apply" title="Link to this definition"></a></dt>
 <dd><p>Applies the macro transformation to the input tables and logs the operation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: Keyword arguments to pass to the underlying transforms.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Transformed table frames.</p>
@@ -930,8 +948,8 @@ to indicate UTC, and attempts to convert it into a <cite>datetime</cite> object.
 <p>The path is built using the <cite>main_dir</cite> directory and includes the job ID.
 The file is assumed to be named <cite>transforms.json</cite> and located in a subdirectory
 named <cite>job_&lt;job_id&gt;</cite>.</p>
-<section id="id13">
-<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>job_id<span class="classifier">int</span></dt><dd><p>The identifier for the job.</p>
 </dd>
@@ -941,8 +959,8 @@ named <cite>job_&lt;job_id&gt;</cite>.</p>
 </dd>
 </dl>
 </section>
-<section id="id14">
-<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>str</dt><dd><p>The full path to the <cite>transforms.json</cite> file for the specified job.</p>
 </dd>

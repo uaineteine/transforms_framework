@@ -1,59 +1,10 @@
 import json
 from transformslib.tables.collections.collection import TableCollection 
-from transformslib.transforms.base import MacroTransform
+from transformslib.transforms.base import MacroTransform, Macro
 from transformslib.transforms.atomiclib import *
 from typing import Union
 
 macro_log_location = "events_log/job_1/treatments.json"
-
-class Macro:
-    """
-    A wrapper class for applying a macro transformation to a collection of tables
-    and logging the transformation metadata.
-
-    :param macro_transform: A MacroTransform object containing the transformation logic.
-    :type macro_transform: MacroTransform
-    :param input_tables: A collection of input tables to be transformed.
-    :type input_tables: TableCollection
-    :param output_tables: List of names of output tables.
-    :type output_tables: list[str]
-    :param input_variables: List of input variable names used in the transformation.
-    :type input_variables: list[str]
-    :param output_variables: List of output variable names produced by the transformation.
-    :type output_variables: list[str]
-    """
-
-    def __init__(self,
-                 macro_transform: MacroTransform,
-                 input_tables: TableCollection,
-                 output_tables: list[str],
-                 input_variables: list[str],
-                 output_variables: list[str]):
-        self.macros = macro_transform
-        self.input_tables = input_tables
-        self.output_tables = output_tables
-        self.input_variables = input_variables
-        self.output_variables = output_variables
-        self.macro_log_loc = macro_log_location
-
-    def apply(self):
-        """
-        Applies the macro transformation to the input tables and logs the operation.
-
-        :return: Transformed table frames.
-        :rtype: dict[str, pd.DataFrame]
-        """
-        return_frames = self.macros.apply(self.input_tables)
-        self.log()
-        return return_frames
-
-    def log(self):
-        """
-        Logs the macro transformation metadata to a JSON file.
-        """
-        json_info = self.__dict__
-        with open(self.macro_log_loc, 'w') as f:
-            json.dump(json_info, f, indent=2)
 
 class TopBottomCode(Macro):
     """
@@ -80,13 +31,13 @@ class TopBottomCode(Macro):
             var_transforms = [
                 ReplaceByCondition(
                     column=var,
-                    op=">=",
+                    op=">",
                     value=max_value,
                     replacement=max_value
                 ),
                 ReplaceByCondition(
                     column=var,
-                    op="<=",
+                    op="<",
                     value=min_value,
                     replacement=min_value
                 )
@@ -103,7 +54,82 @@ class TopBottomCode(Macro):
         super().__init__(
             macro_transform=macro,
             input_tables=input_tables,
-            output_tables=input_tables.table_names(),
+            output_tables=input_tables.get_table_names(),
             input_variables=input_variables,
             output_variables=input_variables
         )
+
+
+def _discover_macros():
+    """
+    Discover all Macro subclasses in the current module.
+    Returns a list of tuples (class_name, class_obj, description).
+    """
+    import sys
+    import inspect
+    current_module = sys.modules[__name__]
+    macros = []
+    
+    for name in dir(current_module):
+        obj = getattr(current_module, name)
+        if (inspect.isclass(obj) and 
+            issubclass(obj, Macro) and 
+            obj is not Macro):
+            
+            # Extract description from docstring
+            description = ""
+            if obj.__doc__:
+                lines = obj.__doc__.strip().split('\n')
+                if lines:
+                    description = lines[0].strip()
+            
+            macros.append((name, obj, description))
+    
+    return sorted(macros)
+
+
+def listmacro():
+    """
+    Display all available macro transforms in a neat table format.
+    """
+    macros = _discover_macros()
+    
+    if not macros:
+        print("No macro transforms found.")
+        return
+    
+    print("\n" + "="*80)
+    print(" MACRO LIBRARY - Available Macro Transform Classes")
+    print("="*80)
+    print(f" Total Macro Transforms: {len(macros)}")
+    print("="*80)
+    
+    # Calculate column widths
+    max_name_width = max(len(name) for name, _, _ in macros) if macros else 10
+    max_desc_width = 80 - max_name_width - 5  # Leave space for formatting
+    
+    print(f"{'Macro Name':<{max_name_width}} | Description")
+    print("-" * max_name_width + "-+-" + "-" * max_desc_width)
+    
+    for name, _, description in macros:
+        # Truncate description if too long
+        if len(description) > max_desc_width:
+            description = description[:max_desc_width-3] + "..."
+        print(f"{name:<{max_name_width}} | {description}")
+    
+    print("="*80)
+    print(" Use help(ClassName) for detailed information about any macro transform.")
+    print("="*80 + "\n")
+
+
+# Automatically discover and set up __all__ with all macros
+_macros = _discover_macros()
+_macro_names = [name for name, _, _ in _macros]
+
+# Export all macros and the listmacro function
+__all__ = _macro_names + ['listmacro', 'Macro']
+
+# Show the count whenever the module is imported (but not when run as main)
+if __name__ != '__main__':
+    print(f"\n Macro Library: {len(_macros)} macro transforms available")
+    print("   Use listmacro() to see all available macro transforms in a table format.\n")
