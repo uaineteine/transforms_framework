@@ -181,6 +181,13 @@ if __name__ == "__main__":
     #print(supply_frames["date_table"].dtypes)
 
     # -------------------------------
+    # Test 15: Sorting
+    # -------------------------------
+    print("Sorting the date_table by event_date")
+    supply_frames = SortTable(by="event_date", ascending=True).apply(supply_frames, df="date_table")
+    supply_frames["date_table"].show()
+
+    # -------------------------------
     # Repeated tests to continue
     # -------------------------------
 
