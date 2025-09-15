@@ -1,10 +1,12 @@
 from transformslib.tables.multitable import MultiTable
 from transformslib.events.pipeevent import PipelineEvent
+from transformslib.tables.names.tablename import Tablename
 from transformslib import meta 
 
 import os
 from typing import List
 from uainepydat.frameverifier import FrameTypeVerifier
+
 
 #structure type
 class Meta:
@@ -243,3 +245,35 @@ class MetaFrame(MultiTable):
             event_description="Sampled dataframe inplace"
         )
         self.add_event(event)
+
+    def rename_table(self, new_name: str):
+        """
+        Rename the MultiTable's table name in place and log the event.
+
+        Args:
+            new_name (str): The new name to assign to the table.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError: If the new_name is empty or invalid.
+        """
+        if not new_name or not isinstance(new_name, str):
+            raise ValueError("Table name must be a non-empty string")
+
+        old_name = str(self.table_name)
+        self.table_name = Tablename(new_name)
+
+        # Log the rename event with input_tables and output_tables
+        payload = {
+            "input_tables": [old_name],
+            "output_tables": [new_name]
+        }
+        event = PipelineEvent(
+            event_type="rename_table",
+            event_payload=payload,
+            event_description=f"Renamed table from {old_name} to {new_name}"
+        )
+        self.add_event(event)
+        # No return; operation is inplace

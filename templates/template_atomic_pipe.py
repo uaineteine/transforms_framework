@@ -25,6 +25,8 @@ if __name__ == "__main__":
     #run_id = 1
     
     supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True) #sample_rows=xyz
+    
+    listatomic()
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
@@ -177,6 +179,13 @@ if __name__ == "__main__":
     supply_frames = TruncateDate("event_date", "year").apply(supply_frames, df="date_table")
     supply_frames["date_table"].show()
     #print(supply_frames["date_table"].dtypes)
+
+    # -------------------------------
+    # Test 15: Sorting
+    # -------------------------------
+    print("Sorting the date_table by event_date")
+    supply_frames = SortTable(by="event_date", ascending=True).apply(supply_frames, df="date_table")
+    supply_frames["date_table"].show()
 
     # -------------------------------
     # Repeated tests to continue

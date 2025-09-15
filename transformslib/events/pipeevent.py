@@ -10,6 +10,10 @@ class TransformEvent:
         created_variables: list[str] | None = None,
         renamed_variables: dict[str, str] | None = None,
         removed_variables: list[str] | None = None,
+        input_row_counts: dict[str, int] | None = None,
+        output_row_counts: dict[str, int] | None = None,
+        input_columns: dict[str, list[str]] | None = None,
+        output_columns: dict[str, list[str]] | None = None,
         ):
 
         self.input_tables = input_tables
@@ -19,6 +23,10 @@ class TransformEvent:
         self.created_variables = created_variables
         self.renamed_variables = renamed_variables
         self.removed_variables = removed_variables
+        self.input_row_counts = input_row_counts
+        self.output_row_counts = output_row_counts
+        self.input_columns = input_columns
+        self.output_columns = output_columns
 
          # derived attributes
         self.num_input_frames = len(input_tables)

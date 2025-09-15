@@ -155,6 +155,27 @@ def build_di_graph(logs:list) -> nx.DiGraph:
                 title_parts.append(f"Inputs: {', '.join(input_tables)}")
             if output_tables:
                 title_parts.append(f"Outputs: {', '.join(output_tables)}")
+
+            # Add row counts if present
+            input_row_counts = log_info.get("input_row_counts") or {}
+            output_row_counts = log_info.get("output_row_counts") or {}
+            if tbl in output_row_counts:
+                title_parts.append(f"Output Rows: {output_row_counts[tbl]}")
+            if tbl in input_row_counts:
+                title_parts.append(f"Input Rows: {input_row_counts[tbl]}")
+
+            # Add input/output columns if present
+            input_columns = log_info.get("input_columns") or {}
+            output_columns = log_info.get("output_columns") or {}
+            if tbl in output_columns:
+                cols = output_columns[tbl]
+                if cols is not None:
+                    title_parts.append(f"Output Columns: {', '.join(cols)}")
+            if tbl in input_columns:
+                cols = input_columns[tbl]
+                if cols is not None:
+                    title_parts.append(f"Input Columns: {', '.join(cols)}")
+
             title = "\n".join(title_parts)
 
             G.add_node(
