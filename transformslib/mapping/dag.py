@@ -157,8 +157,8 @@ def build_di_graph(logs:list) -> nx.DiGraph:
                 title_parts.append(f"Outputs: {', '.join(output_tables)}")
 
             # Add row counts if present
-            input_row_counts = log_info.get("input_row_counts", {})
-            output_row_counts = log_info.get("output_row_counts", {})
+            input_row_counts = log_info.get("input_row_counts") or {}
+            output_row_counts = log_info.get("output_row_counts") or {}
             if tbl in output_row_counts:
                 title_parts.append(f"Output Rows: {output_row_counts[tbl]}")
             if tbl in input_row_counts:
