@@ -699,6 +699,50 @@ class MultiTable:
 
         return None
     
+    from typing import Union, List
+
+    def sort(self, by: Union[str, List[str]], ascending: Union[bool, List[bool]] = True) -> "MultiTable":
+        """
+        Sort the DataFrame by one or more columns in-place.
+        Works with pandas, polars, and pyspark DataFrames.
+
+        Args:
+            by (str | list[str]): Column name or list of column names to sort by.
+            ascending (bool | list[bool], optional): Sort order.
+                True for ascending, False for descending.
+                Can be a single bool or a list matching the columns. Defaults to True.
+
+        Returns:
+            MultiTable: The current MultiTable instance with sorted data (for chaining).
+
+        Raises:
+            ValueError: If the length of 'ascending' does not match length of 'by',
+                        or if the frame_type is unsupported.
+
+        Example:
+            >>> mt.sort("col1")
+            >>> mt.sort(["col1", "col2"], ascending=[True, False])
+            >>> mt.sort("col1").sort("col2", ascending=False)  # chaining
+        """
+        if isinstance(by, str):
+            by = [by]
+        if isinstance(ascending, bool):
+            ascending = [ascending] * len(by)
+        if len(ascending) != len(by):
+            raise ValueError("Length of 'ascending' must match length of 'by' columns.")
+
+        if self.frame_type == "pandas":
+            self.df = self.df.sort_values(by=by, ascending=ascending)
+        elif self.frame_type == "polars":
+            self.df = self.df.sort(by, reverse=[not asc for asc in ascending])
+        elif self.frame_type == "pyspark":
+            sort_cols = [col(c) if asc else col(c).desc() for c, asc in zip(by, ascending)]
+            self.df = self.df.orderBy(*sort_cols)
+        else:
+            raise ValueError("Unsupported frame_type for sort")
+
+        return self
+
     def sample(self, n: int = None, frac: float = None, seed: int = None):
         """
         Sample rows from the DataFrame and replace the existing DataFrame inplace.
