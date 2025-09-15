@@ -634,14 +634,14 @@ class MultiTable:
             self.df[new_col_name] = self.df[columns].astype(str).agg(sep.join, axis=1)
 
         elif self.frame_type == "polars":
-            exprs = [pl.col(col).cast(pl.Utf8) for col in columns]
+            exprs = [pl.col(column_name).cast(pl.Utf8) for column_name in columns]
             new_expr = pl.concat_str(exprs, separator=sep).alias(new_col_name)
             self.df = self.df.with_columns(new_expr)
 
         elif self.frame_type == "pyspark":
             print(columns)
             print(sep)
-            new_expr = concat_ws(sep, *[col(c).cast("string") for c in columns])
+            new_expr = concat_ws(sep, *[col(column_name).cast("string") for column_name in columns])
             self.df = self.df.withColumn(new_col_name, new_expr)
 
         else:

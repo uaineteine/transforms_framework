@@ -57,15 +57,23 @@ class DropVariable(TableTransform):
         """
         table_name = kwargs.get('df')
 
+        # Capture input columns before transformation
+        input_columns = {table_name: list(supply_frames[table_name].columns)}
+        
         supply_frames[table_name].drop(columns=self.vars)
         supply_frames[table_name].add_event(self)
+        
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
 
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[self.vars],
             output_variables=[],
-            removed_variables = [self.vars]
+            removed_variables = [self.vars],
+            input_columns=input_columns,
+            output_columns=output_columns
             )
         self.deleted_variables = self.vars
         self.target_tables = [table_name]
@@ -122,18 +130,28 @@ class SubsetTable(TableTransform):
         """
         table_name = kwargs.get('df')
 
+        # Capture input columns before transformation
+        input_columns = {table_name: list(supply_frames[table_name].columns)}
+        
         # Compute dropped variables (everything not in keep list)
+        removed_vars = [col for col in supply_frames[table_name].columns if col not in self.vars]
+        
+        supply_frames[table_name].drop(columns=removed_vars)
+        supply_frames[table_name].add_event(self)
+
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+        
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[self.vars],
             output_variables=[],
-            removed_variables = [col for col in supply_frames[table_name].columns if col not in self.vars]
+            removed_variables = removed_vars,
+            input_columns=input_columns,
+            output_columns=output_columns
             )
         self.target_tables = [table_name]
-
-        supply_frames[table_name].drop(columns=self.log_info.removed_variables)
-        supply_frames[table_name].add_event(self)
 
         return supply_frames
 
@@ -247,15 +265,23 @@ class RenameTable(TableTransform):
         table_name = kwargs.get('df')
         self.target_tables = [table_name]
 
+        # Capture input columns before transformation
+        input_columns = {table_name: list(supply_frames[table_name].columns)}
+
+        supply_frames[table_name].rename(columns=self.rename_map, inplace=True)
+        supply_frames[table_name].add_event(self)
+
+        # Capture output columns after transformation  
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
             input_variables=[self.vars],
-            output_variables=[self.new_names]
+            output_variables=[self.new_names],
+            input_columns=input_columns,
+            output_columns=output_columns
             )
-
-        supply_frames[table_name].rename(columns=self.rename_map, inplace=True)
-        supply_frames[table_name].add_event(self)
 
         return supply_frames
 
@@ -403,6 +429,12 @@ class JoinTable(TableTransform):
         output_table = kwargs.get("output_table", f"{self.left_table}_{self.right_table}_joined")
         self.target_tables = [output_table]
 
+        # Capture input columns before transformation
+        input_columns = {
+            self.left_table: list(supply_frames[self.left_table].columns),
+            self.right_table: list(supply_frames[self.right_table].columns)
+        }
+
         # Capture row counts before transformation
         left_row_count = supply_frames[self.left_table].nrow
         right_row_count = supply_frames[self.right_table].nrow
@@ -448,13 +480,18 @@ class JoinTable(TableTransform):
             # Capture row count after transformation
             output_row_count = supply_frames[output_table].nrow
 
+        # Capture output columns after transformation
+        output_columns = {output_table: list(supply_frames[output_table].columns)}
+
         self.log_info = TransformEvent(
             input_tables=[self.left_table, self.right_table],
             output_tables=[output_table],
             input_variables=[self.vars],
             output_variables=[],
             input_row_counts={self.left_table: left_row_count, self.right_table: right_row_count},
-            output_row_counts={output_table: output_row_count}
+            output_row_counts={output_table: output_row_count},
+            input_columns=input_columns,
+            output_columns=output_columns
             )
         
         supply_frames[output_table].add_event(self)
@@ -519,6 +556,9 @@ class PartitionByValue(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
 
+        # Capture input columns before transformation
+        input_columns = {table_name: list(supply_frames[table_name].columns)}
+
         # Capture row count before transformation
         input_row_count = supply_frames[table_name].nrow
 
@@ -545,6 +585,7 @@ class PartitionByValue(TableTransform):
             new_table_names.append(new_table_name)
         
         output_row_counts = {}
+        output_columns = {}
         for i,value in enumerate(unique_values):
             new_table_name = new_table_names[i]
             output_tables.append(new_table_name)
@@ -561,8 +602,9 @@ class PartitionByValue(TableTransform):
             supply_frames[new_table_name] = supply_frames[table_name].copy(new_name=new_table_name)
             supply_frames[new_table_name].df = partition_df
 
-            # Capture row count for this partition
+            # Capture row count and columns for this partition
             output_row_counts[new_table_name] = supply_frames[new_table_name].nrow
+            output_columns[new_table_name] = list(supply_frames[new_table_name].columns)
 
             supply_frames[new_table_name].add_event(self)
 
@@ -572,7 +614,9 @@ class PartitionByValue(TableTransform):
             input_variables=[self.vars],
             output_variables=[],
             input_row_counts={table_name: input_row_count},
-            output_row_counts=output_row_counts
+            output_row_counts=output_row_counts,
+            input_columns=input_columns,
+            output_columns=output_columns
             )
 
         self.target_tables = output_tables
@@ -759,19 +803,27 @@ class ConcatColumns(TableTransform):
 
         self.target_tables = [table_name]
 
-        self.log_info = TransformEvent(
-            input_tables=[table_name],
-            output_tables=[table_name],
-            input_variables=[self.vars],
-            output_variables=[output_var],
-            created_variables=[output_var]
-        )
+        # Capture input columns before transformation
+        input_columns = {table_name: list(supply_frames[table_name].columns)}
 
         df = supply_frames[table_name]
         # Use the MultiTable in-place concat method
         df.concat(new_col_name=output_var, columns=self.vars, sep=self.separator)
 
         df.add_event(self)
+
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[output_var],
+            created_variables=[output_var],
+            input_columns=input_columns,
+            output_columns=output_columns
+        )
 
         return supply_frames
 
@@ -1507,6 +1559,12 @@ class UnionTables(TableTransform):
         """
         backend = supply_frames[self.left_table].frame_type
 
+        # Capture input columns before transformation
+        input_columns = {
+            self.left_table: list(supply_frames[self.left_table].columns),
+            self.right_table: list(supply_frames[self.right_table].columns)
+        }
+
         # Capture row counts before transformation
         left_row_count = supply_frames[self.left_table].nrow
         right_row_count = supply_frames[self.right_table].nrow
@@ -1536,8 +1594,9 @@ class UnionTables(TableTransform):
         union_table_name = f"{self.left_table}_union_{self.right_table}"
         supply_frames[union_table_name] = supply_frames[self.left_table].clone_with_new_df(df)
 
-        # Capture row count after transformation
+        # Capture row count and columns after transformation
         output_row_count = supply_frames[union_table_name].nrow
+        output_columns = {union_table_name: list(supply_frames[union_table_name].columns)}
 
         self.log_info = TransformEvent(
             input_tables=[self.left_table, self.right_table],
@@ -1545,7 +1604,9 @@ class UnionTables(TableTransform):
             input_variables=[],
             output_variables=[],
             input_row_counts={self.left_table: left_row_count, self.right_table: right_row_count},
-            output_row_counts={union_table_name: output_row_count}
+            output_row_counts={union_table_name: output_row_count},
+            input_columns=input_columns,
+            output_columns=output_columns
         )
         supply_frames[union_table_name].add_event(self)
 

@@ -181,6 +181,23 @@ class Transform(PipelineEvent):
                 row_counts[table_name] = supply_frames[table_name].nrow
         return row_counts
 
+    def _get_table_columns(self, supply_frames: "TableCollection", table_names: list[str]) -> dict[str, list[str]]:
+        """
+        Helper method to get column names for specified tables.
+        
+        Args:
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
+            table_names (list[str]): List of table names to get column names for.
+            
+        Returns:
+            dict[str, list[str]]: Dictionary mapping table names to their column names.
+        """
+        columns = {}
+        for table_name in table_names:
+            if table_name in supply_frames:
+                columns[table_name] = list(supply_frames[table_name].columns)
+        return columns
+
     def apply(self, supply_frames: SupplyLoad, **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
