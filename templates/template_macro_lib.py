@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transformslib.transforms.macrolib import TopBottomCode
+    from transformslib.transforms.macrolib import *
     from transformslib.tables.collections.supply_load import SupplyLoad
 
     # Create Spark session
@@ -19,7 +19,9 @@ if __name__ == "__main__":
     # load pipeline tables
     job_id = 1
     
-    supply_frames = SupplyLoad(job_id, spark=spark)
+    supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True) #sample_rows=xyz
+    
+    listmacro()
 
     print("Original salary data:")
     supply_frames["salary"].show()

@@ -25,6 +25,8 @@ if __name__ == "__main__":
     #run_id = 1
     
     supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True) #sample_rows=xyz
+    
+    listatomic()
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
