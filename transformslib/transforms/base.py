@@ -354,3 +354,68 @@ class MacroTransform(Transform):
                 if not t.test(supply_frames, **kwargs):
                     return False
         return True
+
+
+class Macro:
+    """
+    A wrapper class for applying a macro transformation to a collection of tables
+    and logging the transformation metadata.
+
+    :param macro_transform: A MacroTransform object containing the transformation logic.
+    :type macro_transform: MacroTransform
+    :param input_tables: A collection of input tables to be transformed.
+    :type input_tables: TableCollection
+    :param output_tables: List of names of output tables.
+    :type output_tables: list[str]
+    :param input_variables: List of input variable names used in the transformation.
+    :type input_variables: list[str]
+    :param output_variables: List of output variable names produced by the transformation.
+    :type output_variables: list[str]
+    """
+
+    def __init__(self,
+                 macro_transform: MacroTransform,
+                 input_tables: TableCollection,
+                 output_tables: list[str],
+                 input_variables: list[str],
+                 output_variables: list[str]):
+        self.macros = macro_transform
+        self.input_tables = input_tables
+        self.output_tables = output_tables
+        self.input_variables = input_variables
+        self.output_variables = output_variables
+        # Use default log location
+        self.macro_log_loc = "events_log/job_1/treatments.json"
+
+    def apply(self, **kwargs):
+        """
+        Applies the macro transformation to the input tables and logs the operation.
+
+        Args:
+            **kwargs: Keyword arguments to pass to the underlying transforms.
+
+        :return: Transformed table frames.
+        :rtype: dict[str, pd.DataFrame]
+        """
+        return_frames = self.macros.apply(self.input_tables, **kwargs)
+        self.log()
+        return return_frames
+
+    def log(self):
+        """
+        Logs the macro transformation metadata to a JSON file.
+        """
+        import json
+        # Create a serializable version of the object dict
+        json_info = {
+            'input_tables': [str(table) for table in self.input_tables.get_table_names()],
+            'output_tables': self.output_tables,
+            'input_variables': self.input_variables,
+            'output_variables': self.output_variables,
+            'macro_log_loc': self.macro_log_loc,
+            'macro_name': self.macros.name,
+            'macro_description': self.macros.event_description,
+            'macro_type': self.macros.transform_type
+        }
+        with open(self.macro_log_loc, 'w') as f:
+            json.dump(json_info, f, indent=2)
