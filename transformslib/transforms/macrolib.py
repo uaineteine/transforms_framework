@@ -104,8 +104,8 @@ class ConcatenateIDs(Macro):
 
 class DropMissingIDs(Macro):
     """
-    A macro that drops missing IDs from a table by removing the 'synthetic_aeuid' variable.
-    Uses the DropVariable transform to remove the specified variable.
+    A macro that drops missing IDs from a table by removing rows with NA values in the 'synthetic_aeuid' variable.
+    Uses the DropNAValues transform to remove rows with missing values.
 
     :param input_tables: A collection of input tables to be transformed.
     :type input_tables: TableCollection
@@ -113,15 +113,15 @@ class DropMissingIDs(Macro):
 
     def __init__(self,
                  input_tables: TableCollection):
-        # Create the DropVariable transform targeting 'synthetic_aeuid'
-        drop_transform = DropVariable(
-            variables_to_drop="synthetic_aeuid"
+        # Create the DropNAValues transform targeting 'synthetic_aeuid'
+        drop_transform = DropNAValues(
+            column="synthetic_aeuid"
         )
 
         macro = MacroTransform(
             transforms=[drop_transform],
             Name="DropMissingIDs",
-            Description="Drops missing IDs by removing synthetic_aeuid variable",
+            Description="Drops missing IDs by removing rows with NA values in synthetic_aeuid",
             macro_id="DropMissing"
         )
 
@@ -130,7 +130,7 @@ class DropMissingIDs(Macro):
             input_tables=input_tables,
             output_tables=input_tables.get_table_names(),
             input_variables=["synthetic_aeuid"],
-            output_variables=[]
+            output_variables=["synthetic_aeuid"]
         )
 
 
