@@ -164,6 +164,23 @@ class Transform(PipelineEvent):
         """
         return self.apply(supply_frames, **kwargs)
     
+    def _get_table_row_counts(self, supply_frames: "TableCollection", table_names: list[str]) -> dict[str, int]:
+        """
+        Helper method to get row counts for specified tables.
+        
+        Args:
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
+            table_names (list[str]): List of table names to get row counts for.
+            
+        Returns:
+            dict[str, int]: Dictionary mapping table names to their row counts.
+        """
+        row_counts = {}
+        for table_name in table_names:
+            if table_name in supply_frames:
+                row_counts[table_name] = supply_frames[table_name].nrow
+        return row_counts
+
     def apply(self, supply_frames: SupplyLoad, **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
