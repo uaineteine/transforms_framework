@@ -27,6 +27,5 @@ docs/source/tables.rst
 docs/source/transforms.rst
 docs/source/transformslib_root.rst
 templates/events_log/job_1/table_specific/*_events.json
-templates/events_log/job_1/transforms.json
 templates/events_log/job_1/treatments.json
 test_tables/prod/job_1/output/*
