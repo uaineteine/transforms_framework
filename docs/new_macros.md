@@ -32,7 +32,7 @@ supply_frames = concat_macro.apply(df="table_name", output_var="combined_id")
 
 ## DropMissingIDs Macro
 
-**Purpose**: Drops missing IDs by removing the 'synthetic_aeuid' variable from a table.
+**Purpose**: Drops missing IDs by removing rows with NA values in the 'synthetic_aeuid' variable from a table.
 
 **Parameters**:
 - `input_tables`: TableCollection - A collection of input tables to be transformed
@@ -50,7 +50,7 @@ drop_macro = DropMissingIDs(
 supply_frames = drop_macro.apply(df="table_name")
 ```
 
-**Note**: This macro specifically targets the 'synthetic_aeuid' column and will remove it if it exists in the specified table.
+**Note**: This macro specifically targets the 'synthetic_aeuid' column and will remove rows where this column contains NA/null values.
 
 ## Implementation Details
 
