@@ -1516,6 +1516,69 @@ class RoundNumber(TableTransform):
         self.target_tables = [table_name]
         return supply_frames
 
+class SortTable(TableTransform):
+    """
+    Transform class to sort a table by one or more columns.
+    """
+
+    def __init__(self, by: Union[str, List[str]], ascending: Union[bool, List[bool]] = True):
+        """
+        Initialise a SortTable transform.
+
+        Args:
+            by (str | list[str]): Column name or list of column names to sort by.
+            ascending (bool | list[bool]): Sort order for each column.
+                True for ascending, False for descending.
+                Can be a single bool or a list matching the columns.
+        """
+        super().__init__(
+            "SortTable",
+            f"Sort table by {by}",
+            by if isinstance(by, list) else [by],
+            "SortTbl",
+            testable_transform=False
+        )
+        self.by = by
+        self.ascending = ascending
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target columns exist in the table.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        if isinstance(self.by, str):
+            columns_to_check = [self.by]
+        else:
+            columns_to_check = self.by
+
+        missing = [c for c in columns_to_check if c not in supply_frames[table_name].columns]
+        if missing:
+            raise ValueError(f"Columns {missing} not found in DataFrame '{table_name}'")
+
+    def transforms(self, supply_frames: TableCollection, **kwargs):
+        """
+        Sort the table using MultiTable.sort().
+        """
+        table_name = kwargs.get("df")
+        supply_frames[table_name] = supply_frames[table_name].sort(
+            by=self.by, ascending=self.ascending
+        )
+
+        # Log event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=self.by if isinstance(self.by, list) else [self.by],
+            output_variables=self.by if isinstance(self.by, list) else [self.by],
+        )
+        supply_frames[table_name].add_event(self)
+        self.target_tables = [table_name]
+
+        return supply_frames
+
 class UnionTables(TableTransform):
     """
     Transform class to perform a union of two tables with matching schemas.
