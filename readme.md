@@ -33,10 +33,6 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
-|   |   |-- names/
-|   |   |   |-- colname.py
-|   |   |   |-- lists.py
-|   |   |   `-- tablename.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
 |   |-- mapping/
@@ -53,6 +49,8 @@ This program provides a data transformation framework for working with tables (D
 `-- templates/
     |-- template_load_pipe.py
     `-- template_custom_transform.py
+
+**Note:** The naming functionality (Tablename, Colname, ColList, NamedList) has been split into a separate `transforms-names` package (v1.0.0).
 ```
 
 ## Summary

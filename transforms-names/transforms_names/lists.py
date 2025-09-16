@@ -1,6 +1,6 @@
 import json
 
-from transformslib.tables.names.colname import Colname
+from .colname import Colname
 
 def auto_lowercase_list(list_of_strings: list[str]) -> list[str]:
     """
