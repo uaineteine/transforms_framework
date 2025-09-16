@@ -52,17 +52,15 @@ def set_default_network_options(net: Network) -> Network:
     var options = {
         "interaction": {
             "hover": true,
-            "hoverDelay": 100,
-            "multiselect": false,
-            "tooltipDelay": 100
+            "multiselect": false
         },
         "layout": {
             "hierarchical": {
                 "enabled": true,
                 "direction": "UD",
                 "sortMethod": "directed",
-                "levelSeparation": 150,
-                "nodeSpacing": 100
+                "levelSeparation": 350,
+                "nodeSpacing": 300
             }
         },
         "edges": {
@@ -77,9 +75,9 @@ def set_default_network_options(net: Network) -> Network:
             "enabled": true,
             "hierarchicalRepulsion": {
                 "centralGravity": 0.0,
-                "springLength": 100,
-                "springConstant": 0.01,
-                "nodeDistance": 120,
+                "springLength": 200,
+                "springConstant": 0.005,
+                "nodeDistance": 300,
                 "damping": 0.09
             },
             "solver": "hierarchicalRepulsion",
