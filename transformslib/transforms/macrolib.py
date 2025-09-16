@@ -60,6 +60,80 @@ class TopBottomCode(Macro):
         )
 
 
+class ConcatenateIDs(Macro):
+    """
+    A macro that concatenates two ID columns with an underscore separator.
+    Creates a new column by combining the values of two specified columns using ConcatColumns transform.
+
+    :param input_tables: A collection of input tables to be transformed.
+    :type input_tables: TableCollection
+    :param input_columns: List containing exactly two column names to concatenate.
+    :type input_columns: list[str]
+    :param output_column: Name of the new column to create with concatenated values.
+    :type output_column: str
+    """
+
+    def __init__(self,
+                 input_tables: TableCollection,
+                 input_columns: list[str],
+                 output_column: str):
+        if len(input_columns) != 2:
+            raise ValueError("ConcatenateIDs requires exactly 2 input columns")
+        
+        # Create the ConcatColumns transform with underscore separator
+        concat_transform = ConcatColumns(
+            variables_to_concat=input_columns,
+            sep="_"
+        )
+
+        macro = MacroTransform(
+            transforms=[concat_transform],
+            Name="ConcatenateIDs",
+            Description="Concatenates two ID columns with underscore separator",
+            macro_id="ConcatIDs"
+        )
+
+        super().__init__(
+            macro_transform=macro,
+            input_tables=input_tables,
+            output_tables=input_tables.get_table_names(),
+            input_variables=input_columns,
+            output_variables=[output_column]
+        )
+
+
+class DropMissingIDs(Macro):
+    """
+    A macro that drops missing IDs from a table by removing rows with NA values in the 'synthetic_aeuid' variable.
+    Uses the DropNAValues transform to remove rows with missing values.
+
+    :param input_tables: A collection of input tables to be transformed.
+    :type input_tables: TableCollection
+    """
+
+    def __init__(self,
+                 input_tables: TableCollection):
+        # Create the DropNAValues transform targeting 'synthetic_aeuid'
+        drop_transform = DropNAValues(
+            column="synthetic_aeuid"
+        )
+
+        macro = MacroTransform(
+            transforms=[drop_transform],
+            Name="DropMissingIDs",
+            Description="Drops missing IDs by removing rows with NA values in synthetic_aeuid",
+            macro_id="DropMissing"
+        )
+
+        super().__init__(
+            macro_transform=macro,
+            input_tables=input_tables,
+            output_tables=input_tables.get_table_names(),
+            input_variables=["synthetic_aeuid"],
+            output_variables=["synthetic_aeuid"]
+        )
+
+
 def _discover_macros():
     """
     Discover all Macro subclasses in the current module.
