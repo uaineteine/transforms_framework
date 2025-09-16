@@ -102,6 +102,22 @@ def build_di_graph(logs:list) -> nx.DiGraph:
     #sort the logs in order of timestamp
     logs = sorted(logs, key=reader.parse_ts)
 
+    # Filter logs to collapse macro transforms: exclude atomic transforms that belong to a macro
+    # Keep only events where either:
+    # 1. They have no macro_uuid (standalone atomic transforms)
+    # 2. They are MacroTransform events (even though they have macro_uuid)
+    filtered_logs = []
+    for event in logs:
+        macro_uuid = event.get("macro_uuid")
+        class_type = event.get("class_type", "")
+        
+        # Keep events that don't belong to a macro OR are the macro transform itself
+        if not macro_uuid or class_type == "MacroTransform":
+            filtered_logs.append(event)
+    
+    # Use filtered logs for building the graph
+    logs = filtered_logs
+
     # Build table-versioned DAG (nodes = tables; new node for each output at event time)
     G = nx.DiGraph()
     latest_node_for_table = {}
