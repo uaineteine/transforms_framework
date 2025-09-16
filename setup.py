@@ -13,6 +13,10 @@ setup(
     long_description_content_type="text/markdown",
     url="",
     packages=find_packages(include=["transformslib", "transformslib.*"]),
+    package_data={
+        "transformslib.templates": ["*.html", "*.txt", "*.json", "*.css", "*.js"],
+    },
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
