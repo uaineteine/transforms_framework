@@ -1665,3 +1665,265 @@
 {"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "15c8c3f3-b460-45a2-8465-c1ff344461b3", "timestamp": "2025-09-16T08:47:10.296432+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ../test_tables/prod/job_1/output/date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/prod/job_1/output/date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
 {"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "15a16b2d-0b96-4e72-b444-373b6ee30b1f", "timestamp": "2025-09-16T08:47:10.530133+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ../test_tables/prod/job_1/output/location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/prod/job_1/output/location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
 {"log_info": {"input_tables": ["super_table"], "output_tables": ["super_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "3691bb65-fe86-483f-8257-c4bea168e9dd", "timestamp": "2025-09-16T08:47:10.936202+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table super_table to ../test_tables/prod/job_1/output/super_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/prod/job_1/output/super_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "input_row_counts": null,
+    "output_row_counts": null,
+    "input_columns": null,
+    "output_columns": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "62c7d549-b1c3-46e2-92ce-285a2890d9c7",
+  "timestamp": "2025-09-17T16:17:24.136465+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9a20a694-f9f3-45af-b893-99312af3fa72",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary > 650 with 650",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": ">",
+  "value": 650,
+  "replacement": 650,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "log_info": {
+    "input_tables": [
+      "salary"
+    ],
+    "output_tables": [
+      "salary"
+    ],
+    "input_variables": [
+      "salary"
+    ],
+    "output_variables": [
+      "salary"
+    ],
+    "created_variables": null,
+    "renamed_variables": null,
+    "removed_variables": null,
+    "input_row_counts": null,
+    "output_row_counts": null,
+    "input_columns": null,
+    "output_columns": null,
+    "num_input_frames": 1,
+    "num_output_frames": 1
+  },
+  "uuid": "743c725e-bdc3-4fe1-ac18-c815ba13748b",
+  "timestamp": "2025-09-17T16:17:24.136727+00:00",
+  "executed_user": "runner",
+  "macro_uuid": "9a20a694-f9f3-45af-b893-99312af3fa72",
+  "event_type": "transform",
+  "event_description": "Replaces values in 'salary' where salary < 450 with 450",
+  "meta_version": "1.0",
+  "name": "ReplaceByCondition",
+  "transform_type": "TableTransform",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_id": "ReplCond",
+  "target_tables": [
+    "salary"
+  ],
+  "target_variables": [
+    "salary"
+  ],
+  "column": "salary",
+  "op": "<",
+  "value": 450,
+  "replacement": 450,
+  "class_type": "ReplaceByCondition"
+}
+{
+  "macro_uuid": "9a20a694-f9f3-45af-b893-99312af3fa72",
+  "log_info": null,
+  "uuid": "f5bd5a91-1e93-4597-87ce-5d1b2b9f0d21",
+  "timestamp": "2025-09-17T16:17:24.136803+00:00",
+  "executed_user": "runner",
+  "event_type": "transform",
+  "event_description": "Sets maximum value on variable",
+  "meta_version": "1.0",
+  "name": "TopCode",
+  "transform_type": "TopCode",
+  "testable_transform": true,
+  "version_pyspark": "4.0.1",
+  "version_polars": "1.33.1",
+  "version_pandas": "2.3.2",
+  "version_python": "3.12.3",
+  "params": {
+    "df": "salary"
+  },
+  "transform_list": [
+    {
+      "log_info": {
+        "input_tables": [
+          "salary"
+        ],
+        "output_tables": [
+          "salary"
+        ],
+        "input_variables": [
+          "salary"
+        ],
+        "output_variables": [
+          "salary"
+        ],
+        "created_variables": null,
+        "renamed_variables": null,
+        "removed_variables": null,
+        "input_row_counts": null,
+        "output_row_counts": null,
+        "input_columns": null,
+        "output_columns": null,
+        "num_input_frames": 1,
+        "num_output_frames": 1
+      },
+      "persistent_uuid": false,
+      "uuid": "62c7d549-b1c3-46e2-92ce-285a2890d9c7",
+      "timestamp": "2025-09-17T16:17:24.136465+00:00",
+      "executed_user": "runner",
+      "macro_uuid": "9a20a694-f9f3-45af-b893-99312af3fa72",
+      "log_exclusions": [
+        "log_location",
+        "indent_depth",
+        "log_exclusions",
+        "persistent_uuid"
+      ],
+      "log_location": "events_log/job_1/transforms.json",
+      "indent_depth": 2,
+      "event_type": "transform",
+      "event_description": "Replaces values in 'salary' where salary > 650 with 650",
+      "meta_version": "1.0",
+      "name": "ReplaceByCondition",
+      "transform_type": "TableTransform",
+      "testable_transform": true,
+      "version_pyspark": "4.0.1",
+      "version_polars": "1.33.1",
+      "version_pandas": "2.3.2",
+      "version_python": "3.12.3",
+      "params": {
+        "df": "salary"
+      },
+      "transform_id": "ReplCond",
+      "target_tables": [
+        "salary"
+      ],
+      "target_variables": [
+        "salary"
+      ],
+      "column": "salary",
+      "op": ">",
+      "value": 650,
+      "replacement": 650
+    },
+    {
+      "log_info": {
+        "input_tables": [
+          "salary"
+        ],
+        "output_tables": [
+          "salary"
+        ],
+        "input_variables": [
+          "salary"
+        ],
+        "output_variables": [
+          "salary"
+        ],
+        "created_variables": null,
+        "renamed_variables": null,
+        "removed_variables": null,
+        "input_row_counts": null,
+        "output_row_counts": null,
+        "input_columns": null,
+        "output_columns": null,
+        "num_input_frames": 1,
+        "num_output_frames": 1
+      },
+      "persistent_uuid": false,
+      "uuid": "743c725e-bdc3-4fe1-ac18-c815ba13748b",
+      "timestamp": "2025-09-17T16:17:24.136727+00:00",
+      "executed_user": "runner",
+      "macro_uuid": "9a20a694-f9f3-45af-b893-99312af3fa72",
+      "log_exclusions": [
+        "log_location",
+        "indent_depth",
+        "log_exclusions",
+        "persistent_uuid"
+      ],
+      "log_location": "events_log/job_1/transforms.json",
+      "indent_depth": 2,
+      "event_type": "transform",
+      "event_description": "Replaces values in 'salary' where salary < 450 with 450",
+      "meta_version": "1.0",
+      "name": "ReplaceByCondition",
+      "transform_type": "TableTransform",
+      "testable_transform": true,
+      "version_pyspark": "4.0.1",
+      "version_polars": "1.33.1",
+      "version_pandas": "2.3.2",
+      "version_python": "3.12.3",
+      "params": {
+        "df": "salary"
+      },
+      "transform_id": "ReplCond",
+      "target_tables": [
+        "salary"
+      ],
+      "target_variables": [
+        "salary"
+      ],
+      "column": "salary",
+      "op": "<",
+      "value": 450,
+      "replacement": 450
+    }
+  ],
+  "class_type": "MacroTransform"
+}
+{"log_info": {"input_tables": ["positions"], "output_tables": ["positions_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "340b8a60-1673-4614-b531-4c53755e981c", "timestamp": "2025-09-17T16:17:25.609107+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table positions to ../test_tables/output/positions.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/positions.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["salary"], "output_tables": ["salary_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "e554714f-8f4b-4d85-9b6a-77abe5944193", "timestamp": "2025-09-17T16:17:25.781368+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table salary to ../test_tables/output/salary.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/salary.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["location"], "output_tables": ["location_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "f796809e-e951-4ed8-91ba-2e64543ddd75", "timestamp": "2025-09-17T16:17:25.915317+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table location to ../test_tables/output/location.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/location.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["array_like"], "output_tables": ["array_like_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "42494b31-326c-4420-88e0-10835cea14cd", "timestamp": "2025-09-17T16:17:26.026554+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table array_like to ../test_tables/output/array_like.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/array_like.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["decimal_table"], "output_tables": ["decimal_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "efb3bbc1-3976-4475-8304-140166e92cce", "timestamp": "2025-09-17T16:17:26.189843+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table decimal_table to ../test_tables/output/decimal_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/decimal_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["date_table"], "output_tables": ["date_table_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "a91289d4-7b4a-4144-88ec-608309d441d7", "timestamp": "2025-09-17T16:17:26.338322+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table date_table to ../test_tables/output/date_table.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/date_table.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
+{"log_info": {"input_tables": ["state"], "output_tables": ["state_written"], "input_variables": [], "output_variables": [], "created_variables": null, "renamed_variables": null, "removed_variables": null, "num_input_frames": 1, "num_output_frames": 1}, "uuid": "0a5fdfbf-cb02-4d28-8996-da2b17afee26", "timestamp": "2025-09-17T16:17:26.438549+00:00", "executed_user": "runner", "macro_uuid": null, "event_type": "write", "event_description": "Wrote table state to ../test_tables/output/state.parquet as parquet", "meta_version": "1.0", "name": "Write", "testable_transform": false, "filepath": "../test_tables/output/state.parquet", "out_format": "parquet", "class_type": "PipelineEvent"}
