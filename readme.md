@@ -50,7 +50,7 @@ This program provides a data transformation framework for working with tables (D
     |-- template_load_pipe.py
     `-- template_custom_transform.py
 
-**Note:** The naming functionality (Tablename, Colname, ColList, NamedList) has been split into a separate `transforms-names` package (v1.0.0).
+**Note:** The naming functionality (Tablename, Colname, ColList, NamedList) has been split into a separate `naming-standards` package (v1.0.0).
 ```
 
 ## Summary

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Simple test script to verify transforms-names package functionality
+Simple test script to verify naming-standards package functionality
 """
 
 def test_transforms_names():
-    """Test the transforms-names package basic functionality"""
-    print("Testing transforms-names package...")
+    """Test the naming-standards package basic functionality"""
+    print("Testing naming-standards package...")
     
     # Test imports
     try:
@@ -58,7 +58,7 @@ def test_transforms_names():
         print(f"✗ NamedList test failed: {e}")
         return False
     
-    print("✓ All transforms-names tests passed!")
+    print("✓ All naming-standards tests passed!")
     return True
 
 if __name__ == "__main__":

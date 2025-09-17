@@ -1,4 +1,4 @@
-# Transforms Names
+# Naming Standards
 
 A validation package for database table and column names, providing standardized classes for validating and managing table names, column headers, and variable lists.
 
@@ -12,7 +12,7 @@ A validation package for database table and column names, providing standardized
 ## Installation
 
 ```bash
-pip install transforms-names
+pip install naming-standards
 ```
 
 ## Usage

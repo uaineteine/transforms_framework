@@ -2,18 +2,18 @@
 
 **NOTE: As of version 0.13.0, the naming functionality has been moved to a separate package.**
 
-The naming functionality is now available as a standalone package `transforms-names` (v1.0.0). Install it separately:
+The naming functionality is now available as a standalone package `naming-standards` (v1.0.0). Install it separately:
 
 ```bash
-pip install transforms-names
+pip install naming-standards
 ```
 
 Usage:
 ```python
-from transforms_names import Tablename, Colname, ColList, NamedList
+from naming-standards import Tablename, Colname, ColList, NamedList
 ```
 
-The transforms-names package provides standardised classes for validating and managing table names, column headers, and variable lists. These utilities ensure consistent naming conventions across your data pipeline.
+The naming-standards package provides standardised classes for validating and managing table names, column headers, and variable lists. These utilities ensure consistent naming conventions across your data pipeline.
 
 ### 1. Tablename
 **Purpose:** Validates and standardises table names according to database naming conventions.
@@ -34,7 +34,7 @@ The transforms-names package provides standardised classes for validating and ma
 
 **Examples:**
 ```python
-from transforms_names import Tablename
+from naming-standards import Tablename
 
 # Valid table names
 valid_names = [
@@ -154,7 +154,7 @@ print(var_list)  # NamedList(['name', 'age', 'city', 'salary', 'department'])
 
 **Examples:**
 ```python
-from transforms_names import ColList
+from naming-standards import ColList
 
 # Valid variable list
 valid_vars = ColList(["customerid", "ordernumber", "amount123"])
