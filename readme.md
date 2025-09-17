@@ -1,6 +1,6 @@
 # Meta Transforms Framework
 
-![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.12.0](https://img.shields.io/badge/version-0.12.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml)
+![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.13.0](https://img.shields.io/badge/version-0.13.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml)
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
@@ -11,7 +11,6 @@ This program provides a data transformation framework for working with tables (D
 - [Main Components](#main-components)
 - [Summary](#summary)
 - [Schema Validation](docs/schema_validation.md) **NEW**
-- [Naming](docs/naming.md)
 - [Events](docs/events.md)
 - [Tables](docs/tables.md)
 - [Transforms](docs/transforms.md)
@@ -34,10 +33,6 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
-|   |   |-- names/
-|   |   |   |-- colname.py
-|   |   |   |-- lists.py
-|   |   |   `-- tablename.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
 |   |-- mapping/
@@ -54,6 +49,8 @@ This program provides a data transformation framework for working with tables (D
 `-- templates/
     |-- template_load_pipe.py
     `-- template_custom_transform.py
+
+**Note:** The naming functionality (Tablename, Colname, ColList, NamedList) has been split into a separate `naming-standards` package (v1.0.0).
 ```
 
 ## Summary
