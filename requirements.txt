@@ -6,3 +6,4 @@ sparkpolars
 uainepydat
 pyvis
 networkx
+transforms-names>=1.0.0
