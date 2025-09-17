@@ -15,7 +15,6 @@ setup(
     packages=find_packages(include=["transformslib", "transformslib.*"]),
     package_data={
         "transformslib.templates": ["*.html", "*.txt", "*.json", "*.css", "*.js"],
-        "transformslib.mapping": ["*.css"],
     },
     include_package_data=True,
     classifiers=[

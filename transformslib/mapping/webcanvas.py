@@ -1,8 +1,11 @@
 from transformslib import meta
-import pkgutil
+from transformslib.templates import read_template_safe
+    
 
+def generate_doctype() -> str:
+    return '<!DOCTYPE html>'
 
-def load_css_content(css_filename: str) -> str:
+def generate_css() -> str:
     """
     Load CSS content from the mapping package.
     
@@ -15,19 +18,18 @@ def load_css_content(css_filename: str) -> str:
     Raises:
         FileNotFoundError: If the CSS file doesn't exist
     """
+    css_filename = "webcanvas.css"
+
+    css_content = ""
     try:
-        data = pkgutil.get_data('transformslib.mapping', css_filename)
+        data = read_template_safe(css_filename)
         if data is None:
             raise FileNotFoundError(f"CSS file '{css_filename}' not found in package")
-        return data.decode('utf-8')
+        css_content = data  # Remove .decode('utf-8')
     except Exception as e:
         raise FileNotFoundError(f"CSS file '{css_filename}' not found: {e}")
+    
 
-def generate_doctype() -> str:
-    return '<!DOCTYPE html>'
-
-def generate_css() -> str:
-    css_content = load_css_content('webcanvas.css')
     return f"""
     <style>
         {css_content}
