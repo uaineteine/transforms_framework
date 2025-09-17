@@ -1,7 +1,7 @@
 from transformslib.events.pipeevent import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
-from naming-standards import ColList, Colname
+from naming_standards import ColList, Colname
 from transformslib.transforms.reader import transform_log_loc
 
 import uuid

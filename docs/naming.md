@@ -10,7 +10,7 @@ pip install naming-standards
 
 Usage:
 ```python
-from naming-standards import Tablename, Colname, ColList, NamedList
+from naming_standards import Tablename, Colname, ColList, NamedList
 ```
 
 The naming-standards package provides standardised classes for validating and managing table names, column headers, and variable lists. These utilities ensure consistent naming conventions across your data pipeline.
@@ -34,7 +34,7 @@ The naming-standards package provides standardised classes for validating and ma
 
 **Examples:**
 ```python
-from naming-standards import Tablename
+from naming_standards import Tablename
 
 # Valid table names
 valid_names = [
@@ -154,7 +154,7 @@ print(var_list)  # NamedList(['name', 'age', 'city', 'salary', 'department'])
 
 **Examples:**
 ```python
-from naming-standards import ColList
+from naming_standards import ColList
 
 # Valid variable list
 valid_vars = ColList(["customerid", "ordernumber", "amount123"])

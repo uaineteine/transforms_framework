@@ -9,7 +9,7 @@ def test_transforms_names():
     
     # Test imports
     try:
-        from transforms_names import Tablename, Colname, ColList, NamedList
+        from naming_standards import Tablename, Colname, ColList, NamedList
         print("✓ All imports successful")
     except ImportError as e:
         print(f"✗ Import failed: {e}")
