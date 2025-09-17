@@ -7,7 +7,7 @@ import os
 # generate_setup.py
 
 package_name = "transformslib"
-version = "0.11.0"
+version = "0.13.0"
 author = ""
 author_email = ""
 url = ""
@@ -42,6 +42,10 @@ setup(
     long_description_content_type="text/markdown",
     url="{url}",
     packages=find_packages(include=["{package_name}", "{package_name}.*"]),
+    package_data={{
+        "{package_name}.templates": ["*.html", "*.txt", "*.json", "*.css", "*.js"],
+    }},
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

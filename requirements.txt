@@ -6,3 +6,4 @@ sparkpolars
 uainepydat
 pyvis
 networkx
+naming-standards>=1.0.0

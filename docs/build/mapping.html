@@ -55,7 +55,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.mapping.dag.set_default_network_options"><code class="docutils literal notranslate"><span class="pre">set_default_network_options()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.mapping.webcanvas">transformslib.mapping.webcanvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.mapping.webcanvas">transformslib.mapping.webcanvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.mapping.webcanvas.generate_css"><code class="docutils literal notranslate"><span class="pre">generate_css()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
@@ -157,6 +160,20 @@ height (int|float|str, optional): Height in pixels (int/float) or a CSS string (
 </section>
 <section id="module-transformslib.mapping.webcanvas">
 <span id="transformslib-mapping-webcanvas"></span><h2>transformslib.mapping.webcanvas<a class="headerlink" href="#module-transformslib.mapping.webcanvas" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.mapping.webcanvas.generate_css">
+<span class="sig-prename descclassname"><span class="pre">transformslib.mapping.webcanvas.</span></span><span class="sig-name descname"><span class="pre">generate_css</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.mapping.webcanvas.generate_css" title="Link to this definition"></a></dt>
+<dd><p>Load CSS content from the mapping package.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>css_filename: Name of the CSS file (e.g., ‘webcanvas.css’)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Content of the CSS file as a string</p>
+</dd>
+<dt>Raises:</dt><dd><p>FileNotFoundError: If the CSS file doesn’t exist</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

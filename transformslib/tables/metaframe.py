@@ -1,6 +1,6 @@
 from transformslib.tables.multitable import MultiTable
 from transformslib.events.pipeevent import PipelineEvent
-from transformslib.tables.names.tablename import Tablename
+from naming_standards import Tablename
 from transformslib import meta 
 
 import os
