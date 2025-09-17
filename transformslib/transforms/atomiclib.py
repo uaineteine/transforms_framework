@@ -1714,15 +1714,15 @@ def listatomic():
         print("No transforms found.")
         return
     
-    print("\n" + "="*80)
+    print("\n" + "="*120)
     print(" TRANSFORMS LIBRARY - Available Transform Classes")
-    print("="*80)
+    print("="*120)
     print(f" Total Transforms: {len(transforms)}")
-    print("="*80)
+    print("="*120)
     
     # Calculate column widths
     max_name_width = max(len(name) for name, _, _ in transforms)
-    max_desc_width = 80 - max_name_width - 5  # Leave space for formatting
+    max_desc_width = 120 - max_name_width - 5  # Leave space for formatting
     
     print(f"{'Transform Name':<{max_name_width}} | Description")
     print("-" * max_name_width + "-+-" + "-" * max_desc_width)
@@ -1733,9 +1733,9 @@ def listatomic():
             description = description[:max_desc_width-3] + "..."
         print(f"{name:<{max_name_width}} | {description}")
     
-    print("="*80)
+    print("="*120)
     print(" Use help(ClassName) for detailed information about any transform.")
-    print("="*80 + "\n")
+    print("="*120 + "\n")
 
 # Backward compatibility alias
 def listme():
