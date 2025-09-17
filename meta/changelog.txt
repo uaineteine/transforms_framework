@@ -1,3 +1,10 @@
 Version 1.0
-^^^^^^^^^^^^^
+^^^^^^^^^^^^
 * Release
+
+Version 0.13.0
+^^^^^^^^^^^^^^
+* BREAKING CHANGE: Split transformslib.tables.names into separate naming-standards package (v1.0.0)
+* The names module (Tablename, Colname, ColList, NamedList) is now available as a standalone package
+* Updated dependencies to include naming-standards>=1.0.0
+* All imports now use naming-standards instead of transformslib.tables.names

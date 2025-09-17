@@ -11,7 +11,6 @@ This program provides a data transformation framework for working with tables (D
 - [Main Components](#main-components)
 - [Summary](#summary)
 - [Schema Validation](docs/schema_validation.md) **NEW**
-- [Naming](docs/naming.md)
 - [Events](docs/events.md)
 - [Tables](docs/tables.md)
 - [Transforms](docs/transforms.md)
@@ -33,10 +32,6 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
-|   |   |-- names/
-|   |   |   |-- colname.py
-|   |   |   |-- lists.py
-|   |   |   `-- tablename.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
 |   |-- mapping/
@@ -53,6 +48,8 @@ This program provides a data transformation framework for working with tables (D
 `-- templates/
     |-- template_load_pipe.py
     `-- template_custom_transform.py
+
+**Note:** The naming functionality (Tablename, Colname, ColList, NamedList) has been split into a separate `naming-standards` package (v1.0.0).
 ```
 
 ## Summary
