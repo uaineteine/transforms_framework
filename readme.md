@@ -14,6 +14,7 @@ This program provides a data transformation framework for working with tables (D
 - [Events](docs/events.md)
 - [Tables](docs/tables.md)
 - [Transforms](docs/transforms.md)
+- [Embedded file loading](docs/templates.md)
 - [Example Workflows](#example-workflows)
 - [Advanced Table Selection Features](#advanced-table-selection-features)
 - [Event Logging](#event-logging)
