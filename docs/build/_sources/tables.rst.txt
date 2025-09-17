@@ -25,24 +25,6 @@ transformslib.tables.multitable
 .. automodule:: transformslib.tables.multitable
    :members:
 
-transformslib.tables.names.colname
-----------------------------------
-
-.. automodule:: transformslib.tables.names.colname
-   :members:
-
-transformslib.tables.names.lists
---------------------------------
-
-.. automodule:: transformslib.tables.names.lists
-   :members:
-
-transformslib.tables.names.tablename
-------------------------------------
-
-.. automodule:: transformslib.tables.names.tablename
-   :members:
-
 transformslib.tables.schema_validator
 -------------------------------------
 

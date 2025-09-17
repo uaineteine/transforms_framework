@@ -100,6 +100,7 @@
 <li><p>uainepydat</p></li>
 <li><p>pyvis</p></li>
 <li><p>networkx</p></li>
+<li><p>naming-standards&gt;=1.0.0</p></li>
 </ul>
 </section>
 <section id="contents">
@@ -127,9 +128,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.collections.supply_load">transformslib.tables.collections.supply_load</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.metaframe">transformslib.tables.metaframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.multitable">transformslib.tables.multitable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.names.colname">transformslib.tables.names.colname</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.names.lists">transformslib.tables.names.lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.names.tablename">transformslib.tables.names.tablename</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tables.html#module-transformslib.tables.schema_validator">transformslib.tables.schema_validator</a></li>
 </ul>
 </li>
@@ -149,6 +147,15 @@
 <h2>Version 1.0<a class="headerlink" href="#version-1-0" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Release</p></li>
+</ul>
+</section>
+<section id="version-0-13-0">
+<h2>Version 0.13.0<a class="headerlink" href="#version-0-13-0" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>BREAKING CHANGE: Split transformslib.tables.names into separate naming-standards package (v1.0.0)</p></li>
+<li><p>The names module (Tablename, Colname, ColList, NamedList) is now available as a standalone package</p></li>
+<li><p>Updated dependencies to include naming-standards&gt;=1.0.0</p></li>
+<li><p>All imports now use naming-standards instead of transformslib.tables.names</p></li>
 </ul>
 </section>
 </section>
