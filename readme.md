@@ -11,7 +11,6 @@ This program provides a data transformation framework for working with tables (D
 - [Main Components](#main-components)
 - [Summary](#summary)
 - [Schema Validation](docs/schema_validation.md) **NEW**
-- [Naming](docs/naming.md)
 - [Events](docs/events.md)
 - [Tables](docs/tables.md)
 - [Transforms](docs/transforms.md)
