@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 from typing import Dict, Any
-from transformslib.txtread import txtread
+from transformslib.txtread import read_raw_text
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
@@ -258,7 +258,7 @@ class SupplyLoad(TableCollection):
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
-            data = json.loads(txtread(self.supply_load_src, spark=spark))
+            data = json.loads(read_raw_text(self.supply_load_src, spark=spark))
         
             # Determine format based on the structure of the JSON file
             if "sample_files" in data:
