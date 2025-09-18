@@ -370,10 +370,33 @@ class SupplyLoad(TableCollection):
         
         try:
             if spark is not None:
-                # Use Spark to read the file as raw text, then parse with json
-                df = spark.read.text(self.supply_load_src)
-                raw_json = "\n".join(row.value for row in df.collect())
-                data = json.loads(raw_json)
+                # Check if the path is an ABFSS path and use dbutils if available
+                if self.supply_load_src.startswith("abfss://"):
+                    try:
+                        # Try to use dbutils for ABFSS paths (Databricks environments)
+                        try:
+                            # First try the standard Databricks import
+                            from dbruntime.dbutils import get_dbutils
+                            dbutils = get_dbutils(spark)
+                        except ImportError:
+                            # Fallback to pyspark.dbutils if available
+                            from pyspark.dbutils import DBUtils
+                            dbutils = DBUtils(spark)
+                        
+                        with dbutils.fs.open(self.supply_load_src) as f:
+                            raw_json = f.read().decode("utf-8")
+                        data = json.loads(raw_json)
+                    except (ImportError, AttributeError):
+                        # Fallback to spark.read.text if dbutils is not available
+                        print("Warning: dbutils not available, falling back to spark.read.text for ABFSS path")
+                        df = spark.read.text(self.supply_load_src)
+                        raw_json = "\n".join(row.value for row in df.collect())
+                        data = json.loads(raw_json)
+                else:
+                    # Use Spark to read the file as raw text for non-ABFSS paths
+                    df = spark.read.text(self.supply_load_src)
+                    raw_json = "\n".join(row.value for row in df.collect())
+                    data = json.loads(raw_json)
             else:
                 with open(self.supply_load_src, 'r') as file:
                     data = json.load(file)
