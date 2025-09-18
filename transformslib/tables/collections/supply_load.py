@@ -6,7 +6,7 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 
 LOCAL_TEST_PATH = "../test_tables"
-WORM_PATH = "abfss://worm@prdct4fzchaeudia.dfs.core.windows.net"
+WORM_PATH = "abfss://worm@prdct4fzchauedia.dfs.core.windows.net"
 
 def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False) -> str:
     """
