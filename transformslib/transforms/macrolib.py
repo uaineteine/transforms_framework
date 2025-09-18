@@ -172,15 +172,15 @@ def listmacro():
         print("No macro transforms found.")
         return
     
-    print("\n" + "="*80)
+    print("\n" + "="*120)
     print(" MACRO LIBRARY - Available Macro Transform Classes")
-    print("="*80)
+    print("="*120)
     print(f" Total Macro Transforms: {len(macros)}")
-    print("="*80)
+    print("="*120)
     
     # Calculate column widths
     max_name_width = max(len(name) for name, _, _ in macros) if macros else 10
-    max_desc_width = 80 - max_name_width - 5  # Leave space for formatting
+    max_desc_width = 120 - max_name_width - 5  # Leave space for formatting
     
     print(f"{'Macro Name':<{max_name_width}} | Description")
     print("-" * max_name_width + "-+-" + "-" * max_desc_width)
@@ -191,9 +191,9 @@ def listmacro():
             description = description[:max_desc_width-3] + "..."
         print(f"{name:<{max_name_width}} | {description}")
     
-    print("="*80)
+    print("="*120)
     print(" Use help(ClassName) for detailed information about any macro transform.")
-    print("="*80 + "\n")
+    print("="*120 + "\n")
 
 
 # Automatically discover and set up __all__ with all macros
