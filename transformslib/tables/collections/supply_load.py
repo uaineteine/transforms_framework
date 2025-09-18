@@ -1,3 +1,5 @@
+import os
+import shutil
 import json
 from typing import Dict, Any
 from transformslib.tables.metaframe import MetaFrame
@@ -21,96 +23,9 @@ def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False
         str: The payload path.
     """
     base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
-    if run_id is None:
-        # New sampling input method - use sampling_state.json
-        print(f"Using new sampling input method for job_id={job_id} (no run_id specified)")
-        return f"{base_path}/prod/job_{job_id}/sampling_state.json"
-    else:
-        return legacy_get_payload_file(job_id, run_id, use_test_path=use_test_path)
-
-
-def legacy_get_payload_file(job_id: int, run_id: int, use_test_path: bool = False) -> str:
-    """
-    Return the path location of the legacy input payload (payload.json).
-
-    Args:
-        job_id (int): A job id to get the path of configuration file containing supply definitions.
-        run_id (int): A run id to get the path of configuration file containing supply definitions.
-        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
-
-    Returns:
-        str: The legacy payload path.
-    """
-    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
-    print(f"[LEGACY] Using legacy payload method for job_id={job_id}, run_id={run_id}")
-    return f"{base_path}/job_{job_id}/payload.json"
-
-def load_from_payload(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any], 
-                     sample: bool, sample_rows: int = None, sample_frac: float = None, 
-                     seed: int = None, spark=None) -> None:
-    """
-    Load supplies from legacy payload.json format.
-
-    Args:
-        data (Dict[str, Any]): The parsed JSON data from payload.json
-        tables (list): List to append loaded tables to
-        named_tables (Dict[str, Any]): Dictionary to store named table references
-        sample (bool): Whether to apply sampling to loaded tables
-        sample_rows (int, optional): Number of rows to sample
-        sample_frac (float, optional): Fraction of rows to sample
-        seed (int, optional): Random seed for reproducible sampling
-        spark: SparkSession object for PySpark operations
-
-    Returns:
-        None
-    """
-    print("Loading supplies from legacy payload.json format")
-    supply = data.get("supply", [])
-    
-    for item in supply:
-        name = item.get("name")
-        if not name:
-            raise ValueError("Each supply item must have a 'name' field")
-
-        print(f"Loading table '{name}' from {item['path']} (format: {item['format']})")
-
-        table = MetaFrame.load(
-            path=item["path"],
-            format=item["format"],
-            frame_type="pyspark",
-            spark=spark
-        )
-
-        # If CSV, cast columns to expected dtypes if provided
-        if item["format"].lower() == "csv" and "dtypes" in item:
-            print(f"Casting columns for table '{name}' to expected schema...")
-            dtypes = item["dtypes"]
-            # Build a dict of column: pyspark type string
-            pyspark_type_map = {
-                "String": "string",
-                "Int64": "long",
-                "Float64": "double",
-                "Boolean": "boolean"
-            }
-            from pyspark.sql.functions import col
-            for colname, dtypeinfo in dtypes.items():
-                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
-                if target_type in pyspark_type_map:
-                    spark_type = pyspark_type_map[target_type]
-                    try:
-                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
-                    except Exception as e:
-                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
-                else:
-                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
-
-        # Apply sampling if requested
-        if sample:
-            table.sample(n=sample_rows, frac=sample_frac, seed=seed)
-
-        tables.append(table)
-        named_tables[name] = table
-
+    # New sampling input method - use sampling_state.json
+    print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
+    return f"{base_path}/prod/job_{job_id}/sampling_state.json"
 
 def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
                             sample: bool, sample_rows: int = None, sample_frac: float = None,
@@ -209,24 +124,10 @@ class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
 
-    This class extends TableCollection to provide automated loading of multiple data sources from a JSON configuration file. It supports two input methods:
-
-    1. Legacy payload.json format (requires both job_id and run_id)
-    2. New sampling input method using sampling_state.json (requires only job_id)
+    This class extends TableCollection to provide automated loading of multiple data sources from a JSON configuration file. It supports thr sampling input method using sampling_state.json (requires only job_id)
     
     The new sampling system includes schema validation capabilities that automatically verify
     loaded data against the expected schema defined in the dtypes field.
-    
-    Legacy JSON configuration should follow this structure:
-    {
-        "supply": [
-            {
-                "name": "table_name",
-                "path": "path/to/data.parquet",
-                "format": "parquet"
-            },
-        ]
-    }
     
     New sampling state JSON configuration follows this structure:
     {
@@ -254,9 +155,6 @@ class SupplyLoad(TableCollection):
         >>> 
         >>> # New sampling input method without schema validation
         >>> supply_loader = SupplyLoad(job_id=1, spark=spark, enable_schema_validation=False)
-        >>> 
-        >>> # Legacy method (schema validation not available)
-        >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
 
         >>> customers_table = supply_loader["customers"]
         >>> orders_table = supply_loader["orders"]
@@ -275,7 +173,7 @@ class SupplyLoad(TableCollection):
 
         Args:
             job_id (int): A job id to get the path of configuration file containing supply definitions.
-            run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, uses the new sampling input method with sampling_state.json. If provided, uses the legacy payload.json format.
+            run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, uses the new sampling input method with sampling_state.json.
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
@@ -288,7 +186,6 @@ class SupplyLoad(TableCollection):
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
             ValueError: If the output transform file already exists suggesting the run has been made before.
-                       (Only applies when run_id is provided for legacy mode)
             SchemaValidationError: If schema validation fails (only for new sampling system).
             Exception: If there are issues loading any of the data files.
 
@@ -302,9 +199,6 @@ class SupplyLoad(TableCollection):
             >>> 
             >>> # New sampling input method without schema validation
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark, enable_schema_validation=False)
-            >>> 
-            >>> # Legacy method (schema validation not applied)
-            >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)
 
             >>> print(f"Loaded {len(supply_loader)} tables")
         """
@@ -321,14 +215,9 @@ class SupplyLoad(TableCollection):
         self.supply_load_src = get_supply_file(job_id, run_id, use_test_path=use_test_path)
         
         #gather the source payload location
-        # Only check transform log if run_id is provided (legacy mode)
-        if run_id is not None:
-            self.output_loc = transform_log_loc(job_id, run_id)
-            if (does_transform_log_exist(job_id, run_id)):
-                raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
-        else:
-            # For new sampling input method, we don't track transform logs the same way
-            self.output_loc = None
+        self.output_loc = transform_log_loc(job_id, run_id)
+        if (does_transform_log_exist(job_id, run_id)):
+            raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
@@ -347,7 +236,7 @@ class SupplyLoad(TableCollection):
         """
         Load supply data from the JSON configuration file.
 
-        This method reads either a payload.json (legacy) or sampling_state.json (new sampling input method)
+        This method reads either a sampling_state.json (new sampling input method)
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
@@ -364,7 +253,6 @@ class SupplyLoad(TableCollection):
         Example:
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
-            >>> supply_loader = SupplyLoad(job_id=1, run_id=2, spark=spark)  # Legacy method
         """
         print(f"Starting supply loading from: {self.supply_load_src}")
         
@@ -416,23 +304,8 @@ class SupplyLoad(TableCollection):
                     spark=spark,
                     enable_schema_validation=self.enable_schema_validation
                 )
-            elif "supply" in data:
-                # Legacy format (payload.json format)
-                # Schema validation is not applied to legacy system
-                if self.enable_schema_validation:
-                    print("Note: Schema validation is not available for legacy payload.json format")
-                load_from_payload(
-                    data=data,
-                    tables=self.tables,
-                    named_tables=self.named_tables,
-                    sample=self.sample,
-                    sample_rows=self.sample_rows,
-                    sample_frac=self.sample_frac,
-                    seed=self.seed,
-                    spark=spark
-                )
             else:
-                raise ValueError("Unrecognized JSON format: expected either 'sample_files' or 'supply' key")
+                raise ValueError("Unrecognized JSON format: expected 'sample_files' key")
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
@@ -448,19 +321,6 @@ class SupplyLoad(TableCollection):
         Wipe the outputs and results of a previous run for a given job_id (and optionally run_id).
         This removes the transform log and any output files/directories associated with the run.
         """
-        import os
-        import shutil
-        from transformslib.transforms.reader import transform_log_loc
-
-        # Remove transform log (legacy mode)
-        if run_id is not None:
-            log_path = transform_log_loc(job_id, run_id)
-            if os.path.exists(log_path):
-                os.remove(log_path)
-                print(f"Removed transform log: {log_path}")
-            else:
-                print(f"No transform log found at: {log_path}")
-
         # Remove output files in test_tables/output/job_<job_id> or similar
         output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../test_tables/output'))
         if os.path.exists(output_dir):
