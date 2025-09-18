@@ -10,6 +10,8 @@ import pyspark
 import polars as pl
 import pandas as pd
 
+printwidth = 120 #the width to print things out in notebooks
+
 def_log_location = transform_log_loc(job_id=1, run_id=1)
 
 class Transform(PipelineEvent):
