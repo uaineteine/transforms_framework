@@ -2,6 +2,13 @@
 
 This document outlines the process for building the documentation using Sphinx. It covers the pre-compilation steps, the use of auto-modules for API documentation, the role of meta files in providing project metadata, and the execution of the batch file to complete the build.
 
+# Install dependencies
+
+```bash
+cd docs
+pip install -r requirements.txt
+```
+
 ## Pre-compilation with Sphinx
 
 Sphinx is a documentation generator that converts reStructuredText files into various output formats, such as HTML. The pre-compilation step involves processing the source files to prepare them for Sphinx. This includes generating necessary files and configuring Sphinx to correctly build the documentation.
