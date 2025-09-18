@@ -1,3 +1,9 @@
+LOCAL_TEST_PATH = ""
+WORM_PATH = "/dbfs/mnt/worm"
+
+from typing import Dict, Any
+from transformslib.tables.metaframe import MetaFrame
+
 def legacy_get_payload_file(job_id: int, run_id: int, use_test_path: bool = False) -> str:
     """
     Return the path location of the legacy input payload (payload.json).
