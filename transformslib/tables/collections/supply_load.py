@@ -4,9 +4,9 @@ import json
 from typing import Dict, Any
 from transformslib.jsonio import load_json
 from transformslib.tables.metaframe import MetaFrame
-from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
+from .collection import TableCollection
 
 LOCAL_TEST_PATH = "../test_tables"
 WORM_PATH = "abfss://worm@prdct4fzchauedia.dfs.core.windows.net"

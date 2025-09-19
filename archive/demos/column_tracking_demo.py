@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath(parent_dir))
 
 from pyspark.sql import SparkSession
 from transformslib.transforms.atomiclib import DropVariable, SubsetTable, RenameTable, JoinTable
-from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.collections import SupplyLoad
 
 def demonstrate_column_tracking():
     """Demonstrate the new column tracking feature."""
