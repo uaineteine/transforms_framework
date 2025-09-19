@@ -1,9 +1,5 @@
 from transformslib import meta
 from transformslib.templates import read_template_safe
-    
-
-def generate_doctype() -> str:
-    return '<!DOCTYPE html>'
 
 def generate_css() -> str:
     """
@@ -215,7 +211,7 @@ def generate_main(CONTENT:str='<p class="text-center text-gray-400 text-lg">Past
     """
 
 def generate_html() -> str:
-    return f"""{generate_doctype()}
+    return f"""<!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
 {generate_head()}
 <body class="flex flex-col h-full overflow-hidden">
