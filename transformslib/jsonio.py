@@ -17,7 +17,7 @@ Created: September 2025
 """
 
 import json 
-from textio import read_raw_text
+from transformslib.textio import read_raw_text
 
 def load_json(src_path: str, spark=None) -> dict:
     """Load a json file using an agonist backend between os and spark."""
