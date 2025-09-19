@@ -14,7 +14,7 @@ parent_dir = os.path.join(current_dir, '..')
 sys.path.append(os.path.abspath(parent_dir))
 
 from pyspark.sql import SparkSession
-from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.collections import SupplyLoad
 
 def demonstrate_schema_validation():
     """Demonstrate the new schema validation feature."""

@@ -1,8 +1,7 @@
-from transformslib.events.pipeevent import PipelineEvent, TransformEvent
+from transformslib.events import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
-from transformslib.tables.names.lists import ColList
-from transformslib.tables.names.colname import Colname
+from naming_standards import ColList, Colname
 from transformslib.transforms.reader import transform_log_loc
 
 import uuid
@@ -10,6 +9,8 @@ import sys
 import pyspark
 import polars as pl
 import pandas as pd
+
+printwidth = 120 #the width to print things out in notebooks
 
 def_log_location = transform_log_loc(job_id=1, run_id=1)
 

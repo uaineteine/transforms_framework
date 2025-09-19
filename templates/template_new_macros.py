@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     from pyspark.sql import SparkSession
     from transformslib.transforms.macrolib import *
-    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections import SupplyLoad
 
     # Create Spark session
     print("Creating Spark session")
@@ -62,16 +62,16 @@ if __name__ == "__main__":
     print("DEMONSTRATION 2: DropMissingIDs Macro")
     print("=" * 80)
     
-    # Add synthetic_aeuid column for demonstration with some NA values
-    print("Adding synthetic_aeuid column with some NA values for demonstration...")
+    # Add synthetic column for demonstration with some NA values
+    print("Adding synthetic column with some NA values for demonstration...")
     from pyspark.sql.functions import lit, when, rand
     df = supply_frames[table_name]
-    # Add synthetic_aeuid column with random mix of values and nulls
-    df.df = df.df.withColumn("synthetic_aeuid", 
+    # Add synthetic column with random mix of values and nulls
+    df.df = df.df.withColumn("synthetic", 
                            when(rand() > 0.6, lit("valid_id"))
                            .otherwise(lit(None)))
     
-    print(f"Table with synthetic_aeuid column (some nulls):")
+    print(f"Table with synthetic column (some nulls):")
     supply_frames[table_name].show(5)
     print(f"Columns: {supply_frames[table_name].columns}")
     print(f"Row count before: {supply_frames[table_name].nrow}")
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     supply_frames[table_name].show(5)
     print(f"Final columns: {supply_frames[table_name].columns}")
     print(f"Row count after: {supply_frames[table_name].nrow}")
-    print("Note: Rows with null synthetic_aeuid values have been removed")
+    print("Note: Rows with null synthetic values have been removed")
 
     # Save the transformed tables
     print("\nSaving transformed tables...")
@@ -99,6 +99,6 @@ if __name__ == "__main__":
     print("=" * 80)
     print("Summary:")
     print("✓ ConcatenateIDs macro: Concatenates two columns with '_' separator")
-    print("✓ DropMissingIDs macro: Removes rows with NA values in 'synthetic_aeuid' column")
+    print("✓ DropMissingIDs macro: Removes rows with NA values in 'synthetic' column")
     print("✓ Both macros follow the established framework patterns")
     print("=" * 80)

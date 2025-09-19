@@ -6,11 +6,11 @@ the new sampling system (sampling_state.json format). It validates that loaded
 DataFrames match the expected schema defined in the dtypes field.
 """
 
-from typing import Dict, Any, Union, List
+from typing import Dict, Union
 import pandas as pd
 import polars as pl
 from pyspark.sql import DataFrame as SparkDataFrame
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType, DateType, BooleanType
+from pyspark.sql.types import StringType, IntegerType, DoubleType, DateType, BooleanType
 
 
 class SchemaValidationError(Exception):

@@ -1,12 +1,12 @@
 #import mapping types
-from transformslib.mapping.maps import *
+from transformslib.dag.maps import *
 
 from transformslib.tables.collections.collection import TableCollection
 from typing import List
 from abc import ABC, abstractmethod
 from transformslib.tables.metaframe import MetaFrame
 import pyspark.sql.functions as f
-from transformslib.events.pipeevent import PipelineEvent
+from transformslib.events import PipelineEvent
 
 class Transform(ABC):
     # override_column_maps adds extra mapping to column lineage to track column over time

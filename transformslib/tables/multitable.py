@@ -9,7 +9,7 @@ import sparkpolars as sp
 from sas_to_polars import sas_to_polars
 
 #module imports
-from transformslib.tables.names.tablename import Tablename
+from naming_standards import Tablename
 from uainepydat.frameverifier import FrameTypeVerifier
 
 def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:

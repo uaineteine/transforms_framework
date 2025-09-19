@@ -7,5 +7,5 @@ if __name__ == "__main__":
     parent_dir = os.path.join(current_dir, '..')
     sys.path.append(os.path.abspath(parent_dir))
 
-    from transformslib.mapping import dag
+    from transformslib import dag
     dag.render_dag(1, 1)

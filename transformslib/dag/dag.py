@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 from typing import List, Optional, Union
 
-from transformslib.mapping import webcanvas
+from transformslib.dag import webcanvas
 from transformslib.transforms import reader
 from transformslib import meta
 
@@ -382,7 +382,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> s
     main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
 
     full_html = (
-        f"{webcanvas.generate_doctype()}\n"
+        f"<!DOCTYPE html>\n"
         "<html lang=\"en\" class=\"h-full bg-gray-100\">\n"
         f"{head_html}\n"
         "<body class=\"flex flex-col h-full overflow-hidden\">\n"
