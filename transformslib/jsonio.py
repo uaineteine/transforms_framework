@@ -17,7 +17,7 @@ Created: September 2025
 """
 
 import json 
-from transformslib.textio import read_raw_text
+from transformslib.textio import read_raw_text, save_raw_text
 
 def load_json(src_path: str, spark=None) -> dict:
     """Load a json file using an agonist backend between os and spark."""
@@ -36,3 +36,28 @@ def load_json_newline(src_path: str, spark=None) -> list:
             events.append(json.loads(obj_str))
     
     return events
+
+def append_json_newline(obj: dict, dst_path: str, spark=None):
+    """
+    Append a dict to a newline-delimited JSON file.
+    For abfss://, reads the file, appends in memory, and overwrites.
+    For local files, uses append mode.
+    """
+    if dst_path.startswith("abfss://"):
+        # Read existing objects
+        objs = load_json_newline(dst_path, spark=spark)
+        objs.append(obj)
+        # Overwrite file
+        lines = [json.dumps(o) for o in objs]
+        file_str = "\n".join(lines)
+        save_raw_text(dst_path, file_str, spark=spark)
+    else:
+        # Local: append directly
+        with open(dst_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(obj) + "\n")
+
+def write_json(obj: dict, dst_path: str, spark=None):
+    """Write a dict to a JSON file using an agonist backend between os and spark."""
+
+    file_str = json.dumps(obj, indent=2)
+    save_raw_text(dst_path, file_str, spark=spark)
