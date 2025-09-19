@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 from typing import List, Optional, Union
 
-from transformslib.mapping import webcanvas
+from transformslib.dag import webcanvas
 from transformslib.transforms import reader
 from transformslib import meta
 
