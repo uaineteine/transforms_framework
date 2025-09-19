@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 from typing import Dict, Any
-from transformslib.txtread import read_raw_text
+from transformslib.textio import read_raw_text
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
