@@ -1,4 +1,4 @@
-from transformslib.events.jsonlog import JSONLog
+from .jsonlog import JSONLog
 
 class Event(JSONLog):
     """

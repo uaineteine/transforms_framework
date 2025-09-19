@@ -2,7 +2,7 @@ from typing import List, Union, Dict, Callable
 import inspect
 import sys
 
-from transformslib.events.pipeevent import TransformEvent
+from transformslib.events import TransformEvent
 from transformslib.transforms.base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
