@@ -1,5 +1,5 @@
 """
-txtread.py
+textio.py
 
 Utility functions for reading and writing raw text files.
 Supports both local file paths and abfss:// paths for Azure Data Lake Storage.

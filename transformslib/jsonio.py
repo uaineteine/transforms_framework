@@ -1,3 +1,21 @@
+"""
+jsonio.py
+
+Utility functions for loading JSON files from local paths or abfss:// paths.
+Uses textio.read_raw_text for backend-agnostic file reading, supporting both OS and Spark.
+Provides functions for loading standard JSON files and newline-delimited JSON objects.
+
+Functions:
+    load_json(src_path: str, spark=None) -> dict
+        Load a JSON file and return its contents as a dictionary.
+
+    load_json_newline(src_path: str, spark=None) -> list
+        Load a newline-delimited JSON file and return a list of JSON objects.
+
+Author: Daniel
+Created: September 2025
+"""
+
 import json 
 from textio import read_raw_text
 
