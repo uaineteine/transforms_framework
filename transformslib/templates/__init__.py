@@ -7,8 +7,6 @@ that are included in the package distribution.
 
 import os
 import pkgutil
-from typing import Optional
-
 
 def get_template_path(template_name: str) -> str:
     """
