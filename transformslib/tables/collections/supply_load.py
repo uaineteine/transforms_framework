@@ -2,11 +2,11 @@ import os
 import shutil
 import json
 from typing import Dict, Any
-from transformslib.txtread import read_raw_text
+from transformslib.jsonio import load_json
 from transformslib.tables.metaframe import MetaFrame
-from transformslib.tables.collections.collection import TableCollection
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
+from .collection import TableCollection
 
 LOCAL_TEST_PATH = "../test_tables"
 WORM_PATH = "abfss://worm@prdct4fzchauedia.dfs.core.windows.net"
@@ -26,7 +26,7 @@ def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False
     base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
     # New sampling input method - use sampling_state.json
     print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
-    return f"{base_path}/prod/job_{job_id}/sampling_state.json"
+    return f"{base_path}/jobs/prod/job_{job_id}/sampling_state.json"
 
 def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
                             sample: bool, sample_rows: int = None, sample_frac: float = None,
@@ -258,7 +258,7 @@ class SupplyLoad(TableCollection):
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
-            data = json.loads(read_raw_text(self.supply_load_src, spark=spark))
+            data = load_json(self.supply_load_src, spark=spark)
         
             # Determine format based on the structure of the JSON file
             if "sample_files" in data:

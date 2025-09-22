@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     from pyspark.sql import SparkSession
     from transformslib.transforms.macrolib import *
-    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections import SupplyLoad
 
     # Create Spark session
     print("Creating Spark session")

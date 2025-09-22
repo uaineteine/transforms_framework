@@ -111,7 +111,7 @@ Transform visualizations and DAG reports are generated as HTML files and stored 
 - Report filename format: `transform_dag_job{job_id}_run{run_id}.html`
 
 ```python
-from transformslib.mapping.dag import output_loc
+from transformslib.dag import output_loc
 
 # Get output location for DAG report
 report_path = output_loc(job_id=1, run_id=1)
@@ -121,7 +121,7 @@ print(report_path)  # outputs: transform_dags/transform_dag_job1_run1.html
 #### Generating DAG Reports
 
 ```python
-from transformslib.mapping.dag import render_dag
+from transformslib.dag import render_dag
 
 # Generate and save DAG visualization for job 1, run 1
 html_report = render_dag(job_id=1, run_id=1, height=900)
