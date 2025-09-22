@@ -2,7 +2,8 @@ import uuid
 from datetime import datetime, timezone
 import json
 import os
-from transformslib.jsonio import append_json_newline
+import sys
+from adaptiveio import append_json_newline
 
 def _create_uuid() -> str:
     return str(uuid.uuid4())
@@ -80,10 +81,13 @@ class JSONLog:
         if self.log_location == "":
             raise ValueError("No log location specified for the event.")
         
-        os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
+        try:
+            os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
 
-        to_write = self.repr_dict()
-        append_json_newline(to_write, self.log_location)
+            to_write = self.repr_dict()
+            append_json_newline(to_write, self.log_location)
+        except Exception as e:
+            print(f"Error writing log to {self.log_location}: {e}", file=sys.stderr)
 
     @property
     def class_type(self) -> str:

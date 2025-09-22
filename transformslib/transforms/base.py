@@ -421,7 +421,7 @@ class Macro:
         self.input_variables = input_variables
         self.output_variables = output_variables
         # Use default log location
-        self.macro_log_loc = "events_log/job_1/treatments.json"
+        self.macro_log_loc = "jobs/prod/job_1/treatments.json"
 
     def apply(self, **kwargs):
         """

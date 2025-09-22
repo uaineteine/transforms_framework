@@ -4,7 +4,7 @@ from transformslib.transforms.base import MacroTransform, Macro, printwidth
 from transformslib.transforms.atomiclib import *
 from typing import Union
 
-macro_log_location = "events_log/job_1/treatments.json"
+macro_log_location = "jobs/prod/job_1/treatments.json"
 
 class TopBottomCode(Macro):
     """
