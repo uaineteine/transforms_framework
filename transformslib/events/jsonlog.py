@@ -39,9 +39,9 @@ class JSONLog:
         self.log_location = log_location
         self.indent_depth = indent_depth
 
-    def __repr__(self):
+    def repr_dict(self):
         """
-        Return the event as a JSON string, recursively converting objects to dicts.
+        Return the event as a dictionary, recursively converting objects to dicts.
         """
         #update uuid
         if self.persistent_uuid == False:
@@ -63,6 +63,14 @@ class JSONLog:
         # Add class_type explicitly
         dict_repr["class_type"] = self.class_type
 
+        return dict_repr
+    
+    def __repr__(self):
+        """
+        Return the event as a JSON string, recursively converting objects to dicts.
+        """
+        dict_repr = self.repr_dict()
+
         return json.dumps(dict_repr, indent=self.indent_depth, ensure_ascii=True)
 
     def log(self):
@@ -74,7 +82,7 @@ class JSONLog:
         
         os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
 
-        to_write = self.__repr__()
+        to_write = self.repr_dict()
         append_json_newline(to_write, self.log_location)
 
     @property
