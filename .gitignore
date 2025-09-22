@@ -30,3 +30,4 @@ templates/events_log/job_1/table_specific/*_events.json
 templates/events_log/job_1/treatments.json
 test_tables/prod/job_1/output/*
 transformslib/dag/__pycache__/*
+test_tables/jobs/prod/job_1/output/*
