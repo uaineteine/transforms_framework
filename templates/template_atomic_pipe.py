@@ -217,4 +217,4 @@ if __name__ == "__main__":
     supply_frames["super_table"].show()
 
     # save table output tables
-    supply_frames.save_all(f"../test_tables/prod/job_{job_id}/output", spark=spark)
+    supply_frames.save_all(f"../test_tables/jobs/prod/job_{job_id}/output", spark=spark)
