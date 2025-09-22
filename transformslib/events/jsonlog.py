@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timezone
 import json
 import os
-from transformslib.jsonio import append_json_newline
+from adaptiveio import append_json_newline
 
 def _create_uuid() -> str:
     return str(uuid.uuid4())
