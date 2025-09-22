@@ -75,7 +75,7 @@ class JSONLog:
         os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
 
         to_write = self.__repr__()
-        append_json_newline(self.log_location, to_write)
+        append_json_newline(to_write, self.log_location)
 
     @property
     def class_type(self) -> str:

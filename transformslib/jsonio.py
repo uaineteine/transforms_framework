@@ -43,6 +43,8 @@ def append_json_newline(obj: dict, dst_path: str, spark=None):
     For abfss://, reads the file, appends in memory, and overwrites.
     For local files, uses append mode.
     """
+    if not isinstance(obj, dict):
+        raise TypeError(f"append_json_newline expects a dict, got {type(obj)}")
     if dst_path.startswith("abfss://"):
         # Read existing objects
         objs = load_json_newline(dst_path, spark=spark)
