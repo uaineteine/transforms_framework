@@ -3,6 +3,7 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from naming_standards import ColList, Colname
 from transformslib.transforms.reader import transform_log_loc
+from transformslib.jsonio import write_json
 
 import uuid
 import sys
@@ -452,5 +453,5 @@ class Macro:
             'macro_description': self.macros.event_description,
             'macro_type': self.macros.transform_type
         }
-        with open(self.macro_log_loc, 'w') as f:
-            json.dump(json_info, f, indent=2)
+        write_json(self.macro_log_loc, json_info)
+        
