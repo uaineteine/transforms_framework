@@ -47,8 +47,8 @@ Contents
    :maxdepth: 2
 
    transformslib_root
+   dag
    events
-   mapping
    tables
    transforms
 
