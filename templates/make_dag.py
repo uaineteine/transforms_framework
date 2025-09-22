@@ -8,4 +8,4 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from transformslib import dag
-    dag.render_dag(1, 1)
+    dag.render_dag(1, 1, use_local_path=True)

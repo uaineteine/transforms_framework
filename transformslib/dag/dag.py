@@ -194,7 +194,7 @@ def build_di_graph(logs:list) -> nx.DiGraph:
     return G
 
 
-def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> str:
+def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_local_path=False) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.
 
@@ -208,7 +208,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> s
     """
 
     # Load transform events
-    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
+    logs = reader.load_transform_log(job_id=job_id, run_id=run_id, use_local_path=use_local_path)
 
     # Check meta version
     this_version = logs[0].get("meta_version", "")
@@ -379,7 +379,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> s
 
     return full_html
 
-def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> str:
+def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_local_path=False) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms. Saves this to file defined by the output_loc function.
 
@@ -388,7 +388,7 @@ def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900) -> 
         run_id (int): Run identifier.
         height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., "100%").
     """
-    full_html = build_dag(job_id, run_id, height=height)
+    full_html = build_dag(job_id, run_id, height=height, use_local_path=use_local_path)
 
     # Save UTF-8 HTML
     html_file = output_loc(job_id=job_id, run_id=run_id)\
