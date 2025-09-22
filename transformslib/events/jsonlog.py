@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 import json
 import os
+from transformslib.jsonio import append_json_newline
 
 def _create_uuid() -> str:
     return str(uuid.uuid4())
@@ -73,8 +74,8 @@ class JSONLog:
         
         os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
 
-        with open(self.log_location, "a", encoding="utf-8") as f:
-            f.write(self.__repr__() + "\n")
+        to_write = self.__repr__()
+        append_json_newline(self.log_location, to_write)
 
     @property
     def class_type(self) -> str:
