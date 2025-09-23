@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 from typing import Dict, Any
-from transformslib.jsonio import load_json
+from adaptiveio import load_json
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError

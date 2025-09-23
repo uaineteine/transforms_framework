@@ -1,12 +1,6 @@
 transformslib (root)
 ====================
 
-transformslib.jsonio
---------------------
-
-.. automodule:: transformslib.jsonio
-   :members:
-
 transformslib.meta
 ------------------
 
@@ -17,11 +11,5 @@ transformslib.setup
 -------------------
 
 .. automodule:: transformslib.setup
-   :members:
-
-transformslib.textio
---------------------
-
-.. automodule:: transformslib.textio
    :members:
 
