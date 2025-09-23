@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="mapping" href="mapping.html" />
-    <link rel="prev" title="transformslib (root)" href="transformslib_root.html" /> 
+    <link rel="next" title="tables" href="tables.html" />
+    <link rel="prev" title="dag" href="dag.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,6 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="transformslib_root.html">transformslib (root)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">events</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.events.eventlog">transformslib.events.eventlog</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.events.eventlog.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
@@ -53,6 +54,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.events.jsonlog.JSONLog"><code class="docutils literal notranslate"><span class="pre">JSONLog</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.events.jsonlog.JSONLog.class_type"><code class="docutils literal notranslate"><span class="pre">JSONLog.class_type</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.events.jsonlog.JSONLog.log"><code class="docutils literal notranslate"><span class="pre">JSONLog.log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.events.jsonlog.JSONLog.repr_dict"><code class="docutils literal notranslate"><span class="pre">JSONLog.repr_dict()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -63,7 +65,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="mapping.html">mapping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
 </ul>
@@ -129,6 +130,12 @@ needing to override or redefine it.</p>
 <dd><p>Write the event to the specified log file.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.events.jsonlog.JSONLog.repr_dict">
+<span class="sig-name descname"><span class="pre">repr_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.events.jsonlog.JSONLog.repr_dict" title="Link to this definition"></a></dt>
+<dd><p>Return the event as a dictionary, recursively converting objects to dicts.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -156,8 +163,8 @@ class_type (str): Constant string identifying this event type.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="transformslib_root.html" class="btn btn-neutral float-left" title="transformslib (root)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mapping.html" class="btn btn-neutral float-right" title="mapping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dag.html" class="btn btn-neutral float-left" title="dag" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tables.html" class="btn btn-neutral float-right" title="tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -13,9 +13,3 @@ transformslib.setup
 .. automodule:: transformslib.setup
    :members:
 
-transformslib.txtread
----------------------
-
-.. automodule:: transformslib.txtread
-   :members:
-

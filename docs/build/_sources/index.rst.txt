@@ -37,6 +37,7 @@ Dependencies
 * pyvis
 * networkx
 * naming-standards>=1.0.0
+* adaptiveio>=1.0.0
 
 
 
@@ -47,8 +48,8 @@ Contents
    :maxdepth: 2
 
    transformslib_root
+   dag
    events
-   mapping
    tables
    transforms
 

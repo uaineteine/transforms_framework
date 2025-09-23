@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="events" href="events.html" />
+    <link rel="next" title="dag" href="dag.html" />
     <link rel="prev" title="Metadata Transformations Framework" href="index.html" /> 
 </head>
 
@@ -57,15 +57,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.setup_java_home"><code class="docutils literal notranslate"><span class="pre">setup_java_home()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.txtread">transformslib.txtread</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.txtread.read_raw_text"><code class="docutils literal notranslate"><span class="pre">read_raw_text()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.txtread.save_raw_text"><code class="docutils literal notranslate"><span class="pre">save_raw_text()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mapping.html">mapping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
 </ul>
@@ -172,47 +167,6 @@ Used to track compatibility and changes across releases.</p>
 </dd></dl>
 
 </section>
-<section id="module-transformslib.txtread">
-<span id="transformslib-txtread"></span><h2>transformslib.txtread<a class="headerlink" href="#module-transformslib.txtread" title="Link to this heading"></a></h2>
-<p>txtread.py</p>
-<p>Utility functions for reading and writing raw text files.
-Supports both local file paths and abfss:// paths for Azure Data Lake Storage.
-Uses Spark for distributed file operations when working with abfss:// paths.</p>
-<dl class="simple">
-<dt>Functions:</dt><dd><dl class="simple">
-<dt>read_raw_text(path: str, spark=None) -&gt; str</dt><dd><p>Read a text file and return its content as a single string.</p>
-</dd>
-<dt>save_raw_text(path: str, text: str, spark=None)</dt><dd><p>Save a string to a text file.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>Author: Daniel
-Created: September 2025</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.txtread.read_raw_text">
-<span class="sig-prename descclassname"><span class="pre">transformslib.txtread.</span></span><span class="sig-name descname"><span class="pre">read_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.txtread.read_raw_text" title="Link to this definition"></a></dt>
-<dd><p>Read a text file and return its content as a single string.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (str): Path to the text file. Supports local paths and abfss:// paths.
-spark (SparkSession, optional): Spark session for reading from abfss:// paths. Defaults to None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.txtread.save_raw_text">
-<span class="sig-prename descclassname"><span class="pre">transformslib.txtread.</span></span><span class="sig-name descname"><span class="pre">save_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.txtread.save_raw_text" title="Link to this definition"></a></dt>
-<dd><p>Save a string to a text file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (str): Path to the text file. Supports local paths and abfss:// paths.
-text (str): The text content to save.
-spark (SparkSession, optional): Spark session for writing to abfss:// paths. Defaults to None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 </section>
 
 
@@ -220,7 +174,7 @@ spark (SparkSession, optional): Spark session for writing to abfss:// paths. Def
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Metadata Transformations Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="events.html" class="btn btn-neutral float-right" title="events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dag.html" class="btn btn-neutral float-right" title="dag" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
