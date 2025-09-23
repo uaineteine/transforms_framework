@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="events" href="events.html" />
+    <link rel="next" title="dag" href="dag.html" />
     <link rel="prev" title="Metadata Transformations Framework" href="index.html" /> 
 </head>
 
@@ -44,6 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">transformslib (root)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.jsonio">transformslib.jsonio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.jsonio.append_json_newline"><code class="docutils literal notranslate"><span class="pre">append_json_newline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.jsonio.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.jsonio.load_json_newline"><code class="docutils literal notranslate"><span class="pre">load_json_newline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.jsonio.write_json"><code class="docutils literal notranslate"><span class="pre">write_json()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.meta">transformslib.meta</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.meta.expected_meta_version"><code class="docutils literal notranslate"><span class="pre">expected_meta_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.meta.meta_version"><code class="docutils literal notranslate"><span class="pre">meta_version</span></code></a></li>
@@ -57,15 +64,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.setup_java_home"><code class="docutils literal notranslate"><span class="pre">setup_java_home()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.txtread">transformslib.txtread</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.txtread.read_raw_text"><code class="docutils literal notranslate"><span class="pre">read_raw_text()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.txtread.save_raw_text"><code class="docutils literal notranslate"><span class="pre">save_raw_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.textio">transformslib.textio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.textio.read_raw_text"><code class="docutils literal notranslate"><span class="pre">read_raw_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.textio.save_raw_text"><code class="docutils literal notranslate"><span class="pre">save_raw_text()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mapping.html">mapping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
 </ul>
@@ -96,6 +103,50 @@
              
   <section id="transformslib-root">
 <h1>transformslib (root)<a class="headerlink" href="#transformslib-root" title="Link to this heading"></a></h1>
+<section id="module-transformslib.jsonio">
+<span id="transformslib-jsonio"></span><h2>transformslib.jsonio<a class="headerlink" href="#module-transformslib.jsonio" title="Link to this heading"></a></h2>
+<p>jsonio.py</p>
+<p>Utility functions for loading JSON files from local paths or abfss:// paths.
+Uses textio.read_raw_text for backend-agnostic file reading, supporting both OS and Spark.
+Provides functions for loading standard JSON files and newline-delimited JSON objects.</p>
+<dl class="simple">
+<dt>Functions:</dt><dd><dl class="simple">
+<dt>load_json(src_path: str, spark=None) -&gt; dict</dt><dd><p>Load a JSON file and return its contents as a dictionary.</p>
+</dd>
+<dt>load_json_newline(src_path: str, spark=None) -&gt; list</dt><dd><p>Load a newline-delimited JSON file and return a list of JSON objects.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Author: Daniel
+Created: September 2025</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.jsonio.append_json_newline">
+<span class="sig-prename descclassname"><span class="pre">transformslib.jsonio.</span></span><span class="sig-name descname"><span class="pre">append_json_newline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.jsonio.append_json_newline" title="Link to this definition"></a></dt>
+<dd><p>Append a dict to a newline-delimited JSON file.
+For abfss://, reads the file, appends in memory, and overwrites.
+For local files, uses append mode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.jsonio.load_json">
+<span class="sig-prename descclassname"><span class="pre">transformslib.jsonio.</span></span><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#transformslib.jsonio.load_json" title="Link to this definition"></a></dt>
+<dd><p>Load a json file using an agonist backend between os and spark.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.jsonio.load_json_newline">
+<span class="sig-prename descclassname"><span class="pre">transformslib.jsonio.</span></span><span class="sig-name descname"><span class="pre">load_json_newline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#transformslib.jsonio.load_json_newline" title="Link to this definition"></a></dt>
+<dd><p>Load a json file using an agonist backend between os and spark.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.jsonio.write_json">
+<span class="sig-prename descclassname"><span class="pre">transformslib.jsonio.</span></span><span class="sig-name descname"><span class="pre">write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.jsonio.write_json" title="Link to this definition"></a></dt>
+<dd><p>Write a dict to a JSON file using an agonist backend between os and spark.</p>
+</dd></dl>
+
+</section>
 <section id="module-transformslib.meta">
 <span id="transformslib-meta"></span><h2>transformslib.meta<a class="headerlink" href="#module-transformslib.meta" title="Link to this heading"></a></h2>
 <p>This module defines constant parameters used across the application.</p>
@@ -172,9 +223,9 @@ Used to track compatibility and changes across releases.</p>
 </dd></dl>
 
 </section>
-<section id="module-transformslib.txtread">
-<span id="transformslib-txtread"></span><h2>transformslib.txtread<a class="headerlink" href="#module-transformslib.txtread" title="Link to this heading"></a></h2>
-<p>txtread.py</p>
+<section id="module-transformslib.textio">
+<span id="transformslib-textio"></span><h2>transformslib.textio<a class="headerlink" href="#module-transformslib.textio" title="Link to this heading"></a></h2>
+<p>textio.py</p>
 <p>Utility functions for reading and writing raw text files.
 Supports both local file paths and abfss:// paths for Azure Data Lake Storage.
 Uses Spark for distributed file operations when working with abfss:// paths.</p>
@@ -190,8 +241,8 @@ Uses Spark for distributed file operations when working with abfss:// paths.</p>
 <p>Author: Daniel
 Created: September 2025</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.txtread.read_raw_text">
-<span class="sig-prename descclassname"><span class="pre">transformslib.txtread.</span></span><span class="sig-name descname"><span class="pre">read_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.txtread.read_raw_text" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="transformslib.textio.read_raw_text">
+<span class="sig-prename descclassname"><span class="pre">transformslib.textio.</span></span><span class="sig-name descname"><span class="pre">read_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.textio.read_raw_text" title="Link to this definition"></a></dt>
 <dd><p>Read a text file and return its content as a single string.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (str): Path to the text file. Supports local paths and abfss:// paths.
@@ -201,8 +252,8 @@ spark (SparkSession, optional): Spark session for reading from abfss:// paths. D
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.txtread.save_raw_text">
-<span class="sig-prename descclassname"><span class="pre">transformslib.txtread.</span></span><span class="sig-name descname"><span class="pre">save_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.txtread.save_raw_text" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="transformslib.textio.save_raw_text">
+<span class="sig-prename descclassname"><span class="pre">transformslib.textio.</span></span><span class="sig-name descname"><span class="pre">save_raw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.textio.save_raw_text" title="Link to this definition"></a></dt>
 <dd><p>Save a string to a text file.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (str): Path to the text file. Supports local paths and abfss:// paths.
@@ -220,7 +271,7 @@ spark (SparkSession, optional): Spark session for writing to abfss:// paths. Def
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Metadata Transformations Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="events.html" class="btn btn-neutral float-right" title="events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dag.html" class="btn btn-neutral float-right" title="dag" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

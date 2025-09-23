@@ -2,9 +2,10 @@ import os
 import json
 from datetime import datetime, timedelta
 
-main_dir = "events_log"
+local_dir = "jobs/prod"
+worm_dir = "dbfs:/mnt/datalake/jobs/prod"
 
-def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
+def transform_log_loc(job_id: int, run_id: int, debug: bool = False, use_local_path=False) -> str:
     """
     Constructs the file path to the transformation log for a specific job.
 
@@ -26,6 +27,8 @@ def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
     str
         The full path to the `transforms.json` file for the specified job.
     """
+    main_dir = local_dir if use_local_path else worm_dir
+
     log_file_path = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
     return log_file_path
 
@@ -51,11 +54,11 @@ def does_transform_log_exist(job_id: int, run_id: int) -> bool:
     loc_path = transform_log_loc(job_id, run_id)
     return os.path.exists(loc_path)
 
-def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
+def load_transform_log(job_id:int, run_id:int, debug:bool=False, use_local_path=False) -> list:
     """Load the transform log for a specific job and run ID."""
 
-    log_file = transform_log_loc(job_id, run_id, debug=debug)
-    
+    log_file = transform_log_loc(job_id, run_id, debug=debug, use_local_path=use_local_path)
+
     events = []
     if not os.path.exists(log_file):
         raise FileNotFoundError(f"Log file not found: {log_file}")

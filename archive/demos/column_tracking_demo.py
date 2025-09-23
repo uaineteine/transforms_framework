@@ -53,7 +53,7 @@ def demonstrate_column_tracking():
     original_cols = list(supply_frames["salary"].columns)
     print(f"Before: {original_cols}")
     
-    rename_transform = RenameTable({"salary": "income", "NAME": "full_name"})
+    rename_transform = RenameTable({"salary": "income", "name": "full_name"})
     supply_frames = rename_transform.apply(supply_frames, df="salary")
     
     final_cols = list(supply_frames["salary"].columns)
