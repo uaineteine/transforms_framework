@@ -3,7 +3,7 @@ from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from naming_standards import ColList, Colname
 from transformslib.transforms.reader import transform_log_loc
-from transformslib.jsonio import write_json
+from adaptiveio import write_json
 
 import uuid
 import sys

@@ -120,7 +120,7 @@ class MetaFrame(MultiTable):
             >>> pt = MetaFrame.load("data.csv", "csv", "my_table", "pandas")
         """
         #print(table_name)
-        mf = MultiTable.load(path, format, table_name, frame_type, auto_capitalise=False, spark=spark)
+        mf = MultiTable.load(path, format, table_name, frame_type, auto_lowercase=True, spark=spark)
 
         ptable = MetaFrame(mf)
 
