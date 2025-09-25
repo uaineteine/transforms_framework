@@ -3,7 +3,7 @@ import inspect
 import sys
 
 from transformslib.events import TransformEvent
-from transformslib.transforms.base import TableTransform, printwidth
+from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when, trim, date_trunc

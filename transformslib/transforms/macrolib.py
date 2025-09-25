@@ -1,6 +1,6 @@
 from transformslib.tables.collections.collection import TableCollection 
-from transformslib.transforms.base import MacroTransform, Macro, printwidth
-from transformslib.transforms.atomiclib import *
+from .base import MacroTransform, Macro, printwidth
+from .atomiclib import *
 from typing import Union
 
 macro_log_location = "jobs/prod/job_1/treatments.json"
