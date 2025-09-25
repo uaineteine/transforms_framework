@@ -9,6 +9,9 @@ import os
 JVENV = "JAVA_HOME"
 """str: The name of the environment variable used to store the Java installation path."""
 
+REQ_VARIABLES = [JVENV]
+"""list: A list of required environment variables for Java-related operations."""
+
 def detect_if_java_home_set() -> bool:
     """
     Checks whether the JAVA_HOME environment variable is set and points to a valid directory.
