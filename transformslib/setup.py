@@ -9,7 +9,7 @@ import os
 JVENV = "JAVA_HOME"
 """str: The name of the environment variable used to store the Java installation path."""
 
-REQ_VARIABLES = [JVENV]
+REQ_VARIABLES = [JVENV, "HADOOP_HOME"]
 """list: A list of required environment variables for Java-related operations."""
 
 def detect_if_java_home_set() -> bool:
@@ -84,3 +84,16 @@ def print_all_environment_variables():
         print(f"{key}: {value}")
     print("-" * 120)
     print(f"Total environment variables: {len(env_vars)}")
+
+def check_required_variables() -> bool:
+    """
+    Checks whether all required environment variables are set and point to valid directories.
+
+    Returns:
+        bool: True if all required environment variables are set and their paths exist, False otherwise.
+    """
+    for var in REQ_VARIABLES:
+        value = os.environ.get(var)
+        if not value or not os.path.exists(value):
+            return False
+    return True
