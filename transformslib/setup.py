@@ -60,3 +60,24 @@ def setup_hadoop_home(hadoop_home_path: str):
     if not os.path.exists(hadoop_home_path):
         raise ValueError(f"Provided HADOOP_HOME path does not exist: {hadoop_home_path}")
     os.environ["HADOOP_HOME"] = hadoop_home_path
+
+def list_all_environment_variables() -> dict:
+    """
+    Lists all environment variables currently set in the system.
+
+    Returns:
+        dict: A dictionary containing all environment variables as key-value pairs.
+    """
+    return dict(os.environ)
+
+def print_all_environment_variables():
+    """
+    Prints all environment variables currently set in the system in a formatted way.
+    """
+    env_vars = os.environ
+    print("Environment Variables:")
+    print("-" * 120)
+    for key, value in sorted(env_vars.items()):
+        print(f"{key}: {value}")
+    print("-" * 120)
+    print(f"Total environment variables: {len(env_vars)}")
