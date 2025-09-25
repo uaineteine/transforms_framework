@@ -18,10 +18,9 @@ def generate_css() -> str:
 
     css_content = ""
     try:
-        data = read_template_safe(css_filename)
-        if data is None:
+        css_content = read_template_safe(css_filename)
+        if css_content is None:
             raise FileNotFoundError(f"CSS file '{css_filename}' not found in package")
-        css_content = data
     except Exception as e:
         raise FileNotFoundError(f"CSS file '{css_filename}' not found: {e}")
     
