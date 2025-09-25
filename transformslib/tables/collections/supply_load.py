@@ -1,6 +1,7 @@
 import os
 import shutil
 import json
+from pyspark.sql.functions import col
 from typing import Dict, Any
 from adaptiveio import load_json
 from transformslib.tables.metaframe import MetaFrame
@@ -78,7 +79,6 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
                 "Float64": "double",
                 "Boolean": "boolean"
             }
-            from pyspark.sql.functions import col
             for colname, dtypeinfo in dtypes.items():
                 target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
                 if target_type in pyspark_type_map:

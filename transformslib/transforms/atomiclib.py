@@ -8,6 +8,7 @@ from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when, trim, date_trunc
 from pyspark.sql.functions import round as spark_round
+from pyspark.sql.functions import lower, upper, col
 
 import polars as pl
 import pandas as pd
@@ -1316,7 +1317,6 @@ class ForceCase(TableTransform):
                 )
 
         elif backend == "pyspark":
-            from pyspark.sql.functions import lower, upper, col
             func = lower if self.case == "lower" else upper
             supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
                 self.column, func(col(self.column))
