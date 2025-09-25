@@ -5,6 +5,7 @@ It includes functions to detect whether JAVA_HOME is set and to configure it pro
 """
 
 import os
+from transformslib.templates import read_template_safe
 
 JVENV = "JAVA_HOME"
 """str: The name of the environment variable used to store the Java installation path."""
@@ -97,3 +98,50 @@ def check_required_variables() -> bool:
         if not value or not os.path.exists(value):
             return False
     return True
+
+def check_variable_set(var_name: str) -> bool:
+    """
+    Checks whether a specific environment variable is set and points to a valid directory.
+
+    Args:
+        var_name (str): The name of the environment variable to check.
+    Returns:
+        bool: True if the environment variable is set and the path exists, False otherwise. 
+    """
+    value = os.environ.get(var_name)
+    if value and os.path.exists(value):
+        return True
+    return False
+
+def set_default_variables():
+    """
+    Sets default values found in defconfig.txt if they don't exist in the environment.
+    """
+
+    def_conf_filename = "defconfig.txt"
+
+    def_config = ""
+    try:
+        def_config = read_template_safe(def_conf_filename)
+        if def_config is None:
+            raise FileNotFoundError(f"Config file '{def_conf_filename}' not found in package")
+    except Exception as e:
+        raise FileNotFoundError(f"Config file '{def_conf_filename}' not found: {e}")
+    
+    def_config = def_config.splitlines()
+    count = 0
+    for line in def_config:
+        if line.strip() and not line.startswith("#"):
+            key_value = line.split("=", 1)
+            if len(key_value) == 2:
+                key, value = key_value
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+                if key not in os.environ:
+                    print(f"Setting default environment variable: {key}={value}")
+                    os.environ[key] = value
+                    count += 1
+
+    if count > 0:
+        print("Default environment variables have been set where necessary.")
+    
