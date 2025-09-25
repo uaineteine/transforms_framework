@@ -1,4 +1,3 @@
-import json
 from transformslib.tables.collections.collection import TableCollection 
 from transformslib.transforms.base import MacroTransform, Macro, printwidth
 from transformslib.transforms.atomiclib import *

@@ -441,7 +441,6 @@ class Macro:
         """
         Logs the macro transformation metadata to a JSON file.
         """
-        import json
         # Create a serializable version of the object dict
         json_info = {
             'input_tables': [str(table) for table in self.input_tables.get_table_names()],
