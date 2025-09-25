@@ -69,27 +69,6 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
             spark=spark
         )
 
-        # If CSV, cast columns to expected dtypes if provided
-        if item["file_format"].lower() == "csv" and "dtypes" in item:
-            print(f"Casting columns for table '{name}' to expected schema...")
-            dtypes = item["dtypes"]
-            pyspark_type_map = {
-                "String": "string",
-                "Int64": "long",
-                "Float64": "double",
-                "Boolean": "boolean"
-            }
-            for colname, dtypeinfo in dtypes.items():
-                target_type = dtypeinfo.get("dtype_output") or dtypeinfo.get("dtype_source")
-                if target_type in pyspark_type_map:
-                    spark_type = pyspark_type_map[target_type]
-                    try:
-                        table.df = table.df.withColumn(colname, col(colname).cast(spark_type))
-                    except Exception as e:
-                        print(f"Warning: Could not cast column '{colname}' to {spark_type}: {e}")
-                else:
-                    print(f"Warning: Unknown dtype '{target_type}' for column '{colname}'")
-
         # Perform schema validation if enabled and dtypes are provided
         if enable_schema_validation and "dtypes" in item:
             try:
@@ -135,8 +114,8 @@ class SupplyLoad(TableCollection):
         "sample_files": [
             {
                 "table_name": "table_name",
-                "input_file_path": "path/to/data.csv",
-                "file_format": "csv",
+                "input_file_path": "path/to/data.parquet",
+                "file_format": "parquet",
                 "dtypes": {
                     "column1": {"dtype_source": "String", "dtype_output": "String"},
                     "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
