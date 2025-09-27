@@ -129,8 +129,23 @@ def set_default_variables():
         raise FileNotFoundError(f"Config file '{def_conf_filename}' not found: {e}")
     
     def_config = def_config.splitlines()
+    count = _set_variables_from_dicts(def_config)
+
+    if count > 0:
+        print("Default environment variables have been set where necessary.")
+
+def _set_variables_from_dicts(var_dicts: list[str]) -> int:
+    """
+    Sets environment variables from a list of dictionaries.
+
+    Args:
+        var_dicts (list): A list of dictionaries containing environment variable key-value
+
+    Returns:
+        int: The number of environment variables that were set.
+    """
     count = 0
-    for line in def_config:
+    for line in var_dicts:
         if line.strip() and not line.startswith("#"):
             key_value = line.split("=", 1)
             if len(key_value) == 2:
@@ -141,7 +156,5 @@ def set_default_variables():
                     print(f"Setting default environment variable: {key}={value}")
                     os.environ[key] = value
                     count += 1
-
-    if count > 0:
-        print("Default environment variables have been set where necessary.")
     
+    return count
