@@ -2,8 +2,12 @@ from transformslib.tables.collections.collection import TableCollection
 from .base import MacroTransform, Macro, printwidth
 from .atomiclib import *
 from typing import Union
+import os
 
 macro_log_location = "jobs/prod/job_1/treatments.json"
+
+# Get synthetic variable name from environment variable
+SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
 
 class TopBottomCode(Macro):
     """
@@ -103,7 +107,7 @@ class ConcatenateIDs(Macro):
 
 class DropMissingIDs(Macro):
     """
-    A macro that drops missing IDs from a table by removing rows with NA values in the 'synthetic' variable.
+    A macro that drops missing IDs from a table by removing rows with NA values in the synthetic variable.
     Uses the DropNAValues transform to remove rows with missing values.
 
     :param input_tables: A collection of input tables to be transformed.
@@ -112,15 +116,15 @@ class DropMissingIDs(Macro):
 
     def __init__(self,
                  input_tables: TableCollection):
-        # Create the DropNAValues transform targeting 'synthetic'
+        # Create the DropNAValues transform targeting the synthetic variable
         drop_transform = DropNAValues(
-            column="synthetic"
+            column=SYNTHETIC_VAR
         )
 
         macro = MacroTransform(
             transforms=[drop_transform],
             Name="DropMissingIDs",
-            Description="Drops missing IDs by removing rows with NA values in synthetic",
+            Description=f"Drops missing IDs by removing rows with NA values in {SYNTHETIC_VAR}",
             macro_id="DropMissing"
         )
 
@@ -128,8 +132,8 @@ class DropMissingIDs(Macro):
             macro_transform=macro,
             input_tables=input_tables,
             output_tables=input_tables.get_table_names(),
-            input_variables=["synthetic"],
-            output_variables=["synthetic"]
+            input_variables=[SYNTHETIC_VAR],
+            output_variables=[SYNTHETIC_VAR]
         )
 
 
