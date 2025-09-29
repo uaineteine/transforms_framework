@@ -129,12 +129,12 @@ def set_default_variables():
         raise FileNotFoundError(f"Config file '{def_conf_filename}' not found: {e}")
     
     def_config = def_config.splitlines()
-    count = _set_variables_from_dicts(def_config)
+    count = set_variables_from_dicts(def_config)
 
     if count > 0:
         print("Default environment variables have been set where necessary.")
 
-def _set_variables_from_dicts(var_dicts: list[str]) -> int:
+def set_variables_from_dicts(var_dicts: list[str]) -> int:
     """
     Sets environment variables from a list of dictionaries.
 
