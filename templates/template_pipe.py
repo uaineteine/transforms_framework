@@ -259,9 +259,6 @@ if __name__ == "__main__":
     supply_frames = join_transform.apply(supply_frames, output_table="super_table")
     print("second join complete")
     
-    supply_frames = TrimWhitespace("name").apply(supply_frames, df="super_table")
-    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="super_table")
-    
     supply_frames["super_table"].show()
 
     # save table output tables
