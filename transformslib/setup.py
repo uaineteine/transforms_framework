@@ -4,6 +4,7 @@ This module provides utilities for managing the JAVA_HOME environment variable.
 It includes functions to detect whether JAVA_HOME is set and to configure it programmatically.
 """
 
+from typing import Union
 import os
 from transformslib.templates import read_template_safe
 
@@ -158,3 +159,22 @@ def set_variables_from_dicts(var_dicts: list[str]) -> int:
                     count += 1
     
     return count
+
+def set_job_id(new_job_id: Union[int, str]):
+    """
+    Sets the job ID in the environment variable TNSFRMS_JOB_ID.
+
+    Args:
+        new_job_id (Union[int, str]): The job ID to set.
+    """
+    if isinstance(new_job_id, int):
+        if new_job_id < 0:
+            raise ValueError("Job ID must be a non-negative integer or a string.")
+        os.environ["TNSFRMS_JOB_ID"] = str(new_job_id)
+    elif isinstance(new_job_id, str):
+        if not new_job_id.isdigit() or int(new_job_id) < 0:
+            raise ValueError("Job ID string must represent a non-negative integer.")
+        os.environ["TNSFRMS_JOB_ID"] = new_job_id
+    else:
+        raise ValueError("Job ID must be an integer or string.")
+    
