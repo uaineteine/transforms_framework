@@ -1,4 +1,4 @@
-from transformslib.tables.collections.collection import TableCollection 
+from transformslib.tables.collections import TableCollection
 from .base import MacroTransform, Macro, printwidth
 from .atomiclib import *
 from typing import Union
