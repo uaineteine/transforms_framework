@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transformslib.transforms.atomiclib import *
+    from transformslib.transforms import *
     from pyspark.sql.functions import col
     from transformslib.tables.collections import SupplyLoad
     
@@ -27,6 +27,8 @@ if __name__ == "__main__":
     supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True) #sample_rows=xyz
     
     listatomic()
+
+    listmacro()
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
@@ -186,6 +188,52 @@ if __name__ == "__main__":
     print("Sorting the date_table by event_date")
     supply_frames = SortTable(by="event_date", ascending=True).apply(supply_frames, df="date_table")
     supply_frames["date_table"].show()
+
+    # -------------------------------
+    # Test 16: ForceCase
+    # -------------------------------
+    print("Applying ForceCase (upper) on name column")
+    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="super_table")
+    print("After ForceCase (upper):")
+    supply_frames["super_table"].show()
+
+    # -------------------------------
+    # Test 17: TrimWhitespace
+    # -------------------------------
+    print("Applying TrimWhitespace on name column")
+    supply_frames = TrimWhitespace("name").apply(supply_frames, df="super_table")
+    print("After TrimWhitespace:")
+    supply_frames["super_table"].show()
+
+    # -------------------------------
+    # Test 18: TopBottomCoding
+    #   -------------------------------
+    print("Applying TopBottomCode macro to salary column")
+    print("Original salary data:")
+    supply_frames["salary"].show()
+    print("Salary column statistics:")
+    supply_frames["salary"].df.describe(["salary"]).show()
+
+    # -------------------------------
+    # Apply TopBottomCode macro to salary table
+    # -------------------------------
+    print("Setting minimum value to 450 and maximum value to 650")
+    
+    # Create TopBottomCode macro instance
+    topbottom_macro = TopBottomCode(
+        input_tables=supply_frames,
+        input_variables=["salary"],  # Apply coding to salary column
+        max_value=650,               # Cap values above 650
+        min_value=450                # Floor values below 450
+    )
+    
+    # Apply the macro transformation to the salary table
+    supply_frames = topbottom_macro.apply(df="salary")
+    
+    print("After TopBottomCode transformation:")
+    supply_frames["salary"].show()
+    print("Salary column statistics after transformation:")
+    supply_frames["salary"].df.describe(["salary"]).show()
 
     # -------------------------------
     # Repeated tests to continue
