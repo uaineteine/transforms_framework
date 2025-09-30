@@ -5,6 +5,7 @@ from naming_standards import ColList, Colname
 from transformslib.transforms.reader import transform_log_loc
 from adaptiveio import write_json
 
+import os
 import uuid
 import sys
 import pyspark
@@ -13,7 +14,7 @@ import pandas as pd
 
 printwidth = 120 #the width to print things out in notebooks
 
-def_log_location = transform_log_loc(job_id=1, run_id=1)
+def_log_location = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
 
 class Transform(PipelineEvent):
     """
@@ -56,7 +57,8 @@ class Transform(PipelineEvent):
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        super().__init__("transform", None, event_description=description, log_location=def_log_location, macro_uuid=macro_uuid)
+        ll = def_log_location.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        super().__init__("transform", None, event_description=description, log_location=ll, macro_uuid=macro_uuid)
         self.name = name  # Set name manually
         self.transform_type = transform_type
         self.testable_transform = testable_transform
