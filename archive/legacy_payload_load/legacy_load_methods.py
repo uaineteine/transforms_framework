@@ -11,8 +11,7 @@ def legacy_get_payload_file(job_id: int, run_id: int, use_test_path: bool = Fals
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int): A run id to get the path of configuration file containing supply definitions.
-        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
-
+        
     Returns:
         str: The legacy payload path.
     """

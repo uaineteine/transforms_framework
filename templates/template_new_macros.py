@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # Load pipeline tables
     job_id = 1
-    supply_frames = SupplyLoad(job_id, spark=spark, use_test_path=True)
+    supply_frames = SupplyLoad(job_id, spark=spark)
     
     print("=" * 80)
     print("NEW MACRO DEMONSTRATIONS")
