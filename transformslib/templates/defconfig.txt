@@ -1,1 +1,2 @@
+TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
 TNSFRMS_SYN_VAR="SYNTHETIC"
