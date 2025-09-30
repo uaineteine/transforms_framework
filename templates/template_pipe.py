@@ -193,7 +193,7 @@ if __name__ == "__main__":
     # Test 16: ForceCase
     # -------------------------------
     print("Applying ForceCase (upper) on name column")
-    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="super_table")
+    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="array_like")
     print("After ForceCase (upper):")
     supply_frames["super_table"].show()
 
@@ -201,7 +201,7 @@ if __name__ == "__main__":
     # Test 17: TrimWhitespace
     # -------------------------------
     print("Applying TrimWhitespace on name column")
-    supply_frames = TrimWhitespace("name").apply(supply_frames, df="super_table")
+    supply_frames = TrimWhitespace("name").apply(supply_frames, df="location")
     print("After TrimWhitespace:")
     supply_frames["super_table"].show()
 
