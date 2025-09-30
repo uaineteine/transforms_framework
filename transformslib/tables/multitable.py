@@ -400,7 +400,7 @@ class MultiTable:
         return df
 
     @staticmethod
-    def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, auto_capitalise = False, spark=None):
+    def load(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, auto_lowercase = False, spark=None):
         """
         Load a DataFrame from a file and return a MultiTable instance.
 
@@ -416,8 +416,8 @@ class MultiTable:
             Name to assign to the table. If empty, will be inferred from the file path. Defaults to "".
         frame_type : str, optional
             Type of DataFrame to create. Defaults to "pyspark". Supported types: "pyspark", "pandas", "polars".
-        auto_capitalise : bool, optional
-            Automatically capitalise column names. Defaults to False.
+        auto_lowercase : bool, optional
+            Automatically lowercase column names. Defaults to False.
         spark : optional
             SparkSession object (required for PySpark frame_type). Defaults to None.
 
@@ -446,21 +446,19 @@ class MultiTable:
         """
         df = MultiTable.load_native_df(path=path, format=format, table_name=table_name, frame_type=frame_type, spark=spark)
 
-        if auto_capitalise:
+        if auto_lowercase:
             if frame_type == "pandas":
-                df.columns = [col.upper() for col in df.columns]  # or .title() if you prefer
+                df.columns = [col.lower() for col in df.columns]
             elif frame_type == "polars":
-                df = df.rename({col: col.upper() for col in df.columns})  # returns a new LazyFrame
+                df = df.rename({col: col.lower() for col in df.columns})
             elif frame_type == "pyspark":
                 for old_col in df.columns:
-                    df = df.withColumnRenamed(old_col, old_col.upper())
+                    df = df.withColumnRenamed(old_col, old_col.lower())
             else:
-                raise ValueError("Unsupported frame_type for auto_capitalise")
+                raise ValueError("Unsupported frame_type for auto_lowercase")
 
-        #print(df.columns)
-        #package into metaframe
         mf = MultiTable(df, src_path=path, table_name=table_name, frame_type=frame_type)
-            
+        
         return mf
 
     def drop(self, columns: Union[str, list]):

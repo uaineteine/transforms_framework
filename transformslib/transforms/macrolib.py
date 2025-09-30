@@ -1,10 +1,80 @@
-import json
-from transformslib.tables.collections.collection import TableCollection 
-from transformslib.transforms.base import MacroTransform, Macro, printwidth
-from transformslib.transforms.atomiclib import *
+from transformslib.tables.collections import TableCollection
+from .base import MacroTransform, printwidth
+from .atomiclib import *
+from adaptiveio import write_json
 from typing import Union
+import os
 
-macro_log_location = "jobs/prod/job_1/treatments.json"
+#get this from environment variable
+#TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
+MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
+
+# Get synthetic variable name from environment variable
+SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
+
+class Macro:
+    """
+    A wrapper class for applying a macro transformation to a collection of tables
+    and logging the transformation metadata.
+
+    :param macro_transform: A MacroTransform object containing the transformation logic.
+    :type macro_transform: MacroTransform
+    :param input_tables: A collection of input tables to be transformed.
+    :type input_tables: TableCollection
+    :param output_tables: List of names of output tables.
+    :type output_tables: list[str]
+    :param input_variables: List of input variable names used in the transformation.
+    :type input_variables: list[str]
+    :param output_variables: List of output variable names produced by the transformation.
+    :type output_variables: list[str]
+    """
+
+    def __init__(self,
+                 macro_transform: MacroTransform,
+                 input_tables: TableCollection,
+                 output_tables: list[str],
+                 input_variables: list[str],
+                 output_variables: list[str]):
+        self.macros = macro_transform
+        self.input_tables = input_tables
+        self.output_tables = output_tables
+        self.input_variables = input_variables
+        self.output_variables = output_variables
+        # Use default log location
+        self.macro_log_loc = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+
+    def apply(self, **kwargs):
+        """
+        Applies the macro transformation to the input tables and logs the operation.
+
+        Args:
+            **kwargs: Keyword arguments to pass to the underlying transforms.
+
+        :return: Transformed table frames.
+        :rtype: dict[str, pd.DataFrame]
+        """
+        return_frames = self.macros.apply(self.input_tables, **kwargs)
+        self.log()
+        return return_frames
+
+    def log(self):
+        """
+        Logs the macro transformation metadata to a JSON file.
+        """
+        # Create a serializable version of the object dict
+        json_info = {
+            'input_tables': [str(table) for table in self.input_tables.get_table_names()],
+            'output_tables': self.output_tables,
+            'input_variables': self.input_variables,
+            'output_variables': self.output_variables,
+            'macro_log_loc': self.macro_log_loc,
+            'macro_name': self.macros.name,
+            'macro_description': self.macros.event_description,
+            'macro_type': self.macros.transform_type
+        }
+        write_json(self.macro_log_loc, json_info)
+
+###### LIBRARY OF MACRO TRANSFORMS ######
 
 class TopBottomCode(Macro):
     """
@@ -104,7 +174,7 @@ class ConcatenateIDs(Macro):
 
 class DropMissingIDs(Macro):
     """
-    A macro that drops missing IDs from a table by removing rows with NA values in the 'synthetic' variable.
+    A macro that drops missing IDs from a table by removing rows with NA values in the synthetic variable.
     Uses the DropNAValues transform to remove rows with missing values.
 
     :param input_tables: A collection of input tables to be transformed.
@@ -113,15 +183,15 @@ class DropMissingIDs(Macro):
 
     def __init__(self,
                  input_tables: TableCollection):
-        # Create the DropNAValues transform targeting 'synthetic'
+        # Create the DropNAValues transform targeting the synthetic variable
         drop_transform = DropNAValues(
-            column="synthetic"
+            column=SYNTHETIC_VAR
         )
 
         macro = MacroTransform(
             transforms=[drop_transform],
             Name="DropMissingIDs",
-            Description="Drops missing IDs by removing rows with NA values in synthetic",
+            Description=f"Drops missing IDs by removing rows with NA values in {SYNTHETIC_VAR}",
             macro_id="DropMissing"
         )
 
@@ -129,10 +199,12 @@ class DropMissingIDs(Macro):
             macro_transform=macro,
             input_tables=input_tables,
             output_tables=input_tables.get_table_names(),
-            input_variables=["synthetic"],
-            output_variables=["synthetic"]
+            input_variables=[SYNTHETIC_VAR],
+            output_variables=[SYNTHETIC_VAR]
         )
 
+
+### IMPORT LOGIC TO DISCOVER ALL MACROS ###
 
 def _discover_macros():
     """

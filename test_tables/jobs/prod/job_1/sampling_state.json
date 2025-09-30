@@ -38,7 +38,7 @@
           "dtype_source": "Int64",
           "dtype_output": "Int64"
         },
-        "NAME": {
+        "name": {
           "dtype_source": "String",
           "dtype_output": "String"
         },

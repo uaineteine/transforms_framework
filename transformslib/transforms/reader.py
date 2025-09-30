@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timedelta
 
 local_dir = "jobs/prod"
-worm_dir = "dbfs:/mnt/datalake/jobs/prod"
+worm_dir = "/dbfs:/mnt/datalake/jobs/prod"
 
 def transform_log_loc(job_id: int, run_id: int, debug: bool = False, use_local_path=False) -> str:
     """

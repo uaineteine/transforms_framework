@@ -32,7 +32,8 @@ class JSONLog:
         self.persistent_uuid = persistent_uuid
         self.uuid = _create_uuid()
         self.timestamp = datetime.now(timezone.utc).isoformat()
-        self.executed_user = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+        user_env = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+        self.executed_user = "databricks" if user_env == "root" else user_env
         self.macro_uuid = macro_uuid
 
         #excluded from log

@@ -7,3 +7,4 @@ uainepydat
 pyvis
 networkx
 naming-standards>=1.0.0
+adaptiveio>=1.0.0

@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="transforms" href="transforms.html" />
-    <link rel="prev" title="mapping" href="mapping.html" /> 
+    <link rel="prev" title="events" href="events.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,8 +44,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="transformslib_root.html">transformslib (root)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mapping.html">mapping</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">tables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.tables.collections.collection">transformslib.tables.collections.collection</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection"><code class="docutils literal notranslate"><span class="pre">TableCollection</span></code></a><ul>
@@ -259,7 +259,7 @@ but with a more descriptive name for clarity.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.save_all">
-<span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
 <dd><p>Save all tables in the collection to the specified output directory.</p>
 <p>This method iterates through all tables in the collection and calls their write()
 method to persist the data to files in the specified directory. It also logs
@@ -881,7 +881,7 @@ extensions to create a valid table name.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.multitable.MultiTable.load">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_capitalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.load" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.multitable.MultiTable.load" title="Link to this definition"></a></dt>
 <dd><p>Load a DataFrame from a file and return a MultiTable instance.</p>
 <p>This static method provides a convenient way to load data from various file formats and create a MultiTable with appropriate metadata. It supports multiple file formats and DataFrame frameworks.</p>
 <section id="parameters">
@@ -895,7 +895,7 @@ extensions to create a valid table name.</p>
 </dd>
 <dt>frame_type<span class="classifier">str, optional</span></dt><dd><p>Type of DataFrame to create. Defaults to “pyspark”. Supported types: “pyspark”, “pandas”, “polars”.</p>
 </dd>
-<dt>auto_capitalise<span class="classifier">bool, optional</span></dt><dd><p>Automatically capitalise column names. Defaults to False.</p>
+<dt>auto_lowercase<span class="classifier">bool, optional</span></dt><dd><p>Automatically lowercase column names. Defaults to False.</p>
 </dd>
 <dt>spark<span class="classifier">optional</span></dt><dd><p>SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
@@ -1190,7 +1190,7 @@ table_name: Name of the table for error reporting</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mapping.html" class="btn btn-neutral float-left" title="mapping" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="events.html" class="btn btn-neutral float-left" title="events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="transforms.html" class="btn btn-neutral float-right" title="transforms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
