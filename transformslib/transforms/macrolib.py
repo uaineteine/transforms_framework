@@ -8,7 +8,6 @@ import os
 #get this from environment variable
 #TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
 MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
-MACRO_LOG_LOC = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
 
 # Get synthetic variable name from environment variable
 SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
@@ -42,7 +41,7 @@ class Macro:
         self.input_variables = input_variables
         self.output_variables = output_variables
         # Use default log location
-        self.macro_log_loc = MACRO_LOG_LOC
+        self.macro_log_loc = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
 
     def apply(self, **kwargs):
         """
