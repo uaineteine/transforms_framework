@@ -177,4 +177,3 @@ def set_job_id(new_job_id: Union[int, str]):
         os.environ["TNSFRMS_JOB_ID"] = new_job_id
     else:
         raise ValueError("Job ID must be an integer or string.")
-    

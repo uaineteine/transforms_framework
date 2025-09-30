@@ -6,7 +6,9 @@ from typing import Union
 import os
 
 #get this from environment variable
-MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", f"jobs/prod/job_{os.environ.get('TNSFRMS_JOB_ID', 1)}/treatments.json")
+#TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
+MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
+MACRO_LOG_LOC = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
 
 # Get synthetic variable name from environment variable
 SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
