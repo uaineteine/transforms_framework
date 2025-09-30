@@ -192,8 +192,8 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 16: ForceCase
     # -------------------------------
-    print("Applying ForceCase (upper) on name column")
-    supply_frames = ForceCase("name", "upper").apply(supply_frames, df="array_like")
+    print("Applying ForceCase (upper) on var2 column")
+    supply_frames = ForceCase("var2", "upper").apply(supply_frames, df="array_like")
     print("After ForceCase (upper):")
     supply_frames["array_like"].show()
 
