@@ -1,4 +1,4 @@
-from transformslib.tables.collections import TableCollection
+from transformslib.tables.collections.collection import TableCollection
 from .base import MacroTransform, printwidth
 from .atomiclib import *
 from adaptiveio import write_json
