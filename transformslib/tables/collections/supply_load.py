@@ -9,22 +9,21 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
-LOCAL_TEST_PATH = "../test_tables"
+JOBS_PATH = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
 WORM_PATH = "abfss://worm@prdct4fzchauedia.dfs.core.windows.net"
 
-def get_supply_file(job_id: int, run_id: int = None, use_test_path: bool = False) -> str:
+def get_supply_file(job_id: int, run_id: int = None) -> str:
     """
     Return the path location of the input payload.
 
     Args:
         job_id (int): A job id to get the path of configuration file containing supply definitions.
         run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, returns path to sampling_state.json for the new sampling input method.
-        use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
     Returns:
         str: The payload path.
     """
-    base_path = LOCAL_TEST_PATH if use_test_path else WORM_PATH
+    base_path = JOBS_PATH if not os.environ.get("TNSFRMS_USE_WORM_PATH") else WORM_PATH
     # New sampling input method - use sampling_state.json
     print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
     return f"{base_path}/jobs/prod/job_{job_id}/sampling_state.json"
@@ -143,7 +142,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True, use_test_path: bool = False):
+    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -161,7 +160,6 @@ class SupplyLoad(TableCollection):
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
-            use_test_path (bool, optional): Whether to use the local test path (LOCAL_TEST_PATH) or the production path (WORM_PATH). Defaults to False (use production path).
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -190,9 +188,8 @@ class SupplyLoad(TableCollection):
         self.job = job_id
         self.run = run_id
         self.enable_schema_validation = enable_schema_validation
-        self.use_test_path = use_test_path
 
-        self.supply_load_src = get_supply_file(job_id, run_id, use_test_path=use_test_path)
+        self.supply_load_src = get_supply_file(job_id, run_id)
         
         #gather the source payload location
         self.output_loc = transform_log_loc(job_id, run_id)
