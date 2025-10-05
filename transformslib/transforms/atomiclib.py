@@ -2,6 +2,8 @@ from typing import List, Union, Dict, Callable
 import inspect
 import sys
 
+from hash_method import method_hash
+
 from transformslib.events import TransformEvent
 from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
@@ -1515,6 +1517,81 @@ class RoundNumber(TableTransform):
 
         self.target_tables = [table_name]
         return supply_frames
+
+class HashColumns(TableTransform):
+    "Using the hashing tool, hash the contents of one or more columns into a new column."
+
+    def __init__(self, columns: Union[str, List[str]], hash_method: str = "sha256"):
+        """
+        Initialise a HashColumns transform.
+
+        Args:
+            columns (str | list[str]): Column name or list of column names to hash.
+            hash_method (str): Hashing hash_method to use (e.g., 'md5', 'sha1', 'sha256').
+        """
+        if isinstance(columns, str):
+            columns = [columns]
+
+        super().__init__(
+            "HashColumns",
+            f"Hashes columns {columns} using {hash_method}",
+            columns,
+            "HashCols",
+            testable_transform=True
+        )
+        self.columns = columns
+        self.hash_method = hash_method
+
+    def error_check(self, supply_frames: TableCollection, **kwargs):
+        """
+        Validate that the target columns exist in the table. Validate no columns are actually dates or something incompatible with hashing.
+        """
+        table_name = kwargs.get("df")
+        output_col = kwargs.get("output_var")
+
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        if not output_col:
+            raise ValueError("Must specify 'output_var' parameter for the new column")
+
+        missing = [c for c in self.columns if c not in supply_frames[table_name].columns]
+        if missing:
+            raise ValueError(f"Columns {missing} not found in DataFrame '{table_name}'")
+        
+        # Check for unsupported types (e.g., date/datetime)
+        backend = supply_frames[table_name].frame_type
+        for col in self.columns:
+            if backend == "pandas":
+                if pd.api.types.is_datetime64_any_dtype(supply_frames[table_name].df[col]):
+                    raise TypeError(f"Column '{col}' is of datetime type and cannot be hashed in pandas")
+            elif backend == "polars":
+                if supply_frames[table_name].schema[col] in {pl.Date, pl.Datetime}:
+                    raise TypeError(f"Column '{col}' is of date/datetime type and cannot be hashed in polars")
+            elif backend == "pyspark":
+                if supply_frames[table_name].dtypes[col] in {'TimestampType()', 'DateType()'}:
+                    raise TypeError(f"Column '{col}' is of date or timestamp type and cannot be hashed in pyspark")
+    
+    def transforms(self, supply_frames, **kwargs):
+        tbn = kwargs.get("df")
+        backend = supply_frames[tbn].frame_type
+        
+        for col in self.columns:
+            if backend == "pyspark":
+                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col self.hash_method)
+            else:
+                raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
+        
+        #make event
+        self.log_info = TransformEvent(
+            input_tables=[tbn],
+            output_tables=[tbn],
+            input_variables=self.columns,
+            output_variables=self.columns
+        )
+        supply_frames[tbn].add_event(self)
+
+        return supply_frames
+
 
 class SortTable(TableTransform):
     """
