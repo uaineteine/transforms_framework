@@ -54,10 +54,10 @@ def does_transform_log_exist(job_id: int, run_id: int) -> bool:
     loc_path = transform_log_loc(job_id, run_id)
     return os.path.exists(loc_path)
 
-def load_transform_log(job_id:int, run_id:int, debug:bool=False, use_local_path=False) -> list:
+def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
     """Load the transform log for a specific job and run ID."""
 
-    log_file = transform_log_loc(job_id, run_id, debug=debug, use_local_path=use_local_path)
+    log_file = transform_log_loc(job_id, run_id, debug=debug)
 
     events = []
     if not os.path.exists(log_file):

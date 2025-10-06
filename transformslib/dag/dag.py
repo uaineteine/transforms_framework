@@ -208,7 +208,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_
     """
 
     # Load transform events
-    logs = reader.load_transform_log(job_id=job_id, run_id=run_id, use_local_path=use_local_path)
+    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
 
     # Check meta version
     this_version = logs[0].get("meta_version", "")
