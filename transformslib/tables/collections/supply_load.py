@@ -20,6 +20,7 @@ def get_supply_file() -> str:
         str: The payload path.
     """
     base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
+    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
     #format the path for job_id
     path = base_path.replace("{job_id}", str(job_id))
     
