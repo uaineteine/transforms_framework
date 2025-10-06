@@ -26,7 +26,7 @@ if __name__ == "__main__":
     #run_id = 1
     set_job_id(job_id)
     
-    supply_frames = SupplyLoad(job_id, spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
     listatomic()
 
