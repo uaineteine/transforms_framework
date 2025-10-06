@@ -32,8 +32,11 @@ def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S
         print(f"Timestamp parsing error: {e}")
         return None
 
-def output_loc(job_id:int, run_id:int) -> str:
+def output_loc() -> str:
     """Function to return a transforms report output location"""
+
+    job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
+    run_id = 1  # Placeholder; modify as needed to get actual run ID
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
