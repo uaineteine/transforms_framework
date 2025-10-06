@@ -190,7 +190,7 @@ class SupplyLoad(TableCollection):
         self.supply_load_src = get_supply_file(job_id, run_id)
         
         #gather the source payload location
-        self.output_loc = transform_log_loc(job_id, run_id)
+        self.output_loc = transform_log_loc()
         if (does_transform_log_exist(job_id, run_id)):
             raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
 

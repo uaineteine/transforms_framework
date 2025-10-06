@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime, timedelta
 
-def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
+def transform_log_loc() -> str:
     """
     Constructs the file path to the transformation log for a specific job.
 
@@ -47,13 +47,13 @@ def does_transform_log_exist(job_id: int, run_id: int) -> bool:
     bool
         True if the transformation log file exists, False otherwise.
     """
-    loc_path = transform_log_loc(job_id, run_id)
+    loc_path = transform_log_loc()
     return os.path.exists(loc_path)
 
-def load_transform_log(job_id:int, run_id:int, debug:bool=False) -> list:
+def load_transform_log() -> list:
     """Load the transform log for a specific job and run ID."""
 
-    log_file = transform_log_loc(job_id, run_id, debug=debug)
+    log_file = transform_log_loc()
 
     events = []
     if not os.path.exists(log_file):

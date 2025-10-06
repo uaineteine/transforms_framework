@@ -8,4 +8,6 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
 
     from transformslib import dag
-    dag.render_dag(1, 1)
+    from transformslib.setup import set_job_id
+    set_job_id(1)
+    dag.render_dag()

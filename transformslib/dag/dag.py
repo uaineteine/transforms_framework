@@ -194,7 +194,7 @@ def build_di_graph(logs:list) -> nx.DiGraph:
     return G
 
 
-def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_local_path=False) -> str:
+def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.
 
@@ -208,7 +208,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_
     """
 
     # Load transform events
-    logs = reader.load_transform_log(job_id=job_id, run_id=run_id)
+    logs = reader.load_transform_log()
 
     # Check meta version
     this_version = logs[0].get("meta_version", "")
@@ -362,6 +362,8 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_
     # Inject custom JavaScript before closing </head>
     head_html = head_html.replace("</head>", f"{custom_js}</head>")
 
+    job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
+
     header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str, version=this_version)
     main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
 
@@ -379,7 +381,7 @@ def build_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_
 
     return full_html
 
-def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use_local_path=False) -> str:
+def render_dag(height: Union[int, float, str] = 900) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms. Saves this to file defined by the output_loc function.
 
@@ -388,10 +390,10 @@ def render_dag(job_id:int, run_id:int, height: Union[int, float, str] = 900, use
         run_id (int): Run identifier.
         height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., "100%").
     """
-    full_html = build_dag(job_id, run_id, height=height, use_local_path=use_local_path)
+    full_html = build_dag(height=height)
 
     # Save UTF-8 HTML
-    html_file = output_loc(job_id=job_id, run_id=run_id)\
+    html_file = output_loc()
 
     os.makedirs(os.path.dirname(html_file), exist_ok=True)
     with open(html_file, "w", encoding="utf-8") as f:
