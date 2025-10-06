@@ -1577,7 +1577,7 @@ class HashColumns(TableTransform):
         
         for col in self.columns:
             if backend == "pyspark":
-                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col self.hash_method)
+                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col, self.hash_method)
             else:
                 raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
         
