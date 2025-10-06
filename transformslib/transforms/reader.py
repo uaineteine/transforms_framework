@@ -28,19 +28,12 @@ def transform_log_loc() -> str:
 
     return path
 
-def does_transform_log_exist(job_id: int, run_id: int) -> bool:
+def does_transform_log_exist() -> bool:
     """
     Checks whether the transformation log file exists for a specific job.
 
     This function uses the `transform_log_loc` function to construct the expected
     file path and then verifies its existence using `os.path.exists`.
-
-    Parameters
-    ----------
-    job_id : int
-        The identifier for the job.
-    run_id : int
-        The identifier for the run.
 
     Returns
     -------
