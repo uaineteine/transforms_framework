@@ -1,5 +1,6 @@
 TNSFRMS_JOB_ID = -1
 TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
 TNSFRMS_SYN_VAR="SYNTHETIC"
+TNSFRMS_ID_VAR="SPINE_ID"
 TNSFRMS_JOB_PATH="../test_tables"
 HASH_METHOD_LOC="hash_keys"
