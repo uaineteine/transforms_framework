@@ -8,7 +8,7 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
-def get_supply_file(job_id: int, run_id: int = None) -> str:
+def get_supply_file() -> str:
     """
     Return the path location of the input payload.
 
@@ -20,6 +20,7 @@ def get_supply_file(job_id: int, run_id: int = None) -> str:
         str: The payload path.
     """
     base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
+    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
     #format the path for job_id
     path = base_path.replace("{job_id}", str(job_id))
     
@@ -140,7 +141,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, job_id:int, run_id:int = None, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -149,8 +150,6 @@ class SupplyLoad(TableCollection):
         All tables are loaded as PySpark DataFrames by default.
 
         Args:
-            job_id (int): A job id to get the path of configuration file containing supply definitions.
-            run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, uses the new sampling input method with sampling_state.json.
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
@@ -183,15 +182,15 @@ class SupplyLoad(TableCollection):
         super().__init__(tables=[])
 
         #run parameters
-        self.job = job_id
-        self.run = run_id
+        self.job = os.environ.get("TNSFRMS_JOB_ID", 1)
+        self.run = 1
         self.enable_schema_validation = enable_schema_validation
 
-        self.supply_load_src = get_supply_file(job_id, run_id)
+        self.supply_load_src = get_supply_file()
         
         #gather the source payload location
-        self.output_loc = transform_log_loc(job_id, run_id)
-        if (does_transform_log_exist(job_id, run_id)):
+        self.output_loc = transform_log_loc()
+        if (does_transform_log_exist()):
             raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:

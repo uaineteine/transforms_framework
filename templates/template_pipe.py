@@ -10,8 +10,9 @@ if __name__ == "__main__":
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transformslib.transforms import *
+    from transformslib.setup import set_job_id
     from pyspark.sql.functions import col
-    from transformslib.tables.collections import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad
     
     #tmp
     from pyspark.sql.functions import to_date
@@ -23,8 +24,9 @@ if __name__ == "__main__":
     # load pipeline tables
     job_id = 1
     #run_id = 1
+    set_job_id(job_id)
     
-    supply_frames = SupplyLoad(job_id, spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
     listatomic()
 
@@ -262,4 +264,4 @@ if __name__ == "__main__":
     supply_frames["super_table"].show()
 
     # save table output tables
-    supply_frames.save_all(f"../test_tables/jobs/prod/job_{job_id}/output", spark=spark, use_local_path=True)
+    supply_frames.save_all(spark=spark)

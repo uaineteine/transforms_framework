@@ -2,10 +2,7 @@ import os
 import json
 from datetime import datetime, timedelta
 
-local_dir = "jobs/prod"
-worm_dir = "/dbfs:/mnt/datalake/jobs/prod"
-
-def transform_log_loc(job_id: int, run_id: int, debug: bool = False, use_local_path=False) -> str:
+def transform_log_loc() -> str:
     """
     Constructs the file path to the transformation log for a specific job.
 
@@ -27,37 +24,29 @@ def transform_log_loc(job_id: int, run_id: int, debug: bool = False, use_local_p
     str
         The full path to the `transforms.json` file for the specified job.
     """
-    main_dir = local_dir if use_local_path else worm_dir
+    path = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
 
-    log_file_path = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
-    return log_file_path
+    return path
 
-def does_transform_log_exist(job_id: int, run_id: int) -> bool:
+def does_transform_log_exist() -> bool:
     """
     Checks whether the transformation log file exists for a specific job.
 
     This function uses the `transform_log_loc` function to construct the expected
     file path and then verifies its existence using `os.path.exists`.
 
-    Parameters
-    ----------
-    job_id : int
-        The identifier for the job.
-    run_id : int
-        The identifier for the run.
-
     Returns
     -------
     bool
         True if the transformation log file exists, False otherwise.
     """
-    loc_path = transform_log_loc(job_id, run_id)
+    loc_path = transform_log_loc()
     return os.path.exists(loc_path)
 
-def load_transform_log(job_id:int, run_id:int, debug:bool=False, use_local_path=False) -> list:
+def load_transform_log() -> list:
     """Load the transform log for a specific job and run ID."""
 
-    log_file = transform_log_loc(job_id, run_id, debug=debug, use_local_path=use_local_path)
+    log_file = transform_log_loc()
 
     events = []
     if not os.path.exists(log_file):

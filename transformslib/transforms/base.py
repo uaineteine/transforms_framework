@@ -12,8 +12,6 @@ import pandas as pd
 
 printwidth = 120 #the width to print things out in notebooks
 
-def_log_location = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
-
 class Transform(PipelineEvent):
     """
     Base class for data transformation operations with automatic event logging.
@@ -55,7 +53,8 @@ class Transform(PipelineEvent):
             >>> print(transform.name)  # "DataClean"
             >>> print(transform.transform_type)  # "cleaning"
         """
-        ll = def_log_location.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        path = os.environ.get("TNSFRMS_LOG_LOC", "")
+        ll = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
         super().__init__("transform", None, event_description=description, log_location=ll, macro_uuid=macro_uuid)
         self.name = name  # Set name manually
         self.transform_type = transform_type

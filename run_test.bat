@@ -1,6 +1,6 @@
 cd templates
 
-rmdir /S /Q events_log
+rmdir /S /Q jobs
 
 powershell -Command "python template_pipe.py | Tee-Object -FilePath test_log.txt"
 
