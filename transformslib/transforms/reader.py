@@ -2,9 +2,6 @@ import os
 import json
 from datetime import datetime, timedelta
 
-local_dir = "jobs/prod"
-worm_dir = "/dbfs:/mnt/datalake/jobs/prod"
-
 def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
     """
     Constructs the file path to the transformation log for a specific job.
@@ -27,10 +24,9 @@ def transform_log_loc(job_id: int, run_id: int, debug: bool = False) -> str:
     str
         The full path to the `transforms.json` file for the specified job.
     """
-    main_dir = local_dir if use_local_path else worm_dir
+    path = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
 
-    log_file_path = os.path.join(main_dir, f"job_{job_id}", "transforms.json")
-    return log_file_path
+    return path
 
 def does_transform_log_exist(job_id: int, run_id: int) -> bool:
     """

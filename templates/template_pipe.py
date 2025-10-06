@@ -11,7 +11,7 @@ if __name__ == "__main__":
     from pyspark.sql import SparkSession
     from transformslib.transforms import *
     from pyspark.sql.functions import col
-    from transformslib.tables.collections import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad
     
     #tmp
     from pyspark.sql.functions import to_date
