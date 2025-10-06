@@ -2,7 +2,6 @@ from transformslib.events import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from naming_standards import ColList, Colname
-from adaptiveio import write_json
 
 import os
 import uuid

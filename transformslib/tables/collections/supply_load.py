@@ -1,7 +1,6 @@
 import os
 import shutil
 import json
-from pyspark.sql.functions import col
 from typing import Dict, Any
 from adaptiveio import load_json
 from transformslib.tables.metaframe import MetaFrame
