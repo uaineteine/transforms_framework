@@ -154,7 +154,7 @@ def set_variables_from_dicts(var_dicts: list[str]) -> int:
                 key = key.strip()
                 value = value.strip().strip('"').strip("'")
                 if key not in os.environ:
-                    print(f"Setting default environment variable: {key}={value}")
+                    print(f"Setting environment variable: {key}={value}")
                     os.environ[key] = value
                     count += 1
     
