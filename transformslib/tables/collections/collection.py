@@ -384,7 +384,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
 
-    def save_all(self, output_dir:str, spark=None, use_local_path=False):
+    def save_all(self, output_dir:str=None, spark=None):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -404,11 +404,17 @@ class TableCollection:
         Example:
             >>> pt_collection.save_all("output_data/")
         """
+        #use environment variable if output_dir not specified
+        if output_dir is None:
+            output_dir = os.environ.get("TNSFRMS_OUT_TABLE_LOC", output_dir)
+
+        job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown_job")
+        output_dir = output_dir.replace("{job_id}", job_id)
 
         os.makedirs(output_dir, exist_ok=True)
 
         # Get the global transforms log location for logging write events
-        transforms_log_path = transform_log_loc(job_id=1, run_id=1, use_local_path=use_local_path)
+        transforms_log_path = transform_log_loc(job_id=1, run_id=1)
 
         for table in self.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
