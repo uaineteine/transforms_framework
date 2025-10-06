@@ -66,8 +66,10 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
-        self.log_path = f"jobs/prod/job_1/table_specific/{self.table_name}_events.json"
-    
+        
+        outpth = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        self.log_path = f"{outpth}/table_specific/{self.table_name}_events.json"
+
     def add_event(self, event: PipelineEvent):
         """
         Append an event to the internal events list for logging purposes.
