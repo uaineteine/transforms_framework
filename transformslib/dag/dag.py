@@ -364,7 +364,7 @@ def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str
 
     job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
 
-    header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}, run {run_id}", runtime=runtime_str, version=this_version)
+    header_html = webcanvas.generate_header(header_name=f"Transform DAG: job {job_id}", runtime=runtime_str, version=this_version)
     main_html = webcanvas.generate_main(CONTENT=pyvis_body_inner or "<p class=\"text-center text-gray-400 text-lg\">Pyvis graph content missing.</p>")
 
     full_html = (
