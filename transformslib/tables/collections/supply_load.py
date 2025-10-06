@@ -8,9 +8,6 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
-JOBS_PATH = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
-WORM_PATH = "abfss://worm@prdct4fzchauedia.dfs.core.windows.net"
-
 def get_supply_file(job_id: int, run_id: int = None) -> str:
     """
     Return the path location of the input payload.
@@ -22,10 +19,12 @@ def get_supply_file(job_id: int, run_id: int = None) -> str:
     Returns:
         str: The payload path.
     """
-    base_path = JOBS_PATH if not os.environ.get("TNSFRMS_USE_WORM_PATH") else WORM_PATH
-    # New sampling input method - use sampling_state.json
+    base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
+    #format the path for job_id
+    path = base_path.replace("{job_id}", str(job_id))
+    
     print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
-    return f"{base_path}/jobs/prod/job_{job_id}/sampling_state.json"
+    return path
 
 def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
                             sample: bool, sample_rows: int = None, sample_frac: float = None,
