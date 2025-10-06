@@ -181,7 +181,7 @@ class SupplyLoad(TableCollection):
         super().__init__(tables=[])
 
         #run parameters
-        self.job = os.getenviron.get("TNSFRMS_JOB_ID", 1)
+        self.job = os.environ.get("TNSFRMS_JOB_ID", 1)
         self.run = 1
         self.enable_schema_validation = enable_schema_validation
 
