@@ -1,5 +1,5 @@
 from transformslib.tables.multitable import MultiTable
-from transformslib.events import PipelineEvent
+from transformslib.pipeline_events import PipelineEvent
 from naming_standards import Tablename
 from transformslib import meta 
 

@@ -41,7 +41,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="{url}",
-    packages=find_packages(include=["{package_name}", "{package_name}.*"]),
+    packages=find_packages(include=["{package_name}", "{package_name}.*", "events"]),
     package_data={{
         "{package_name}.templates": ["*.html", "*.txt", "*.json", "*.css", "*.js"],
     }},

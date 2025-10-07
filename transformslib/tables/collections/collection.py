@@ -1,5 +1,5 @@
 from transformslib.tables.metaframe import MetaFrame
-from transformslib.events import PipelineEvent
+from transformslib.pipeline_events import PipelineEvent
 from transformslib.transforms.reader import transform_log_loc
 import fnmatch
 from typing import List

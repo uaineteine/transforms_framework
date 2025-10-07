@@ -6,7 +6,7 @@ from typing import List
 from abc import ABC, abstractmethod
 from transformslib.tables.metaframe import MetaFrame
 import pyspark.sql.functions as f
-from transformslib.events import PipelineEvent
+from transformslib.pipeline_events import PipelineEvent
 
 class Transform(ABC):
     # override_column_maps adds extra mapping to column lineage to track column over time

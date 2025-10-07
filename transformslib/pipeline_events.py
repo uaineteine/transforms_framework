@@ -1,4 +1,4 @@
-from .eventlog import Event
+from events import Event
 from transformslib import meta
 
 class TransformEvent:

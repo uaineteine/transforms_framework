@@ -1,4 +1,4 @@
-from transformslib.events import PipelineEvent, TransformEvent
+from transformslib.pipeline_events import PipelineEvent, TransformEvent
 from transformslib.tables.collections.collection import TableCollection
 from transformslib.tables.collections.supply_load import SupplyLoad
 from naming_standards import ColList, Colname
