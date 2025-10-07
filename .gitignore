@@ -1,5 +1,5 @@
 /__pycache__/*.pyc
-transformslib/events/__pycache__/*.pyc
+events/__pycache__/*
 transformslib/tables/__pycache__/*.pyc
 transformslib/tables/collections/__pycache__/*.pyc
 transformslib/templates/__pycache__/*.pyc
