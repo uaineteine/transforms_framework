@@ -3,7 +3,21 @@ from datetime import datetime, timezone
 import json
 import os
 import sys
-from adaptiveio import append_json_newline
+
+try:
+    from adaptiveio import append_json_newline
+    _has_adaptiveio = True
+except ImportError:
+    _has_adaptiveio = False
+
+def _append_json_newline_fallback(data: dict, filepath: str):
+    """
+    Fallback function to append JSON data as a newline to a file.
+    Uses standard Python file I/O, which works reliably in all environments including Databricks.
+    """
+    with open(filepath, 'a', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=True)
+        f.write('\n')
 
 def _create_uuid() -> str:
     return str(uuid.uuid4())
@@ -86,7 +100,18 @@ class JSONLog:
             os.makedirs(os.path.dirname(self.log_location), exist_ok=True)
 
             to_write = self.repr_dict()
-            append_json_newline(to_write, self.log_location)
+            
+            # Try to use adaptiveio if available, otherwise use fallback
+            if _has_adaptiveio:
+                try:
+                    append_json_newline(to_write, self.log_location)
+                except Exception as adaptive_error:
+                    # If adaptiveio fails (e.g., trying to use unavailable Spark session in Databricks),
+                    # fall back to standard file I/O
+                    print(f"Warning: adaptiveio failed ({adaptive_error}), using standard file I/O", file=sys.stderr)
+                    _append_json_newline_fallback(to_write, self.log_location)
+            else:
+                _append_json_newline_fallback(to_write, self.log_location)
         except Exception as e:
             print(f"Error writing log to {self.log_location}: {e}", file=sys.stderr)
 
