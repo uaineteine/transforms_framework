@@ -177,3 +177,21 @@ def set_job_id(new_job_id: Union[int, str]):
         os.environ["TNSFRMS_JOB_ID"] = new_job_id
     else:
         raise ValueError("Job ID must be an integer or string.")
+
+def set_run_id(new_run_id: Union[int, str]):
+    """
+    Sets the run ID in the environment variable TNSFRMS_RUN_ID.
+
+    Args:
+        new_run_id (Union[int, str]): The run ID to set.
+    """
+    if isinstance(new_run_id, int):
+        if new_run_id < 0:
+            raise ValueError("Run ID must be a non-negative integer or a string.")
+        os.environ["TNSFRMS_RUN_ID"] = str(new_run_id)
+    elif isinstance(new_run_id, str):
+        if not new_run_id.isdigit() or int(new_run_id) < 0:
+            raise ValueError("Run ID string must represent a non-negative integer.")
+        os.environ["TNSFRMS_RUN_ID"] = new_run_id
+    else:
+        raise ValueError("Run ID must be an integer or string.")
