@@ -15,6 +15,7 @@ This program provides a data transformation framework for working with tables (D
 - [Tables](docs/tables.md)
 - [Transforms](docs/transforms.md)
 - [Embedded file loading](docs/templates.md)
+- [Databricks Compatibility](docs/databricks_compatibility.md)
 - [Example Workflows](#example-workflows)
 - [Advanced Table Selection Features](#advanced-table-selection-features)
 - [Event Logging](#event-logging)
