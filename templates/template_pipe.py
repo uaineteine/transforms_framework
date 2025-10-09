@@ -10,7 +10,7 @@ if __name__ == "__main__":
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transformslib.transforms import *
-    from transformslib.setup import set_job_id
+    from transformslib.setup import set_job_id, set_run_id
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
     
@@ -23,8 +23,9 @@ if __name__ == "__main__":
 
     # load pipeline tables
     job_id = 1
-    #run_id = 1
+    run_id = 1
     set_job_id(job_id)
+    set_run_id(run_id)
     
     supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
