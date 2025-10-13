@@ -6,7 +6,7 @@ from typing import List, Optional, Union
 
 from transformslib.dag import webcanvas
 from transformslib.transforms import reader
-from transformslib import meta
+import transformslib as meta
 
 def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S") -> Optional[timedelta]:
     """

@@ -10,7 +10,7 @@ if __name__ == "__main__":
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transformslib.transforms import *
-    from transformslib.setup import set_job_id, set_run_id
+    from transformslib import set_job_id, set_run_id
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
     

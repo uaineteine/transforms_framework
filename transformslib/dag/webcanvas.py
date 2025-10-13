@@ -1,4 +1,4 @@
-from transformslib import meta
+import transformslib as meta
 from transformslib.templates import read_template_safe
 
 def generate_css() -> str:
