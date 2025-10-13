@@ -44,7 +44,6 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="transformslib_root.html">transformslib (root)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">transforms</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.atomiclib">transformslib.transforms.atomiclib</a><ul>
@@ -187,6 +186,10 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.TopBottomCode"><code class="docutils literal notranslate"><span class="pre">TopBottomCode</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.listmacro"><code class="docutils literal notranslate"><span class="pre">listmacro()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.pipeevent">transformslib.transforms.pipeevent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.pipeevent.PipelineEvent"><code class="docutils literal notranslate"><span class="pre">PipelineEvent</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.reader">transformslib.transforms.reader</a><ul>
@@ -994,6 +997,24 @@ Values above <cite>max_value</cite> are capped, and values below <cite>min_value
 <dt class="sig sig-object py" id="transformslib.transforms.macrolib.listmacro">
 <span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">listmacro</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.listmacro" title="Link to this definition"></a></dt>
 <dd><p>Display all available macro transforms in a neat table format.</p>
+</dd></dl>
+
+</section>
+<section id="module-transformslib.transforms.pipeevent">
+<span id="transformslib-transforms-pipeevent"></span><h2>transformslib.transforms.pipeevent<a class="headerlink" href="#module-transformslib.transforms.pipeevent" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.pipeevent.PipelineEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.pipeevent.</span></span><span class="sig-name descname"><span class="pre">PipelineEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.pipeevent.PipelineEvent" title="Link to this definition"></a></dt>
+<dd><p>Specialised event class for pipeline operations.</p>
+<p>Extends the base Event class to include pipeline-specific metadata. Useful for
+logging data pipeline steps like loading, transformations, and saves.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>event_type (str): The type of pipeline event (e.g., “load”, “transform”).
+event_payload (str): A short message or payload describing the operation.
+event_description (str): A detailed description of the operation.
+class_type (str): Constant string identifying this event type.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

@@ -42,7 +42,6 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="transformslib_root.html">transformslib (root)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
 </ul>
@@ -133,8 +132,6 @@
       <li><a href="transformslib_root.html#transformslib.setup.check_required_variables">check_required_variables() (in module transformslib.setup)</a>
 </li>
       <li><a href="transformslib_root.html#transformslib.setup.check_variable_set">check_variable_set() (in module transformslib.setup)</a>
-</li>
-      <li><a href="events.html#transformslib.events.jsonlog.JSONLog.class_type">class_type (transformslib.events.jsonlog.JSONLog property)</a>
 </li>
       <li><a href="tables.html#transformslib.tables.multitable.MultiTable.columns">columns (transformslib.tables.multitable.MultiTable property)</a>
 </li>
@@ -230,8 +227,6 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="events.html#transformslib.events.eventlog.Event">Event (class in transformslib.events.eventlog)</a>
-</li>
       <li><a href="transformslib_root.html#transformslib.meta.expected_meta_version">expected_meta_version() (in module transformslib.meta)</a>
 </li>
       <li><a href="tables.html#transformslib.tables.multitable.MultiTable.explode">explode() (transformslib.tables.multitable.MultiTable method)</a>
@@ -300,8 +295,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="events.html#transformslib.events.jsonlog.JSONLog">JSONLog (class in transformslib.events.jsonlog)</a>
-</li>
       <li><a href="transformslib_root.html#transformslib.setup.JVENV">JVENV (in module transformslib.setup)</a>
 </li>
   </ul></td>
@@ -334,12 +327,8 @@
 </li>
       <li><a href="transforms.html#transformslib.transforms.reader.load_transform_log">load_transform_log() (in module transformslib.transforms.reader)</a>
 </li>
-      <li><a href="events.html#transformslib.events.jsonlog.JSONLog.log">log() (transformslib.events.jsonlog.JSONLog method)</a>
-
-      <ul>
-        <li><a href="transforms.html#transformslib.transforms.macrolib.Macro.log">(transformslib.transforms.macrolib.Macro method)</a>
+      <li><a href="transforms.html#transformslib.transforms.macrolib.Macro.log">log() (transformslib.transforms.macrolib.Macro method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -362,12 +351,6 @@
 </li>
         <li><a href="dag.html#module-transformslib.dag.webcanvas">transformslib.dag.webcanvas</a>
 </li>
-        <li><a href="events.html#module-transformslib.events.eventlog">transformslib.events.eventlog</a>
-</li>
-        <li><a href="events.html#module-transformslib.events.jsonlog">transformslib.events.jsonlog</a>
-</li>
-        <li><a href="events.html#module-transformslib.events.pipeevent">transformslib.events.pipeevent</a>
-</li>
         <li><a href="transformslib_root.html#module-transformslib.meta">transformslib.meta</a>
 </li>
         <li><a href="transformslib_root.html#module-transformslib.setup">transformslib.setup</a>
@@ -387,6 +370,8 @@
         <li><a href="transforms.html#module-transformslib.transforms.base">transformslib.transforms.base</a>
 </li>
         <li><a href="transforms.html#module-transformslib.transforms.macrolib">transformslib.transforms.macrolib</a>
+</li>
+        <li><a href="transforms.html#module-transformslib.transforms.pipeevent">transformslib.transforms.pipeevent</a>
 </li>
         <li><a href="transforms.html#module-transformslib.transforms.reader">transformslib.transforms.reader</a>
 </li>
@@ -433,7 +418,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="events.html#transformslib.events.pipeevent.PipelineEvent">PipelineEvent (class in transformslib.events.pipeevent)</a>
+      <li><a href="transforms.html#transformslib.transforms.pipeevent.PipelineEvent">PipelineEvent (class in transformslib.transforms.pipeevent)</a>
 </li>
       <li><a href="transformslib_root.html#transformslib.setup.print_all_environment_variables">print_all_environment_variables() (in module transformslib.setup)</a>
 </li>
@@ -449,13 +434,11 @@
 </li>
       <li><a href="transforms.html#transformslib.transforms.atomiclib.RenameTable">RenameTable (class in transformslib.transforms.atomiclib)</a>
 </li>
-      <li><a href="dag.html#transformslib.dag.dag.render_dag">render_dag() (in module transformslib.dag.dag)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="transforms.html#transformslib.transforms.atomiclib.ReplaceByCondition">ReplaceByCondition (class in transformslib.transforms.atomiclib)</a>
+      <li><a href="dag.html#transformslib.dag.dag.render_dag">render_dag() (in module transformslib.dag.dag)</a>
 </li>
-      <li><a href="events.html#transformslib.events.jsonlog.JSONLog.repr_dict">repr_dict() (transformslib.events.jsonlog.JSONLog method)</a>
+      <li><a href="transforms.html#transformslib.transforms.atomiclib.ReplaceByCondition">ReplaceByCondition (class in transformslib.transforms.atomiclib)</a>
 </li>
       <li><a href="transformslib_root.html#transformslib.setup.REQ_VARIABLES">REQ_VARIABLES (in module transformslib.setup)</a>
 </li>
@@ -624,27 +607,6 @@
 </li>
       </ul></li>
       <li>
-    transformslib.events.eventlog
-
-      <ul>
-        <li><a href="events.html#module-transformslib.events.eventlog">module</a>
-</li>
-      </ul></li>
-      <li>
-    transformslib.events.jsonlog
-
-      <ul>
-        <li><a href="events.html#module-transformslib.events.jsonlog">module</a>
-</li>
-      </ul></li>
-      <li>
-    transformslib.events.pipeevent
-
-      <ul>
-        <li><a href="events.html#module-transformslib.events.pipeevent">module</a>
-</li>
-      </ul></li>
-      <li>
     transformslib.meta
 
       <ul>
@@ -712,6 +674,13 @@
 
       <ul>
         <li><a href="transforms.html#module-transformslib.transforms.macrolib">module</a>
+</li>
+      </ul></li>
+      <li>
+    transformslib.transforms.pipeevent
+
+      <ul>
+        <li><a href="transforms.html#module-transformslib.transforms.pipeevent">module</a>
 </li>
       </ul></li>
       <li>

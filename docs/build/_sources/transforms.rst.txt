@@ -19,6 +19,12 @@ transformslib.transforms.macrolib
 .. automodule:: transformslib.transforms.macrolib
    :members:
 
+transformslib.transforms.pipeevent
+----------------------------------
+
+.. automodule:: transformslib.transforms.pipeevent
+   :members:
+
 transformslib.transforms.reader
 -------------------------------
 
