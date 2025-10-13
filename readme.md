@@ -26,8 +26,6 @@ This program provides a data transformation framework for working with tables (D
 ```
 |-- transformslib/
 |   |-- events/
-|   |   |-- jsonlog.py
-|   |   `-- eventlog.py
 |   |   `-- pipeevent.py
 |   |-- tables/
 |   |   |-- collections/
