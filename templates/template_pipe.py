@@ -212,7 +212,7 @@ if __name__ == "__main__":
     # Test 18: TopBottomCoding
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
-    supply_frames = TopBottomCode(supply_frames, ["income"], 500, 450).apply(supply_frames)
+    supply_frames = TopBottomCode(supply_frames, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
 
