@@ -9,3 +9,4 @@ networkx
 naming-standards>=1.0.0
 adaptiveio>=1.0.0
 hash_method>=2.0.0
+transforms_events>=1.0.0
