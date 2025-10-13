@@ -25,8 +25,6 @@ This program provides a data transformation framework for working with tables (D
 
 ```
 |-- transformslib/
-|   |-- events/
-|   |   `-- pipeevent.py
 |   |-- tables/
 |   |   |-- collections/
 |   |   |   |-- collection.py
@@ -41,7 +39,8 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- base.py
 |   |   |-- atomiclib.py
 |   |   |-- macrolib.py
-|   |   `-- reader.py
+|   |   |-- reader.py
+|   |   `-- pipeevent.py
 |   |-- setup.py
 |   `-- meta.py
 `-- templates/

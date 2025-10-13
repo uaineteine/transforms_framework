@@ -4,7 +4,7 @@ import sys
 
 from hash_method import method_hash
 
-from transformslib.events import TransformEvent
+from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
