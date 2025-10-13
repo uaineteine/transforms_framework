@@ -186,12 +186,13 @@ def set_variables_from_dicts(var_dicts: list[str]) -> int:
     
     return count
 
-def set_job_id(new_job_id: Union[int, str]):
+def set_job_id(new_job_id: Union[int, str], new_run_id: Union[int, str]=None):
     """
     Sets the job ID in the environment variable TNSFRMS_JOB_ID.
 
     Args:
         new_job_id (Union[int, str]): The job ID to set.
+        new_run_id (Union[int, str]) (optional): The run ID to set.
     """
     if isinstance(new_job_id, int):
         if new_job_id < 0:
@@ -203,6 +204,10 @@ def set_job_id(new_job_id: Union[int, str]):
         os.environ["TNSFRMS_JOB_ID"] = new_job_id
     else:
         raise ValueError("Job ID must be an integer or string.")
+    
+    #if set by user, change the run id
+    if(new_run_id != None):
+        set_run_id(new_run_id)
 
 def set_run_id(new_run_id: Union[int, str]):
     """
