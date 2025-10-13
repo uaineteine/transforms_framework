@@ -1573,11 +1573,12 @@ class HashColumns(TableTransform):
     
     def transforms(self, supply_frames, **kwargs):
         tbn = kwargs.get("df")
+        spark = kwargs.get("spark")
         backend = supply_frames[tbn].frame_type
         
         for col in self.columns:
             if backend == "pyspark":
-                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col, self.hash_method)
+                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col, self.hash_method, spark=spark)
             else:
                 raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
         
