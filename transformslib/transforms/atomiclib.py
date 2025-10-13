@@ -1547,13 +1547,9 @@ class HashColumns(TableTransform):
         Validate that the target columns exist in the table. Validate no columns are actually dates or something incompatible with hashing.
         """
         table_name = kwargs.get("df")
-        output_col = kwargs.get("output_var")
 
         if not table_name:
             raise ValueError("Must specify 'df' parameter with table name")
-        if not output_col:
-            raise ValueError("Must specify 'output_var' parameter for the new column")
-
         missing = [c for c in self.columns if c not in supply_frames[table_name].columns]
         if missing:
             raise ValueError(f"Columns {missing} not found in DataFrame '{table_name}'")
