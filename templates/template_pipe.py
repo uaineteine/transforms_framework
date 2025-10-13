@@ -212,10 +212,16 @@ if __name__ == "__main__":
     # Test 18: TopBottomCoding
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
+    supply_frames = TopBottomCode(supply_frames, ["income"], max_value=500, min_value=450).apply(supply_frames)
     print("Original salary data:")
     supply_frames["salary"].show()
-    print("Salary column statistics:")
-    supply_frames["salary"].df.describe(["salary"]).show()
+
+    # -------------------------------
+    # Test 19: HASHING
+    # -------------------------------
+    print("Applying hashing test")
+    supply_frames = HashColumns("name", "hextest").apply(supply_frames, df="location", spark=spark)
+    supply_frames["location"].show()
 
     # -------------------------------
     # Apply TopBottomCode macro to salary table
