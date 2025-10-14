@@ -72,7 +72,7 @@ class Macro:
             'macro_description': self.macros.event_description,
             'macro_type': self.macros.transform_type
         }
-        write_json(self.macro_log_loc, json_info)
+        write_json(json_info, self.macro_log_loc)
 
 ###### LIBRARY OF MACRO TRANSFORMS ######
 
