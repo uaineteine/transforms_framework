@@ -219,7 +219,8 @@ if __name__ == "__main__":
     # Test 19: HASHING
     # -------------------------------
     print("Applying hashing test")
-    supply_frames = HashColumns("name", "hextest").apply(supply_frames, df="location", spark=spark)
+    hsh = HashColumns("name", "hextest")
+    supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
     supply_frames["location"].show()
 
     # -------------------------------
