@@ -1,0 +1,42 @@
+{
+  "input_tables": [
+    "positions",
+    "salary",
+    "location",
+    "array_like",
+    "decimal_table",
+    "date_table",
+    "state",
+    "salary_700",
+    "salary_620",
+    "salary_500",
+    "salary_600",
+    "salary_400",
+    "example_join"
+  ],
+  "output_tables": [
+    "positions",
+    "salary",
+    "location",
+    "array_like",
+    "decimal_table",
+    "date_table",
+    "state",
+    "salary_700",
+    "salary_620",
+    "salary_500",
+    "salary_600",
+    "salary_400",
+    "example_join"
+  ],
+  "input_variables": [
+    "income"
+  ],
+  "output_variables": [
+    "income"
+  ],
+  "macro_log_loc": "jobs/prod/job_1/treatments.json",
+  "macro_name": "TopCode",
+  "macro_description": "Sets maximum value on variable",
+  "macro_type": "TopCode"
+}
