@@ -1589,28 +1589,30 @@ class HashColumns(TableTransform):
 
         return supply_frames
     
-    # def test(self, supply_frames, **kwargs) -> bool:
-    #     tbn = kwargs.get("df")
-    #     backend = supply_frames[tbn].frame_type
+    def test(self, supply_frames, **kwargs) -> bool:
+        tbn = kwargs.get("df")
+        backend = supply_frames[tbn].frame_type
 
-    #     for colm in self.columns:
-    #         if backend == "pyspark":
-    #             # Define regex for hex (non-null, non-empty, only 0-9, a-f, A-F)
-    #             hex_regex = "^[0-9a-fA-F]+$"
+        for colm in self.columns:
+            if backend == "pyspark":
+                # Define regex for hex (non-null, non-empty, only 0-9, a-f, A-F)
+                hex_regex = "^[0-9a-fA-F]+$"
 
-    #             # Filter rows that are NOT valid hex
-    #             invalid_rows = supply_frames[tbn].df.filter(~col(colm).rlike(hex_regex))
+                print(colm)
 
-    #             # Check if any invalid rows exist
-    #             all_valid_hex = invalid_rows.isEmpty()
+                # Filter rows that are NOT valid hex
+                invalid_rows = supply_frames[tbn].df.filter(~col(colm).rlike(hex_regex))
 
-    #             if not all_valid_hex:
-    #                 return False
-    #         else:
-    #             raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
+                # Check if any invalid rows exist
+                all_valid_hex = invalid_rows.isEmpty()
+
+                if not all_valid_hex:
+                    return False
+            else:
+                raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
             
-    #     #exit
-    #     return True
+        #exit
+        return True
 
 class SortTable(TableTransform):
     """
