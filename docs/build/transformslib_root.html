@@ -18,9 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dag" href="dag.html" />
-    <link rel="prev" title="Metadata Transformations Framework" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,25 +40,8 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">transformslib (root)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.meta">transformslib.meta</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.meta.expected_meta_version"><code class="docutils literal notranslate"><span class="pre">expected_meta_version()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.meta.meta_version"><code class="docutils literal notranslate"><span class="pre">meta_version</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.setup">transformslib.setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.JVENV"><code class="docutils literal notranslate"><span class="pre">JVENV</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.detect_if_hadoop_home_set"><code class="docutils literal notranslate"><span class="pre">detect_if_hadoop_home_set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.detect_if_java_home_set"><code class="docutils literal notranslate"><span class="pre">detect_if_java_home_set()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.setup_hadoop_home"><code class="docutils literal notranslate"><span class="pre">setup_hadoop_home()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.setup.setup_java_home"><code class="docutils literal notranslate"><span class="pre">setup_java_home()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="events.html">events</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
 </ul>
@@ -91,91 +72,18 @@
              
   <section id="transformslib-root">
 <h1>transformslib (root)<a class="headerlink" href="#transformslib-root" title="Link to this heading"></a></h1>
-<section id="module-transformslib.meta">
-<span id="transformslib-meta"></span><h2>transformslib.meta<a class="headerlink" href="#module-transformslib.meta" title="Link to this heading"></a></h2>
-<p>This module defines constant parameters used across the application.</p>
-<dl class="simple">
-<dt>Version:</dt><dd><p>1.0</p>
-</dd>
-</dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.meta.expected_meta_version">
-<span class="sig-prename descclassname"><span class="pre">transformslib.meta.</span></span><span class="sig-name descname"><span class="pre">expected_meta_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.meta.expected_meta_version" title="Link to this definition"></a></dt>
-<dd><p>Returns a bool if the input version matches the meta version of the library framework it was run on. Will print user warnings if the value mismatches</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="transformslib.meta.meta_version">
-<span class="sig-prename descclassname"><span class="pre">transformslib.meta.</span></span><span class="sig-name descname"><span class="pre">meta_version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.0'</span></em><a class="headerlink" href="#transformslib.meta.meta_version" title="Link to this definition"></a></dt>
-<dd><p>str: The version number of this module.
-Used to track compatibility and changes across releases.</p>
-</dd></dl>
-
+<section id="transformslib-meta">
+<h2>transformslib.meta<a class="headerlink" href="#transformslib-meta" title="Link to this heading"></a></h2>
 </section>
-<section id="module-transformslib.setup">
-<span id="transformslib-setup"></span><h2>transformslib.setup<a class="headerlink" href="#module-transformslib.setup" title="Link to this heading"></a></h2>
-<p>This module provides utilities for managing the JAVA_HOME environment variable.</p>
-<p>It includes functions to detect whether JAVA_HOME is set and to configure it programmatically.</p>
-<dl class="py data">
-<dt class="sig sig-object py" id="transformslib.setup.JVENV">
-<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">JVENV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JAVA_HOME'</span></em><a class="headerlink" href="#transformslib.setup.JVENV" title="Link to this definition"></a></dt>
-<dd><p>str: The name of the environment variable used to store the Java installation path.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.setup.detect_if_hadoop_home_set">
-<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">detect_if_hadoop_home_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.setup.detect_if_hadoop_home_set" title="Link to this definition"></a></dt>
-<dd><p>Checks whether the HADOOP_HOME environment variable is set and points to a valid directory.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>bool: True if HADOOP_HOME is set and the path exists, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.setup.detect_if_java_home_set">
-<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">detect_if_java_home_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.setup.detect_if_java_home_set" title="Link to this definition"></a></dt>
-<dd><p>Checks whether the JAVA_HOME environment variable is set and points to a valid directory.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>bool: True if JAVA_HOME is set and the path exists, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.setup.setup_hadoop_home">
-<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">setup_hadoop_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hadoop_home_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.setup.setup_hadoop_home" title="Link to this definition"></a></dt>
-<dd><p>Sets the HADOOP_HOME environment variable to the specified path.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>hadoop_home_path (str): The path to the HADOOP installation directory.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If the provided path does not exist.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.setup.setup_java_home">
-<span class="sig-prename descclassname"><span class="pre">transformslib.setup.</span></span><span class="sig-name descname"><span class="pre">setup_java_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">java_home_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.setup.setup_java_home" title="Link to this definition"></a></dt>
-<dd><p>Sets the JAVA_HOME environment variable to the specified path.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>java_home_path (str): The path to the Java installation directory.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If the provided path does not exist.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="transformslib-setup">
+<h2>transformslib.setup<a class="headerlink" href="#transformslib-setup" title="Link to this heading"></a></h2>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Metadata Transformations Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="dag.html" class="btn btn-neutral float-right" title="dag" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

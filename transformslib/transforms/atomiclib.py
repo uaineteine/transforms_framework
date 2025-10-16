@@ -4,7 +4,7 @@ import sys
 
 from hash_method import method_hash
 
-from transformslib.events import TransformEvent
+from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
@@ -1547,13 +1547,9 @@ class HashColumns(TableTransform):
         Validate that the target columns exist in the table. Validate no columns are actually dates or something incompatible with hashing.
         """
         table_name = kwargs.get("df")
-        output_col = kwargs.get("output_var")
 
         if not table_name:
             raise ValueError("Must specify 'df' parameter with table name")
-        if not output_col:
-            raise ValueError("Must specify 'output_var' parameter for the new column")
-
         missing = [c for c in self.columns if c not in supply_frames[table_name].columns]
         if missing:
             raise ValueError(f"Columns {missing} not found in DataFrame '{table_name}'")
@@ -1573,11 +1569,12 @@ class HashColumns(TableTransform):
     
     def transforms(self, supply_frames, **kwargs):
         tbn = kwargs.get("df")
+        spark = kwargs.get("spark")
         backend = supply_frames[tbn].frame_type
         
         for col in self.columns:
             if backend == "pyspark":
-                supply_frames[tbn] = method_hash(supply_frames[tbn].df, col, col, self.hash_method)
+                supply_frames[tbn].df = method_hash(supply_frames[tbn].df, col, col, self.hash_method, spark=spark)
             else:
                 raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
         
@@ -1591,7 +1588,31 @@ class HashColumns(TableTransform):
         supply_frames[tbn].add_event(self)
 
         return supply_frames
+    
+    def test(self, supply_frames, **kwargs) -> bool:
+        tbn = kwargs.get("df")
+        backend = supply_frames[tbn].frame_type
 
+        for colm in self.columns:
+            if backend == "pyspark":
+                # Define regex for hex (non-null, non-empty, only 0-9, a-f, A-F)
+                hex_regex = "^[0-9a-fA-F]+$"
+
+                print(colm)
+
+                # Filter rows that are NOT valid hex
+                invalid_rows = supply_frames[tbn].df.filter(~col(colm).rlike(hex_regex))
+
+                # Check if any invalid rows exist
+                all_valid_hex = invalid_rows.isEmpty()
+
+                if not all_valid_hex:
+                    return False
+            else:
+                raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
+            
+        #exit
+        return True
 
 class SortTable(TableTransform):
     """

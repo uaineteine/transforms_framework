@@ -1,5 +1,5 @@
-from .eventlog import Event
-from transformslib import meta
+from transforms_events import *
+import transformslib as meta
 
 class TransformEvent:
     def __init__(self, 

@@ -1,0 +1,1152 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>transforms &mdash; Metadata Integration Framework 2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=cb975c41"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="tables" href="tables.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Metadata Integration Framework
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">transforms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.atomiclib">transformslib.transforms.atomiclib</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ComplexFilter"><code class="docutils literal notranslate"><span class="pre">ComplexFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ComplexFilter.error_check"><code class="docutils literal notranslate"><span class="pre">ComplexFilter.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ComplexFilter.transforms"><code class="docutils literal notranslate"><span class="pre">ComplexFilter.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ConcatColumns"><code class="docutils literal notranslate"><span class="pre">ConcatColumns</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ConcatColumns.error_check"><code class="docutils literal notranslate"><span class="pre">ConcatColumns.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ConcatColumns.test"><code class="docutils literal notranslate"><span class="pre">ConcatColumns.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ConcatColumns.transforms"><code class="docutils literal notranslate"><span class="pre">ConcatColumns.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.DistinctTable"><code class="docutils literal notranslate"><span class="pre">DistinctTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DistinctTable.error_check"><code class="docutils literal notranslate"><span class="pre">DistinctTable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DistinctTable.transforms"><code class="docutils literal notranslate"><span class="pre">DistinctTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropNAValues"><code class="docutils literal notranslate"><span class="pre">DropNAValues</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropNAValues.error_check"><code class="docutils literal notranslate"><span class="pre">DropNAValues.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropNAValues.test"><code class="docutils literal notranslate"><span class="pre">DropNAValues.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropNAValues.transforms"><code class="docutils literal notranslate"><span class="pre">DropNAValues.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropVariable"><code class="docutils literal notranslate"><span class="pre">DropVariable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropVariable.error_check"><code class="docutils literal notranslate"><span class="pre">DropVariable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropVariable.test"><code class="docutils literal notranslate"><span class="pre">DropVariable.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.DropVariable.transforms"><code class="docutils literal notranslate"><span class="pre">DropVariable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ExplodeColumn"><code class="docutils literal notranslate"><span class="pre">ExplodeColumn</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ExplodeColumn.error_check"><code class="docutils literal notranslate"><span class="pre">ExplodeColumn.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ExplodeColumn.test"><code class="docutils literal notranslate"><span class="pre">ExplodeColumn.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ExplodeColumn.transforms"><code class="docutils literal notranslate"><span class="pre">ExplodeColumn.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase"><code class="docutils literal notranslate"><span class="pre">ForceCase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase.error_check"><code class="docutils literal notranslate"><span class="pre">ForceCase.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ForceCase.transforms"><code class="docutils literal notranslate"><span class="pre">ForceCase.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.HashColumns"><code class="docutils literal notranslate"><span class="pre">HashColumns</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.HashColumns.error_check"><code class="docutils literal notranslate"><span class="pre">HashColumns.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.HashColumns.test"><code class="docutils literal notranslate"><span class="pre">HashColumns.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.HashColumns.transforms"><code class="docutils literal notranslate"><span class="pre">HashColumns.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable"><code class="docutils literal notranslate"><span class="pre">JoinTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable.error_check"><code class="docutils literal notranslate"><span class="pre">JoinTable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable.test"><code class="docutils literal notranslate"><span class="pre">JoinTable.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.JoinTable.transforms"><code class="docutils literal notranslate"><span class="pre">JoinTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.PartitionByValue"><code class="docutils literal notranslate"><span class="pre">PartitionByValue</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.PartitionByValue.error_check"><code class="docutils literal notranslate"><span class="pre">PartitionByValue.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.PartitionByValue.test"><code class="docutils literal notranslate"><span class="pre">PartitionByValue.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.PartitionByValue.transforms"><code class="docutils literal notranslate"><span class="pre">PartitionByValue.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.RenameTable"><code class="docutils literal notranslate"><span class="pre">RenameTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.RenameTable.error_check"><code class="docutils literal notranslate"><span class="pre">RenameTable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.RenameTable.test"><code class="docutils literal notranslate"><span class="pre">RenameTable.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.RenameTable.transforms"><code class="docutils literal notranslate"><span class="pre">RenameTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ReplaceByCondition"><code class="docutils literal notranslate"><span class="pre">ReplaceByCondition</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ReplaceByCondition.error_check"><code class="docutils literal notranslate"><span class="pre">ReplaceByCondition.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ReplaceByCondition.test"><code class="docutils literal notranslate"><span class="pre">ReplaceByCondition.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ReplaceByCondition.transforms"><code class="docutils literal notranslate"><span class="pre">ReplaceByCondition.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber"><code class="docutils literal notranslate"><span class="pre">RoundNumber</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber.error_check"><code class="docutils literal notranslate"><span class="pre">RoundNumber.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.RoundNumber.transforms"><code class="docutils literal notranslate"><span class="pre">RoundNumber.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter"><code class="docutils literal notranslate"><span class="pre">SimpleFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter.error_check"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SimpleFilter.transforms"><code class="docutils literal notranslate"><span class="pre">SimpleFilter.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.SortTable"><code class="docutils literal notranslate"><span class="pre">SortTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SortTable.error_check"><code class="docutils literal notranslate"><span class="pre">SortTable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SortTable.transforms"><code class="docutils literal notranslate"><span class="pre">SortTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable"><code class="docutils literal notranslate"><span class="pre">SubsetTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.error_check"><code class="docutils literal notranslate"><span class="pre">SubsetTable.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.test"><code class="docutils literal notranslate"><span class="pre">SubsetTable.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.SubsetTable.transforms"><code class="docutils literal notranslate"><span class="pre">SubsetTable.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.error_check"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.TrimWhitespace.transforms"><code class="docutils literal notranslate"><span class="pre">TrimWhitespace.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate"><code class="docutils literal notranslate"><span class="pre">TruncateDate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.error_check"><code class="docutils literal notranslate"><span class="pre">TruncateDate.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.TruncateDate.transforms"><code class="docutils literal notranslate"><span class="pre">TruncateDate.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables"><code class="docutils literal notranslate"><span class="pre">UnionTables</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables.error_check"><code class="docutils literal notranslate"><span class="pre">UnionTables.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.UnionTables.transforms"><code class="docutils literal notranslate"><span class="pre">UnionTables.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.listatomic"><code class="docutils literal notranslate"><span class="pre">listatomic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.listme"><code class="docutils literal notranslate"><span class="pre">listme()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.base">transformslib.transforms.base</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform"><code class="docutils literal notranslate"><span class="pre">MacroTransform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.error_check"><code class="docutils literal notranslate"><span class="pre">MacroTransform.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.test"><code class="docutils literal notranslate"><span class="pre">MacroTransform.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform.transforms"><code class="docutils literal notranslate"><span class="pre">MacroTransform.transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.base.TableTransform"><code class="docutils literal notranslate"><span class="pre">TableTransform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.TableTransform.nvars"><code class="docutils literal notranslate"><span class="pre">TableTransform.nvars</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.TableTransform.vars"><code class="docutils literal notranslate"><span class="pre">TableTransform.vars</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.base.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.Transform.apply"><code class="docutils literal notranslate"><span class="pre">Transform.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.Transform.error_check"><code class="docutils literal notranslate"><span class="pre">Transform.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.Transform.test"><code class="docutils literal notranslate"><span class="pre">Transform.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.base.Transform.transforms"><code class="docutils literal notranslate"><span class="pre">Transform.transforms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.macrolib">transformslib.transforms.macrolib</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.ConcatenateIDs"><code class="docutils literal notranslate"><span class="pre">ConcatenateIDs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.DropMissingIDs"><code class="docutils literal notranslate"><span class="pre">DropMissingIDs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.Macro"><code class="docutils literal notranslate"><span class="pre">Macro</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.macrolib.Macro.apply"><code class="docutils literal notranslate"><span class="pre">Macro.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.macrolib.Macro.log"><code class="docutils literal notranslate"><span class="pre">Macro.log()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.TopBottomCode"><code class="docutils literal notranslate"><span class="pre">TopBottomCode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.macrolib.listmacro"><code class="docutils literal notranslate"><span class="pre">listmacro()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.pipeevent">transformslib.transforms.pipeevent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.pipeevent.PipelineEvent"><code class="docutils literal notranslate"><span class="pre">PipelineEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.reader">transformslib.transforms.reader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.reader.does_transform_log_exist"><code class="docutils literal notranslate"><span class="pre">does_transform_log_exist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.reader.format_timedelta"><code class="docutils literal notranslate"><span class="pre">format_timedelta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.reader.load_transform_log"><code class="docutils literal notranslate"><span class="pre">load_transform_log()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.reader.parse_ts"><code class="docutils literal notranslate"><span class="pre">parse_ts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.reader.transform_log_loc"><code class="docutils literal notranslate"><span class="pre">transform_log_loc()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Metadata Integration Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">transforms</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/transforms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="transforms">
+<h1>transforms<a class="headerlink" href="#transforms" title="Link to this heading"></a></h1>
+<section id="module-transformslib.transforms.atomiclib">
+<span id="transformslib-transforms-atomiclib"></span><h2>transformslib.transforms.atomiclib<a class="headerlink" href="#module-transformslib.transforms.atomiclib" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ComplexFilter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ComplexFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ComplexFilter" title="Link to this definition"></a></dt>
+<dd><p>Transform class for filtering rows in a DataFrame using a backend-specific condition.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ComplexFilter.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ComplexFilter.error_check" title="Link to this definition"></a></dt>
+<dd><p>Skip error checking — assume condition is valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ComplexFilter.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ComplexFilter.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply the filter condition to the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ConcatColumns">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ConcatColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables_to_concat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ConcatColumns" title="Link to this definition"></a></dt>
+<dd><p>Transform class for concatenating multiple columns into a single column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ConcatColumns.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ConcatColumns.error_check" title="Link to this definition"></a></dt>
+<dd><p>Ensure the DataFrame exists, the specified columns exist, and the output column name is provided.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ConcatColumns.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.ConcatColumns.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the concatenated column was created in the target MultiTable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ConcatColumns.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ConcatColumns.transforms" title="Link to this definition"></a></dt>
+<dd><p>Concatenate the specified columns into a new column in-place using MultiTable.concat().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DistinctTable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">DistinctTable</span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.DistinctTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for removing duplicate rows from a DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DistinctTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DistinctTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Ensure the DataFrame exists and has at least one column and one row.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DistinctTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DistinctTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply distinct to the DataFrame (all columns).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropNAValues">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">DropNAValues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropNAValues" title="Link to this definition"></a></dt>
+<dd><p>Transform class for dropping rows with NA/None/Null values in a specified column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropNAValues.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropNAValues.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropNAValues.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropNAValues.test" title="Link to this definition"></a></dt>
+<dd><p>Test that no NA values remain in the target column.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropNAValues.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropNAValues.transforms" title="Link to this definition"></a></dt>
+<dd><p>Drop rows with NA values in the specified column.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropVariable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">DropVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables_to_drop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropVariable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for removing one or more variables/columns from a DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropVariable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropVariable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that all variables to drop exist in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropVariable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropVariable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the variables were successfully removed from the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.DropVariable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.DropVariable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Remove the specified variables from the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ExplodeColumn">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ExplodeColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ExplodeColumn" title="Link to this definition"></a></dt>
+<dd><p>Transform class for exploding a list-like column into multiple rows.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ExplodeColumn.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ExplodeColumn.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ExplodeColumn.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.ExplodeColumn.test" title="Link to this definition"></a></dt>
+<dd><p>Simple test: ensure column still exists after explode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ExplodeColumn.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ExplodeColumn.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply explode on the specified column using MultiTable.explode().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ForceCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lower'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase" title="Link to this definition"></a></dt>
+<dd><p>Transform class to force string values in a specified column to upper or lower case.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of string type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ForceCase.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ForceCase.transforms" title="Link to this definition"></a></dt>
+<dd><p>Force case in the specified column.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.HashColumns">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">HashColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sha256'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.HashColumns" title="Link to this definition"></a></dt>
+<dd><p>Using the hashing tool, hash the contents of one or more columns into a new column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.HashColumns.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.HashColumns.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target columns exist in the table. Validate no columns are actually dates or something incompatible with hashing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.HashColumns.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.HashColumns.test" title="Link to this definition"></a></dt>
+<dd><p>Test method for validating transformation results.</p>
+<p>This method can be used to verify that the transformation was applied
+correctly and the results meet expected criteria.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if test passes, False otherwise.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Verify transformation results</span>
+<span class="gp">... </span>        <span class="n">df</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.HashColumns.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.HashColumns.transforms" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that must be implemented by subclasses.</p>
+<p>This method should contain the actual transformation logic for the data.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
+<blockquote>
+<div><p>the keys are dataframe parameter names and values are table names in supply_frames.</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: The transformed DataFrame.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Get dataframes by name</span>
+<span class="gp">... </span>        <span class="n">df1</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df1&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="n">df2</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df2&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="c1"># Custom transformation logic</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.JoinTable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">JoinTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'inner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('_left',</span> <span class="pre">'_right')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.JoinTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for joining two tables in a TableCollection.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.JoinTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.JoinTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that both tables exist, have &gt;0 rows, and join columns exist.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.JoinTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.JoinTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the joined table exists and has expected columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.JoinTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.JoinTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Join the two tables and store the result in a new table.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.PartitionByValue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">PartitionByValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partition_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'_{value}'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.PartitionByValue" title="Link to this definition"></a></dt>
+<dd><p>Transform class for partitioning a DataFrame into multiple tables 
+based on unique values of a specified column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.PartitionByValue.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.PartitionByValue.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the partition column exists in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.PartitionByValue.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.PartitionByValue.test" title="Link to this definition"></a></dt>
+<dd><p>Test that all partitioned tables were created and contain the correct values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.PartitionByValue.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.PartitionByValue.transforms" title="Link to this definition"></a></dt>
+<dd><p>Partition the DataFrame into multiple subtables based on unique values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RenameTable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">RenameTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rename_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RenameTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for renaming columns in a DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RenameTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RenameTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that all columns to rename exist in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RenameTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.RenameTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that the columns have been renamed correctly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RenameTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RenameTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Rename the specified columns in the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ReplaceByCondition">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ReplaceByCondition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ReplaceByCondition" title="Link to this definition"></a></dt>
+<dd><p>Transform class for replacing values in a column based on a comparison condition.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ReplaceByCondition.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ReplaceByCondition.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the column exists in the DataFrame and operator is supported.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ReplaceByCondition.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.ReplaceByCondition.test" title="Link to this definition"></a></dt>
+<dd><p>Test that no values matching the condition remain in the column.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ReplaceByCondition.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ReplaceByCondition.transforms" title="Link to this definition"></a></dt>
+<dd><p>Replace values in the column based on the condition.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">RoundNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber" title="Link to this definition"></a></dt>
+<dd><p>Transform class to round numeric values in a specified column to a given number of decimal places.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is numeric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.RoundNumber.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.RoundNumber.transforms" title="Link to this definition"></a></dt>
+<dd><p>Round the numeric column to the specified number of decimal places.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SimpleFilter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">SimpleFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SimpleFilter" title="Link to this definition"></a></dt>
+<dd><p>Transform class for filtering rows in a DataFrame using a simple column comparison.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SimpleFilter.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SimpleFilter.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the column exists in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SimpleFilter.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SimpleFilter.transforms" title="Link to this definition"></a></dt>
+<dd><p>Filter the DataFrame using the specified column, operator, and value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SortTable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">SortTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SortTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class to sort a table by one or more columns.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SortTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SortTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target columns exist in the table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SortTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SortTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Sort the table using MultiTable.sort().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SubsetTable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">SubsetTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables_to_keep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SubsetTable" title="Link to this definition"></a></dt>
+<dd><p>Transform class for subsetting a DataFrame to retain only specified columns.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SubsetTable.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SubsetTable.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that all variables to keep exist in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SubsetTable.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.SubsetTable.test" title="Link to this definition"></a></dt>
+<dd><p>Test that only the specified variables remain in the DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.SubsetTable.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.SubsetTable.transforms" title="Link to this definition"></a></dt>
+<dd><p>Subset the DataFrame to retain only the specified variables.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">TrimWhitespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace" title="Link to this definition"></a></dt>
+<dd><p>Transform class for trimming leading and trailing whitespace from string values in a specified column.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of string type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TrimWhitespace.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TrimWhitespace.transforms" title="Link to this definition"></a></dt>
+<dd><p>Trim leading and trailing whitespace in the specified column.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">TruncateDate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'month'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate" title="Link to this definition"></a></dt>
+<dd><p>Transform class to truncate date values in a specified column to year or month level.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that the target column exists and is of datetime type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.TruncateDate.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.TruncateDate.transforms" title="Link to this definition"></a></dt>
+<dd><p>Truncate the date column to the specified level.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">UnionTables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">union_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables" title="Link to this definition"></a></dt>
+<dd><p>Transform class to perform a union of two tables with matching schemas.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that both tables exist and have matching schemas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.UnionTables.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.UnionTables.transforms" title="Link to this definition"></a></dt>
+<dd><p>Perform the union operation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.listatomic">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">listatomic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.listatomic" title="Link to this definition"></a></dt>
+<dd><p>Display all available atomic transforms in a neat table format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.listme">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">listme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.listme" title="Link to this definition"></a></dt>
+<dd><p>Legacy alias for listatomic(). Please use listatomic() instead.</p>
+</dd></dl>
+
+</section>
+<section id="module-transformslib.transforms.base">
+<span id="transformslib-transforms-base"></span><h2>transformslib.transforms.base<a class="headerlink" href="#module-transformslib.transforms.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.base.MacroTransform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">MacroTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transforms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#transformslib.transforms.base.TableTransform" title="transformslib.transforms.base.TableTransform"><span class="pre">TableTransform</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'MacroTransform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Applies</span> <span class="pre">multiple</span> <span class="pre">transforms</span> <span class="pre">in</span> <span class="pre">sequence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'untagged'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.MacroTransform" title="Link to this definition"></a></dt>
+<dd><p>A transform that applies multiple atomic transforms in sequence.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.MacroTransform.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.MacroTransform.error_check" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for error checking before transformation.</p>
+<p>This method should contain validation logic to ensure the transformation
+can be safely applied to the provided data.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.
+ValueError: If validation fails.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">error_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Validate that required columns exist</span>
+<span class="gp">... </span>        <span class="n">df</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="s1">&#39;required_column&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Required column not found&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.MacroTransform.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.base.MacroTransform.test" title="Link to this definition"></a></dt>
+<dd><p>Test that all child transforms pass their tests.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.MacroTransform.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.MacroTransform.transforms" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that must be implemented by subclasses.</p>
+<p>This method should contain the actual transformation logic for the data.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
+<blockquote>
+<div><p>the keys are dataframe parameter names and values are table names in supply_frames.</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: The transformed DataFrame.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Get dataframes by name</span>
+<span class="gp">... </span>        <span class="n">df1</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df1&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="n">df2</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df2&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="c1"># Custom transformation logic</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.base.TableTransform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">TableTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acts_on_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.TableTransform" title="Link to this definition"></a></dt>
+<dd><p>Specialised transform class for operations that act on specific table variables.</p>
+<p>This class extends Transform to provide variable-level tracking and management
+for transformations that operate on specific columns or variables within a table.
+It maintains lists of target variables and tracks changes made during transformation.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>target_variables (list[str]): List of variables that the transform operates on.
+target_tables (list): List of target tables (currently unused).
+created_variables (list): Variables created by the transformation.
+renamed_variables (list): Variables renamed by the transformation.
+deleted_variables (list): Variables deleted by the transformation.
+hashed_variables (list): Variables that were hashed during transformation.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">ColumnFilter</span><span class="p">(</span><span class="n">TableTransform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;ColumnFilter&quot;</span><span class="p">,</span> <span class="s2">&quot;Filter specific columns&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+<span class="gp">... </span>    
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">df</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_variables</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filter_transform</span> <span class="o">=</span> <span class="n">ColumnFilter</span><span class="p">([</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">filter_transform</span><span class="p">(</span><span class="n">supply_loader</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="s2">&quot;table_name&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="transformslib.transforms.base.TableTransform.nvars">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nvars</span></span><a class="headerlink" href="#transformslib.transforms.base.TableTransform.nvars" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of target variables.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="transformslib.transforms.base.TableTransform.vars">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><a class="headerlink" href="#transformslib.transforms.base.TableTransform.vars" title="Link to this definition"></a></dt>
+<dd><p>Returns:
+list[str]: Single variable if one, list if multiple.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.base.Transform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.base.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testable_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.Transform" title="Link to this definition"></a></dt>
+<dd><p>Base class for data transformation operations with automatic event logging.</p>
+<p>This class provides the foundation for implementing data transformations in the pipeline.
+It extends PipelineEvent to automatically log transformation operations and provides
+a consistent interface for applying transformations to MetaFrame objects.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>name (str): The name of the transformation.
+transform_type (str): The type/category of the transformation.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;MyTransform&quot;</span><span class="p">,</span> <span class="s2">&quot;Custom transformation&quot;</span><span class="p">,</span> <span class="s2">&quot;custom&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Implementation here</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">transformed_df</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transform</span> <span class="o">=</span> <span class="n">MyTransform</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">supply_loader</span><span class="p">,</span> <span class="n">df1</span><span class="o">=</span><span class="s2">&quot;customers&quot;</span><span class="p">,</span> <span class="n">df2</span><span class="o">=</span><span class="s2">&quot;orders&quot;</span><span class="p">)</span>  <span class="c1"># Automatically logs the transformation</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.Transform.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.supply_load.SupplyLoad" title="transformslib.tables.collections.supply_load.SupplyLoad"><span class="pre">SupplyLoad</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.Transform.apply" title="Link to this definition"></a></dt>
+<dd><p>Apply the transformation to the provided supply frames with keyword arguments.</p>
+<p>This method executes the transformation and automatically logs the operation
+as a pipeline event. It also performs error checking before transformation
+and testing after transformation if the transform is testable.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+</dd>
+<dt>Returns:</dt><dd><p>MetaFrame: The transformed MetaFrame.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transform</span> <span class="o">=</span> <span class="n">MyTransform</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">supply_loader</span><span class="p">,</span> <span class="n">df1</span><span class="o">=</span><span class="s2">&quot;customers&quot;</span><span class="p">,</span> <span class="n">df2</span><span class="o">=</span><span class="s2">&quot;orders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Transformation is automatically logged</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.Transform.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.supply_load.SupplyLoad" title="transformslib.tables.collections.supply_load.SupplyLoad"><span class="pre">SupplyLoad</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.base.Transform.error_check" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for error checking before transformation.</p>
+<p>This method should contain validation logic to ensure the transformation
+can be safely applied to the provided data.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.
+ValueError: If validation fails.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">error_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Validate that required columns exist</span>
+<span class="gp">... </span>        <span class="n">df</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="s1">&#39;required_column&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Required column not found&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.Transform.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.supply_load.SupplyLoad" title="transformslib.tables.collections.supply_load.SupplyLoad"><span class="pre">SupplyLoad</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.base.Transform.test" title="Link to this definition"></a></dt>
+<dd><p>Test method for validating transformation results.</p>
+<p>This method can be used to verify that the transformation was applied
+correctly and the results meet expected criteria.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if test passes, False otherwise.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Verify transformation results</span>
+<span class="gp">... </span>        <span class="n">df</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.base.Transform.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.supply_load.SupplyLoad" title="transformslib.tables.collections.supply_load.SupplyLoad"><span class="pre">SupplyLoad</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></span><a class="headerlink" href="#transformslib.transforms.base.Transform.transforms" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that must be implemented by subclasses.</p>
+<p>This method should contain the actual transformation logic for the data.</p>
+<dl>
+<dt>Args:</dt><dd><p>supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+<a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Keyword arguments in the format df1=”name1”, df2=”name2” etc. where</p>
+<blockquote>
+<div><p>the keys are dataframe parameter names and values are table names in supply_frames.</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: The transformed DataFrame.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: This method must be implemented by subclasses.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supply_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># Get dataframes by name</span>
+<span class="gp">... </span>        <span class="n">df1</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df1&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="n">df2</span> <span class="o">=</span> <span class="n">supply_frames</span><span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df2&#39;</span><span class="p">)]</span>
+<span class="gp">... </span>        <span class="c1"># Custom transformation logic</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-transformslib.transforms.macrolib">
+<span id="transformslib-transforms-macrolib"></span><h2>transformslib.transforms.macrolib<a class="headerlink" href="#module-transformslib.transforms.macrolib" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.ConcatenateIDs">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">ConcatenateIDs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.ConcatenateIDs" title="Link to this definition"></a></dt>
+<dd><p>A macro that concatenates two ID columns with an underscore separator.
+Creates a new column by combining the values of two specified columns using ConcatColumns transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_tables</strong> (<a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><em>TableCollection</em></a>) – A collection of input tables to be transformed.</p></li>
+<li><p><strong>input_columns</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List containing exactly two column names to concatenate.</p></li>
+<li><p><strong>output_column</strong> (<em>str</em>) – Name of the new column to create with concatenated values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.DropMissingIDs">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">DropMissingIDs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.DropMissingIDs" title="Link to this definition"></a></dt>
+<dd><p>A macro that drops missing IDs from a table by removing rows with NA values in the synthetic variable.
+Uses the DropNAValues transform to remove rows with missing values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_tables</strong> (<a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><em>TableCollection</em></a>) – A collection of input tables to be transformed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.Macro">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">Macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">macro_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#transformslib.transforms.base.MacroTransform" title="transformslib.transforms.base.MacroTransform"><span class="pre">MacroTransform</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro" title="Link to this definition"></a></dt>
+<dd><p>A wrapper class for applying a macro transformation to a collection of tables
+and logging the transformation metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>macro_transform</strong> (<a class="reference internal" href="#transformslib.transforms.base.MacroTransform" title="transformslib.transforms.base.MacroTransform"><em>MacroTransform</em></a>) – A MacroTransform object containing the transformation logic.</p></li>
+<li><p><strong>input_tables</strong> (<a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><em>TableCollection</em></a>) – A collection of input tables to be transformed.</p></li>
+<li><p><strong>output_tables</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of names of output tables.</p></li>
+<li><p><strong>input_variables</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of input variable names used in the transformation.</p></li>
+<li><p><strong>output_variables</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of output variable names produced by the transformation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.Macro.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro.apply" title="Link to this definition"></a></dt>
+<dd><p>Applies the macro transformation to the input tables and logs the operation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs: Keyword arguments to pass to the underlying transforms.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Transformed table frames.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.Macro.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro.log" title="Link to this definition"></a></dt>
+<dd><p>Logs the macro transformation metadata to a JSON file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.TopBottomCode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">TopBottomCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.TopBottomCode" title="Link to this definition"></a></dt>
+<dd><p>A macro that applies top and bottom coding to specified variables in a table collection.
+Values above <cite>max_value</cite> are capped, and values below <cite>min_value</cite> are floored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_tables</strong> (<a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><em>TableCollection</em></a>) – A collection of input tables to be transformed.</p></li>
+<li><p><strong>input_variables</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of variable names to apply top/bottom coding.</p></li>
+<li><p><strong>max_value</strong> (<em>int</em><em> or </em><em>float</em>) – Maximum allowed value; values above this will be replaced.</p></li>
+<li><p><strong>min_value</strong> (<em>int</em><em> or </em><em>float</em>) – Minimum allowed value; values below this will be replaced.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.macrolib.listmacro">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.macrolib.</span></span><span class="sig-name descname"><span class="pre">listmacro</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.listmacro" title="Link to this definition"></a></dt>
+<dd><p>Display all available macro transforms in a neat table format.</p>
+</dd></dl>
+
+</section>
+<section id="module-transformslib.transforms.pipeevent">
+<span id="transformslib-transforms-pipeevent"></span><h2>transformslib.transforms.pipeevent<a class="headerlink" href="#module-transformslib.transforms.pipeevent" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.pipeevent.PipelineEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.pipeevent.</span></span><span class="sig-name descname"><span class="pre">PipelineEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">macro_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.pipeevent.PipelineEvent" title="Link to this definition"></a></dt>
+<dd><p>Specialised event class for pipeline operations.</p>
+<p>Extends the base Event class to include pipeline-specific metadata. Useful for
+logging data pipeline steps like loading, transformations, and saves.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>event_type (str): The type of pipeline event (e.g., “load”, “transform”).
+event_payload (str): A short message or payload describing the operation.
+event_description (str): A detailed description of the operation.
+class_type (str): Constant string identifying this event type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-transformslib.transforms.reader">
+<span id="transformslib-transforms-reader"></span><h2>transformslib.transforms.reader<a class="headerlink" href="#module-transformslib.transforms.reader" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.does_transform_log_exist">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">does_transform_log_exist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.does_transform_log_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks whether the transformation log file exists for a specific job.</p>
+<p>This function uses the <cite>transform_log_loc</cite> function to construct the expected
+file path and then verifies its existence using <cite>os.path.exists</cite>.</p>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>bool</dt><dd><p>True if the transformation log file exists, False otherwise.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.format_timedelta">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">format_timedelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.format_timedelta" title="Link to this definition"></a></dt>
+<dd><p>Format a timedelta as Hh Mm Ss string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.load_transform_log">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">load_transform_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.load_transform_log" title="Link to this definition"></a></dt>
+<dd><p>Load the transform log for a specific job and run ID.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.parse_ts">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">parse_ts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.parse_ts" title="Link to this definition"></a></dt>
+<dd><p>Extracts and parses the ISO 8601 timestamp from an event dictionary.</p>
+<p>This function retrieves the value associated with the “timestamp” key in the
+provided dictionary, normalizes it by replacing a trailing ‘Z’ with ‘+00:00’
+to indicate UTC, and attempts to convert it into a <cite>datetime</cite> object.</p>
+<p>If the timestamp is missing or cannot be parsed, it returns <cite>datetime.min</cite>.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>event (dict): A dictionary expected to contain a “timestamp” key with</dt><dd><p>an ISO 8601 formatted string.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>datetime: A parsed <cite>datetime</cite> object if successful, otherwise <cite>datetime.min</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.transforms.reader.transform_log_loc">
+<span class="sig-prename descclassname"><span class="pre">transformslib.transforms.reader.</span></span><span class="sig-name descname"><span class="pre">transform_log_loc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.transforms.reader.transform_log_loc" title="Link to this definition"></a></dt>
+<dd><p>Constructs the file path to the transformation log for a specific job.</p>
+<p>The path is built using the <cite>main_dir</cite> directory and includes the job ID.
+The file is assumed to be named <cite>transforms.json</cite> and located in a subdirectory
+named <cite>job_&lt;job_id&gt;</cite>.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>job_id<span class="classifier">int</span></dt><dd><p>The identifier for the job.</p>
+</dd>
+<dt>run_id<span class="classifier">int</span></dt><dd><p>The identifier for the run (currently unused in path construction).</p>
+</dd>
+<dt>debug<span class="classifier">bool, optional</span></dt><dd><p>Flag to indicate debug mode (currently unused), by default False.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h3>Returns<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>The full path to the <cite>transforms.json</cite> file for the specified job.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tables.html" class="btn btn-neutral float-left" title="tables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright None.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

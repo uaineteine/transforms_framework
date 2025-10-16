@@ -10,7 +10,7 @@ if __name__ == "__main__":
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from transformslib.transforms import *
-    from transformslib.setup import set_job_id, set_run_id
+    from transformslib import set_job_id
     from pyspark.sql.functions import col
     from transformslib.tables.collections.supply_load import SupplyLoad
     
@@ -24,8 +24,7 @@ if __name__ == "__main__":
     # load pipeline tables
     job_id = 1
     run_id = 1
-    set_job_id(job_id)
-    set_run_id(run_id)
+    set_job_id(job_id, new_run_id=run_id)
     
     supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
@@ -212,10 +211,17 @@ if __name__ == "__main__":
     # Test 18: TopBottomCoding
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
+    supply_frames = TopBottomCode(supply_frames, ["income"], 500, 450).apply(df="salary")
     print("Original salary data:")
     supply_frames["salary"].show()
-    print("Salary column statistics:")
-    supply_frames["salary"].df.describe(["salary"]).show()
+
+    # -------------------------------
+    # Test 19: HASHING
+    # -------------------------------
+    print("Applying hashing test")
+    hsh = HashColumns("name", "hextest")
+    supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
+    supply_frames["location"].show()
 
     # -------------------------------
     # Apply TopBottomCode macro to salary table

@@ -1,5 +1,5 @@
 from transformslib.tables.metaframe import MetaFrame
-from transformslib.events import PipelineEvent
+from transformslib.transforms.pipeevent import PipelineEvent
 from transformslib.transforms.reader import transform_log_loc
 import fnmatch
 from typing import List
@@ -414,7 +414,7 @@ class TableCollection:
         os.makedirs(output_dir, exist_ok=True)
 
         # Get the global transforms log location for logging write events
-        transforms_log_path = transform_log_loc(job_id=1, run_id=1)
+        transforms_log_path = transform_log_loc()
 
         for table in self.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
