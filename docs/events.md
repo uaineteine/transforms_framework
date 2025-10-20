@@ -1,16 +1,6 @@
 # Events
 
-### 1. EventLog
-**Purpose:** Handles event logging and saving of events during pipeline execution.
-
-**Features:**
-- Manages the logging of events generated during the data pipeline's execution.
-- Provides methods to save events to a JSON file for auditing and tracking purposes.
-- Supports different logging levels and destinations.
-
-![UML diagram](../diagrams/events.png)
-
-### 2. PipelineEvent
+### 1. PipelineEvent
 **Purpose:** Represents an event (e.g., loading a table, applying a transform).
 
 **Features:**
