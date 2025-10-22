@@ -5,7 +5,7 @@ from typing import Dict, Any
 from adaptiveio import load_json
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
-from transformslib.tables.schema_validator import SchemaValidator, SchemaValidationError
+from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
 def get_supply_file() -> str:
