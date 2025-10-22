@@ -1,9 +1,15 @@
 """
 This module defines constant parameters used across the application.
 
+It includes functions to detect whether JAVA_HOME is set and to configure it programmatically.
+
 Version:
     1.0
 """
+
+from typing import Union
+import os
+from transformslib.templates import read_template_safe
 
 # CONSTANT PARAMETERS FOR MODULE
 
@@ -23,16 +29,6 @@ def expected_meta_version(this_version:str) -> bool:
         print(f"DAG Code expects meta version of: {meta_version}")
     
     return cnd_match
-
-"""
-This module provides utilities for managing the JAVA_HOME environment variable.
-
-It includes functions to detect whether JAVA_HOME is set and to configure it programmatically.
-"""
-
-from typing import Union
-import os
-from transformslib.templates import read_template_safe
 
 JVENV = "JAVA_HOME"
 """str: The name of the environment variable used to store the Java installation path."""
