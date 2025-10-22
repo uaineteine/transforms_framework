@@ -29,6 +29,8 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
+|   |   |-- fv.py
+|   |   |-- sv.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
 |   |-- mapping/
