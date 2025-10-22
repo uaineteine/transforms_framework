@@ -3,7 +3,6 @@ pandas
 pyspark
 sas-to-polars
 sparkpolars
-uainepydat
 deltalake
 delta-spark
 pyvis
