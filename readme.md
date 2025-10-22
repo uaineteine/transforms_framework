@@ -1,6 +1,6 @@
 # Meta Transforms Framework
 
-![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.21.0](https://img.shields.io/badge/version-0.21.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml)
+![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.22.0](https://img.shields.io/badge/version-0.22.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml)
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
@@ -29,10 +29,11 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
+|   |   |-- fv.py
+|   |   |-- sv.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
-|   |-- mapping/
-|   |   |-- maps.py
+|   |-- dag/
 |   |   |-- webcanvas.py
 |   |   `-- dag.py
 |   |-- transforms/
@@ -65,7 +66,7 @@ Each approach provides the same event tracking and audit capabilities while offe
 1. **Load a table:**
     ```python
     from pyspark.sql import SparkSession
-    from pipeline_table import PipelineTable
+    from transformslib.multitable import PipelineTable
     
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
     tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
@@ -74,7 +75,7 @@ Each approach provides the same event tracking and audit capabilities while offe
 
 2. **Apply a transformation:**
     ```python
-    from transforms import DropVariable
+    from transformslibs.transforms.atomiclib import DropVariable
     
     tbl = DropVariable("age")(tbl)
     ```

@@ -1,6 +1,5 @@
-# Events
+### PipelineEvent
 
-### 1. PipelineEvent
 **Purpose:** Represents an event (e.g., loading a table, applying a transform).
 
 **Features:**

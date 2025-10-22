@@ -5,8 +5,7 @@ import transformslib as meta
 
 import os
 from typing import List
-from uainepydat.frameverifier import FrameTypeVerifier
-
+from .fv import FrameTypeVerifier
 
 #structure type
 class Meta:
