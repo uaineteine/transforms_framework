@@ -33,8 +33,7 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- sv.py
 |   |   |-- metaframe.py
 |   |   `-- multitable.py
-|   |-- mapping/
-|   |   |-- maps.py
+|   |-- dag/
 |   |   |-- webcanvas.py
 |   |   `-- dag.py
 |   |-- transforms/
@@ -67,7 +66,7 @@ Each approach provides the same event tracking and audit capabilities while offe
 1. **Load a table:**
     ```python
     from pyspark.sql import SparkSession
-    from pipeline_table import PipelineTable
+    from transformslib.multitable import PipelineTable
     
     spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
     tbl = PipelineTable.load(spark=spark, path="test.csv", format="csv", table_name="test_table", frame_type="pyspark")
@@ -76,7 +75,7 @@ Each approach provides the same event tracking and audit capabilities while offe
 
 2. **Apply a transformation:**
     ```python
-    from transforms import DropVariable
+    from transformslibs.transforms.atomiclib import DropVariable
     
     tbl = DropVariable("age")(tbl)
     ```
