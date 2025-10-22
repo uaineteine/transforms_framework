@@ -1725,7 +1725,7 @@ class AttachSynID(TableTransform):
             how="left"
         )
         
-        SYNVARID = ""
+        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
         
         #create the event
         self.log_info = TransformEvent(
