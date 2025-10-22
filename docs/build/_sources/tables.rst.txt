@@ -31,9 +31,9 @@ transformslib.tables.multitable
 .. automodule:: transformslib.tables.multitable
    :members:
 
-transformslib.tables.schema_validator
--------------------------------------
+transformslib.tables.sv
+-----------------------
 
-.. automodule:: transformslib.tables.schema_validator
+.. automodule:: transformslib.tables.sv
    :members:
 
