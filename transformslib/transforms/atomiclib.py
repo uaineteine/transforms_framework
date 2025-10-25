@@ -1,6 +1,7 @@
 from typing import List, Union, Dict, Callable
 import inspect
 import sys
+import os
 
 from hash_method import method_hash
 from conclib import load_ent_map
@@ -1742,12 +1743,14 @@ class AttachSynID(TableTransform):
     def test(self, supply_frames, **kwargs):
         #simple test to check the SYNID column exists
         table_name = kwargs.get("df")
+        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        
         if not table_name:
             return False
         
-        if "SYNID" in supply_frames[table_name].columns:
+        if SYNVARID in supply_frames[table_name].columns:
             #check the null count is zero: #TODO ADD OTHER SUPPORTED BACKENDS
-            if supply_frames[table_name].df["SYNID"].isnull().sum() > 0:
+            if supply_frames[table_name].df[SYNVARID].isnull().sum() > 0:
                 return False
         else:
             return False
