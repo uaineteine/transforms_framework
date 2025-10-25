@@ -10,9 +10,7 @@ from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc
-from pyspark.sql.functions import round as spark_round
-from pyspark.sql.functions import lower, upper, col
+from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, round as spark_round
 
 import polars as pl
 import pandas as pd
