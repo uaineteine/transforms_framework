@@ -231,7 +231,7 @@ if __name__ == "__main__":
     # Create TopBottomCode macro instance
     topbottom_macro = TopBottomCode(
         input_tables=supply_frames,
-        input_variables=["salary"],  # Apply coding to salary column
+        input_variables=["income"],  # Apply coding to salary column
         max_value=650,               # Cap values above 650
         min_value=450                # Floor values below 450
     )
@@ -241,8 +241,6 @@ if __name__ == "__main__":
     
     print("After TopBottomCode transformation:")
     supply_frames["salary"].show()
-    print("Salary column statistics after transformation:")
-    supply_frames["salary"].df.describe(["salary"]).show()
 
     # -------------------------------
     # Repeated tests to continue
