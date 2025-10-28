@@ -453,4 +453,22 @@ class TableCollection:
             write_event.log()
         
         self.save_events()
-                
+    
+    def keep(self, strings: List[str]):
+        """
+        Keep only the tables whose names are in the provided list.
+        
+        This method modifies the collection in place, removing any tables
+        that are not specified in the input list.
+
+        Args:
+            strings (List[str]): List of table names to keep.
+        Returns:
+            int: The number of tables remaining in the collection after filtering.
+        Example:
+            >>> pt_collection.keep(["table1", "table_prefix_*"])
+        """
+        self.tables = self.select_by_names(*strings)
+        self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
+
+        return self.ntables
