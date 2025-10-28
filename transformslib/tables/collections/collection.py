@@ -384,7 +384,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
 
-    def save_all(self, output_dir:str=None, spark=None):
+    def save_all(self, output_dir:str=None, tables:list[str]=[], spark=None):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -394,6 +394,8 @@ class TableCollection:
 
         Args:
             output_dir (str): The directory where all tables should be saved.
+            tables (list[str], optional): List of table names to save. If empty, saves all tables.
+            spark (SparkSession, optional): The Spark session to use for writing tables.
 
         Returns:
             None
@@ -416,7 +418,12 @@ class TableCollection:
         # Get the global transforms log location for logging write events
         transforms_log_path = transform_log_loc()
 
-        for table in self.tables:
+        #basically make a subcollection of tables to save if tables specified
+        save_list = self
+        if len(tables) > 0:
+            save_list = self.select_by_names(*tables)
+
+        for table in save_list.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
             output_path = str(Path(output_path))
             table.write(path=output_path, spark=spark)
