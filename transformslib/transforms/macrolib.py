@@ -1,7 +1,7 @@
 from transformslib.tables.collections.collection import TableCollection
 from .base import MacroTransform, printwidth
 from .atomiclib import *
-from adaptiveio import write_json
+from adaptiveio import append_json_newline
 from typing import Union
 import os
 
@@ -72,7 +72,7 @@ class Macro:
             'macro_description': self.macros.event_description,
             'macro_type': self.macros.transform_type
         }
-        write_json(json_info, self.macro_log_loc)
+        append_json_newline(json_info, self.macro_log_loc)
 
 ###### LIBRARY OF MACRO TRANSFORMS ######
 

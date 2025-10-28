@@ -1,16 +1,16 @@
 from typing import List, Union, Dict, Callable
 import inspect
 import sys
+import os
 
 from hash_method import method_hash
+from conclib import load_ent_map
 
 from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
 from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc
-from pyspark.sql.functions import round as spark_round
-from pyspark.sql.functions import lower, upper, col
+from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, round as spark_round
 
 import polars as pl
 import pandas as pd
@@ -1676,6 +1676,82 @@ class SortTable(TableTransform):
         self.target_tables = [table_name]
 
         return supply_frames
+
+class AttachSynID(TableTransform):
+    """
+    Will attach a synthetic ID to the Table from its source ID
+    """
+    
+    def __init__(self, source_id:str):
+        """
+        Initialise an AttachSynID transform.
+        
+        Args:
+            source_id (str): The name of the source ID column to base the synthetic ID on.
+        """
+        super().__init__(
+            "SynID",
+            f"Attach the synthetic ID based on source ID '{source_id}'",
+            [source_id],
+            "SYNID",
+            testable_transform=True
+        )
+        
+    def error_check(self, supply_frames, **kwargs):
+        #check column actually exists in the df
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+        if self.source_id not in supply_frames[table_name].columns:
+            raise ValueError(f"Column '{self.source_id}' not found in DataFrame '{table_name}'")
+        
+    def transforms(self, supply_frames, **kwargs):
+        #get table name
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+        
+        if backend != "pyspark":
+            raise NotImplementedError(f"AttachSynID not implemented for backend '{backend}'")
+        
+        entmap = load_ent_map(spark=kwargs.get("spark"))
+        
+        incols = list(supply_frames[table_name].columns)
+        
+        #run a pyspark join to attach the synthetic ID
+        supply_frames[table_name].df = supply_frames[table_name].df.join(
+            entmap,
+            on=self.source_id,
+            how="left"
+        )
+        
+        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        
+        #create the event
+        self.log_info = TransformEvent(
+            input_tables=[table_name, "entmap"],
+            output_tables=[table_name],
+            input_variables=[self.source_id],
+            output_variables=[SYNVARID],
+            input_columns=incols,
+            output_columns={table_name: list(supply_frames[table_name].columns)}
+        )
+        
+        supply_frames[table_name].add_event(self)
+        
+    def test(self, supply_frames, **kwargs):
+        #simple test to check the SYNID column exists
+        table_name = kwargs.get("df")
+        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        
+        if not table_name:
+            return False
+        
+        if SYNVARID in supply_frames[table_name].columns:
+            #check the null count is zero: #TODO ADD OTHER SUPPORTED BACKENDS
+            if supply_frames[table_name].df[SYNVARID].isnull().sum() > 0:
+                return False
+        else:
+            return False
 
 class UnionTables(TableTransform):
     """
