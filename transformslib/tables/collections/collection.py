@@ -479,3 +479,18 @@ class TableCollection:
         self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
 
         return self.ntables
+
+    def drop(self, strings: List[str]):
+        """
+        Drop the tables whose names are in the provided list.
+        
+        This method modifies the collection in place, removing any tables
+        that are specified in the input list.
+
+        Args:
+            strings (List[str]): List of table names to drop.
+        """
+        self.tables = [table for table in self.tables if table.table_name not in strings]
+        self.named_tables = {name: table for name, table in self.named_tables.items() if name not in strings}
+
+        return self.ntables
