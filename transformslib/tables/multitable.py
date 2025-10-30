@@ -584,7 +584,7 @@ class MultiTable:
                 dataframe.write.mode(mode).option("compression", "zstd").format(format).save(path)
             else:
                 dataframe.write.mode(mode).format(format).save(path)
-                
+
         elif frame_type == "pandas":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
@@ -592,6 +592,7 @@ class MultiTable:
                 dataframe.to_parquet(path, index=False, compression="zstd")
             else:
                 dataframe.to_parquet(path, index=False)
+        
         elif frame_type == "polars":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
