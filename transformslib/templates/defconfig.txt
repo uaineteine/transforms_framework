@@ -7,4 +7,5 @@ TNSFRMS_ID_VAR="PERSON_ID"
 TNSFRMS_IDMAPS_LOC="../test_tables/id_maps"
 TNSFRMS_JOB_PATH="../test_tables/jobs/prod/job_{job_id}/sampling_state.json"
 TNSFRMS_ID_MOD="id_mod"
+TNSFRMS_TAR_PART_SIZE=268435456
 HASH_METHOD_LOC="hash_keys"
