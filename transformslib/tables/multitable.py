@@ -570,12 +570,21 @@ class MultiTable:
         Write a DataFrame to a file in the specified format.
         """
         if frame_type == "pyspark":
+            if spark is None:
+                raise ValueError("SparkSession required for PySpark")
+            
+            target_size = os.environ.get("TNSFRMS_TAR_PART_SIZE", 1024*1024*256)  # Default to 256MB
+            spark.conf.set("spark.sql.files.maxPartitionBytes", target_size)  # TARGET SIZE
+
             mode = "overwrite" if overwrite else "error"
+
             print(f"Writing to {path} as {format} with mode={mode} (compression=zstd)")
+
             if format == "parquet":
                 dataframe.write.mode(mode).option("compression", "zstd").format(format).save(path)
             else:
                 dataframe.write.mode(mode).format(format).save(path)
+
         elif frame_type == "pandas":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")
@@ -583,6 +592,7 @@ class MultiTable:
                 dataframe.to_parquet(path, index=False, compression="zstd")
             else:
                 dataframe.to_parquet(path, index=False)
+        
         elif frame_type == "polars":
             if os.path.exists(path) and not overwrite:
                 raise FileExistsError(f"File {path} already exists and overwrite is False.")

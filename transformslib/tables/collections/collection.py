@@ -384,7 +384,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events()
 
-    def save_all(self, output_dir:str=None, spark=None):
+    def save_all(self, output_dir:str=None, tables:list[str]=[], spark=None):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -394,6 +394,8 @@ class TableCollection:
 
         Args:
             output_dir (str): The directory where all tables should be saved.
+            tables (list[str], optional): List of table names to save. If empty, saves all tables.
+            spark (SparkSession, optional): The Spark session to use for writing tables.
 
         Returns:
             None
@@ -416,7 +418,12 @@ class TableCollection:
         # Get the global transforms log location for logging write events
         transforms_log_path = transform_log_loc()
 
-        for table in self.tables:
+        #basically make a subcollection of tables to save if tables specified
+        save_list = self
+        if len(tables) > 0:
+            save_list = self.select_by_names(*tables)
+
+        for table in save_list.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
             output_path = str(Path(output_path))
             table.write(path=output_path, spark=spark)
@@ -453,4 +460,41 @@ class TableCollection:
             write_event.log()
         
         self.save_events()
-                
+    
+    def keep(self, strings: List[str]):
+        """
+        Keep only the tables whose names are in the provided list.
+        
+        This method modifies the collection in place, removing any tables
+        that are not specified in the input list.
+
+        Args:
+            strings (List[str]): List of table names to keep.
+        Returns:
+            int: The number of tables remaining in the collection after filtering.
+        Example:
+            >>> pt_collection.keep(["table1", "table_prefix_*"])
+        """
+        self.tables = self.select_by_names(*strings)
+        self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
+
+        print("Tables kept:", self.get_table_names())
+
+        return self.ntables
+
+    def drop(self, strings: List[str]):
+        """
+        Drop the tables whose names are in the provided list.
+        
+        This method modifies the collection in place, removing any tables
+        that are specified in the input list.
+
+        Args:
+            strings (List[str]): List of table names to drop.
+        """
+        self.tables = [table for table in self.tables if table.table_name not in strings]
+        self.named_tables = {name: table for name, table in self.named_tables.items() if name not in strings}
+
+        print("Tables dropped:", strings)
+
+        return self.ntables
