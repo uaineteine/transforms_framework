@@ -478,6 +478,8 @@ class TableCollection:
         self.tables = self.select_by_names(*strings)
         self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
 
+        print("Tables kept:", self.get_table_names())
+
         return self.ntables
 
     def drop(self, strings: List[str]):
@@ -492,5 +494,7 @@ class TableCollection:
         """
         self.tables = [table for table in self.tables if table.table_name not in strings]
         self.named_tables = {name: table for name, table in self.named_tables.items() if name not in strings}
+
+        print("Tables dropped:", strings)
 
         return self.ntables
