@@ -1,4 +1,5 @@
 from transformslib.tables.collections.collection import TableCollection
+from transformslib.transforms.pipeevent import PipelineEvent
 from .base import MacroTransform, printwidth
 from .atomiclib import *
 from adaptiveio import append_json_newline
@@ -72,7 +73,8 @@ class Macro:
             'macro_description': self.macros.event_description,
             'macro_type': self.macros.transform_type
         }
-        append_json_newline(json_info, self.macro_log_loc)
+        log_info = PipelineEvent("macro_log", json_info, event_description="the driver macro for atomic transforms", log_location=self.macro_log_loc)
+        log_info.log()
 
 ###### LIBRARY OF MACRO TRANSFORMS ######
 
