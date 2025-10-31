@@ -9,13 +9,13 @@ if __name__ == "__main__":
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transformslib.transforms import *
-    from transformslib import set_job_id
     from pyspark.sql.functions import col
-    from transformslib.tables.collections.supply_load import SupplyLoad
-    
     #tmp for test data
     from pyspark.sql.functions import to_date
+    
+    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.transforms import *
+    from transformslib import set_job_id, set_run_id
 
     # Create Spark session
     print("Creating Spark session")
