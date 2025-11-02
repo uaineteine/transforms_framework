@@ -17,9 +17,11 @@ if __name__ == "__main__":
     from transformslib.transforms import *
     from transformslib import set_job_id, set_run_id
 
+    appName = "TransformTest"
+
     # Create Spark session
     print("Creating Spark session")
-    spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
+    spark = SparkSession.builder.master("local").appName(appName).getOrCreate()
 
     # load pipeline tables
     job_id = 1
