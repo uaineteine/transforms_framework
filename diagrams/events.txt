@@ -1,0 +1,70 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Event{
+    event_type
+    event_description
+    __init__(self, event_type, event_payload, event_description, log_location)
+}
+
+class JSONLog{
+    uuid
+    log_info
+    persistent_uuid
+    timestamp
+    executed_user
+    log_exclusions
+    log_location
+    indent_depth
+    gen_new_uuid(self)
+    __init__(self, log_payload, log_location, indent_depth, persistent_uuid)
+    __repr__(self)
+    log(self)
+    class_type(self)
+}
+
+class TransformEvent{
+    input_tables
+    output_tables
+    input_variables
+    output_variables
+    created_variables
+    renamed_variables
+    removed_variables
+    num_input_frames
+    num_output_frames
+    __init__(self, input_tables, output_tables, input_variables, output_variables, created_variables, renamed_variables, removed_variables)
+}
+
+class PipelineEvent{
+    meta_version
+    __init__(self, event_type, event_payload, event_description, log_location)
+}
+
+JSONLog <|-- Event
+Event <|-- PipelineEvent
+
+note top of Event
+Specialised JSONLog event with type and optional description.
+end note
+
+note top of JSONLog
+Log events as JSON with a UUID, timestamp, and optional file output.
+end note
+
+note top of PipelineEvent
+Specialised event class for pipeline operations.
+
+Extends the base Event class to include pipeline-specific metadata. Useful for
+logging data pipeline steps like loading, transformations, and saves.
+
+Attributes:
+    event_type (str): The type of pipeline event (e.g., "load", "transform").
+    event_payload (str): A short message or payload describing the operation.
+    event_description (str): A detailed description of the operation.
+    class_type (str): Constant string identifying this event type.
+end note
+
+
+@enduml

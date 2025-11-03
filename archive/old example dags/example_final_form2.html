@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Visualization Dashboard</title>
+    <style>
+        /* Base styles for a clean layout, replicating Tailwind's defaults */
+        :root {
+            --bg-gray-100: #f3f4f6;
+            --indigo-700: #4338ca;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-400: #9ca3af;
+            --slate-100: #f1f5f9;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: sans-serif; /* Fallback for no external fonts */
+            background-color: var(--bg-gray-100);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Top Banner & Header styles */
+        .header {
+            background-color: var(--indigo-700);
+            color: var(--white);
+            padding: 1rem; /* p-4 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (min-width: 640px) {
+            .header {
+                padding: 1.5rem; /* sm:p-6 */
+            }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            text-align: right;
+            gap: 1rem; /* space-x-4 */
+        }
+
+        .header-title-box {
+            padding: 0.5rem;
+            background-color: var(--indigo-800);
+            border-radius: 0.5rem;
+        }
+
+        .header-title {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700;
+            letter-spacing: -0.025em; /* tracking-tight */
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.5), -2px -2px 3px rgba(255,255,255,0.2); /* text-bevel */
+        }
+
+        @media (min-width: 640px) {
+            .header-title {
+                font-size: 1.875rem; /* sm:text-3xl */
+            }
+        }
+
+        /* Header Info Styles */
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 0.875rem; /* text-sm */
+            opacity: 0.8;
+            gap: 0.25rem;
+        }
+
+        .separator {
+            background-color: rgba(255, 255, 255, 0.2);
+            height: 2rem;
+            width: 1px;
+            border-radius: 9999px;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        /* Main content area (Graph and Side Panel) */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem; /* p-4 */
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                flex-direction: row;
+                padding: 1.5rem; /* sm:p-6 */
+            }
+        }
+
+        /* Graph Container styles */
+        .graph-panel {
+            position: relative;
+            background-color: var(--white);
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            flex: 1;
+            margin-bottom: 1rem; /* mb-4 */
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .graph-panel {
+                margin-bottom: 0;
+                margin-right: 1.5rem; /* md:mr-6 */
+            }
+        }
+
+        #network-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Right Side Info Panel styles */
+        .info-panel {
+            background-color: var(--white);
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            padding: 1rem; /* p-4 */
+            width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        @media (min-width: 640px) {
+            .info-panel {
+                padding: 1.5rem; /* sm:p-6 */
+            }
+        }
+
+        @media (min-width: 768px) {
+            .info-panel {
+                width: 20rem; /* w-80 */
+            }
+        }
+        
+        /* Custom scrollbar for better aesthetics */
+        .info-panel-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-track {
+            background: var(--slate-100);
+            border-radius: 10px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-thumb {
+            background: var(--slate-300);
+            border-radius: 10px;
+        }
+        .info-panel-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--slate-400);
+        }
+
+        /* Selected Item Details styles */
+        .details-title {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        
+        .details-content {
+            font-size: 0.875rem; /* text-sm */
+            color: var(--gray-700);
+            line-height: 1.625; /* leading-relaxed */
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full overflow-hidden">
+
+    <!-- Top Banner & Header -->
+    <header class="header">
+        <div class="flex-1">
+            <h1 class="header-title">Network Graph</h1>
+        </div>
+        <div class="header-content">
+            <p id="datasetName" class="font-medium text-lg">Dataset: My Data</p>
+            <div class="separator"></div>
+            <div id="runtimeInfo" class="header-info">
+                <p><span class="font-medium">Last Updated:</span> <span id="lastUpdated">N/A</span></p>
+                <p><span class="font-medium">Nodes:</span> <span id="nodeCount">N/A</span></p>
+                <p><span class="font-medium">Edges:</span> <span id="edgeCount">N/A</span></p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area (Graph and Side Panel) -->
+    <main class="main-container">
+
+        <!-- Graph Container -->
+        <div id="graph-panel" class="graph-panel">
+            <div id="network-container">
+                <!--
+                    ========================================================================================
+                    PASTE YOUR PYVIS GRAPH HTML CODE HERE.
+                    Ensure that the `div` for your graph has an ID, e.g., <div id="mynetwork"></div>.
+                    If your pyvis graph has `height` and `width` attributes, they should be set to 100%
+                    for the best fit within this container.
+
+                    Example:
+                    <div id="mynetwork" style="height: 100%; width: 100%;"></div>
+                    ========================================================================================
+                -->
+                <p class="text-center text-gray-400 text-lg">
+                    Paste your pyvis graph HTML here to see it render.
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side Info Panel -->
+        <aside id="info-panel" class="info-panel info-panel-scroll">
+            
+            <!-- Selected Item Details -->
+            <div>
+                <h2 class="details-title">Selected Item Details</h2>
+                <div id="selected-info" class="details-content">
+                    <p>Select a node or edge in the graph to see its details here.</p>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        // Use this script block to handle any custom logic.
+        // For example, updating the runtime information.
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update runtime information on page load
+            const now = new Date();
+            document.getElementById('lastUpdated').innerText = now.toLocaleString();
+            
+            // You can dynamically get these values from your pyvis code.
+            // For now, these are mock values.
+            document.getElementById('nodeCount').innerText = 'N/A';
+            document.getElementById('edgeCount').innerText = 'N/A';
+
+            // ========================================================================================
+            // INTEGRATION WITH PYVIS
+            //
+            // To make the info panel interactive, you need to connect this template's
+            // JavaScript to the `pyvis` graph's events.
+            //
+            // pyvis graphs (using the vis.js library) have a `network` object. You can add a
+            // listener to its `selectNode` or `selectEdge` events to update the right panel.
+            //
+            // Example of how you would connect the two (assuming your pyvis network is in a variable called `network`):
+            //
+            // network.on("selectNode", function (params) {
+            //     if (params.nodes.length > 0) {
+            //         const selectedNodeId = params.nodes[0];
+            //         // Get the node data from your pyvis `nodes` object
+            //         const nodeData = network.body.data.nodes.get(selectedNodeId);
+            //
+            //         // Update the details panel with the selected node's information
+            //         document.getElementById('selected-info').innerHTML = `
+            //             <div class="space-y-2">
+            //                 <p><span class="font-medium">Node ID:</span> ${nodeData.id}</p>
+            //                 <p><span class="font-medium">Label:</span> ${nodeData.label}</p>
+            //                 <p><span class="font-medium">Category:</span> ${nodeData.group || 'N/A'}</p>
+            //                 <!-- Add more properties as needed -->
+            //             </div>
+            //         `;
+            //     }
+            // });
+            // ========================================================================================
+        });
+    </script>
+</body>
+</html>

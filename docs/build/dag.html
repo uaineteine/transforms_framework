@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dag &mdash; Metadata Integration Framework 2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=cb975c41"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tables" href="tables.html" />
+    <link rel="prev" title="Metadata Transformations Framework" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Metadata Integration Framework
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">dag</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.dag.dag">transformslib.dag.dag</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.build_dag"><code class="docutils literal notranslate"><span class="pre">build_dag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.build_di_graph"><code class="docutils literal notranslate"><span class="pre">build_di_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.calculate_total_runtime"><code class="docutils literal notranslate"><span class="pre">calculate_total_runtime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.output_loc"><code class="docutils literal notranslate"><span class="pre">output_loc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.render_dag"><code class="docutils literal notranslate"><span class="pre">render_dag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.set_default_network_options"><code class="docutils literal notranslate"><span class="pre">set_default_network_options()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.dag.webcanvas">transformslib.dag.webcanvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.webcanvas.generate_css"><code class="docutils literal notranslate"><span class="pre">generate_css()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tables.html">tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">transforms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Metadata Integration Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">dag</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dag.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dag">
+<h1>dag<a class="headerlink" href="#dag" title="Link to this heading"></a></h1>
+<section id="module-transformslib.dag.dag">
+<span id="transformslib-dag-dag"></span><h2>transformslib.dag.dag<a class="headerlink" href="#module-transformslib.dag.dag" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.build_dag">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">build_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">900</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.dag.dag.build_dag" title="Link to this definition"></a></dt>
+<dd><p>Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>job_id (int): Job identifier.
+run_id (int): Run identifier.
+height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., “100%”).</p>
+</dd>
+<dt>Returns:</dt><dd><p>An HTML string of the dag</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.build_di_graph">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">build_di_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DiGraph</span></span></span><a class="headerlink" href="#transformslib.dag.dag.build_di_graph" title="Link to this definition"></a></dt>
+<dd><p>From a list of json logs of transforms, produce a directed graph</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.calculate_total_runtime">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">calculate_total_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%Y-%m-%dT%H:%M:%S'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#transformslib.dag.dag.calculate_total_runtime" title="Link to this definition"></a></dt>
+<dd><p>Calculate total runtime from a list of timestamp strings.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>job_id (int): Job ID
+run_id (int): Run ID
+height (int|float|str, optional): Height of the graph. If int/float: interpreted as pixels. If str: passed directly (e.g., “100%”).</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.output_loc">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">output_loc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.dag.dag.output_loc" title="Link to this definition"></a></dt>
+<dd><p>Function to return a transforms report output location</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.render_dag">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">render_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">900</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.dag.dag.render_dag" title="Link to this definition"></a></dt>
+<dd><p>Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms. Saves this to file defined by the output_loc function.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>job_id (int): Job identifier.
+run_id (int): Run identifier.
+height (int|float|str, optional): Height in pixels (int/float) or a CSS string (e.g., “100%”).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.set_default_network_options">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">set_default_network_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Network</span></span></span><a class="headerlink" href="#transformslib.dag.dag.set_default_network_options" title="Link to this definition"></a></dt>
+<dd><p>Apply default PyVis network options with hierarchical tree layout.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>net (Network): The PyVis Network instance.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Network: The same network instance with options applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-transformslib.dag.webcanvas">
+<span id="transformslib-dag-webcanvas"></span><h2>transformslib.dag.webcanvas<a class="headerlink" href="#module-transformslib.dag.webcanvas" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.webcanvas.generate_css">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.webcanvas.</span></span><span class="sig-name descname"><span class="pre">generate_css</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.dag.webcanvas.generate_css" title="Link to this definition"></a></dt>
+<dd><p>Load CSS content from the mapping package.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>css_filename: Name of the CSS file (e.g., ‘webcanvas.css’)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Content of the CSS file as a string</p>
+</dd>
+<dt>Raises:</dt><dd><p>FileNotFoundError: If the CSS file doesn’t exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Metadata Transformations Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tables.html" class="btn btn-neutral float-right" title="tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright None.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

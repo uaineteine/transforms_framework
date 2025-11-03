@@ -1,0 +1,15 @@
+polars
+pandas
+pyspark
+sas-to-polars
+sparkpolars
+deltalake
+delta-spark
+pyvis
+networkx
+naming-standards>=1.0.0
+adaptiveio>=1.0.0
+hash_method>=2.0.2
+transforms_events>=1.0.0
+conclib>=2.0.1
+rkeylib>=2.0.1
