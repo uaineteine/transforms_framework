@@ -1,0 +1,310 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class DropVariable{
+    log_info
+    deleted_variables
+    target_tables
+    __init__(self, variables_to_drop)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class SubsetTable{
+    log_info
+    target_tables
+    __init__(self, variables_to_keep)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class DistinctTable{
+    target_tables
+    log_info
+    __init__(self)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+}
+
+class RenameTable{
+    rename_map
+    new_names
+    target_tables
+    log_info
+    __init__(self, rename_map)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class ComplexFilter{
+    condition_map
+    backend
+    condition_string
+    log_info
+    target_tables
+    __init__(self, condition_map)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+}
+
+class JoinTable{
+    left_table
+    right_table
+    join_columns
+    join_type
+    suffixes
+    target_tables
+    log_info
+    __init__(self, left_table, right_table, join_columns, join_type, suffixes)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class PartitionByValue{
+    partition_column
+    suffix_format
+    log_info
+    target_tables
+    __init__(self, partition_column, suffix_format)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class SimpleFilter{
+    column
+    op
+    value
+    log_info
+    target_tables
+    __init__(self, column, op, value)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    _polars_op(self)
+}
+
+class ConcatColumns{
+    separator
+    target_tables
+    log_info
+    __init__(self, variables_to_concat, sep)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class ReplaceByCondition{
+    column
+    op
+    value
+    replacement
+    log_info
+    target_tables
+    __init__(self, column, op, value, replacement)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class ExplodeColumn{
+    column
+    sep
+    outer
+    log_info
+    target_tables
+    __init__(self, column, sep, outer)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class DropNAValues{
+    column
+    log_info
+    target_tables
+    __init__(self, column)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+    test(self, supply_frames)
+}
+
+class Transform{
+    name
+    transform_type
+    testable_transform
+    version_pyspark
+    version_polars
+    version_pandas
+    version_python
+    params
+    __init__(self, name, description, transform_type, testable_transform)
+    transforms(self, supply_frames)
+    error_check(self, supply_frames)
+    test(self, supply_frames)
+    __call__(self, supply_frames)
+    apply(self, supply_frames)
+}
+
+class TableTransform{
+    target_variables
+    transform_id
+    target_tables
+    log_info
+    update_target_variables(self, acts_on_variables)
+    __init__(self, name, description, acts_on_variables, transform_id, testable_transform)
+    nvars(self)
+    vars(self)
+}
+
+class MacroTransform{
+    transforms
+    __init__(self, transforms, Name, Description, macro_id)
+    error_check(self, supply_frames)
+    transforms(self, supply_frames)
+}
+
+class Macro{
+    macros
+    input_tables
+    output_tables
+    input_variables
+    output_variables
+    macro_log_loc
+    __init__(self, macro_transform, input_tables, output_tables, input_variables, output_variables)
+    apply(self)
+    log(self)
+}
+
+class TopBottomCode{
+    __init__(self, input_tables, input_variables, max_value, min_value)
+}
+
+TableTransform <|-- DropVariable
+TableTransform <|-- SubsetTable
+TableTransform <|-- DistinctTable
+TableTransform <|-- RenameTable
+TableTransform <|-- ComplexFilter
+TableTransform <|-- JoinTable
+TableTransform <|-- PartitionByValue
+TableTransform <|-- SimpleFilter
+TableTransform <|-- ConcatColumns
+TableTransform <|-- ReplaceByCondition
+TableTransform <|-- ExplodeColumn
+TableTransform <|-- DropNAValues
+PipelineEvent <|-- Transform
+Transform <|-- TableTransform
+Transform <|-- MacroTransform
+Macro <|-- TopBottomCode
+
+note top of DropVariable
+Transform class for removing one or more variables/columns from a DataFrame.
+end note
+
+note top of SubsetTable
+Transform class for subsetting a DataFrame to retain only specified columns.
+end note
+
+note top of DistinctTable
+Transform class for removing duplicate rows from a DataFrame.
+end note
+
+note top of RenameTable
+Transform class for renaming columns in a DataFrame.
+end note
+
+note top of ComplexFilter
+Transform class for filtering rows in a DataFrame using a backend-specific condition.
+end note
+
+note top of JoinTable
+Transform class for joining two tables in a TableCollection.
+end note
+
+note top of PartitionByValue
+Transform class for partitioning a DataFrame into multiple tables 
+based on unique values of a specified column.
+end note
+
+note top of SimpleFilter
+Transform class for filtering rows in a DataFrame using a simple column comparison.
+end note
+
+note top of ConcatColumns
+Transform class for concatenating multiple columns into a single column.
+end note
+
+note top of ReplaceByCondition
+Transform class for replacing values in a column based on a comparison condition.
+end note
+
+note top of ExplodeColumn
+Transform class for exploding a list-like column into multiple rows.
+end note
+
+note top of DropNAValues
+Transform class for dropping rows with NA/None/Null values in a specified column.
+end note
+
+note top of Transform
+Base class for data transformation operations with automatic event logging.
+
+This class provides the foundation for implementing data transformations in the pipeline.
+It extends PipelineEvent to automatically log transformation operations and provides
+a consistent interface for applying transformations to MetaFrame objects.
+
+Attributes:
+    name (str): The name of the transformation.
+    transform_type (str): The type/category of the transformation.
+    
+Example:
+    >>> class MyTransform(Transform):
+    ...     def __init__(self):
+    ...         super().__init__("MyTransform", "Custom transformation", "custom")
+    ...     
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         # Implementation here
+    ...         return transformed_df
+    >>> 
+    >>> transform = MyTransform()
+    >>> result = transform(supply_loader, df1="customers", df2="orders")  # Automatically logs the transformation
+end note
+
+note top of TableTransform
+Specialised transform class for operations that act on specific table variables.
+
+This class extends Transform to provide variable-level tracking and management
+for transformations that operate on specific columns or variables within a table.
+It maintains lists of target variables and tracks changes made during transformation.
+
+Attributes:
+    target_variables (list[str]): List of variables that the transform operates on.
+    target_tables (list): List of target tables (currently unused).
+    created_variables (list): Variables created by the transformation.
+    renamed_variables (list): Variables renamed by the transformation.
+    deleted_variables (list): Variables deleted by the transformation.
+    hashed_variables (list): Variables that were hashed during transformation.
+    
+Example:
+    >>> class ColumnFilter(TableTransform):
+    ...     def __init__(self, columns):
+    ...         super().__init__("ColumnFilter", "Filter specific columns", columns)
+    ...     
+    ...     def transforms(self, supply_frames, **kwargs):
+    ...         df = supply_frames[kwargs.get('df')]
+    ...         return df.select(self.target_variables)
+    >>> 
+    >>> filter_transform = ColumnFilter(["col1", "col2"])
+    >>> result = filter_transform(supply_loader, df="table_name")
+end note
+
+note top of MacroTransform
+A transform that applies multiple atomic transforms in sequence.
+end note
+
+
+@enduml
