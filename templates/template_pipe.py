@@ -14,8 +14,11 @@ if __name__ == "__main__":
     from pyspark.sql.functions import to_date
     
     from transformslib.tables.collections.supply_load import SupplyLoad
-    from transformslib.transforms import *
-    from transformslib import set_job_id, set_run_id
+    from transformslib.transforms.atomiclib import *
+    from transformslib.transforms.macrolib import *
+    from transformslib import set_job_id, set_default_variables
+
+    set_default_variables()
 
     appName = "TransformTest"
 
