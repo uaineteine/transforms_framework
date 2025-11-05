@@ -1,7 +1,10 @@
 from .pipeevent import TransformEvent, PipelineEvent
-from transformslib.tables.collections.collection import TableCollection
-from transformslib.tables.collections.supply_load import SupplyLoad
 from naming_standards import ColList, Colname
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from transformslib.tables.collections.collection import TableCollection
+    from transformslib.tables.collections.supply_load import SupplyLoad
 
 import os
 import uuid
@@ -68,7 +71,7 @@ class Transform(PipelineEvent):
 
         self.params = []
     
-    def transforms(self, supply_frames: SupplyLoad, **kwargs) -> TableCollection:
+    def transforms(self, supply_frames: "SupplyLoad", **kwargs) -> "TableCollection":
         """
         Abstract method that must be implemented by subclasses.
         
@@ -96,7 +99,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def error_check(self, supply_frames: SupplyLoad, **kwargs):
+    def error_check(self, supply_frames: "SupplyLoad", **kwargs):
         """
         Abstract method for error checking before transformation.
         
@@ -121,7 +124,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def test(self, supply_frames: SupplyLoad, **kwargs) -> bool:
+    def test(self, supply_frames: "SupplyLoad", **kwargs) -> bool:
         """
         Test method for validating transformation results.
         
@@ -145,7 +148,7 @@ class Transform(PipelineEvent):
         raise NotImplementedError("Child classes to override this method")
         return True  # Default implementation always passes
     
-    def __call__(self, supply_frames: SupplyLoad, **kwargs):
+    def apply(self, supply_frames: "SupplyLoad", **kwargs):
         """
         Call the transformation function with the provided supply frames and keyword arguments.
         
@@ -199,7 +202,7 @@ class Transform(PipelineEvent):
                 columns[table_name] = list(supply_frames[table_name].columns)
         return columns
 
-    def apply(self, supply_frames: SupplyLoad, **kwargs):
+    def apply(self, supply_frames: "SupplyLoad", **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
         

@@ -1,4 +1,4 @@
-from typing import List, Union, Dict, Callable
+from typing import List, Union, Dict, Callable, TYPE_CHECKING
 import inspect
 import sys
 import os
@@ -8,7 +8,9 @@ from conclib import load_ent_map
 
 from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
-from transformslib.tables.collections.collection import TableCollection
+
+if TYPE_CHECKING:
+    from transformslib.tables.collections.collection import TableCollection
 
 from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, round as spark_round
 
@@ -42,7 +44,7 @@ class DropVariable(TableTransform):
             testable_transform=True
         )
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that all variables to drop exist in the DataFrame.
         """
@@ -54,7 +56,7 @@ class DropVariable(TableTransform):
         if missing_vars:
             raise ValueError(f"Variables not found in DataFrame columns: {missing_vars}")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Remove the specified variables from the DataFrame.
         """
@@ -83,7 +85,7 @@ class DropVariable(TableTransform):
 
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that the variables were successfully removed from the DataFrame.
         """
@@ -115,7 +117,7 @@ class SubsetTable(TableTransform):
 
         print(self.target_variables)
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that all variables to keep exist in the DataFrame.
         """
@@ -127,7 +129,7 @@ class SubsetTable(TableTransform):
         if missing_vars:
             raise ValueError(f"Variables not found in DataFrame columns: {missing_vars}")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Subset the DataFrame to retain only the specified variables.
         """
@@ -158,7 +160,7 @@ class SubsetTable(TableTransform):
 
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that only the specified variables remain in the DataFrame.
         """
@@ -186,7 +188,7 @@ class DistinctTable(TableTransform):
             testable_transform=False,
         )
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Ensure the DataFrame exists and has at least one column and one row.
         """
@@ -200,7 +202,7 @@ class DistinctTable(TableTransform):
         if df.nrow < 1:
             raise ValueError("DataFrame must have at least one row to apply distinct()")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Apply distinct to the DataFrame (all columns).
         """
@@ -249,7 +251,7 @@ class RenameTable(TableTransform):
         self.rename_map = rename_map
         self.new_names = list(rename_map.values())
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that all columns to rename exist in the DataFrame.
         """
@@ -261,7 +263,7 @@ class RenameTable(TableTransform):
         if missing_vars:
             raise ValueError(f"Columns to rename not found in DataFrame: {missing_vars}")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Rename the specified columns in the DataFrame.
         """
@@ -288,7 +290,7 @@ class RenameTable(TableTransform):
 
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that the columns have been renamed correctly.
         """
@@ -322,13 +324,13 @@ class ComplexFilter(TableTransform):
 
         self.condition_map = condition_map
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Skip error checking — assume condition is valid.
         """
         return True
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Apply the filter condition to the DataFrame.
         """
@@ -408,7 +410,7 @@ class JoinTable(TableTransform):
         self.join_type = join_type
         self.suffixes = suffixes
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that both tables exist, have >0 rows, and join columns exist.
         """
@@ -421,7 +423,7 @@ class JoinTable(TableTransform):
             if missing:
                 raise ValueError(f"Columns {missing} not found in table '{tbl}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Join the two tables and store the result in a new table.
         """
@@ -501,7 +503,7 @@ class JoinTable(TableTransform):
 
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that the joined table exists and has expected columns.
         """
@@ -541,7 +543,7 @@ class PartitionByValue(TableTransform):
         self.partition_column = partition_column
         self.suffix_format = suffix_format
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the partition column exists in the DataFrame.
         """
@@ -552,7 +554,7 @@ class PartitionByValue(TableTransform):
         if self.partition_column not in supply_frames[table_name].columns:
             raise ValueError(f"Partition column '{self.partition_column}' not found in DataFrame '{table_name}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Partition the DataFrame into multiple subtables based on unique values.
         """
@@ -625,7 +627,7 @@ class PartitionByValue(TableTransform):
         self.target_tables = output_tables
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that all partitioned tables were created and contain the correct values.
         """
@@ -664,7 +666,7 @@ class SimpleFilter(TableTransform):
         self.op = op
         self.value = value
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the column exists in the DataFrame.
         """
@@ -674,7 +676,7 @@ class SimpleFilter(TableTransform):
         if self.column not in supply_frames[table_name].columns:
             raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Filter the DataFrame using the specified column, operator, and value.
         """
@@ -778,7 +780,7 @@ class ConcatColumns(TableTransform):
 
         self.separator = sep
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Ensure the DataFrame exists, the specified columns exist, and the output column name is provided.
         """
@@ -797,7 +799,7 @@ class ConcatColumns(TableTransform):
         if missing_cols:
             raise ValueError(f"Columns not found in DataFrame: {missing_cols}")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Concatenate the specified columns into a new column in-place using MultiTable.concat().
         """
@@ -830,7 +832,7 @@ class ConcatColumns(TableTransform):
 
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that the concatenated column was created in the target MultiTable.
         """
@@ -877,7 +879,7 @@ class ReplaceByCondition(TableTransform):
         self.value = value
         self.replacement = replacement
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the column exists in the DataFrame and operator is supported.
         """
@@ -891,7 +893,7 @@ class ReplaceByCondition(TableTransform):
         if self.op not in ["==", "!=", ">", "<", ">=", "<="]:
             raise ValueError(f"Unsupported operator '{self.op}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Replace values in the column based on the condition.
         """
@@ -962,7 +964,7 @@ class ReplaceByCondition(TableTransform):
         self.target_tables = [table_name]
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that no values matching the condition remain in the column.
         """
@@ -1036,7 +1038,7 @@ class ExplodeColumn(TableTransform):
         self.sep = sep
         self.outer = outer
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists in the DataFrame.
         """
@@ -1047,7 +1049,7 @@ class ExplodeColumn(TableTransform):
         if self.column not in supply_frames[table_name].columns:
             raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'. Have you made a typo or are you not using capitalised header names?")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Apply explode on the specified column using MultiTable.explode().
         """
@@ -1075,7 +1077,7 @@ class ExplodeColumn(TableTransform):
         self.target_tables = [table_name]
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Simple test: ensure column still exists after explode.
         """
@@ -1105,7 +1107,7 @@ class DropNAValues(TableTransform):
         )
         self.column = column
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists in the DataFrame.
         """
@@ -1116,7 +1118,7 @@ class DropNAValues(TableTransform):
         if self.column not in supply_frames[table_name].columns:
             raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Drop rows with NA values in the specified column.
         """
@@ -1153,7 +1155,7 @@ class DropNAValues(TableTransform):
         self.target_tables = [table_name]
         return supply_frames
 
-    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
         """
         Test that no NA values remain in the target column.
         """
@@ -1192,7 +1194,7 @@ class TrimWhitespace(TableTransform):
         )
         self.column = column
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists and is of string type.
         """
@@ -1214,7 +1216,7 @@ class TrimWhitespace(TableTransform):
             if supply_frames[table_name].dtypes[self.column] != 'StringType()':
                 raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Trim leading and trailing whitespace in the specified column.
         """
@@ -1274,7 +1276,7 @@ class ForceCase(TableTransform):
         self.column = column
         self.case = case
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists and is of string type.
         """
@@ -1295,7 +1297,7 @@ class ForceCase(TableTransform):
             if supply_frames[table_name].dtypes[self.column] != 'StringType()':
                 raise TypeError(f"Column '{self.column}' must be of string type in pyspark")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Force case in the specified column.
         """
@@ -1365,7 +1367,7 @@ class TruncateDate(TableTransform):
         self.column = column
         self.level = level
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists and is of datetime type.
         """
@@ -1389,7 +1391,7 @@ class TruncateDate(TableTransform):
             if supply_frames[table_name].dtypes[self.column] not in {'TimestampType()', 'DateType()'}:
                 raise TypeError(f"Column '{self.column}' must be of date or timestamp type in pyspark")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Truncate the date column to the specified level.
         """
@@ -1459,7 +1461,7 @@ class RoundNumber(TableTransform):
         self.column = column
         self.decimals = decimals
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target column exists and is numeric.
         """
@@ -1483,7 +1485,7 @@ class RoundNumber(TableTransform):
             if supply_frames[table_name].dtypes[self.column] not in {'DoubleType()', 'FloatType()', 'IntegerType()', 'LongType()', 'DecimalType()'}:
                 raise TypeError(f"Column '{self.column}' must be numeric in pyspark")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Round the numeric column to the specified number of decimal places.
         """
@@ -1542,7 +1544,7 @@ class HashColumns(TableTransform):
         self.columns = columns
         self.hash_method = hash_method
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target columns exist in the table. Validate no columns are actually dates or something incompatible with hashing.
         """
@@ -1639,7 +1641,7 @@ class SortTable(TableTransform):
         self.by = by
         self.ascending = ascending
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that the target columns exist in the table.
         """
@@ -1656,7 +1658,7 @@ class SortTable(TableTransform):
         if missing:
             raise ValueError(f"Columns {missing} not found in DataFrame '{table_name}'")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Sort the table using MultiTable.sort().
         """
@@ -1777,7 +1779,7 @@ class UnionTables(TableTransform):
         self.right_table = right_table
         self.union_all = union_all
 
-    def error_check(self, supply_frames: TableCollection, **kwargs):
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that both tables exist and have matching schemas.
         """
@@ -1790,7 +1792,7 @@ class UnionTables(TableTransform):
         if left_cols != right_cols:
             raise ValueError("Schemas do not match for union operation")
 
-    def transforms(self, supply_frames: TableCollection, **kwargs):
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
         Perform the union operation.
         """

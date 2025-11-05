@@ -7,7 +7,10 @@ if __name__ == "__main__":
     parent_dir = os.path.join(current_dir, '..')
     sys.path.append(os.path.abspath(parent_dir))
 
-    from transformslib import dag, set_job_id, set_run_id
+    from transformslib import dag, set_job_id, set_run_id, set_default_variables
+    
+    set_default_variables()
     set_job_id(1)
     set_run_id(1)
+    
     dag.render_dag()

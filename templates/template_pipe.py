@@ -9,17 +9,22 @@ if __name__ == "__main__":
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
-    from transformslib.transforms import *
-    from transformslib import set_job_id
     from pyspark.sql.functions import col
-    from transformslib.tables.collections.supply_load import SupplyLoad
-    
     #tmp for test data
     from pyspark.sql.functions import to_date
+    
+    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.transforms.atomiclib import *
+    from transformslib.transforms.macrolib import *
+    from transformslib import set_job_id, set_default_variables
+
+    set_default_variables()
+
+    appName = "TransformTest"
 
     # Create Spark session
     print("Creating Spark session")
-    spark = SparkSession.builder.master("local").appName("TransformTest").getOrCreate()
+    spark = SparkSession.builder.master("local").appName(appName).getOrCreate()
 
     # load pipeline tables
     job_id = 1
@@ -269,4 +274,6 @@ if __name__ == "__main__":
     supply_frames["super_table"].show()
 
     # save table output tables
-    supply_frames.save_all(spark=spark)
+
+    #keep onyl salary tables
+    supply_frames.save_all(tables=["salary*"], spark=spark)

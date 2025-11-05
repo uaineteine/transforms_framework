@@ -1,8 +1,12 @@
-from transformslib.tables.collections.collection import TableCollection
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from transformslib.tables.collections.collection import TableCollection
+
+from transformslib.transforms.pipeevent import PipelineEvent
 from .base import MacroTransform, printwidth
 from .atomiclib import *
 from adaptiveio import append_json_newline
-from typing import Union
 import os
 
 #get this from environment variable
@@ -31,7 +35,7 @@ class Macro:
 
     def __init__(self,
                  macro_transform: MacroTransform,
-                 input_tables: TableCollection,
+                 input_tables: "TableCollection",
                  output_tables: list[str],
                  input_variables: list[str],
                  output_variables: list[str]):
@@ -72,7 +76,8 @@ class Macro:
             'macro_description': self.macros.event_description,
             'macro_type': self.macros.transform_type
         }
-        append_json_newline(json_info, self.macro_log_loc)
+        log_info = PipelineEvent("macro_log", json_info, event_description="the driver macro for atomic transforms", log_location=self.macro_log_loc)
+        log_info.log()
 
 ###### LIBRARY OF MACRO TRANSFORMS ######
 
@@ -92,7 +97,7 @@ class TopBottomCode(Macro):
     """
 
     def __init__(self,
-                 input_tables: TableCollection,
+                 input_tables: "TableCollection",
                  input_variables: list[str],
                  max_value: Union[int, float],
                  min_value: Union[int, float]):
@@ -144,7 +149,7 @@ class ConcatenateIDs(Macro):
     """
 
     def __init__(self,
-                 input_tables: TableCollection,
+                 input_tables: "TableCollection",
                  input_columns: list[str],
                  output_column: str):
         if len(input_columns) != 2:
@@ -182,7 +187,7 @@ class DropMissingIDs(Macro):
     """
 
     def __init__(self,
-                 input_tables: TableCollection):
+                 input_tables: "TableCollection"):
         # Create the DropNAValues transform targeting the synthetic variable
         drop_transform = DropNAValues(
             column=SYNTHETIC_VAR
