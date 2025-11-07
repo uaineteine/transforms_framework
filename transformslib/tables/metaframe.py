@@ -65,8 +65,8 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
-        
-        outpth = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+
+        outpth = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
         dn = os.path.dirname(outpth)
         self.log_path = f"{dn}/table_specific/{self.table_name}_events.json"
 

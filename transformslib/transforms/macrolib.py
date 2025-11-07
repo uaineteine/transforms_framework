@@ -45,7 +45,7 @@ class Macro:
         self.input_variables = input_variables
         self.output_variables = output_variables
         # Use default log location
-        self.macro_log_loc = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        self.macro_log_loc = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
 
     def apply(self, **kwargs):
         """
