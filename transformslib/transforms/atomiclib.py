@@ -1712,8 +1712,10 @@ class AttachSynID(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
         
+        #if not using pyspark raise an error
         if backend != "pyspark":
             raise NotImplementedError(f"AttachSynID not implemented for backend '{backend}'")
+        
         
         entmap = load_ent_map(spark=kwargs.get("spark"))
         
