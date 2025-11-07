@@ -36,7 +36,7 @@ def output_loc() -> str:
     """Function to return a transforms report output location"""
 
     job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
-    run_id = 1  # Placeholder; modify as needed to get actual run ID
+    run_id = os.environ.get("TNSFRMS_RUN_ID", "unknown")
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
     return os.path.join("transform_dags", report_name)
 
