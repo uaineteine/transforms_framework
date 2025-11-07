@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # load pipeline tables
     job_id = 1
     run_id = 1
-    set_job_id(job_id, new_run_id=run_id)
+    set_job_id(job_id, new_run_id=run_id, mode="prod")
     
     supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
