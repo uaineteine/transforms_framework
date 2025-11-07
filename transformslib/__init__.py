@@ -182,7 +182,7 @@ def set_variables_from_dicts(var_dicts: list[str]) -> int:
     
     return count
 
-def set_job_id(new_job_id: Union[int, str], new_run_id: Union[int, str]=None):
+def set_job_id(new_job_id: Union[int, str], new_run_id: Union[int, str]=None, mode: str="prod"):
     """
     Sets the job ID in the environment variable TNSFRMS_JOB_ID.
 
@@ -205,6 +205,9 @@ def set_job_id(new_job_id: Union[int, str], new_run_id: Union[int, str]=None):
     if(new_run_id != None):
         set_run_id(new_run_id)
 
+    #set the prod/test mode
+    set_prodtest_mode(mode)
+
 def set_run_id(new_run_id: Union[int, str]):
     """
     Sets the run ID in the environment variable TNSFRMS_RUN_ID.
@@ -222,3 +225,15 @@ def set_run_id(new_run_id: Union[int, str]):
         os.environ["TNSFRMS_RUN_ID"] = new_run_id
     else:
         raise ValueError("Run ID must be an integer or string.")
+
+def set_prodtest_mode(mode: str):
+    """
+    Sets the production/test mode in the environment variable TNSFRMS_PROD.
+
+    Args:
+        mode (str): The mode to set, either 'prod' or 'test'.
+    """
+    if mode not in ["prod", "test"]:
+        raise ValueError("Mode must be either 'prod' or 'test'.")
+    os.environ["TNSFRMS_PROD"] = mode
+    print("Production/Test mode set to:", mode)
