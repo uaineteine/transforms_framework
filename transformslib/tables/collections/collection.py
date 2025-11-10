@@ -412,6 +412,7 @@ class TableCollection:
 
         job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown_job")
         output_dir = output_dir.replace("{job_id}", job_id)
+        output_dir = output_dir.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
 
         os.makedirs(output_dir, exist_ok=True)
 

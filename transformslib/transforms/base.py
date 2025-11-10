@@ -57,7 +57,7 @@ class Transform(PipelineEvent):
             >>> print(transform.transform_type)  # "cleaning"
         """
         path = os.environ.get("TNSFRMS_LOG_LOC", "")
-        ll = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        ll = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
         super().__init__("transform", None, event_description=description, log_location=ll, macro_uuid=macro_uuid)
         self.name = name  # Set name manually
         self.transform_type = transform_type

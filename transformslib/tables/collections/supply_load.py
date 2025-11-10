@@ -23,6 +23,7 @@ def get_supply_file() -> str:
     job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
     #format the path for job_id
     path = base_path.replace("{job_id}", str(job_id))
+    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
     
     print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
     return path

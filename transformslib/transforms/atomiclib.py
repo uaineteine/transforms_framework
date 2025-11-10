@@ -1712,17 +1712,28 @@ class AttachSynID(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
         
+        #if not using pyspark raise an error
         if backend != "pyspark":
             raise NotImplementedError(f"AttachSynID not implemented for backend '{backend}'")
         
-        entmap = load_ent_map(spark=kwargs.get("spark"))
-        
         incols = list(supply_frames[table_name].columns)
+        
+        #load the entity map
+        entmap = load_ent_map(spark=kwargs.get("spark"))
+
+        #use modified id group variable to join if it exists on both frames
+        vars_to_join = [self.source_id]
+        mod_col = os.getenv("TNSFRMS_MOD_VAR", "id_mod")
+        if mod_col in entmap.columns:
+            if mod_col in incols:
+                vars_to_join.append(mod_col)
+                print("Using modified ID group variable for joining synthetic ID.")
+                print("Variables to join on:", vars_to_join)
         
         #run a pyspark join to attach the synthetic ID
         supply_frames[table_name].df = supply_frames[table_name].df.join(
             entmap,
-            on=self.source_id,
+            on=vars_to_join,
             how="left"
         )
         

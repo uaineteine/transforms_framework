@@ -24,7 +24,7 @@ def transform_log_loc() -> str:
     str
         The full path to the `transforms.json` file for the specified job.
     """
-    path = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+    path = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
 
     return path
 
