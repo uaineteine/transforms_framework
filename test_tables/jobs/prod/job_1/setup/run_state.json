@@ -1,0 +1,154 @@
+{
+  "env": "test",
+  "job_id": "1",
+  "run_id": "1",
+  "dataset": "test_data",
+  "org": "my_org",
+  "ref_period": "2021-22",
+  "vintage": null,
+  "comment": {
+    "1": "",
+    "2": ""
+  },
+  "cap_keys": [
+    "ProductKey",
+    "Show_Id",
+    "id",
+    "index",
+    "spotify_track_uri",
+    "ssn"
+  ],
+  "setup_timestamp": "2025-10-23T10:20:05.821609",
+  "setup_username": "Daniel",
+  "all_files": {
+    "data_files": [
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/airlines_flights_data.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/1/data/airlines_flights_data.csv",
+        "checksum": "1ebbe5cf5b96e115135708856a32dd4f",
+        "filesize": 24946485,
+        "name": "airlines_flights_data.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "1",
+        "job_id": "1",
+        "env": "test",
+        "ext": "csv",
+        "include": false,
+        "filesize_blob": 24946485,
+        "filesize_match": true,
+        "table_name": "airlines_flights_data"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/1/data/netflix.csv",
+        "checksum": "fc724ec7f140f859483bc993faea9445",
+        "filesize": 2962357,
+        "name": "netflix.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "1",
+        "job_id": "1",
+        "env": "test",
+        "ext": "csv",
+        "include": false,
+        "filesize_blob": 2962359,
+        "filesize_match": false,
+        "table_name": "netflix"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/DCSKINPRODUCT.sas7bdat",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/1/data/DCSKINPRODUCT.sas7bdat",
+        "checksum": "be7c003ca16d14075163e2468f61e948",
+        "filesize": 14745600,
+        "name": "DCSKINPRODUCT.sas7bdat",
+        "is_partitioned_parquet": false,
+        "payload_id": "1",
+        "job_id": "1",
+        "env": "test",
+        "ext": "sas7bdat",
+        "include": true,
+        "filesize_blob": 14745600,
+        "filesize_match": true,
+        "table_name": "DCSKINPRODUCT"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/spotify_history.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/2/data/spotify_history.csv",
+        "checksum": "53c75e632aabc4737a415fb4bc680042",
+        "filesize": 21329900,
+        "name": "spotify_history.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "2",
+        "job_id": "1",
+        "env": "test",
+        "ext": "csv",
+        "include": false,
+        "filesize_blob": 21329900,
+        "filesize_match": true,
+        "table_name": "spotify_history"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/2/data/netflix.csv",
+        "checksum": "fc724ec7f140f859483bc993faea9445",
+        "filesize": 2962359,
+        "name": "netflix.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "2",
+        "job_id": "1",
+        "env": "test",
+        "ext": "csv",
+        "include": true,
+        "filesize_blob": 2962359,
+        "filesize_match": true,
+        "table_name": "netflix"
+      }
+    ],
+    "map_files": [
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix_map.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/test/1/payloads/1/maps/netflix_map.csv",
+        "checksum": "0b2b5cbb736b04a128271cfa5aee769c",
+        "filesize": 83704,
+        "name": "netflix_map.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "1",
+        "job_id": "1",
+        "env": "test",
+        "ext": "csv",
+        "include": false,
+        "filesize_blob": 91494,
+        "filesize_match": false,
+        "table_name": "netflix_map"
+      }
+    ],
+    "enum_file": [],
+    "schema_file": [],
+    "other_files": []
+  },
+  "filesize_compare": {
+    "included_files": [],
+    "excluded_files": [
+      {
+        "name": "netflix.csv",
+        "payload_lake_path": "jobs/test/1/payloads/1/data/netflix.csv",
+        "expected_filesize": 2962357,
+        "actual_filesize": 2962359,
+        "table_name": "netflix"
+      },
+      {
+        "name": "netflix_map.csv",
+        "payload_lake_path": "jobs/test/1/payloads/1/maps/netflix_map.csv",
+        "expected_filesize": 83704,
+        "actual_filesize": 91494,
+        "table_name": "netflix_map"
+      }
+    ]
+  },
+  "setup_completed": true,
+  "worm_version": "unknown",
+  "username": "Daniel",
+  "timestamp": "2025-10-23T10:20:05.857608",
+  "created_at": "2025-10-23T10:20:05.857608",
+  "environment": "test",
+  "last_updated": "2025-10-23T10:20:05.857608"
+}
