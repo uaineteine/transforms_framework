@@ -24,20 +24,24 @@ def get_run_state() -> str:
 
     return path
 
-def get_supply_file() -> str:
+def get_supply_file(table_name: str) -> str:
     """
     Return the path location of the input payload.
+
+    Args: table_name (str): The name of the table to load.
 
     Returns:
         str: The payload path.
     """
     base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
     job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
+    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
     #format the path for job_id
     path = base_path.replace("{job_id}", str(job_id))
     path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+    path = path.replace("{run_id}", str(run_id))
+    path = path.replace("{tablename}", table_name)
     
-    print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
     return path
 
 def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
@@ -54,16 +58,14 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
                 names.add(tn)
     return sorted(names)
 
-def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
-                            sample: bool, sample_rows: int = None, sample_frac: float = None,
-                            seed: int = None, spark=None, enable_schema_validation: bool = True) -> None:
+def load_single_table(data: Dict[str, Any],
+        sample: bool, sample_rows: int = None, sample_frac: float = None,
+        seed: int = None, spark=None, enable_schema_validation: bool = True) -> MetaFrame:
     """
     Load supplies from new sampling_state.json format with optional schema validation.
     
     Args:
         data (Dict[str, Any]): The parsed JSON data from sampling_state.json
-        tables (list): List to append loaded tables to
-        named_tables (Dict[str, Any]): Dictionary to store named table references
         sample (bool): Whether to apply sampling to loaded tables
         sample_rows (int, optional): Number of rows to sample
         sample_frac (float, optional): Fraction of rows to sample
@@ -72,12 +74,9 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
         enable_schema_validation (bool): Whether to perform schema validation. Defaults to True.
 
     Returns:
-        None
+        MetaFrame: The loaded MetaFrame instance.
     """
-    print("Loading supplies from new sampling_state.json format")
-    sample_files = data.get("sample_files", [])
-    
-    for item in sample_files:
+    for item in data:
         name = item.get("table_name")
         if not name:
             raise ValueError("Each sample file item must have a 'table_name' field")
@@ -122,8 +121,7 @@ def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: D
         if sample:
             table.sample(n=sample_rows, frac=sample_frac, seed=seed)
 
-        tables.append(table)
-        named_tables[name] = table
+        return table
 
 class SupplyLoad(TableCollection):
     """
@@ -210,7 +208,7 @@ class SupplyLoad(TableCollection):
 
         #run parameters
         self.job = os.environ.get("TNSFRMS_JOB_ID", 1)
-        self.run = 1
+        self.run = os.environ.get("TNSFRMS_RUN_ID", 1) 
         self.enable_schema_validation = enable_schema_validation
 
         self.supply_load_src = get_run_state()
@@ -264,25 +262,30 @@ class SupplyLoad(TableCollection):
             #print(table_names)
 
             print("for each table, loading the supply file")
-            data = load_json(self.supply_load_src, spark=spark)
-        
-            # Determine format based on the structure of the JSON file
-            if "sample_files" in data:
-                # New sampling input method (sampling_state.json format)
-                # Schema validation is only available for the new system
-                load_from_sampling_state(
-                    data=data, 
-                    tables=self.tables, 
-                    named_tables=self.named_tables,
-                    sample=self.sample,
-                    sample_rows=self.sample_rows,
-                    sample_frac=self.sample_frac,
-                    seed=self.seed,
-                    spark=spark,
-                    enable_schema_validation=self.enable_schema_validation
-                )
-            else:
-                raise ValueError("Unrecognized JSON format: expected 'sample_files' key")
+            for t in table_names:
+                supply_file = get_supply_file(t)
+                print(f"Table '{t}' supply file located at: {supply_file}")
+                data = load_json(supply_file, spark=spark)
+
+                # Determine format based on the structure of the JSON file
+                if "table_name" in data:
+                    # New sampling input method (sampling_state.json format)
+                    # Schema validation is only available for the new system
+                    mt = load_single_table(
+                        data=data, 
+                        sample=self.sample,
+                        sample_rows=self.sample_rows,
+                        sample_frac=self.sample_frac,
+                        seed=self.seed,
+                        spark=spark,
+                        enable_schema_validation=self.enable_schema_validation
+                    )
+
+                    self.tables.append(mt)
+                    self.named_tables[t] = mt
+
+                else:
+                    raise ValueError("Unrecognized JSON format: expected 'table_name' key")
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
