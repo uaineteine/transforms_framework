@@ -36,7 +36,7 @@
         "include": false,
         "filesize_blob": 24946485,
         "filesize_match": true,
-        "table_name": "airlines_flights_data"
+        "table_name": "array_like"
       },
       {
         "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
@@ -52,7 +52,7 @@
         "include": false,
         "filesize_blob": 2962359,
         "filesize_match": false,
-        "table_name": "netflix"
+        "table_name": "date_table"
       },
       {
         "payload_source_path": "e:/projects/dog/dbfs/inputs/DCSKINPRODUCT.sas7bdat",
@@ -68,7 +68,7 @@
         "include": true,
         "filesize_blob": 14745600,
         "filesize_match": true,
-        "table_name": "DCSKINPRODUCT"
+        "table_name": "decimal_table"
       },
       {
         "payload_source_path": "e:/projects/dog/dbfs/inputs/spotify_history.csv",
@@ -84,7 +84,7 @@
         "include": false,
         "filesize_blob": 21329900,
         "filesize_match": true,
-        "table_name": "spotify_history"
+        "table_name": "location"
       },
       {
         "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
@@ -100,7 +100,7 @@
         "include": true,
         "filesize_blob": 2962359,
         "filesize_match": true,
-        "table_name": "netflix"
+        "table_name": "positions"
       }
     ],
     "map_files": [
