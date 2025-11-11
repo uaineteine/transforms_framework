@@ -15,11 +15,11 @@ def get_run_state() -> str:
     Returns:
         str: The payload path.
     """
-    pth = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
+    path = os.environ.get("TNSFRMS_JOB_STATE", "../test_tables")
     job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
     run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
     #format the path for job_id and run_id
-    path = pth.replace("{job_id}", str(job_id)).replace("{run_id}", str(run_id))
+    path = path.replace("{job_id}", str(job_id)).replace("{run_id}", str(run_id))
     path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
 
     return path
@@ -41,6 +41,8 @@ def get_supply_file(table_name: str) -> str:
     path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
     path = path.replace("{run_id}", str(run_id))
     path = path.replace("{tablename}", table_name)
+    
+    print(path)
     
     return path
 
@@ -263,29 +265,33 @@ class SupplyLoad(TableCollection):
 
             print("for each table, loading the supply file")
             for t in table_names:
-                supply_file = get_supply_file(t)
-                print(f"Table '{t}' supply file located at: {supply_file}")
-                data = load_json(supply_file, spark=spark)
+                try:
+                    supply_file = get_supply_file(t)
+                    print(f"Table '{t}' supply file located at: {supply_file}")
+                    data = load_json(supply_file, spark=spark)
 
-                # Determine format based on the structure of the JSON file
-                if "table_name" in data:
-                    # New sampling input method (sampling_state.json format)
-                    # Schema validation is only available for the new system
-                    mt = load_single_table(
-                        data=data, 
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark,
-                        enable_schema_validation=self.enable_schema_validation
-                    )
+                    # Determine format based on the structure of the JSON file
+                    if "table_name" in data:
+                        # New sampling input method (sampling_state.json format)
+                        # Schema validation is only available for the new system
+                        mt = load_single_table(
+                            data=data, 
+                            sample=self.sample,
+                            sample_rows=self.sample_rows,
+                            sample_frac=self.sample_frac,
+                            seed=self.seed,
+                            spark=spark,
+                            enable_schema_validation=self.enable_schema_validation
+                        )
 
-                    self.tables.append(mt)
-                    self.named_tables[t] = mt
+                        self.tables.append(mt)
+                        self.named_tables[t] = mt
 
-                else:
-                    raise ValueError("Unrecognized JSON format: expected 'table_name' key")
+                    else:
+                        raise ValueError("Unrecognized JSON format: expected 'table_name' key")
+                except Exception as e:
+                    print(f"Error loading table '{t}': {e}")
+                    raise e
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
