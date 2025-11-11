@@ -78,52 +78,51 @@ def load_single_table(data: Dict[str, Any],
     Returns:
         MetaFrame: The loaded MetaFrame instance.
     """
-    for item in data:
-        name = item.get("table_name")
-        if not name:
-            raise ValueError("Each sample file item must have a 'table_name' field")
+    name = data.get("table_name")
+    if not name:
+        raise ValueError("Each sample file item must have a 'table_name' field")
 
-        # Handle path normalization - sampling_state.json may use relative paths
-        file_path = item["input_file_path"]
+    # Handle path normalization - sampling_state.json may use relative paths
+    file_path = data["input_file_path"]
 
-        print(f"Loading table '{name}' from {file_path} (format: {item['file_format']})")
+    print(f"Loading table '{name}' from {file_path} (format: {data['file_format']})")
 
-        table = MetaFrame.load(
+    table = MetaFrame.load(
             path=file_path,
-            format=item["file_format"],
+            format=data["file_format"],
             frame_type="pyspark",
             spark=spark
-        )
+    )
 
-        # Perform schema validation if enabled and dtypes are provided
-        if enable_schema_validation and "dtypes" in item:
-            try:
-                print(f"Validating schema for table '{name}'...")
-                dtypes = item["dtypes"]
-                # Print schema summary for transparency
-                schema_summary = SchemaValidator.get_schema_summary(dtypes)
-                print(schema_summary)
-                # Validate the schema
-                SchemaValidator.validate_schema(
-                    df=table.df,
-                    expected_dtypes=dtypes,
-                    frame_type=table.frame_type,
-                    table_name=name
-                )
-                print(f"Schema validation passed for table '{name}'")
-            except SchemaValidationError as e:
-                print(f"Schema validation failed for table '{name}': {e}")
-                raise e
-            except Exception as e:
-                print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
-        elif enable_schema_validation:
-            print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
+    # Perform schema validation if enabled and dtypes are provided
+    if enable_schema_validation and "dtypes" in data:
+        try:
+            print(f"Validating schema for table '{name}'...")
+            dtypes = data["dtypes"]
+            # Print schema summary for transparency
+            schema_summary = SchemaValidator.get_schema_summary(dtypes)
+            print(schema_summary)
+            # Validate the schema
+            SchemaValidator.validate_schema(
+                df=table.df,
+                expected_dtypes=dtypes,
+                frame_type=table.frame_type,
+                table_name=name
+            )
+            print(f"Schema validation passed for table '{name}'")
+        except SchemaValidationError as e:
+            print(f"Schema validation failed for table '{name}': {e}")
+            raise e
+        except Exception as e:
+            print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
+    elif enable_schema_validation:
+        print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
 
-        # Apply sampling if requested
-        if sample:
-            table.sample(n=sample_rows, frac=sample_frac, seed=seed)
+    # Apply sampling if requested
+    if sample:
+        table.sample(n=sample_rows, frac=sample_frac, seed=seed)
 
-        return table
+    return table
 
 class SupplyLoad(TableCollection):
     """
@@ -290,7 +289,7 @@ class SupplyLoad(TableCollection):
                     else:
                         raise ValueError("Unrecognized JSON format: expected 'table_name' key")
                 except Exception as e:
-                    print(f"Error loading table '{t}': {e}")
+                    print(f"Error SL001 loading table '{t}': {e}")
                     raise e
 
         except FileNotFoundError:
