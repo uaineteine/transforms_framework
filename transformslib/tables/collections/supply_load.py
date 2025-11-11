@@ -8,6 +8,22 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
+def get_run_state() -> str:
+    """
+    Return the path location of the input payload.
+
+    Returns:
+        str: The payload path.
+    """
+    pth = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
+    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
+    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
+    #format the path for job_id and run_id
+    path = pth.replace("{job_id}", str(job_id)).replace("{run_id}", str(run_id))
+    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+
+    return path
+
 def get_supply_file() -> str:
     """
     Return the path location of the input payload.
