@@ -101,6 +101,38 @@
         "filesize_blob": 2962359,
         "filesize_match": true,
         "table_name": "positions"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/prod/1/payloads/2/data/netflix.csv",
+        "checksum": "fc724ec7f140f859483bc993faea9445",
+        "filesize": 2962359,
+        "name": "netflix.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "2",
+        "job_id": "1",
+        "env": "prod",
+        "ext": "csv",
+        "include": true,
+        "filesize_blob": 2962359,
+        "filesize_match": true,
+        "table_name": "salary"
+      },
+      {
+        "payload_source_path": "e:/projects/dog/dbfs/inputs/netflix.csv",
+        "payload_lake_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/product/jobs/prod/1/payloads/2/data/netflix.csv",
+        "checksum": "fc724ec7f140f859483bc993faea9445",
+        "filesize": 2962359,
+        "name": "netflix.csv",
+        "is_partitioned_parquet": false,
+        "payload_id": "2",
+        "job_id": "1",
+        "env": "prod",
+        "ext": "csv",
+        "include": true,
+        "filesize_blob": 2962359,
+        "filesize_match": true,
+        "table_name": "state"
       }
     ],
     "map_files": [
