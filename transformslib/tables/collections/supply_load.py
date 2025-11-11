@@ -12,10 +12,6 @@ def get_supply_file() -> str:
     """
     Return the path location of the input payload.
 
-    Args:
-        job_id (int): A job id to get the path of configuration file containing supply definitions.
-        run_id (int, optional): A run id to get the path of configuration file containing supply definitions. If None, returns path to sampling_state.json for the new sampling input method.
-
     Returns:
         str: The payload path.
     """
