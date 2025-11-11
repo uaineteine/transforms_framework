@@ -40,6 +40,20 @@ def get_supply_file() -> str:
     print(f"Using sampling input method for job_id={job_id} (no run_id specified)")
     return path
 
+def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
+    """
+    Extract a unique, sorted list of table_name values from a run_state dict
+    (looks under all_files -> data_files, map_files, enum_file, schema_file, other_files).
+    """
+    names = set()
+    all_files = run_state.get("all_files", {})
+    for section in ("data_files", "map_files", "enum_file", "schema_file", "other_files"):
+        for entry in all_files.get(section, []):
+            tn = entry.get("table_name")
+            if tn:
+                names.add(tn)
+    return sorted(names)
+
 def load_from_sampling_state(data: Dict[str, Any], tables: list, named_tables: Dict[str, Any],
                             sample: bool, sample_rows: int = None, sample_frac: float = None,
                             seed: int = None, spark=None, enable_schema_validation: bool = True) -> None:
@@ -199,7 +213,7 @@ class SupplyLoad(TableCollection):
         self.run = 1
         self.enable_schema_validation = enable_schema_validation
 
-        self.supply_load_src = get_supply_file()
+        self.supply_load_src = get_run_state()
         
         #gather the source payload location
         self.output_loc = transform_log_loc()
@@ -244,6 +258,10 @@ class SupplyLoad(TableCollection):
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
+            print("reading table names from state file")
+            run_state = load_json(self.supply_load_src, spark=spark)
+            table_names = get_table_names_from_run_state(run_state)
+
             data = load_json(self.supply_load_src, spark=spark)
         
             # Determine format based on the structure of the JSON file
