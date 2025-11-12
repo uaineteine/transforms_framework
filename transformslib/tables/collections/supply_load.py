@@ -53,7 +53,7 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
     """
     names = set()
     all_files = run_state.get("all_files", {})
-    for section in ("data_files", "map_files", "enum_file", "schema_file", "other_files"):
+    for section in ("data_files"):
         for entry in all_files.get(section, []):
             tn = entry.get("table_name")
             if tn:
