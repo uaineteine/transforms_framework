@@ -271,6 +271,7 @@ class SupplyLoad(TableCollection):
 
                     # Determine format based on the structure of the JSON file
                     if "table_name" in data:
+                        print(f"Attempting load of table '{t}'")
                         # New sampling input method (sampling_state.json format)
                         # Schema validation is only available for the new system
                         mt = load_single_table(
@@ -283,6 +284,7 @@ class SupplyLoad(TableCollection):
                             enable_schema_validation=self.enable_schema_validation
                         )
 
+                        print(f"Load of table '{t}'")
                         self.tables.append(mt)
                         self.named_tables[t] = mt
 
