@@ -46,7 +46,7 @@ def get_supply_file(table_name: str) -> str:
     
     return path
 
-def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
+def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
     """
     Extract a unique, sorted list of table_name values from a run_state dict
     (looks under all_files -> data_files, map_files, enum_file, schema_file, other_files).
