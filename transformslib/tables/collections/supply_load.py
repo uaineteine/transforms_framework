@@ -260,7 +260,7 @@ class SupplyLoad(TableCollection):
             print("reading table names from state file")
             run_state = load_json(self.supply_load_src, spark=spark)
             table_names = get_table_names_from_run_state(run_state)
-            #print(table_names)
+            print(table_names)
 
             print("for each table, loading the supply file")
             for t in table_names:
