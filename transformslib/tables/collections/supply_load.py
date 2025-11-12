@@ -299,6 +299,9 @@ class SupplyLoad(TableCollection):
             raise ValueError("Invalid JSON format in supply load file")
         
         print(f"Successfully loaded {len(self.tables)} tables")
+        
+        print("Loaded the following tables: ")
+        print(self.named_tables)
 
     @staticmethod
     def wipe_run_outputs(job_id: int, run_id: int = None):
