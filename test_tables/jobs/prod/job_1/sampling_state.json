@@ -3,7 +3,7 @@
     {
       "table_name": "positions",
       "input_file_path": "../test_tables/jobs/prod/job_1/positions.csv",
-      "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
+      "sample_path": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
         "age": {

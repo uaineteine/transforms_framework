@@ -1,0 +1,41 @@
+{
+  "table_name": "positions",
+  "input_file_path": "../test_tables/jobs/prod/job_1/positions.csv",
+  "sample_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/project/jobs/test/1/run/1/sample/positions/positions.parquet",
+  "file_format": "csv",
+  "engine": "polars-parquet",
+  "total_rows": "unknown",
+  "sampled_rows": 152130,
+  "total_columns": 6,
+  "columns": {
+        "age": {
+          "dtype_inferred": "Int64",
+          "dtype_output": "Int64"
+        },
+        "name": {
+          "dtype_inferred": "String",
+          "dtype_output": "String"
+        },
+        "var": {
+          "dtype_inferred": "String",
+          "dtype_output": "String"
+        },
+        "position": {
+          "dtype_inferred": "String",
+          "dtype_output": "String"
+        },
+        "skill": {
+          "dtype_inferred": "String",
+          "dtype_output": "String"
+        }
+  },
+  "sample_size": 1000000,
+  "csv_kwargs": {},
+  "parquet_kwargs": {},
+  "sas_kwargs": {},
+  "env": "test",
+  "job_id": "1",
+  "run_id": "1",
+  "username": "Daniel",
+  "created_at": "2025-10-23T10:25:30.737970"
+}
