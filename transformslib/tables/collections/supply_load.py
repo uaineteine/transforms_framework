@@ -59,6 +59,18 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
                 names.add(tn)
     return sorted(names)
 
+def load_pre_transform_data():
+    """
+    Load the pre-transform delta table
+    
+    Returns dataframe (pyspark)
+    """
+    
+    #select distinct table_name, column_name, description, warning_messages
+    #filter out null warnings
+    
+    #say there are no warnings if there are no warnings
+
 def load_single_table(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,
         seed: int = None, spark=None, enable_schema_validation: bool = True) -> MetaFrame:
