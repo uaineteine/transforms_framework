@@ -260,90 +260,16 @@ def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str
         head_html = head_html.replace("</head>", f"{pyvis_head_inner}</head>")
     
     # Add custom JavaScript to handle node hover events and update right panel
-    custom_js = """
-    <script>
-        // Function to update the right-hand panel with node/edge information
-        function updateInfoPanel(title, content) {
-            const detailsTitle = document.getElementById('selected-info').closest('div').querySelector('.details-title');
-            const selectedInfo = document.getElementById('selected-info');
-            
-            if (detailsTitle) {
-                detailsTitle.textContent = title;
-            }
-            if (selectedInfo) {
-                selectedInfo.innerHTML = content;
-            }
-        }
-        
-        // Function to format tooltip content for the right panel
-        function formatTooltipContent(tooltipText) {
-            const lines = tooltipText.split('\\n');
-            let html = '';
-            
-            lines.forEach(line => {
-                if (line.trim() === '') return;
-                
-                if (line.includes(':')) {
-                    const [label, value] = line.split(':', 2);
-                    html += `<p><strong>${label.trim()}:</strong> ${value.trim()}</p>`;
-                } else {
-                    html += `<p>${line.trim()}</p>`;
-                }
-            });
-            
-            return html || '<p>No details available</p>';
-        }
-        
-        // Wait for network to be available and add event listeners
-        function setupNetworkEvents() {
-            if (typeof network !== 'undefined') {
-                // Handle node hover
-                network.on("hoverNode", function (params) {
-                    const nodeId = params.node;
-                    const nodeData = network.body.data.nodes.get(nodeId);
-                    
-                    if (nodeData && nodeData.title) {
-                        const title = nodeData.label || 'Node Details';
-                        const content = formatTooltipContent(nodeData.title);
-                        updateInfoPanel(title, content);
-                    }
-                });
-                
-                // Handle edge hover
-                network.on("hoverEdge", function (params) {
-                    const edgeId = params.edge;
-                    const edgeData = network.body.data.edges.get(edgeId);
-                    
-                    if (edgeData) {
-                        const title = edgeData.label || 'Transform';
-                        const content = `<p><strong>Transform:</strong> ${edgeData.label || 'Unknown'}</p>`;
-                        updateInfoPanel(title, content);
-                    }
-                });
-                
-                // Reset to default when not hovering
-                network.on("blurNode", function (params) {
-                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
-                });
-                
-                network.on("blurEdge", function (params) {
-                    updateInfoPanel('Selected Item Details', '<p>Select a node or edge in the graph to see its details here.</p>');
-                });
-            } else {
-                // Retry after a short delay if network is not ready
-                setTimeout(setupNetworkEvents, 100);
-            }
-        }
-        
-        // Setup when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            setupNetworkEvents();
-        });
-    </script>
-    """
+    custom_js = ""
+    try:
+        custom_js = read_template_safe("custom.js")
+        if custom_js is None:
+            raise FileNotFoundError(f"Config file 'custom.js' not found in package")
+    except Exception as e:
+        raise FileNotFoundError(f"Config file 'custom.js' not found: {e}")
     
     # Inject custom JavaScript before closing </head>
-    head_html = head_html.replace("</head>", f"{custom_js}</head>")
+    head_html = head_html.replace("</head>", f"<script>{custom_js}</script></head>")
 
     job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
 
