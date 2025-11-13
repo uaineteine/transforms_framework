@@ -6,6 +6,7 @@ from typing import List, Optional, Union
 
 from transformslib.dag import webcanvas
 from transformslib.transforms import reader
+from transformslib.templates import read_template_safe
 import transformslib as meta
 
 def calculate_total_runtime(timestamps: List[str], fmt: str = "%Y-%m-%dT%H:%M:%S") -> Optional[timedelta]:
@@ -51,46 +52,14 @@ def set_default_network_options(net: Network) -> Network:
     Returns:
         Network: The same network instance with options applied.
     """
-    options = """
-    var options = {
-        "interaction": {
-            "hover": true,
-            "multiselect": false
-        },
-        "layout": {
-            "hierarchical": {
-                "enabled": true,
-                "direction": "UD",
-                "sortMethod": "directed",
-                "levelSeparation": 350,
-                "nodeSpacing": 300
-            }
-        },
-        "edges": {
-            "arrows": {
-                "to": {
-                    "enabled": true,
-                    "scaleFactor": 1
-                }
-            }
-        },
-        "physics": {
-            "enabled": true,
-            "hierarchicalRepulsion": {
-                "centralGravity": 0.0,
-                "springLength": 200,
-                "springConstant": 0.005,
-                "nodeDistance": 300,
-                "damping": 0.09
-            },
-            "solver": "hierarchicalRepulsion",
-            "stabilization": {
-                "enabled": true,
-                "iterations": 1000
-            }
-        }
-    }
-    """
+    options = ""
+    try:
+        options = read_template_safe("pyvisoptions.js")
+        if options is None:
+            raise FileNotFoundError(f"Config file 'pyvisoptions.js' not found in package")
+    except Exception as e:
+        raise FileNotFoundError(f"Config file 'pyvisoptions.js' not found: {e}")
+    
     net.set_options(options)
     return net
 
