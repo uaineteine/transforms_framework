@@ -46,7 +46,7 @@ def get_supply_file(table_name: str) -> str:
     
     return path
 
-def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
+def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
     """
     Extract a unique, sorted list of table_name values from a run_state dict
     (looks under all_files -> data_files, map_files, enum_file, schema_file, other_files).
@@ -58,6 +58,18 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list:
             if tn:
                 names.add(tn)
     return sorted(names)
+
+def load_pre_transform_data():
+    """
+    Load the pre-transform delta table
+    
+    Returns dataframe (pyspark)
+    """
+    
+    #select distinct table_name, column_name, description, warning_messages
+    #filter out null warnings
+    
+    #say there are no warnings if there are no warnings
 
 def load_single_table(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,
