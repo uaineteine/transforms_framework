@@ -212,6 +212,15 @@ def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str
 
     # Load transform events
     logs = reader.load_transform_log()
+    
+    #remove items under the macro step
+    logs = [log for log in logs if not log.get("macro_step")]
+    
+    #remove the load
+    logs = [log for log in logs if not log.get("transform_name") == "load"]
+    
+    #remove the write
+    logs = [log for log in logs if not log.get("transform_name") == "write"]
 
     # Check meta version
     this_version = logs[0].get("meta_version", "")
