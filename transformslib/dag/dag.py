@@ -213,8 +213,10 @@ def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str
     # Load transform events
     logs = reader.load_transform_log()
     
-    #remove items under the macro step
-    logs = [log for log in logs if not log.get("macro_step")]
+    #remove items under the macro step - has macro_type
+    logs = [log for log in logs if not log.get("macro_type")]
+    #remove items that have event_type macro_log
+    logs = [log for log in logs if not log.get("event_type") == "macro_log"]
     
     #remove the load
     logs = [log for log in logs if not log.get("transform_name") == "load"]
