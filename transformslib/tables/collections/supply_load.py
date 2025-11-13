@@ -290,6 +290,11 @@ class SupplyLoad(TableCollection):
             #collect the table names from the pyspark frame as a list
             table_names = sum_df.select("table_name").distinct()
             table_names = table_names.rdd.flatMap(lambda x: x).collect()
+            
+            #show warning messages - useing databricks engine
+            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").filter(col_df["warning_message"].isNotNull()).distinct()
+            warnings_frame.display()
+            
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
         
