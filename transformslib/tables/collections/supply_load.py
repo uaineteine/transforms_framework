@@ -8,6 +8,8 @@ from transformslib.transforms.reader import transform_log_loc, does_transform_lo
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 
+from pyspark.sql import DataFrame
+
 def get_run_state() -> str:
     """
     Return the path location of the input payload.
@@ -59,17 +61,23 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
                 names.add(tn)
     return sorted(names)
 
-def load_pre_transform_data():
+def load_pre_transform_data(spark) -> list[DataFrame]
     """
     Load the pre-transform delta table
     
     Returns dataframe (pyspark)
     """
     
-    #select distinct table_name, column_name, description, warning_messages
-    #filter out null warnings
+    colpath = os.environ("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
+    sumpath = os.environ("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
     
-    #say there are no warnings if there are no warnings
+    #read the column dataframe
+    col_df = spark.read.format("delta").load(colpath)
+    
+    #read the summary dataframe
+    sum_df = spark.read.format("delta").load(sumpath)
+    
+    return col_df, sum_df
 
 def load_single_table(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,
