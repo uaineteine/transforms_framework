@@ -277,58 +277,61 @@ class SupplyLoad(TableCollection):
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
-        print(f"Read the delta tables to extract meta information")
+        print(f"Reading the delta tables to extract meta information")
         col_df, sum_df = load_pre_transform_data(spark=spark)
         
         #present for the user
         col_df.show()
         sum_df.show()
         
+        #collect the table names from the pyspark frame as a list
+        table_names = sum_df.select("table_name").distinct()
+        table_names = table_names.rdd.flatMap(lambda x: x).collect()
+        print(table_names)
+        
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
-            print("reading table names from state file")
+            print("reading the state file")
             run_state = load_json(self.supply_load_src, spark=spark)
-            table_names = get_table_names_from_run_state(run_state)
-            print(table_names)
-
-            print("for each table, loading the supply file")
-            for t in table_names:
-                try:
-                    supply_file = get_supply_file(t)
-                    print(f"Table '{t}' supply file located at: {supply_file}")
-                    data = load_json(supply_file, spark=spark)
-
-                    # Determine format based on the structure of the JSON file
-                    if "table_name" in data:
-                        print(f"Attempting load of table '{t}'")
-                        # New sampling input method (sampling_state.json format)
-                        # Schema validation is only available for the new system
-                        mt = load_single_table(
-                            data=data, 
-                            sample=self.sample,
-                            sample_rows=self.sample_rows,
-                            sample_frac=self.sample_frac,
-                            seed=self.seed,
-                            spark=spark,
-                            enable_schema_validation=self.enable_schema_validation
-                        )
-
-                        print(f"Load of table '{t}'")
-                        self.tables.append(mt)
-                        self.named_tables[t] = mt
-
-                    else:
-                        raise ValueError("Unrecognized JSON format: expected 'table_name' key")
-                except Exception as e:
-                    print(f"Error SL001 loading table '{t}': {e}")
-                    raise e
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
         
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON format in supply load file")
+        
+        print("for each table, loading the supply file")
+        for t in table_names:
+            try:
+                supply_file = get_supply_file(t)
+                print(f"Table '{t}' supply file located at: {supply_file}")
+                data = load_json(supply_file, spark=spark)
+
+                # Determine format based on the structure of the JSON file
+                if "table_name" in data:
+                    print(f"Attempting load of table '{t}'")
+                    # New sampling input method (sampling_state.json format)
+                    # Schema validation is only available for the new system
+                    mt = load_single_table(
+                        data=data, 
+                        sample=self.sample,
+                        sample_rows=self.sample_rows,
+                        sample_frac=self.sample_frac,
+                        seed=self.seed,
+                        spark=spark,
+                        enable_schema_validation=self.enable_schema_validation
+                    )
+
+                    print(f"Load of table '{t}'")
+                    self.tables.append(mt)
+                    self.named_tables[t] = mt
+
+                else:
+                    raise ValueError("Unrecognized JSON format: expected 'table_name' key")
+            except Exception as e:
+                print(f"Error SL001 loading table '{t}': {e}")
+                raise e
         
         print(f"Successfully loaded {len(self.tables)} tables")
         
