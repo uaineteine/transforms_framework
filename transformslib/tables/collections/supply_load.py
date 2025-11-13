@@ -52,6 +52,8 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
     """
     Extract a unique, sorted list of table_name values from a run_state dict
     (looks under all_files -> data_files, map_files, enum_file, schema_file, other_files).
+    
+    Input directory is the run_state.json
     """
     names = set()
     all_files = run_state.get("all_files", {})
@@ -291,15 +293,15 @@ class SupplyLoad(TableCollection):
         
         print(f"Starting supply loading from: {self.supply_load_src}")
         
-        try:
-            print("reading the state file")
-            run_state = load_json(self.supply_load_src, spark=spark)
-
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
-        
-        except json.JSONDecodeError:
-            raise ValueError("Invalid JSON format in supply load file")
+        #try:
+        #    print("reading the state file")
+        #    run_state = load_json(self.supply_load_src, spark=spark)
+        #
+        #except FileNotFoundError:
+        #    raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
+        #
+        #except json.JSONDecodeError:
+        #    raise ValueError("Invalid JSON format in supply load file")
         
         print("for each table, loading the supply file")
         for t in table_names:
@@ -328,7 +330,7 @@ class SupplyLoad(TableCollection):
                     self.named_tables[t] = mt
 
                 else:
-                    raise ValueError("Unrecognized JSON format: expected 'table_name' key")
+                    raise ValueError("SL002 Unrecognized JSON format: expected 'table_name' key")
             except Exception as e:
                 print(f"Error SL001 loading table '{t}': {e}")
                 raise e
