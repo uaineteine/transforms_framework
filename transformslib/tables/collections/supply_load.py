@@ -61,15 +61,18 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
                 names.add(tn)
     return sorted(names)
 
-def load_pre_transform_data(spark) -> list[DataFrame]
+def load_pre_transform_data(spark=None) -> list[DataFrame]:
     """
     Load the pre-transform delta table
     
     Returns dataframe (pyspark)
     """
     
-    colpath = os.environ("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
-    sumpath = os.environ("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+    colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
+    sumpath = os.environ.get("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+    
+    if (spark is None):
+        raise ValueError("Spark session must be provided to load pre-transform data. Other options are not supported.")
     
     #read the column dataframe
     col_df = spark.read.format("delta").load(colpath)
@@ -77,7 +80,8 @@ def load_pre_transform_data(spark) -> list[DataFrame]
     #read the summary dataframe
     sum_df = spark.read.format("delta").load(sumpath)
     
-    return col_df, sum_df
+    #deuplicate frames before returning
+    return col_df.distinct(), sum_df.distinct()
 
 def load_single_table(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,
@@ -273,6 +277,9 @@ class SupplyLoad(TableCollection):
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
+        print(f"Read the delta tables to extract meta information")
+        col_df, sum_df = load_pre_transform_data(spark=spark)
+        
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
