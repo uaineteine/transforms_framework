@@ -138,10 +138,10 @@ def check_variable_set(var_name: str) -> bool:
 
 def set_default_variables():
     """
-    Sets default values found in defconfig.txt if they don't exist in the environment.
+    Sets default values found in defconfig.ini if they don't exist in the environment.
     """
 
-    def_conf_filename = "defconfig.txt"
+    def_conf_filename = "defconfig.ini"
 
     def_config = ""
     try:
