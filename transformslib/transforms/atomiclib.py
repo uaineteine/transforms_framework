@@ -1684,7 +1684,7 @@ class AttachSynID(TableTransform):
     Will attach a synthetic ID to the Table from its source ID
     """
     
-    def __init__(self, source_id:str):
+    def __init__(self, source_id:str, use_fast_join=False):
         """
         Initialise an AttachSynID transform.
         
@@ -1698,6 +1698,8 @@ class AttachSynID(TableTransform):
             "SYNID",
             testable_transform=True
         )
+
+        self.use_fast_join = use_fast_join
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
@@ -1723,12 +1725,13 @@ class AttachSynID(TableTransform):
 
         #use modified id group variable to join if it exists on both frames
         vars_to_join = [self.source_id]
-        mod_col = os.getenv("TNSFRMS_MOD_VAR", "id_mod")
-        if mod_col in entmap.columns:
-            if mod_col in incols:
-                vars_to_join.append(mod_col)
-                print("Using modified ID group variable for joining synthetic ID.")
-                print("Variables to join on:", vars_to_join)
+        if (self.use_fast_join):
+            mod_col = os.getenv("TNSFRMS_MOD_VAR", "id_mod")
+            if mod_col in entmap.columns:
+                if mod_col in incols:
+                    vars_to_join.append(mod_col)
+                    print("Using modified ID group variable for joining synthetic ID.")
+                    print("Variables to join on:", vars_to_join)
         
         #run a pyspark join to attach the synthetic ID
         supply_frames[table_name].df = supply_frames[table_name].df.join(
