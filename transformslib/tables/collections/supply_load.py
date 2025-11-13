@@ -278,29 +278,34 @@ class SupplyLoad(TableCollection):
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
-        print(f"Reading the delta tables to extract meta information")
-        col_df, sum_df = load_pre_transform_data(spark=spark)
+        table_names = []
+        try:
+            print(f"Reading the delta tables to extract meta information")
+            col_df, sum_df = load_pre_transform_data(spark=spark)
+            
+            #present for the user
+            col_df.show()
+            sum_df.show()
+            
+            #collect the table names from the pyspark frame as a list
+            table_names = sum_df.select("table_name").distinct()
+            table_names = table_names.rdd.flatMap(lambda x: x).collect()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
         
-        #present for the user
-        col_df.show()
-        sum_df.show()
+        if table_names == []:
+            print(f"Attempting supply loading from: {self.supply_load_src}")
+            try:
+                print("reading the state file")
+                run_state = load_json(self.supply_load_src, spark=spark)
         
-        #collect the table names from the pyspark frame as a list
-        table_names = sum_df.select("table_name").distinct()
-        table_names = table_names.rdd.flatMap(lambda x: x).collect()
+            except FileNotFoundError:
+                raise FileNotFoundError(f"SL004 Supply JSON file not found at {self.supply_load_src}")
+            except Exception as e:
+                print(f"Error SL005 reading supply JSON file: {e}")
+                raise e
+        
         print(table_names)
-        
-        print(f"Starting supply loading from: {self.supply_load_src}")
-        
-        #try:
-        #    print("reading the state file")
-        #    run_state = load_json(self.supply_load_src, spark=spark)
-        #
-        #except FileNotFoundError:
-        #    raise FileNotFoundError(f"Supply JSON file not found at {self.supply_load_src}")
-        #
-        #except json.JSONDecodeError:
-        #    raise ValueError("Invalid JSON format in supply load file")
         
         print("for each table, loading the supply file")
         for t in table_names:
