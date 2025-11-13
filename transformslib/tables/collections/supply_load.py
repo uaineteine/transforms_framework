@@ -280,6 +280,10 @@ class SupplyLoad(TableCollection):
         print(f"Read the delta tables to extract meta information")
         col_df, sum_df = load_pre_transform_data(spark=spark)
         
+        #present for the user
+        col_df.show()
+        sum_df.show()
+        
         print(f"Starting supply loading from: {self.supply_load_src}")
         
         try:
