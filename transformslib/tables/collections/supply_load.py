@@ -9,7 +9,7 @@ from .collection import TableCollection
 
 from pyspark.sql import DataFrame
 
-def clear_run_state():
+def clear_output_state():
     """
     Remove output paths on request
     """
