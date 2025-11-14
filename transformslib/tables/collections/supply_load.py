@@ -241,7 +241,7 @@ class SupplyLoad(TableCollection):
         #gather the source payload location
         self.output_loc = transform_log_loc()
         if (does_transform_log_exist()):
-            raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
+            raise ValueError("SL010 Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
