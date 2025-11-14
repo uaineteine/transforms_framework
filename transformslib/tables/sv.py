@@ -83,9 +83,9 @@ class SchemaValidator:
             elif frame_type == "polars":
                 return SchemaValidator._validate_polars_schema(df, expected_dtypes, table_name)
             else:
-                raise SchemaValidationError(f"Unsupported frame_type: {frame_type}")
+                raise SchemaValidationError(f"SV001 Unsupported frame_type: {frame_type}")
         except Exception as e:
-            raise SchemaValidationError(f"Schema validation failed for table '{table_name}': {str(e)}")
+            raise SchemaValidationError(f"SV002 Schema validation failed for table '{table_name}': {str(e)}")
     
     @staticmethod
     def _validate_pyspark_schema(df: SparkDataFrame, expected_dtypes: Dict[str, Dict[str, str]], table_name: str) -> bool:

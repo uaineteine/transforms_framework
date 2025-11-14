@@ -56,9 +56,9 @@ def set_default_network_options(net: Network) -> Network:
     try:
         options = read_template_safe("pyvisoptions.js")
         if options is None:
-            raise FileNotFoundError(f"Config file 'pyvisoptions.js' not found in package")
+            raise FileNotFoundError(f"DG001 Config file 'pyvisoptions.js' not found in package")
     except Exception as e:
-        raise FileNotFoundError(f"Config file 'pyvisoptions.js' not found: {e}")
+        raise FileNotFoundError(f"DG002 Config file 'pyvisoptions.js' not found: {e}")
     
     net.set_options(options)
     return net

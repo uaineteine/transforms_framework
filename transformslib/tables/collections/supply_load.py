@@ -135,10 +135,10 @@ def load_single_table(data: Dict[str, Any],
             )
             print(f"Schema validation passed for table '{name}'")
         except SchemaValidationError as e:
-            print(f"Schema validation failed for table '{name}': {e}")
+            print(f"SL007 Schema validation failed for table '{name}': {e}")
             raise e
         except Exception as e:
-            print(f"Warning: Unexpected error during schema validation for table '{name}': {e}")
+            print(f"Warning: SL006 Unexpected error during schema validation for table '{name}': {e}")
     elif enable_schema_validation:
         print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
 

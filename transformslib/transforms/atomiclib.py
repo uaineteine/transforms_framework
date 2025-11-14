@@ -21,7 +21,7 @@ def _get_lambda_source(func) -> str:
     try:
         return inspect.getsource(func).strip()
     except Exception as e:
-        return f"<source unavailable: {e}"
+        return f"AL001 source unavailable: {e}"
 
 class DropVariable(TableTransform):
     """
