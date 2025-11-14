@@ -7,6 +7,7 @@ from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
 import sparkpolars as sp
 from sas_to_polars import sas_to_polars
+from deltalake import DeltaTable
 
 #module imports
 from naming_standards import Tablename
@@ -23,8 +24,10 @@ def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spar
         return spark.read.format("com.github.saurfang.sas.spark").load(path)
     elif format == "csv":
         return spark.read.format("csv").option("header", "true").load(path)
-    else:
+    elif format == "parquet" or format == "delta":
         return spark.read.format(format).load(path)
+    else:
+        raise ValueError("MT002 Unsupported format for pyspark")
 
 def _load_pandas_df(path:str, format: str = "parquet", table_name: str = "") -> pd.DataFrame:
     """
@@ -32,16 +35,21 @@ def _load_pandas_df(path:str, format: str = "parquet", table_name: str = "") -> 
     """
     if format == "parquet":
         return pd.read_parquet(path)
+    elif format == "delta":
+        dt = DeltaTable(path)
+        return dt.to_pandas()
     elif format == "csv":
         return pd.read_csv(path)  # Default: header inferred
     elif format == "sas":
         return pd.read_sas(path)
     else:
-        raise ValueError("Unsupported format for pandas")
+        raise ValueError("MT001 Unsupported format for pandas")
 
 def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> pl.LazyFrame:
     if format == "parquet":
         return pl.scan_parquet(path)
+    elif format == "delta":
+        raise ValueError("MT003 Delta format not supported for polars. Use pandas instead.")
     elif format == "csv":
         return pl.scan_csv(path)  # Default: header inferred
     elif format == "sas":

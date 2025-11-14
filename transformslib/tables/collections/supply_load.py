@@ -2,6 +2,7 @@ import os
 import shutil
 from typing import Dict, Any
 from adaptiveio import load_json
+from transformslib.tables.multitable import MultiTable
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
@@ -9,7 +10,24 @@ from .collection import TableCollection
 
 from pyspark.sql import DataFrame
 
-def clear_run_state():
+def get_execution_engine_info() -> Dict[str, Any]:
+    """
+    Get databricks information if running in databricks environment
+    """
+    ALL_VARS = os.environ
+
+    #append with dbutils notebook info
+    try:
+        path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
+        ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
+    except NameError:
+        pass
+    except Exception as e:
+        print(f"SL020 Warning: Unhandled exception to get databricks notebook path: {e}")
+
+    return ALL_VARS
+
+def clear_outputs():
     """
     Remove output paths on request
     """
@@ -17,7 +35,11 @@ def clear_run_state():
         #remove it using 2 different systems
         path = transform_log_loc()
         if "dbfs:/" in path:
-            print("SL012 Removing dbfs path not supported in this function")
+            try:
+                dbutils.fs.ls("/")
+                print("dbutils is available")
+            except NameError:
+                print("SL012 dbutils is NOT available to clear the path")
         else:
             os.remove(path)
 
@@ -74,24 +96,49 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
                 names.add(tn)
     return sorted(names)
 
-def load_pre_transform_data(spark=None) -> list[DataFrame]:
+def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform delta table
     
-    Returns dataframe (pyspark)
+    Returns Multitable lists of frames
     """
     
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+
+    colpath = colpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
+    colpath = colpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
+    colpath = colpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+
+    sumpath = sumpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
+    sumpath = sumpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
+    sumpath = sumpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
     
     if (spark is None):
-        raise ValueError("Spark session must be provided to load pre-transform data. Other options are not supported.")
-    
-    #read the column dataframe
-    col_df = spark.read.format("delta").load(colpath)
-    
-    #read the summary dataframe
-    sum_df = spark.read.format("delta").load(sumpath)
+        col_df = MultiTable.load(
+            path=colpath,
+            format="delta",
+            frame_type="pandas"
+        )
+        sum_df = MultiTable.load(
+            path=sumpath,
+            format="delta",
+            frame_type="pandas"
+        )
+    else:
+        #read the column dataframe
+        col_df = MultiTable.load(
+            path=colpath,
+            format="delta",
+            frame_type="pyspark",
+            spark=spark
+        )
+        sum_df = MultiTable.load(
+            path=sumpath,
+            format="delta",
+            frame_type="pyspark",
+            spark=spark
+        )
     
     #deuplicate frames before returning
     return col_df.distinct(), sum_df.distinct()
