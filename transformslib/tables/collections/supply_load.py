@@ -9,6 +9,18 @@ from .collection import TableCollection
 
 from pyspark.sql import DataFrame
 
+def clear_run_state():
+    """
+    Remove output paths on request
+    """
+    if does_transform_log_exist():
+        #remove it using 2 different systems
+        path = transform_log_loc()
+        if "dbfs:/" in path:
+            print("SL012 Removing dbfs path not supported in this function")
+        else:
+            os.remove(path)
+
 def get_run_state() -> str:
     """
     Return the path location of the input payload.
@@ -241,7 +253,7 @@ class SupplyLoad(TableCollection):
         #gather the source payload location
         self.output_loc = transform_log_loc()
         if (does_transform_log_exist()):
-            raise ValueError("Transform has been run beforehand, please CLEAR previous result or use new run id")
+            raise ValueError("SL010 Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
