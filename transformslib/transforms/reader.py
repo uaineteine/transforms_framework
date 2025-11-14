@@ -24,7 +24,15 @@ def transform_log_loc() -> str:
     str
         The full path to the `transforms.json` file for the specified job.
     """
-    path = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+    try:
+        path = os.environ.get("TNSFRMS_LOG_LOC", "")
+        path = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
+        path = path.format(run_id=os.environ.get("TNSFRMS_RUN_ID", 1))
+        path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+    except KeyError as e:
+        raise KeyError(f"TL001 Environment variable for log location is missing: {e}")
+    except Exception as e:
+        raise Exception(f"TL002 Error constructing log location path: {e}")
 
     return path
 
