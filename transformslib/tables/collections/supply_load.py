@@ -9,6 +9,23 @@ from .collection import TableCollection
 
 from pyspark.sql import DataFrame
 
+def get_execution_engine_info() -> Dict[str, Any]:
+    """
+    Get databricks information if running in databricks environment
+    """
+    ALL_VARS = os.environ
+
+    #append with dbutils notebook info
+    try:
+        path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
+        ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
+    except NameError:
+        pass
+    except Exception as e:
+        print(f"SL020 Warning: Unhandled exception to get databricks notebook path: {e}")
+
+    return ALL_VARS
+
 def clear_outputs():
     """
     Remove output paths on request
