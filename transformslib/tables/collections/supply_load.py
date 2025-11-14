@@ -2,6 +2,7 @@ import os
 import shutil
 from typing import Dict, Any
 from adaptiveio import load_json
+from transformslib.tables.multitable import MultiTable
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
@@ -104,6 +105,14 @@ def load_pre_transform_data(spark=None) -> list[DataFrame]:
     
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+
+    colpath = colpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
+    colpath = colpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
+    colpath = colpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+
+    sumpath = sumpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
+    sumpath = sumpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
+    sumpath = sumpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
     
     if (spark is None):
         raise ValueError("Spark session must be provided to load pre-transform data. Other options are not supported.")
