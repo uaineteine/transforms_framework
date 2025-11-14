@@ -96,11 +96,11 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
                 names.add(tn)
     return sorted(names)
 
-def load_pre_transform_data(spark=None) -> list[DataFrame]:
+def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform delta table
     
-    Returns dataframe (pyspark)
+    Returns Multitable lists of frames
     """
     
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
@@ -115,13 +115,30 @@ def load_pre_transform_data(spark=None) -> list[DataFrame]:
     sumpath = sumpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
     
     if (spark is None):
-        raise ValueError("Spark session must be provided to load pre-transform data. Other options are not supported.")
-    
-    #read the column dataframe
-    col_df = spark.read.format("delta").load(colpath)
-    
-    #read the summary dataframe
-    sum_df = spark.read.format("delta").load(sumpath)
+        col_df = MultiTable.load(
+            path=colpath,
+            format="delta",
+            frame_type="pandas"
+        )
+        sum_df = MultiTable.load(
+            path=sumpath,
+            format="delta",
+            frame_type="pandas"
+        )
+    else:
+        #read the column dataframe
+        col_df = MultiTable.load(
+            path=colpath,
+            format="delta",
+            frame_type="pyspark",
+            spark=spark
+        )
+        sum_df = MultiTable.load(
+            path=sumpath,
+            format="delta",
+            frame_type="pyspark",
+            spark=spark
+        )
     
     #deuplicate frames before returning
     return col_df.distinct(), sum_df.distinct()
