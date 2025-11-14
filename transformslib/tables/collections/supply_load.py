@@ -9,7 +9,7 @@ from .collection import TableCollection
 
 from pyspark.sql import DataFrame
 
-def clear_output_state():
+def clear_outputs():
     """
     Remove output paths on request
     """
@@ -17,7 +17,11 @@ def clear_output_state():
         #remove it using 2 different systems
         path = transform_log_loc()
         if "dbfs:/" in path:
-            print("SL012 Removing dbfs path not supported in this function")
+            try:
+                dbutils.fs.ls("/")
+                print("dbutils is available")
+            except NameError:
+                print("SL012 dbutils is NOT available to clear the path")
         else:
             os.remove(path)
 
