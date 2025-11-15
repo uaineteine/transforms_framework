@@ -22,7 +22,7 @@ def transform_log_loc() -> str:
     Returns
     -------
     str
-        The full path to the `transforms.json` file for the specified job.
+        The full path to the `treatments.json` file for the specified job.
     """
     try:
         path = os.environ.get("TNSFRMS_LOG_LOC", "")
