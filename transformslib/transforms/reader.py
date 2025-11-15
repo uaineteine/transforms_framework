@@ -25,7 +25,7 @@ def transform_log_loc() -> str:
         The full path to the `treatments.json` file for the specified job.
     """
     try:
-        path = os.environ.get("TNSFRMS_LOG_LOC", "")
+        path = os.environ.get("TNSFRMS_LOG_LOC", "jobs/{prodtest}/job_{job_id}/{run_id}/treatments.json")
         path = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
         path = path.format(run_id=os.environ.get("TNSFRMS_RUN_ID", 1))
         path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
