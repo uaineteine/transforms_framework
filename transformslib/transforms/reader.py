@@ -7,7 +7,7 @@ def transform_log_loc() -> str:
     Constructs the file path to the transformation log for a specific job.
 
     The path is built using the `main_dir` directory and includes the job ID.
-    The file is assumed to be named `transforms.json` and located in a subdirectory
+    The file is assumed to be named `treatments.json` and located in a subdirectory
     named `job_<job_id>`.
 
     Parameters
