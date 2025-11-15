@@ -16,11 +16,11 @@ def transform_log_loc() -> str:
     """
     try:
         path = os.environ.get("TNSFRMS_LOG_LOC", "jobs/{prodtest}/job_{job_id}/{run_id}/treatments.json")
+        path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
         path = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
         path = path.format(run_id=os.environ.get("TNSFRMS_RUN_ID", 1))
-        path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
     except KeyError as e:
-        raise KeyError(f"TL001 Environment variable for log location is missing: Key {e}")
+        raise KeyError(f"TL001 Key Error. Environment variable update for log location is not working: Potentially missing key {e}")
     except Exception as e:
         raise Exception(f"TL002 Error constructing log location path: {e}")
 
