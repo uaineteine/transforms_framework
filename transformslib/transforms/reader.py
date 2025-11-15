@@ -30,7 +30,7 @@ def transform_log_loc() -> str:
         path = path.format(run_id=os.environ.get("TNSFRMS_RUN_ID", 1))
         path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
     except KeyError as e:
-        raise KeyError(f"TL001 Environment variable for log location is missing: {e}")
+        raise KeyError(f"TL001 Environment variable for log location is missing: Key {e}")
     except Exception as e:
         raise Exception(f"TL002 Error constructing log location path: {e}")
 
