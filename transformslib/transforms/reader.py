@@ -9,15 +9,6 @@ def transform_log_loc() -> str:
     The path is built using the `main_dir` directory and includes the job ID.
     The file is assumed to be named `treatments.json`.
 
-    Parameters
-    ----------
-    job_id : int
-        The identifier for the job.
-    run_id : int
-        The identifier for the run (currently unused in path construction).
-    debug : bool, optional
-        Flag to indicate debug mode (currently unused), by default False.
-
     Returns
     -------
     str
