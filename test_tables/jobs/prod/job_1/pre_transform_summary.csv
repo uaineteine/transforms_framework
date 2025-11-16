@@ -1,0 +1,3 @@
+﻿,run_id,job_id,environment,timestamp,table_name,pass_count,warning_count,fail_count,duplicate_records_count,total_columns
+0,1,1,test,2025-10-23T10:27:17.391,DCSKINPRODUCT,3,3,0,0,6
+1,1,1,test,2025-10-23T10:27:17.391,netflix,7,5,0,0,12
