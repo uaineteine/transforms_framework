@@ -109,25 +109,25 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     if (spark is None):
         col_df = MultiTable.load(
             path=colpath,
-            format="delta",
+            format=col_fmt,
             frame_type="pandas"
         )
         sum_df = MultiTable.load(
             path=sumpath,
-            format="delta",
+            format=sum_fmt,
             frame_type="pandas"
         )
     else:
         #read the column dataframe
         col_df = MultiTable.load(
             path=colpath,
-            format="delta",
+            format=col_fmt,
             frame_type="pyspark",
             spark=spark
         )
         sum_df = MultiTable.load(
             path=sumpath,
-            format="delta",
+            format=sum_fmt,
             frame_type="pyspark",
             spark=spark
         )
