@@ -1,6 +1,7 @@
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.pipeevent import PipelineEvent
 from transformslib.transforms.reader import transform_log_loc
+from transformslib.templates.pathing import apply_formats
 import fnmatch
 from typing import List
 import os
@@ -410,9 +411,7 @@ class TableCollection:
         if output_dir is None:
             output_dir = os.environ.get("TNSFRMS_OUT_TABLE_LOC", output_dir)
 
-        job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown_job")
-        output_dir = output_dir.replace("{job_id}", job_id)
-        output_dir = output_dir.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+        output_dir = apply_formats(output_dir)
 
         os.makedirs(output_dir, exist_ok=True)
 

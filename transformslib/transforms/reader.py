@@ -1,6 +1,7 @@
 import os
 import json
 from datetime import datetime, timedelta
+from transformslib.templates.pathing import apply_formats
 
 def transform_log_loc() -> str:
     """
@@ -16,9 +17,7 @@ def transform_log_loc() -> str:
     """
     try:
         path = os.environ.get("TNSFRMS_LOG_LOC", "jobs/{prodtest}/job_{job_id}/{run_id}/treatments.json")
-        path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
-        path = path.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
-        path = path.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
+        path = apply_formats(path)
     except KeyError as e:
         raise KeyError(f"TL001 Key Error. Environment variable update for log location is not working: Potentially missing key {e}")
     except Exception as e:
