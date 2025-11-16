@@ -338,9 +338,9 @@ class SupplyLoad(TableCollection):
             col_df.show()
             sum_df.show()
             
-            #collect the table names from the pyspark frame as a list
+            #collect the table names from the frame as a list
             table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.rdd.flatMap(lambda x: x).collect()
+            table_names = table_names.get_pandas_frame()["table_name"].tolist()
             
             #show warning messages - useing databricks engine
             warnings_frame = col_df.select("table_name", "column_name", "warning_messages").filter(col_df["warning_message"].isNotNull()).distinct()
