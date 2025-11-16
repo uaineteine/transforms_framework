@@ -7,6 +7,7 @@ from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
+from transformslib.templates.pathing import apply_formats
 
 from pyspark.sql import DataFrame
 
@@ -51,11 +52,7 @@ def get_run_state() -> str:
         str: The payload path.
     """
     path = os.environ.get("TNSFRMS_JOB_STATE", "../test_tables")
-    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
-    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
-    #format the path for job_id and run_id
-    path = path.replace("{job_id}", str(job_id)).replace("{run_id}", str(run_id))
-    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+    path = apply_formats(path)
 
     return path
 
@@ -69,12 +66,8 @@ def get_supply_file(table_name: str) -> str:
         str: The payload path.
     """
     base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
-    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
-    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
     #format the path for job_id
-    path = base_path.replace("{job_id}", str(job_id))
-    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
-    path = path.replace("{run_id}", str(run_id))
+    path = apply_formats(base_path)
     path = path.replace("{tablename}", table_name)
     
     print(path)
@@ -98,44 +91,43 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
 
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
-    Load the pre-transform delta table
+    Load the pre-transform tables for supply loading.
     
     Returns Multitable lists of frames
     """
     
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
-    sumpath = os.environ.get("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+    sumpath = os.environ.get("TNSFRMS_TABLE_SUMMARY_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
 
-    colpath = colpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
-    colpath = colpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
-    colpath = colpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
-
-    sumpath = sumpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
-    sumpath = sumpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
-    sumpath = sumpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+    colpath = apply_formats(colpath)
+    sumpath = apply_formats(sumpath)
+    
+    #get the format from the path, delta or parquet, csv
+    col_fmt = colpath.split(".")[-1]
+    sum_fmt = sumpath.split(".")[-1]
     
     if (spark is None):
         col_df = MultiTable.load(
             path=colpath,
-            format="delta",
+            format=col_fmt,
             frame_type="pandas"
         )
         sum_df = MultiTable.load(
             path=sumpath,
-            format="delta",
+            format=sum_fmt,
             frame_type="pandas"
         )
     else:
         #read the column dataframe
         col_df = MultiTable.load(
             path=colpath,
-            format="delta",
+            format=col_fmt,
             frame_type="pyspark",
             spark=spark
         )
         sum_df = MultiTable.load(
             path=sumpath,
-            format="delta",
+            format=sum_fmt,
             frame_type="pyspark",
             spark=spark
         )
@@ -346,13 +338,14 @@ class SupplyLoad(TableCollection):
             col_df.show()
             sum_df.show()
             
-            #collect the table names from the pyspark frame as a list
+            #collect the table names from the frame as a list
             table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.rdd.flatMap(lambda x: x).collect()
+            table_names = table_names.get_pandas_frame()["table_name"].tolist()
             
-            #show warning messages - useing databricks engine
-            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").filter(col_df["warning_message"].isNotNull()).distinct()
-            warnings_frame.display()
+            #show warning messages - using pandas for easy display
+            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").get_pandas_frame()
+            warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()].drop_duplicates()
+            print(warnings_frame)
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")

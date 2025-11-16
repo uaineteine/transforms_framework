@@ -1,36 +1,25 @@
 import os
 import json
 from datetime import datetime, timedelta
+from transformslib.templates.pathing import apply_formats
 
 def transform_log_loc() -> str:
     """
     Constructs the file path to the transformation log for a specific job.
 
     The path is built using the `main_dir` directory and includes the job ID.
-    The file is assumed to be named `transforms.json` and located in a subdirectory
-    named `job_<job_id>`.
-
-    Parameters
-    ----------
-    job_id : int
-        The identifier for the job.
-    run_id : int
-        The identifier for the run (currently unused in path construction).
-    debug : bool, optional
-        Flag to indicate debug mode (currently unused), by default False.
+    The file is assumed to be named `treatments.json`.
 
     Returns
     -------
     str
-        The full path to the `transforms.json` file for the specified job.
+        The full path to the `treatments.json` file for the specified job.
     """
     try:
-        path = os.environ.get("TNSFRMS_LOG_LOC", "")
-        path = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1))
-        path = path.format(run_id=os.environ.get("TNSFRMS_RUN_ID", 1))
-        path = path.format(prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+        path = os.environ.get("TNSFRMS_LOG_LOC", "jobs/{prodtest}/job_{job_id}/{run_id}/treatments.json")
+        path = apply_formats(path)
     except KeyError as e:
-        raise KeyError(f"TL001 Environment variable for log location is missing: {e}")
+        raise KeyError(f"TL001 Key Error. Environment variable update for log location is not working: Potentially missing key {e}")
     except Exception as e:
         raise Exception(f"TL002 Error constructing log location path: {e}")
 

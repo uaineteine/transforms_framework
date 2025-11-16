@@ -4,7 +4,6 @@ pyspark
 sas-to-polars
 sparkpolars
 deltalake
-delta-spark
 pyvis
 networkx
 naming-standards>=1.0.0

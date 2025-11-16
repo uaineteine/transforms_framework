@@ -69,7 +69,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.supply_load.SupplyLoad.wipe_run_outputs"><code class="docutils literal notranslate"><span class="pre">SupplyLoad.wipe_run_outputs()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.clear_run_state"><code class="docutils literal notranslate"><span class="pre">clear_run_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.clear_outputs"><code class="docutils literal notranslate"><span class="pre">clear_outputs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_execution_engine_info"><code class="docutils literal notranslate"><span class="pre">get_execution_engine_info()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_run_state"><code class="docutils literal notranslate"><span class="pre">get_run_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_supply_file"><code class="docutils literal notranslate"><span class="pre">get_supply_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_table_names_from_run_state"><code class="docutils literal notranslate"><span class="pre">get_table_names_from_run_state()</span></code></a></li>
@@ -524,9 +525,15 @@ This removes the transform log and any output files/directories associated with 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.clear_run_state">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">clear_run_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.clear_run_state" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.clear_outputs">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">clear_outputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.clear_outputs" title="Link to this definition"></a></dt>
 <dd><p>Remove output paths on request</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_execution_engine_info">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_execution_engine_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_execution_engine_info" title="Link to this definition"></a></dt>
+<dd><p>Get databricks information if running in databricks environment</p>
 </dd></dl>
 
 <dl class="py function">
@@ -560,9 +567,9 @@ This removes the transform log and any output files/directories associated with 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_pre_transform_data">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_pre_transform_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_pre_transform_data" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_pre_transform_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#transformslib.tables.multitable.MultiTable" title="transformslib.tables.multitable.MultiTable"><span class="pre">MultiTable</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_pre_transform_data" title="Link to this definition"></a></dt>
 <dd><p>Load the pre-transform delta table</p>
-<p>Returns dataframe (pyspark)</p>
+<p>Returns Multitable lists of frames</p>
 </dd></dl>
 
 <dl class="py function">

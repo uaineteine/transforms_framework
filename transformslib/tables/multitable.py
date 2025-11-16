@@ -327,6 +327,59 @@ class MultiTable:
             return pl.from_pandas(self.df).lazy()
         else:
             raise ValueError("Unsupported frame_type")
+    
+    def select(self, *columns):
+        """
+        Select specific columns from the DataFrame.
+
+        Accepts multiple column names as separate args, or a single list/tuple:
+            select("col1", "col2")
+            select(["col1", "col2"])
+        """
+        # allow either select("a","b") or select(["a","b"])
+        if len(columns) == 1 and isinstance(columns[0], (list, tuple)):
+            cols = list(columns[0])
+        else:
+            cols = list(columns)
+
+        if not cols:
+            raise ValueError("No columns provided to select()")
+
+        # Validate columns exist
+        self.validate_columns_exist(cols)
+
+        if self.frame_type == "pandas":
+            self.df = self.df[cols]
+        elif self.frame_type == "polars":
+            self.df = self.df.select(cols)
+        elif self.frame_type == "pyspark":
+            self.df = self.df.select(*cols)
+        else:
+            raise ValueError("MT004 Unsupported frame_type to use select method")
+
+        return self
+        
+    def validate_columns_exist(self, columns):
+        """
+        Validate that the provided columns exist in the DataFrame.
+
+        Args:
+            columns (list): List of column names to validate.
+
+        Raises:
+            ValueError: If any column does not exist in the DataFrame.
+        """
+        if self.frame_type == "pandas":
+            missing = [col for col in columns if col not in self.df.columns]
+        elif self.frame_type == "polars":
+            missing = [col for col in columns if col not in self.df.schema]
+        elif self.frame_type == "pyspark":
+            missing = [col for col in columns if col not in self.df.columns]
+        else:
+            raise ValueError("MT005 Unsupported frame_type to validate columns")
+
+        if missing:
+            raise ValueError(f"The following columns are missing: {', '.join(missing)}")
 
     def show(self, n: int = 20, truncate: bool = True):
         """
