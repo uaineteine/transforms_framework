@@ -342,9 +342,10 @@ class SupplyLoad(TableCollection):
             table_names = sum_df.select("table_name").distinct()
             table_names = table_names.get_pandas_frame()["table_name"].tolist()
             
-            #show warning messages - useing databricks engine
-            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").filter(col_df["warning_message"].isNotNull()).distinct()
-            warnings_frame.display()
+            #show warning messages - using pandas for easy display
+            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").get_pandas_frame()
+            warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()].drop_duplicates()
+            print(warnings_frame)
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
