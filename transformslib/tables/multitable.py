@@ -327,7 +327,24 @@ class MultiTable:
             return pl.from_pandas(self.df).lazy()
         else:
             raise ValueError("Unsupported frame_type")
+    
+    def select(self, columns: list[str]):
+        """
+        Select specific columns from the DataFrame.
 
+        Args:
+            columns (list[str]): List of column names to select.
+        """
+        if self.frame_type == "pandas":
+            self.df = self.df[columns]
+        elif self.frame_type == "polars":
+            self.df = self.df.select(columns)
+        elif self.frame_type == "pyspark":
+            self.df = self.df.select(*columns)
+        else:
+            raise ValueError("MT004 Unsupported frame_type to use select method")
+        
+    
     def show(self, n: int = 20, truncate: bool = True):
         """
         Display the DataFrame content in a formatted way.
