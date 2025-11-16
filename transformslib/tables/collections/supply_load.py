@@ -7,6 +7,7 @@ from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
+from transformslib.templates.pathing import apply_formats
 
 from pyspark.sql import DataFrame
 
@@ -51,11 +52,7 @@ def get_run_state() -> str:
         str: The payload path.
     """
     path = os.environ.get("TNSFRMS_JOB_STATE", "../test_tables")
-    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
-    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
-    #format the path for job_id and run_id
-    path = path.replace("{job_id}", str(job_id)).replace("{run_id}", str(run_id))
-    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+    path = apply_formats(path)
 
     return path
 
@@ -69,12 +66,8 @@ def get_supply_file(table_name: str) -> str:
         str: The payload path.
     """
     base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
-    job_id = os.environ.get("TNSFRMS_JOB_ID", 1)
-    run_id = os.environ.get("TNSFRMS_RUN_ID", 1)
     #format the path for job_id
-    path = base_path.replace("{job_id}", str(job_id))
-    path = path.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
-    path = path.replace("{run_id}", str(run_id))
+    path = apply_formats(base_path)
     path = path.replace("{tablename}", table_name)
     
     print(path)
@@ -106,13 +99,12 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_JOB_SUM_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
 
-    colpath = colpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
-    colpath = colpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
-    colpath = colpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
-
-    sumpath = sumpath.replace("{job_id}", str(os.environ.get("TNSFRMS_JOB_ID", 1)))
-    sumpath = sumpath.replace("{run_id}", str(os.environ.get("TNSFRMS_RUN_ID", 1)))
-    sumpath = sumpath.replace("{prodtest}", os.environ.get("TNSFRMS_PROD", "prod"))
+    colpath = apply_formats(colpath)
+    sumpath = apply_formats(sumpath)
+    
+    #get the format from the path, delta or parquet, csv
+    col_fmt = colpath.split(".")[-1]
+    sum_fmt = sumpath.split(".")[-1]
     
     if (spark is None):
         col_df = MultiTable.load(
