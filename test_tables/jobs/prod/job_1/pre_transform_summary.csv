@@ -1,3 +1,8 @@
-﻿,run_id,job_id,environment,timestamp,table_name,pass_count,warning_count,fail_count,duplicate_records_count,total_columns
-0,1,1,test,2025-10-23T10:27:17.391,DCSKINPRODUCT,3,3,0,0,6
-1,1,1,test,2025-10-23T10:27:17.391,netflix,7,5,0,0,12
+﻿run_id,job_id,environment,timestamp,table_name,total_columns
+1,1,test,2025-10-23T10:27:17.391,array_like,3
+1,1,test,2025-10-23T10:27:17.391,date_table,3
+1,1,test,2025-10-23T10:27:17.391,decimal_table,3
+1,1,test,2025-10-23T10:27:17.391,location,4
+1,1,test,2025-10-23T10:27:17.391,positions,5
+1,1,test,2025-10-23T10:27:17.391,salary,3
+1,1,test,2025-10-23T10:27:17.391,state,2
