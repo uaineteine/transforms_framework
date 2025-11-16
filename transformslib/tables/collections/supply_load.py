@@ -98,7 +98,7 @@ def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
 
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
-    Load the pre-transform delta table
+    Load the pre-transform tables for supply loading.
     
     Returns Multitable lists of frames
     """
