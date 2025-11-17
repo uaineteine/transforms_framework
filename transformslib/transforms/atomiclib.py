@@ -1768,6 +1768,83 @@ class AttachSynID(TableTransform):
                 return False
         else:
             return False
+        
+class ApplyLegacyIDHash(TableTransform):
+    """
+    Transform class to apply specific HMAC hashing to a specified column using a secret key.
+    """
+
+    def __init__(self):
+        """
+        Initialise an ApplyLegacyIDHash transform.
+
+        Args:
+            column (str): The name of the column to hash.
+        """
+        syn_id = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        per_id = os.getenv("TNSFRMS_ID_VAR", "PERSON_ID")
+        self.columns_to_hash = [syn_id, per_id]
+
+        super().__init__(
+            "ApplyLegacyIDHash",
+            f"Applies HMAC hashing to required variables",
+            self.columns_to_hash,
+            "HMACHash",
+            testable_transform=True
+        )
+        self.secret_key = "LegacyIDHash"
+
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
+        """
+        Validate that at least one target column exists in the table.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("Must specify 'df' parameter with table name")
+
+        # Filter to only columns that exist
+        self.existing_columns = [col for col in self.columns_to_hash if col in supply_frames[table_name].columns]
+        
+        if not self.existing_columns:
+            raise ValueError(f"None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
+
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
+        """
+        Apply HMAC hashing to the columns that exist in the DataFrame.
+        """
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pyspark":
+            for column in self.existing_columns:
+                supply_frames[table_name].df = apply_hmac_spark(
+                    supply_frames[table_name].df,
+                    column,
+                    self.secret_key
+                )
+        else:
+            raise NotImplementedError(f"ApplyLegacyIDHash not implemented for backend '{backend}'")
+
+        # Log event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=self.existing_columns,
+            output_variables=self.existing_columns,
+        )
+        supply_frames[table_name].add_event(self)
+
+        self.target_tables = [table_name]
+        return supply_frames
+
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
+        """
+        Test that all existing columns still exist after HMAC application.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            return False
+        return all(col in supply_frames[table_name].columns for col in self.existing_columns)
 
 class UnionTables(TableTransform):
     """
