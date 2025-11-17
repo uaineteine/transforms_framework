@@ -334,18 +334,18 @@ class SupplyLoad(TableCollection):
             print(f"Reading the delta tables to extract meta information")
             col_df, sum_df = load_pre_transform_data(spark=spark)
             
-            #present for the user
-            col_df.show()
-            sum_df.show()
-            
-            #collect the table names from the frame as a list
+            #collect the table names from the frame
             table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.get_pandas_frame()["table_name"].tolist()
+            table_names = table_names.get_pandas_frame()["table_name"]
             
             #show warning messages - using pandas for easy display
             warnings_frame = col_df.select("table_name", "column_name", "warning_messages").get_pandas_frame()
             warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()].drop_duplicates()
             print(warnings_frame)
+
+            #show table names and convert to a list
+            print(table_names)
+            table_names = table_names.tolist()
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
