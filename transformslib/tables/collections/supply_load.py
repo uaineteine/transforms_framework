@@ -346,6 +346,10 @@ class SupplyLoad(TableCollection):
             #show table names and convert to a list
             print(table_names)
             table_names = table_names.tolist()
+
+            #show column info
+            col_info = col_df.select("table_name,column_name,description")
+            col_info.show(truncate=False)
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
