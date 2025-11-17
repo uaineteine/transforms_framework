@@ -338,6 +338,10 @@ class SupplyLoad(TableCollection):
             table_names = sum_df.select("table_name").distinct()
             table_names = table_names.get_pandas_frame()["table_name"]
             
+            #show column info
+            col_info = col_df.select("table_name","column_name","description", "data_type")
+            col_info.show(truncate=False)
+
             #show warning messages - using pandas for easy display
             warnings_frame = col_df.select("table_name", "column_name", "warning_messages").get_pandas_frame()
             warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()].drop_duplicates()
@@ -346,10 +350,6 @@ class SupplyLoad(TableCollection):
             #show table names and convert to a list
             print(table_names)
             table_names = table_names.tolist()
-
-            #show column info
-            col_info = col_df.select("table_name,column_name,description")
-            col_info.show(truncate=False)
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
