@@ -9,8 +9,6 @@ from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 from transformslib.templates.pathing import apply_formats
 
-from pyspark.sql import DataFrame
-
 def get_execution_engine_info() -> Dict[str, Any]:
     """
     Get databricks information if running in databricks environment
