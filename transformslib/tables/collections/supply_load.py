@@ -351,6 +351,8 @@ class SupplyLoad(TableCollection):
             
         except FileNotFoundError:
             raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
+        except Exception as e:
+            print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
         if table_names == []:
             print(f"Attempting supply loading from: {self.supply_load_src}")
