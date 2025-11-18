@@ -214,7 +214,7 @@ class ApplyLegacyIDHash(Macro):
     Transform class to apply specific HMAC hashing to a specified column using a secret key.
     """
 
-   def __init__(self,
+    def __init__(self,
                  input_tables: "TableCollection"):
        
         syn_hash = ApplyHMAC(column=SYNTHETIC_VAR, trunclength=16)
