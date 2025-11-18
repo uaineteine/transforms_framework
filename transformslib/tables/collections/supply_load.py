@@ -332,10 +332,6 @@ class SupplyLoad(TableCollection):
             print(f"Reading the delta tables to extract meta information")
             col_df, sum_df = load_pre_transform_data(spark=spark)
             
-            #collect the table names from the frame
-            table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.get_pandas_frame()["table_name"]
-            
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type")
             col_info.show(truncate=False)
@@ -346,6 +342,9 @@ class SupplyLoad(TableCollection):
             print(warnings_frame)
 
             #show table names and convert to a list
+            #collect the table names from the frame
+            table_names = sum_df.select("table_name").distinct()
+            table_names = table_names.get_pandas_frame()["table_name"]
             print(table_names)
             table_names = table_names.tolist()
             
