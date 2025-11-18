@@ -1,6 +1,6 @@
 {
   "table_name": "salary",
-  "input_path": "../test_tables/jobs/prod/job_1/salary.csv",
+  "input_path": "../tests/test_tables/jobs/prod/job_1/salary.csv",
   "sample_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/project/jobs/test/1/run/1/sample/salary/salary.parquet",
   "file_format": "csv",
   "engine": "polars-parquet",
