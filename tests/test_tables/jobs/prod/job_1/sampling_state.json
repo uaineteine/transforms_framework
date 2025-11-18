@@ -2,7 +2,7 @@
   "sample_files": [
     {
       "table_name": "positions",
-      "input_file_path": "../test_tables/jobs/prod/job_1/positions.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/positions.csv",
       "sample_path": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -30,7 +30,7 @@
     },
     {
       "table_name": "salary",
-      "input_file_path": "../test_tables/jobs/prod/job_1/salary.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/salary.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -50,7 +50,7 @@
     },
     {
       "table_name": "location",
-      "input_file_path": "../test_tables/jobs/prod/job_1/location.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/location.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -74,7 +74,7 @@
     },
     {
       "table_name": "array_like",
-      "input_file_path": "../test_tables/jobs/prod/job_1/array_like.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/array_like.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -94,7 +94,7 @@
     },
     {
       "table_name": "decimal_table",
-      "input_file_path": "../test_tables/jobs/prod/job_1/decimal_table.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/decimal_table.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -114,7 +114,7 @@
     },
     {
       "table_name": "date_table",
-      "input_file_path": "../test_tables/jobs/prod/job_1/date_table.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/date_table.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {
@@ -134,7 +134,7 @@
     },
     {
       "table_name": "state",
-      "input_file_path": "../test_tables/jobs/prod/job_1/state.csv",
+      "input_path": "../test_tables/jobs/prod/job_1/state.csv",
       "sample_path_gzi": "//container/project/jobs/test/1/run/2/schema/sample/data/netflix_netflix_.sample.parquet",
       "file_format": "csv",
       "dtypes": {

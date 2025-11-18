@@ -1,6 +1,6 @@
 {
   "table_name": "positions",
-  "input_file_path": "../test_tables/jobs/prod/job_1/positions.csv",
+  "input_path": "../test_tables/jobs/prod/job_1/positions.csv",
   "sample_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/project/jobs/test/1/run/1/sample/positions/positions.parquet",
   "file_format": "csv",
   "engine": "polars-parquet",

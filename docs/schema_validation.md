@@ -62,7 +62,7 @@ Schema validation uses the `dtypes` field in your `sampling_state.json` file:
   "sample_files": [
     {
       "table_name": "my_table",
-      "input_file_path": "path/to/data.csv",
+      "input_path": "path/to/data.csv",
       "file_format": "csv",
       "dtypes": {
         "COLUMN1": {

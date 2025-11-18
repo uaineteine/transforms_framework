@@ -1,6 +1,6 @@
 {
   "table_name": "date_table",
-  "input_file_path": "../test_tables/jobs/prod/job_1/date_table.csv",
+  "input_path": "../test_tables/jobs/prod/job_1/date_table.csv",
   "sample_path": "abfss://container@devstoreaccount1.dfs.core.windows.net/project/jobs/test/1/run/1/sample/date_table/date_table.parquet",
   "file_format": "csv",
   "engine": "polars-parquet",
