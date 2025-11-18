@@ -1136,7 +1136,7 @@ class DropNAValues(TableTransform):
         elif backend == "pyspark":
             supply_frames[table_name].df = supply_frames[table_name].df.na.drop(subset=[self.column])
         else:
-            raise NotImplementedError(f"DropNA not implemented for backend '{backend}'")
+            raise NotImplementedError(f"AT010 DropNA not implemented for backend '{backend}'")
 
         # Capture row count after transformation
         output_row_count = supply_frames[table_name].nrow
