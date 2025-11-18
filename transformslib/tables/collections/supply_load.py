@@ -336,7 +336,7 @@ class SupplyLoad(TableCollection):
             col_df, sum_df = load_pre_transform_data(spark=spark)
             
             #show column info
-            col_info = col_df.select("table_name","column_name","description", "data_type")
+            col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages")
             col_info.show(truncate=False)
 
             #show warning messages - using pandas for easy display
