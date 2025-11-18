@@ -7,7 +7,7 @@ import os
 # generate_setup.py
 
 package_name = "transformslib"
-version = "0.29.1"
+version = "0.29.2"
 author = ""
 author_email = ""
 url = ""

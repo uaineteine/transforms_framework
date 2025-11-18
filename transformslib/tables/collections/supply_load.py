@@ -159,7 +159,12 @@ def load_single_table(data: Dict[str, Any],
         raise ValueError("Each sample file item must have a 'table_name' field")
 
     # Handle path normalization - sampling_state.json may use relative paths
-    file_path = data["input_file_path"]
+    # Some older versions use input_file_path, sticking to that for backward compatibility
+    file_path = data.get("input_path", "NONE") #default to NONE if not found
+    if file_path == "NONE" and "input_file_path" in data:
+        print("SL030 Warning: 'input_file_path' is deprecated, please use 'input_path' instead on source")
+        file_path = data["input_file_path"]
+        
 
     print(f"Loading table '{name}' from {file_path} (format: {data['file_format']})")
 
@@ -214,7 +219,7 @@ class SupplyLoad(TableCollection):
         "sample_files": [
             {
                 "table_name": "table_name",
-                "input_file_path": "path/to/data.parquet",
+                "input_path": "path/to/data.parquet",
                 "file_format": "parquet",
                 "dtypes": {
                     "column1": {"dtype_source": "String", "dtype_output": "String"},

@@ -1768,31 +1768,54 @@ class AttachSynID(TableTransform):
                 return False
         else:
             return False
-        
-class ApplyLegacyIDHash(TableTransform):
+
+import hmac
+import hashlib
+from pyspark.sql.functions import udf
+from pyspark.sql import DataFrame
+def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFrame:
+    """
+    Apply HMAC hashing to a specified column in a PySpark DataFrame.
+
+    Args:
+        df (DataFrame): The PySpark DataFrame.
+        column (str): The name of the column to hash.
+        salt_key (str): The secret key for HMAC.
+        trunc_length (int): The length to truncate the hash to.
+    Returns:
+        DataFrame: The DataFrame with the hashed column.
+    """
+    def hmac_hash(value: str) -> str:
+        if value is None:
+            return None
+        hmac_obj = hmac.new(salt_key.encode(), value.encode(), hashlib.sha256)
+        return hmac_obj.hexdigest()[:trunc_length]
+
+    hmac_udf = udf(hmac_hash)
+
+    return df.withColumn(column, hmac_udf(df[column]))
+
+class ApplyHMAC(TableTransform):
     """
     Transform class to apply specific HMAC hashing to a specified column using a secret key.
     """
 
-    def __init__(self):
+    def __init__(self, column:str, trunclength:int):
         """
-        Initialise an ApplyLegacyIDHash transform.
+        Initialise an HMAC transform.
 
         Args:
             column (str): The name of the column to hash.
         """
-        syn_id = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
-        per_id = os.getenv("TNSFRMS_ID_VAR", "PERSON_ID")
-        self.columns_to_hash = [syn_id, per_id]
 
         super().__init__(
-            "ApplyLegacyIDHash",
-            f"Applies HMAC hashing to required variables",
-            self.columns_to_hash,
+            "ApplyHMAC",
+            f"Applies HMAC hashing to given variables",
+            [column],
             "HMACHash",
             testable_transform=True
         )
-        self.secret_key = "LegacyIDHash"
+        self.columns_to_hash = [column]
 
     def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
@@ -1814,16 +1837,18 @@ class ApplyLegacyIDHash(TableTransform):
         """
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
+        key = kwargs.get("hmac_key")
 
         if backend == "pyspark":
             for column in self.existing_columns:
                 supply_frames[table_name].df = apply_hmac_spark(
                     supply_frames[table_name].df,
                     column,
-                    self.secret_key
+                    key,
+                    trunc_length=16
                 )
         else:
-            raise NotImplementedError(f"ApplyLegacyIDHash not implemented for backend '{backend}'")
+            raise NotImplementedError(f"HMAC hash not implemented for backend '{backend}'")
 
         # Log event
         self.log_info = TransformEvent(
