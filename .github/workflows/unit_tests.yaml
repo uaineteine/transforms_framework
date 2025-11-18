@@ -32,4 +32,17 @@ jobs:
       - name: Run unit tests
         run: |
           ./run_test.bat
-
+      - name: Upload test results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: tests/test_log.txt
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload DAG report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dag-report
+          path: templates/transform_dag_job_run1.html
+          if-no-files-found: warn
+          retention-days: 14
