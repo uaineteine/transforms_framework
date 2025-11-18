@@ -6,7 +6,7 @@ import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
 import sparkpolars as sp
-from sas_to_polars import sas_to_polars
+import polars_readstat as prs
 from deltalake import DeltaTable
 
 #module imports
@@ -18,7 +18,7 @@ def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spar
     Load a Spark DataFrame from the given path and return a MetaFrame.
     """
     if spark is None:
-        raise ValueError("SparkSession required for PySpark")
+        raise ValueError("MT020 SparkSession required for PySpark")
 
     if format == "sas":
         return spark.read.format("com.github.saurfang.sas.spark").load(path)
@@ -53,9 +53,9 @@ def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> 
     elif format == "csv":
         return pl.scan_csv(path)  # Default: header inferred
     elif format == "sas":
-        return sas_to_polars(path)
+        return prs.scan_readstat(path)
     else:
-       raise ValueError("Unsupported format for polars")
+       raise ValueError("MT004 Unsupported format for polars")
 
 class MultiTable: 
     """
