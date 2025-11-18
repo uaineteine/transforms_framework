@@ -35,8 +35,11 @@ def clear_outputs():
         path = transform_log_loc()
         if "dbfs:/" in path:
             try:
-                dbutils.fs.ls("/")
-                print("dbutils is available")
+                #test if dbutils is available
+                dbls = dbutils.fs.ls("/")
+
+                dbutils.fs.rm(path, True)
+                print("Cleared the transform log path using dbutils")
             except NameError:
                 print("SL012 dbutils is NOT available to clear the path")
         else:
