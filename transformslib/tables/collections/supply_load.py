@@ -35,8 +35,11 @@ def clear_outputs():
         path = transform_log_loc()
         if "dbfs:/" in path:
             try:
-                dbutils.fs.ls("/")
-                print("dbutils is available")
+                #test if dbutils is available
+                dbls = dbutils.fs.ls("/")
+
+                dbutils.fs.rm(path, True)
+                print("Cleared the transform log path using dbutils")
             except NameError:
                 print("SL012 dbutils is NOT available to clear the path")
         else:
@@ -332,12 +335,8 @@ class SupplyLoad(TableCollection):
             print(f"Reading the delta tables to extract meta information")
             col_df, sum_df = load_pre_transform_data(spark=spark)
             
-            #collect the table names from the frame
-            table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.get_pandas_frame()["table_name"]
-            
             #show column info
-            col_info = col_df.select("table_name","column_name","description", "data_type")
+            col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages")
             col_info.show(truncate=False)
 
             #show warning messages - using pandas for easy display
@@ -346,6 +345,9 @@ class SupplyLoad(TableCollection):
             print(warnings_frame)
 
             #show table names and convert to a list
+            #collect the table names from the frame
+            table_names = sum_df.select("table_name").distinct()
+            table_names = table_names.get_pandas_frame()["table_name"]
             print(table_names)
             table_names = table_names.tolist()
             
