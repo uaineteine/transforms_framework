@@ -1768,7 +1768,33 @@ class AttachSynID(TableTransform):
                 return False
         else:
             return False
-        
+
+import hmac
+import hashlib
+from pyspark.sql.functions import udf
+from pyspark.sql import DataFrame
+def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFrame:
+    """
+    Apply HMAC hashing to a specified column in a PySpark DataFrame.
+
+    Args:
+        df (DataFrame): The PySpark DataFrame.
+        column (str): The name of the column to hash.
+        salt_key (str): The secret key for HMAC.
+        trunc_length (int): The length to truncate the hash to.
+    Returns:
+        DataFrame: The DataFrame with the hashed column.
+    """
+    def hmac_hash(value: str) -> str:
+        if value is None:
+            return None
+        hmac_obj = hmac.new(salt_key.encode(), value.encode(), hashlib.sha256)
+        return hmac_obj.hexdigest()[:trunc_length]
+
+    hmac_udf = udf(hmac_hash)
+
+    return df.withColumn(column, hmac_udf(df[column]))
+
 class ApplyLegacyIDHash(TableTransform):
     """
     Transform class to apply specific HMAC hashing to a specified column using a secret key.
@@ -1820,7 +1846,8 @@ class ApplyLegacyIDHash(TableTransform):
                 supply_frames[table_name].df = apply_hmac_spark(
                     supply_frames[table_name].df,
                     column,
-                    self.secret_key
+                    self.secret_key,
+                    trunc_length=16
                 )
         else:
             raise NotImplementedError(f"ApplyLegacyIDHash not implemented for backend '{backend}'")
