@@ -411,24 +411,3 @@ class SupplyLoad(TableCollection):
         
         print("Loaded the following tables: ")
         print(self.named_tables)
-
-    @staticmethod
-    def wipe_run_outputs(job_id: int, run_id: int = None):
-        """
-        Wipe the outputs and results of a previous run for a given job_id (and optionally run_id).
-        This removes the transform log and any output files/directories associated with the run.
-        """
-        # Remove output files in test_tables/output/job_<job_id> or similar
-        output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../test_tables/output'))
-        if os.path.exists(output_dir):
-            for entry in os.listdir(output_dir):
-                if entry.startswith('job_') and entry == f'job_{job_id}':
-                    full_path = os.path.join(output_dir, entry)
-                    if os.path.isdir(full_path):
-                        shutil.rmtree(full_path)
-                        print(f"Removed output directory: {full_path}")
-                    else:
-                        os.remove(full_path)
-                        print(f"Removed output file: {full_path}")
-        else:
-            print(f"No output directory found at: {output_dir}")
