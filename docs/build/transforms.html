@@ -47,6 +47,12 @@
 <li class="toctree-l1"><a class="reference internal" href="templates.html">templates</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">transforms</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.transforms.atomiclib">transformslib.transforms.atomiclib</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash"><code class="docutils literal notranslate"><span class="pre">ApplyLegacyIDHash</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.error_check"><code class="docutils literal notranslate"><span class="pre">ApplyLegacyIDHash.error_check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.test"><code class="docutils literal notranslate"><span class="pre">ApplyLegacyIDHash.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.transforms"><code class="docutils literal notranslate"><span class="pre">ApplyLegacyIDHash.transforms()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.transforms.atomiclib.AttachSynID"><code class="docutils literal notranslate"><span class="pre">AttachSynID</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.AttachSynID.error_check"><code class="docutils literal notranslate"><span class="pre">AttachSynID.error_check()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.transforms.atomiclib.AttachSynID.test"><code class="docutils literal notranslate"><span class="pre">AttachSynID.test()</span></code></a></li>
@@ -239,6 +245,30 @@
 <h1>transforms<a class="headerlink" href="#transforms" title="Link to this heading"></a></h1>
 <section id="module-transformslib.transforms.atomiclib">
 <span id="transformslib-transforms-atomiclib"></span><h2>transformslib.transforms.atomiclib<a class="headerlink" href="#module-transformslib.transforms.atomiclib" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ApplyLegacyIDHash">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">ApplyLegacyIDHash</span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash" title="Link to this definition"></a></dt>
+<dd><p>Transform class to apply specific HMAC hashing to a specified column using a secret key.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ApplyLegacyIDHash.error_check">
+<span class="sig-name descname"><span class="pre">error_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.error_check" title="Link to this definition"></a></dt>
+<dd><p>Validate that at least one target column exists in the table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ApplyLegacyIDHash.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.test" title="Link to this definition"></a></dt>
+<dd><p>Test that all existing columns still exist after HMAC application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.transforms.atomiclib.ApplyLegacyIDHash.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supply_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tables.html#transformslib.tables.collections.collection.TableCollection" title="transformslib.tables.collections.collection.TableCollection"><span class="pre">TableCollection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.ApplyLegacyIDHash.transforms" title="Link to this definition"></a></dt>
+<dd><p>Apply HMAC hashing to the columns that exist in the DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.transforms.atomiclib.AttachSynID">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.transforms.atomiclib.</span></span><span class="sig-name descname"><span class="pre">AttachSynID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_fast_join</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.atomiclib.AttachSynID" title="Link to this definition"></a></dt>
