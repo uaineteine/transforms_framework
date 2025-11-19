@@ -366,6 +366,7 @@ class SupplyLoad(TableCollection):
             try:
                 print("reading the state file")
                 run_state = load_json(self.supply_load_src, spark=spark)
+                table_names = get_table_names_from_run_state(run_state)
         
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL004 Supply JSON file not found at {self.supply_load_src}")
