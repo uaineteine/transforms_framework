@@ -172,9 +172,16 @@ def load_single_table(data: Dict[str, Any],
 
     print(f"Loading table '{name}' from {file_path} (format: {data['file_format']})")
 
+    #error checking the file format
+    fmt = data["file_format"].lower()
+    if fmt not in ["part_parquet", "parquet", "csv", "json", "delta"]:
+        raise ValueError(f"SL031 Unsupported file format '{data['file_format']}' for table '{name}'")
+    #patching file format for read if needed
+    if fmt == "part_parquet":
+        fmt = "parquet"
     table = MetaFrame.load(
             path=file_path,
-            format=data["file_format"],
+            format=fmt,
             frame_type="pyspark",
             spark=spark
     )
