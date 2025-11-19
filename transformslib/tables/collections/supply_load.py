@@ -341,8 +341,11 @@ class SupplyLoad(TableCollection):
         """
         table_names = []
         try:
-            print(f"Reading the delta tables to extract meta information")
-            col_df, sum_df = load_pre_transform_data(spark=spark)
+            try:
+                print(f"Reading the delta tables to extract meta information")
+                col_df, sum_df = load_pre_transform_data(spark=spark)
+            except FileNotFoundError:
+                raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
@@ -366,9 +369,7 @@ class SupplyLoad(TableCollection):
             table_names = table_names.get_pandas_frame()["table_name"]
             print(table_names)
             table_names = table_names.tolist()
-            
-        except FileNotFoundError:
-            raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
+        
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
