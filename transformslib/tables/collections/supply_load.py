@@ -107,31 +107,35 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     col_fmt = colpath.split(".")[-1]
     sum_fmt = sumpath.split(".")[-1]
     
-    if (spark is None):
-        col_df = MultiTable.load(
-            path=colpath,
-            format=col_fmt,
-            frame_type="pandas"
-        )
-        sum_df = MultiTable.load(
-            path=sumpath,
-            format=sum_fmt,
-            frame_type="pandas"
-        )
-    else:
-        #read the column dataframe
-        col_df = MultiTable.load(
-            path=colpath,
-            format=col_fmt,
-            frame_type="pyspark",
-            spark=spark
-        )
-        sum_df = MultiTable.load(
-            path=sumpath,
-            format=sum_fmt,
-            frame_type="pyspark",
-            spark=spark
-        )
+    try:
+        if (spark is None):
+            col_df = MultiTable.load(
+                path=colpath,
+                format=col_fmt,
+                frame_type="pandas"
+            )
+            sum_df = MultiTable.load(
+                path=sumpath,
+                format=sum_fmt,
+                frame_type="pandas"
+            )
+        else:
+            #read the column dataframe
+            col_df = MultiTable.load(
+                path=colpath,
+                format=col_fmt,
+                frame_type="pyspark",
+                spark=spark
+            )
+            sum_df = MultiTable.load(
+                path=sumpath,
+                format=sum_fmt,
+                frame_type="pyspark",
+                spark=spark
+            )
+    except Exception as e:
+        print(f"SL011 Error loading pre-transform tables: {e}")
+        raise e
     
     #deuplicate frames before returning
     return col_df.distinct(), sum_df.distinct()
@@ -341,13 +345,20 @@ class SupplyLoad(TableCollection):
             col_df, sum_df = load_pre_transform_data(spark=spark)
             
             #show column info
-            col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages")
+            col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
             col_info.show(truncate=False)
 
-            #show warning messages - using pandas for easy display
-            warnings_frame = col_df.select("table_name", "column_name", "warning_messages").get_pandas_frame()
-            warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()].drop_duplicates()
-            print(warnings_frame)
+            try:
+                #show warning messages - using pandas for easy display
+                warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
+                #explode the warnings on pipe
+                warnings_frame = warnings_frame.explode(column="warning_messages", sep="|", outer=False)
+                warnings_frame = warnings_frame.get_pandas_frame()
+                #warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
+                warnings_frame = warnings_frame.drop_duplicates()
+                print(warnings_frame)
+            except Exception as e:
+                print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
 
             #show table names and convert to a list
             #collect the table names from the frame
@@ -412,24 +423,3 @@ class SupplyLoad(TableCollection):
         
         print("Loaded the following tables: ")
         print(self.named_tables)
-
-    @staticmethod
-    def wipe_run_outputs(job_id: int, run_id: int = None):
-        """
-        Wipe the outputs and results of a previous run for a given job_id (and optionally run_id).
-        This removes the transform log and any output files/directories associated with the run.
-        """
-        # Remove output files in test_tables/output/job_<job_id> or similar
-        output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../test_tables/output'))
-        if os.path.exists(output_dir):
-            for entry in os.listdir(output_dir):
-                if entry.startswith('job_') and entry == f'job_{job_id}':
-                    full_path = os.path.join(output_dir, entry)
-                    if os.path.isdir(full_path):
-                        shutil.rmtree(full_path)
-                        print(f"Removed output directory: {full_path}")
-                    else:
-                        os.remove(full_path)
-                        print(f"Removed output file: {full_path}")
-        else:
-            print(f"No output directory found at: {output_dir}")

@@ -15,6 +15,7 @@ MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatm
 
 # Get synthetic variable name from environment variable
 SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
+PERSON_ID_VAR = os.environ.get("TNSFRMS_ID_VAR", "person_id")
 
 class Macro:
     """
@@ -207,6 +208,34 @@ class DropMissingIDs(Macro):
             input_variables=[SYNTHETIC_VAR],
             output_variables=[SYNTHETIC_VAR]
         )
+
+class ApplyLegacyIDHash(Macro):
+    """
+    Transform class to apply specific HMAC hashing to a specified column using a secret key.
+    """
+
+    def __init__(self,
+                 input_tables: "TableCollection"):
+       
+        syn_hash = ApplyHMAC(column=SYNTHETIC_VAR, trunclength=16)
+        per_hash = ApplyHMAC(column=PERSON_ID_VAR, trunclength=16)
+
+        macro = MacroTransform(
+            transforms=[syn_hash, per_hash],
+            Name="ApplyLegacyIDHash",
+            Description=f"Applies HMAC hashing to {SYNTHETIC_VAR} and {PERSON_ID_VAR}",
+            macro_id="ApplyLegacyIDHash"
+        )
+
+        super().__init__(
+            macro_transform=macro,
+            input_tables=input_tables,
+            output_tables=input_tables.get_table_names(),
+            input_variables=[SYNTHETIC_VAR, PERSON_ID_VAR],
+            output_variables=[SYNTHETIC_VAR, PERSON_ID_VAR]
+        )
+        
+        self.secret_key_name = "LegacyIDHash"
 
 
 ### IMPORT LOGIC TO DISCOVER ALL MACROS ###

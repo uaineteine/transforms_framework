@@ -1136,7 +1136,7 @@ class DropNAValues(TableTransform):
         elif backend == "pyspark":
             supply_frames[table_name].df = supply_frames[table_name].df.na.drop(subset=[self.column])
         else:
-            raise NotImplementedError(f"DropNA not implemented for backend '{backend}'")
+            raise NotImplementedError(f"AT010 DropNA not implemented for backend '{backend}'")
 
         # Capture row count after transformation
         output_row_count = supply_frames[table_name].nrow
@@ -1795,30 +1795,27 @@ def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFr
 
     return df.withColumn(column, hmac_udf(df[column]))
 
-class ApplyLegacyIDHash(TableTransform):
+class ApplyHMAC(TableTransform):
     """
     Transform class to apply specific HMAC hashing to a specified column using a secret key.
     """
 
-    def __init__(self):
+    def __init__(self, column:str, trunclength:int):
         """
-        Initialise an ApplyLegacyIDHash transform.
+        Initialise an HMAC transform.
 
         Args:
             column (str): The name of the column to hash.
         """
-        syn_id = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
-        per_id = os.getenv("TNSFRMS_ID_VAR", "PERSON_ID")
-        self.columns_to_hash = [syn_id, per_id]
 
         super().__init__(
-            "ApplyLegacyIDHash",
-            f"Applies HMAC hashing to required variables",
-            self.columns_to_hash,
+            "ApplyHMAC",
+            f"Applies HMAC hashing to given variables",
+            [column],
             "HMACHash",
             testable_transform=True
         )
-        self.secret_key = "LegacyIDHash"
+        self.columns_to_hash = [column]
 
     def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
@@ -1840,17 +1837,18 @@ class ApplyLegacyIDHash(TableTransform):
         """
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
+        key = kwargs.get("hmac_key")
 
         if backend == "pyspark":
             for column in self.existing_columns:
                 supply_frames[table_name].df = apply_hmac_spark(
                     supply_frames[table_name].df,
                     column,
-                    self.secret_key,
+                    key,
                     trunc_length=16
                 )
         else:
-            raise NotImplementedError(f"ApplyLegacyIDHash not implemented for backend '{backend}'")
+            raise NotImplementedError(f"HMAC hash not implemented for backend '{backend}'")
 
         # Log event
         self.log_info = TransformEvent(
