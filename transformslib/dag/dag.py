@@ -166,6 +166,28 @@ def build_di_graph(logs:list) -> nx.DiGraph:
     return G
 
 
+def filter_logs_for_rendering(logs: list) -> list:
+    """
+    Filter out logs that are not relevant for DAG rendering.
+
+    Args:
+        logs (list): List of transform event logs.
+    Returns:
+        list: Filtered list of logs.
+    """
+    #remove items under the macro step - has macro_type
+    logs = [log for log in logs if not log.get("macro_type")]
+    #remove items that have event_type macro_log
+    logs = [log for log in logs if not log.get("event_type") == "macro_log"]
+    
+    #remove the load
+    logs = [log for log in logs if not log.get("transform_name") == "load"]
+    
+    #remove the write
+    logs = [log for log in logs if not log.get("transform_name") == "write"]
+
+    return logs
+
 def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.
@@ -181,17 +203,7 @@ def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str
 
     # Load transform events
     logs = reader.load_transform_log()
-    
-    #remove items under the macro step - has macro_type
-    logs = [log for log in logs if not log.get("macro_type")]
-    #remove items that have event_type macro_log
-    logs = [log for log in logs if not log.get("event_type") == "macro_log"]
-    
-    #remove the load
-    logs = [log for log in logs if not log.get("transform_name") == "load"]
-    
-    #remove the write
-    logs = [log for log in logs if not log.get("transform_name") == "write"]
+    logs = filter_logs_for_rendering(logs)
 
     # Check meta version
     this_version = logs[0].get("meta_version", "")

@@ -48,6 +48,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.build_dag"><code class="docutils literal notranslate"><span class="pre">build_dag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.build_di_graph"><code class="docutils literal notranslate"><span class="pre">build_di_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.calculate_total_runtime"><code class="docutils literal notranslate"><span class="pre">calculate_total_runtime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.filter_logs_for_rendering"><code class="docutils literal notranslate"><span class="pre">filter_logs_for_rendering()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.output_loc"><code class="docutils literal notranslate"><span class="pre">output_loc()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.render_dag"><code class="docutils literal notranslate"><span class="pre">render_dag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.dag.dag.set_default_network_options"><code class="docutils literal notranslate"><span class="pre">set_default_network_options()</span></code></a></li>
@@ -122,6 +123,18 @@ run_id (int): Run ID
 height (int|float|str, optional): Height of the graph. If int/float: interpreted as pixels. If str: passed directly (e.g., “100%”).</p>
 </dd>
 <dt>Returns:</dt><dd><p>Optional[timedelta]: Total runtime as a timedelta object, or None if timestamps are empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.dag.dag.filter_logs_for_rendering">
+<span class="sig-prename descclassname"><span class="pre">transformslib.dag.dag.</span></span><span class="sig-name descname"><span class="pre">filter_logs_for_rendering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#transformslib.dag.dag.filter_logs_for_rendering" title="Link to this definition"></a></dt>
+<dd><p>Filter out logs that are not relevant for DAG rendering.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>logs (list): List of transform event logs.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: Filtered list of logs.</p>
 </dd>
 </dl>
 </dd></dl>
