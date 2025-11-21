@@ -861,18 +861,19 @@ class MultiTable:
         else:
             raise ValueError("Unsupported frame_type")
 
-def load_delta_table(path:str, format=None, spark=None) -> MultiTable:
+def load_delta_table(path:str, format="delta", spark=None) -> MultiTable:
     """
     Load a delta table from the given path.
     
     Args:
         path (str): The path to the delta table.
+        format (str): The format of the table, default is "delta".
         spark: SparkSession object for PySpark operations.
 
     Returns:
         MultiTable: The loaded MultiTable instance.
     """
-    if format is None:
+    if format != "delta":
         #infer the format
         format = path.split(".")[-1]
     else:
