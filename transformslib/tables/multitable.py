@@ -5,8 +5,6 @@ import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
 import sparkpolars as sp
-import polars_readstat as prs
-from deltalake import DeltaTable
 
 #module imports
 from naming_standards import Tablename
