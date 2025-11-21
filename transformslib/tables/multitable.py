@@ -123,10 +123,21 @@ class MultiTable:
             >>> print(name)  # "data"
         """
         if src_path == "":
-            raise ValueError("Source path cannot be empty")
+            raise ValueError("MT100 Source path cannot be empty")
+        
+        #remove trailing / at the end if it exists, but only the last character
+        if src_path.endswith("/") or src_path.endswith("\\"):
+            try:
+                src_path = src_path[:-1]
+            except Exception as e:
+                print(f"MT101 Warning: Exception while removing trailing slash: {e}")
 
         #does it have a file extension?
         bn = os.path.basename(src_path)
+
+        if bn == "":
+            raise ValueError(f"MT102 source path '{src_path}' is extracting a blank basename")
+
         #print(bn)
         if bn.find(".") == -1:
             return Tablename(bn)

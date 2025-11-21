@@ -153,9 +153,16 @@ def load_single_table_from_sampling(data: Dict[str, Any],
 
     print(f"Loading table '{name}' from {file_path} (format: {data['file_format']})")
 
+    #error checking the file format
+    fmt = data["file_format"].lower()
+    if fmt not in ["part_parquet", "parquet", "csv", "json", "delta"]:
+        raise ValueError(f"SL031 Unsupported file format '{data['file_format']}' for table '{name}'")
+    #patching file format for read if needed
+    if fmt == "part_parquet":
+        fmt = "parquet"
     table = MetaFrame.load(
             path=file_path,
-            format=data["file_format"],
+            format=fmt,
             frame_type="pyspark",
             spark=spark
     )
@@ -323,8 +330,11 @@ class SupplyLoad(TableCollection):
         table_names = []
         paths = []
         try:
-            print(f"Reading the delta tables to extract meta information")
-            col_df, sum_df = load_pre_transform_data(spark=spark)
+            try:
+                print(f"Reading the delta tables to extract meta information")
+                col_df, sum_df = load_pre_transform_data(spark=spark)
+            except FileNotFoundError:
+                raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
@@ -348,9 +358,7 @@ class SupplyLoad(TableCollection):
             table_names = table_names.get_pandas_frame()["table_name"]
             print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
-            
-        except FileNotFoundError:
-            raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
+        
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         

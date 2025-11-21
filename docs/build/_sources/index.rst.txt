@@ -31,13 +31,13 @@ Dependencies
 * polars
 * pandas
 * pyspark
-* sas-to-polars
+* polarsreadstat
 * sparkpolars
 * deltalake
 * pyvis
 * networkx
 * naming-standards>=1.0.0
-* adaptiveio>=1.0.1
+* adaptiveio>=1.0.2
 * hash_method>=2.0.2
 * transforms_events>=1.0.0
 * conclib>=2.0.1
