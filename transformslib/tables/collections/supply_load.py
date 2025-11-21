@@ -339,8 +339,8 @@ class SupplyLoad(TableCollection):
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
-            paths_info = col_df.copy()
-            paths_info = paths_info.select("table_name", "table_path").distinct()
+            paths_info = sum_df.copy()
+            paths_info.show(truncate=False)
             
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
@@ -361,18 +361,13 @@ class SupplyLoad(TableCollection):
             #show table names and convert to a list
             #collect the table names from the frame
             table_names = sum_df.select("table_name").distinct()
+            table_names.show(truncate=False)
             table_names = table_names.get_pandas_frame()["table_name"]
-            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
             
-            paths_info = paths_info.get_pandas_frame()
-            for t in table_names:
-                path_row = paths_info[paths_info["table_name"] == t]
-                if not path_row.empty:
-                    path = path_row.iloc[0]["table_path"]
-                    paths.append(path)
-                else:
-                    paths.append(None)
+            paths = paths_info.select("table_path").distinct()
+            paths = paths.get_pandas_frame()["table_path"]
+            paths = paths.tolist()
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
@@ -453,7 +448,7 @@ class SupplyLoad(TableCollection):
                     self.tables.append(mt)
                     self.named_tables[t] = mt
                 except Exception as e:
-                    print(f"Error SL200 loading table '{t}': {e}")
+                    print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
                     raise e
 
         print("")
