@@ -2,7 +2,7 @@ import os
 import shutil
 from typing import Dict, Any
 from adaptiveio import load_json
-from transformslib.tables.multitable import MultiTable
+from transformslib.tables.multitable import MultiTable, load_delta_table
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
@@ -103,42 +103,18 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     colpath = apply_formats(colpath)
     sumpath = apply_formats(sumpath)
     
-    #get the format from the path, delta or parquet, csv
-    col_fmt = colpath.split(".")[-1]
-    sum_fmt = sumpath.split(".")[-1]
+    col_df = load_delta_table(colpath, spark=spark)
+    sum_df = load_delta_table(sumpath, spark=spark)
     
     try:
-        if (spark is None):
-            col_df = MultiTable.load(
-                path=colpath,
-                format=col_fmt,
-                frame_type="pandas"
-            )
-            sum_df = MultiTable.load(
-                path=sumpath,
-                format=sum_fmt,
-                frame_type="pandas"
-            )
-        else:
-            #read the column dataframe
-            col_df = MultiTable.load(
-                path=colpath,
-                format=col_fmt,
-                frame_type="pyspark",
-                spark=spark
-            )
-            sum_df = MultiTable.load(
-                path=sumpath,
-                format=sum_fmt,
-                frame_type="pyspark",
-                spark=spark
-            )
+        col_df = col_df.distinct()
+        sum_df = sum_df.distinct()
     except Exception as e:
-        print(f"SL011 Error loading pre-transform tables: {e}")
+        print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
         raise e
     
     #deuplicate frames before returning
-    return col_df.distinct(), sum_df.distinct()
+    return col_df, sum_df
 
 def load_single_table(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,

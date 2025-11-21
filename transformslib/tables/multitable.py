@@ -415,7 +415,7 @@ class MultiTable:
             print(collected_df.head(n))
         else:
             raise ValueError("Unsupported frame_type")
-
+    
     @staticmethod
     def load_native_df(path:str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
         """
@@ -867,3 +867,43 @@ class MultiTable:
         
         else:
             raise ValueError("Unsupported frame_type")
+
+def load_delta_table(path:str, format=None, spark=None) -> MultiTable:
+    """
+    Load a delta table from the given path.
+    
+    Args:
+        path (str): The path to the delta table.
+        spark: SparkSession object for PySpark operations.
+
+    Returns:
+        MultiTable: The loaded MultiTable instance.
+    """
+    if format is None:
+        #infer the format
+        format = path.split(".")[-1]
+    else:
+        if len(format) == 0:
+            raise ValueError("MT013 Format string cannot be empty")
+    
+    #lowercase override
+    format = format.lower()
+    try:
+        if (spark is None):
+            mt = MultiTable.load(
+                path=path,
+                format=format,
+                frame_type="pandas"
+            )
+        else:
+            mt = MultiTable.load(
+                path=path,
+                format=format,
+                frame_type="pyspark",
+                spark=spark
+            )
+    except Exception as e:
+        print(f"MT0014 Error loading delta table at {path}: {e}")
+        raise e
+    
+    return mt
