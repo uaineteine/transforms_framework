@@ -173,7 +173,7 @@ class MetaFrame(MultiTable):
             MetaFrame: A new MetaFrame instance with copied data and events.
         """
         
-        copied_table = self.copy() #multitable copy
+        copied_table = super().copy() #multitable copy
         
         # Copy events
         copied_events = self.meta.events.copy()

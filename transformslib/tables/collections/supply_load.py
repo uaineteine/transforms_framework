@@ -339,6 +339,9 @@ class SupplyLoad(TableCollection):
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
+            paths_info = col_df.copy()
+            paths_info = paths_info.select("table_name", "table_path").distinct()
+            
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
             col_info.show(truncate=False)
@@ -361,11 +364,21 @@ class SupplyLoad(TableCollection):
             table_names = table_names.get_pandas_frame()["table_name"]
             print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
+            
+            paths_info = paths_info.get_pandas_frame()
+            for t in table_names:
+                path_row = paths_info[paths_info["table_name"] == t]
+                if not path_row.empty:
+                    path = path_row.iloc[0]["table_path"]
+                    paths.append(path)
+                else:
+                    paths.append(None)
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
         if table_names == []:
+            print("")
             print(f"Attempting supply loading from: {self.supply_load_src}")
             try:
                 print("reading the state file")
@@ -380,10 +393,11 @@ class SupplyLoad(TableCollection):
         
         print(table_names)
         
-        print("Transformslib will not attempt to load each table in the supply...")
+        print("Transformslib will now attempt to load each table in the supply...")
        
         #using the json method given there is no path list
         if paths == []:
+            print("")
             print("No paths found from pre-transform tables, using sampling input method")
             for t in table_names:
                 try:
@@ -417,6 +431,7 @@ class SupplyLoad(TableCollection):
                     raise e
         else:
             print("Using delta table method to load supplies...")
+            print("")
             #flag error if lengths do not match
             if len(paths) != len(table_names):
                 print("SL008")
@@ -441,6 +456,7 @@ class SupplyLoad(TableCollection):
                     print(f"Error SL200 loading table '{t}': {e}")
                     raise e
 
+        print("")
         print(f"Successfully loaded {len(self.tables)} tables")
             
         print("Loaded the following tables: ")
