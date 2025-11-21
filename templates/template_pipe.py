@@ -232,6 +232,15 @@ if __name__ == "__main__":
     hsh = HashColumns("name", "hextest")
     supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
     supply_frames["location"].show()
+    
+    # -------------------------------
+    # Test 20: HMAC HASHING - Atomic version
+    # -------------------------------
+    
+    print("Applying HMAC hashing on city column with key length 24")
+    hmac = ApplyHMAC("city", 24)
+    supply_frames = hmac.apply(supply_frames, df="location", hmac_key="a super secret key")
+    supply_frames["location"].show()
 
     # -------------------------------
     # Apply TopBottomCode macro to salary table
