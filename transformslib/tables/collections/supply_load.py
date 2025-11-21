@@ -441,7 +441,7 @@ class SupplyLoad(TableCollection):
                 try:
                     mt = MetaFrame.load(
                         path=paths[i],
-                        format="delta",
+                        format="csv", #this format must be updated depending on the supply type TODO
                         frame_type="pyspark",
                         spark=spark
                     )
