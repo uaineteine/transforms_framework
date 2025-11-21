@@ -25,6 +25,6 @@ rmdir /S /Q jobs
 
 powershell -Command "python template_pipe.py | Tee-Object -FilePath ../tests/test_log.txt"
 
-python make_dag.py
+powershell -Command "python make_dag.py | Tee-Object -FilePath ../tests/test_log.txt"
 
 cd ..
