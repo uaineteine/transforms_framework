@@ -4,6 +4,7 @@ import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
+import copy
 import sparkpolars as sp
 
 #module imports
@@ -520,6 +521,33 @@ class MultiTable:
 
         self.df = new_df
 
+    def copy(self, new_name: str = None):
+        """
+        Create a deep copy of the multitable.
+        
+        Args:
+            new_name (str, optional): New name for the copied MultiTable. 
+                                      If None, retains the original name. Defaults to None.
+
+        Returns:
+            MultiTable: A new MultiTable instance with copied data and events.
+        """
+        if new_name is None:
+            new_name = self.table_name
+
+        newdf = None
+        #make a copy to newdf based on frame type
+        if self.frame_type == "pandas":
+            newdf = self.df.copy(deep=True)
+        elif self.frame_type == "polars":
+            newdf = self.df.clone()
+        elif self.frame_type == "pyspark":
+            newdf = self.df.select("*")
+        else:
+            raise ValueError("Unsupported frame_type for copy")
+        
+        return MultiTable(newdf, src_path=self.src_path, table_name=str(new_name), frame_type=self.frame_type)
+    
     def distinct(self, subset: Union[str, list, None] = None):
         """
         Return a new MultiTable with distinct rows.
