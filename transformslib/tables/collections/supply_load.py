@@ -1,5 +1,6 @@
 import os
 from typing import Dict, Any
+from tabulate import tabulate
 from adaptiveio import load_json
 from transformslib.tables.multitable import MultiTable, load_delta_table
 from transformslib.tables.metaframe import MetaFrame
@@ -333,11 +334,11 @@ class SupplyLoad(TableCollection):
                 #show warning messages - using pandas for easy display
                 warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
                 #explode the warnings on pipe
-                warnings_frame.explode(column="warning_messages", sep="|", outer=False)
+                warnings_frame.explode("warning_messages", sep="|", outer=False)
                 warnings_frame = warnings_frame.get_pandas_frame()
-                #warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
+                warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
                 warnings_frame = warnings_frame.drop_duplicates()
-                print(warnings_frame)
+                print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             except Exception as e:
                 print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
 
@@ -345,7 +346,7 @@ class SupplyLoad(TableCollection):
             #collect the table names from the frame
             table_names = sum_df.select("table_name").distinct()
             table_names = table_names.get_pandas_frame()["table_name"]
-            print(table_names)
+            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
             
         except FileNotFoundError:
