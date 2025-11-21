@@ -303,9 +303,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        self.load_supplies(spark=spark)
+        names_of_loaded = self.load_supplies(spark=spark)
 
-    def load_supplies(self, spark=None):
+    def load_supplies(self, spark=None) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -316,6 +316,9 @@ class SupplyLoad(TableCollection):
 
         Args:
             spark: SparkSession object required for PySpark operations. Defaults to None.
+            
+        Returns:
+            List[str]: A list of names of the loaded tables.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -442,3 +445,5 @@ class SupplyLoad(TableCollection):
             
         print("Loaded the following tables: ")
         print(self.named_tables)
+        
+        return table_names
