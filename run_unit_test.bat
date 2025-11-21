@@ -14,7 +14,7 @@ echo Done.
 cd tests
 cd scripts
 
-powershell -Command "Measure-Command {  python list_transforms.py | Tee-Object -FilePath ../../tests/test_log.txt }"
+powershell -Command "python list_transforms.py | Tee-Object -FilePath ../../tests/test_log.txt"
 
 cd ..
 cd ..
@@ -23,8 +23,8 @@ cd templates
 
 rmdir /S /Q jobs
 
-powershell -Command "Measure-Command {  "python template_pipe.py | Tee-Object -FilePath ../tests/test_log.txt" }"
+powershell -Command "python template_pipe.py | Tee-Object -FilePath ../tests/test_log.txt"
 
-powershell -Command "Measure-Command {  "python make_dag.py | Tee-Object -FilePath ../tests/test_log.txt" }
+powershell -Command "python make_dag.py | Tee-Object -FilePath ../tests/test_log.txt"
 
 cd ..

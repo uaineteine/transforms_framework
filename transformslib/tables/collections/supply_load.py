@@ -1,5 +1,4 @@
 import os
-import shutil
 from typing import Dict, Any
 from adaptiveio import load_json
 from transformslib.tables.multitable import MultiTable, load_delta_table
@@ -19,6 +18,11 @@ def get_execution_engine_info() -> Dict[str, Any]:
     try:
         path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
         ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
+        ALL_VARS["DATABRICKS_NOTEBOOK_NAME"] = os.path.basename(path)
+        ALL_VARS["DATABRICKS_WORKSPACE_URL"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().get()
+        ALL_VARS["DATABRICKS_CLUSTER_ID"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("clusterId").get()
+        ALL_VARS["DATABRICKS_USER"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("user").get()
+        
     except NameError:
         pass
     except Exception as e:
