@@ -10,10 +10,6 @@ from .base import MacroTransform, printwidth
 from .atomiclib import *
 import os
 
-#get this from environment variable
-#TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
-MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
-
 # Get synthetic variable name from environment variable
 SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
 PERSON_ID_VAR = os.environ.get("TNSFRMS_ID_VAR", "person_id")
@@ -46,7 +42,10 @@ class Macro:
         self.output_tables = output_tables
         self.input_variables = input_variables
         self.output_variables = output_variables
-        # Use default log location
+        
+        #get this from environment variable
+        #TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
+        MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
         self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
     def apply(self, **kwargs):
