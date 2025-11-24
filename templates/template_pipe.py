@@ -12,29 +12,33 @@ if __name__ == "__main__":
     start_time = time.time()
     print(f"Starting test pipeline execution at {time.ctime(start_time)}")
 
-    #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col
     #tmp for test data
     from pyspark.sql.functions import to_date
+
+    appName = "TransformTest"
+
+    # Create Spark session
+    print("Creating Spark session")
+    # Set driver memory before creating the Spark session
+    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
+
+    #---TEMPLATE STARTS HERE---
     
-    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
     from transformslib import set_job_id, set_default_variables
 
     set_default_variables()
 
-    appName = "TransformTest"
-
-    # Create Spark session
-    print("Creating Spark session")
-    spark = SparkSession.builder.master("local").appName(appName).getOrCreate()
-
     # load pipeline tables
     job_id = 1
     run_id = 1
     set_job_id(job_id, new_run_id=run_id, mode="prod")
+
+    clear_last_run()
     
     supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     

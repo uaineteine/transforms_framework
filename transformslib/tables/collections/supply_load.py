@@ -31,7 +31,7 @@ def get_execution_engine_info() -> Dict[str, Any]:
 
     return ALL_VARS
 
-def clear_outputs():
+def clear_last_run():
     """
     Remove output paths on request
     """
@@ -381,6 +381,8 @@ class SupplyLoad(TableCollection):
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             paths_info = sum_df.copy()
+            paths_info = paths_info.select("table_name", "table_path").distinct()
+            paths_info = paths_info.sort("table_name")
             paths_info.show(truncate=False)
             
             #show column info
@@ -401,13 +403,12 @@ class SupplyLoad(TableCollection):
 
             #show table names and convert to a list
             #collect the table names from the frame
-            table_names = sum_df.select("table_name").distinct()
-            table_names.show(truncate=False)
-            table_names = table_names.get_pandas_frame()["table_name"]
+            paths_info = paths_info.get_pandas_frame()
+            table_names = paths_info["table_name"]
+            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
             
-            paths = paths_info.select("table_path").distinct()
-            paths = paths.get_pandas_frame()["table_path"]
+            paths = paths_info["table_path"]
             paths = paths.tolist()
         
         except Exception as e:
