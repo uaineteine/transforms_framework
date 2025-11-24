@@ -183,7 +183,7 @@ class Transform(PipelineEvent):
                 columns[table_name] = list(supply_frames[table_name].columns)
         return columns
 
-    def apply(self, supply_frames: SupplyLoad, spark=None, **kwargs):
+    def apply(self, supply_frames: TableCollection, spark=None, **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
         
@@ -192,7 +192,7 @@ class Transform(PipelineEvent):
         and testing after transformation if the transform is testable.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
