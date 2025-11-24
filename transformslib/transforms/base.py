@@ -1,11 +1,7 @@
 from transformslib.templates.pathing import apply_formats
 from .pipeevent import TransformEvent, PipelineEvent
 from naming_standards import ColList, Colname
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from transformslib.tables.collections.collection import TableCollection
-    from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.collections.collection import TableCollection
 
 import os
 import uuid
@@ -100,7 +96,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def error_check(self, supply_frames: "SupplyLoad", **kwargs):
+    def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Abstract method for error checking before transformation.
         
@@ -108,7 +104,7 @@ class Transform(PipelineEvent):
         can be safely applied to the provided data.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Raises:
@@ -125,7 +121,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def test(self, supply_frames: "SupplyLoad", **kwargs) -> bool:
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
         """
         Test method for validating transformation results.
         
@@ -133,7 +129,7 @@ class Transform(PipelineEvent):
         correctly and the results meet expected criteria.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
