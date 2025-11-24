@@ -403,14 +403,12 @@ class SupplyLoad(TableCollection):
 
             #show table names and convert to a list
             #collect the table names from the frame
-            table_names = paths_info.copy()
-            table_names = table_names.select("table_name").distinct()
-            table_names.show(truncate=False)
-            table_names = table_names.get_pandas_frame()["table_name"]
+            paths_info = paths_info.get_pandas_frame()
+            table_names = paths_info["table_name"]
+            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
             table_names = table_names.tolist()
             
-            paths = paths_info.select("table_path").distinct()
-            paths = paths.get_pandas_frame()["table_path"]
+            paths = paths_info["table_path"]
             paths = paths.tolist()
         
         except Exception as e:
