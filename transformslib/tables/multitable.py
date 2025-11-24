@@ -4,7 +4,6 @@ import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
-import copy
 import sparkpolars as sp
 
 #module imports
