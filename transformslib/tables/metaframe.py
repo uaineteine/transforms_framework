@@ -139,13 +139,16 @@ class MetaFrame(MultiTable):
         
         return ptable
 
-    def save_events(self) -> None:
+    def save_events(self, spark=None) -> None:
         """
         Save all logged events to a JSON file in the events_log directory.
 
         This method creates the events_log directory structure and saves each event
         as a separate JSON file. The events are organised by job and table name.
 
+        Args:
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+            
         Returns:
             None
 
@@ -163,7 +166,7 @@ class MetaFrame(MultiTable):
         
         for event in self.meta.events:
             event.log_location = self.log_path
-            event.log()
+            event.log(spark=spark)
         
         print(f"Events saved to {self.log_path}")
 

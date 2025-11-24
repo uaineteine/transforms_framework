@@ -8,12 +8,7 @@ if TYPE_CHECKING:
 from transformslib.transforms.pipeevent import PipelineEvent
 from .base import MacroTransform, printwidth
 from .atomiclib import *
-from adaptiveio import append_json_newline
 import os
-
-#get this from environment variable
-#TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
-MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
 
 # Get synthetic variable name from environment variable
 SYNTHETIC_VAR = os.environ.get("TNSFRMS_SYN_VAR", "synthetic")
@@ -47,26 +42,33 @@ class Macro:
         self.output_tables = output_tables
         self.input_variables = input_variables
         self.output_variables = output_variables
-        # Use default log location
+        
+        #get this from environment variable
+        #TNSFRMS_LOG_LOC="jobs/prod/job_{job_id}/treatments.json"
+        MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
         self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
-    def apply(self, **kwargs):
+    def apply(self, spark=None, **kwargs):
         """
         Applies the macro transformation to the input tables and logs the operation.
 
         Args:
             **kwargs: Keyword arguments to pass to the underlying transforms.
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         :return: Transformed table frames.
         :rtype: dict[str, pd.DataFrame]
         """
         return_frames = self.macros.apply(self.input_tables, **kwargs)
-        self.log()
+        self.log(spark=spark)
         return return_frames
 
-    def log(self):
+    def log(self, spark=None):
         """
         Logs the macro transformation metadata to a JSON file.
+
+        Args:
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
         """
         # Create a serializable version of the object dict
         json_info = {
@@ -80,7 +82,7 @@ class Macro:
             'macro_type': self.macros.transform_type
         }
         log_info = PipelineEvent("macro_log", json_info, event_description="the driver macro for atomic transforms", log_location=self.macro_log_loc)
-        log_info.log()
+        log_info.log(spark=spark)
 
 ###### LIBRARY OF MACRO TRANSFORMS ######
 

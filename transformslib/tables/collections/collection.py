@@ -346,7 +346,7 @@ class TableCollection:
         """
         return len(self.tables)
 
-    def save_events(self, table_names: list[str] = None):
+    def save_events(self, table_names: list[str] = None, spark=None):
         """
         Save events for all tables or specific tables in the collection.
         
@@ -357,6 +357,7 @@ class TableCollection:
             table_names (list[str], optional): List of table names to save events for.
                                              If None, saves events for all tables in the collection.
                                              Defaults to None.
+            spark (SparkSession, optional): The Spark session to use for logging events.
 
         Returns:
             None
@@ -377,13 +378,13 @@ class TableCollection:
             # Save events for all tables
             for table in self.tables:
                 print(f"save events for table {table.table_name}")
-                table.save_events()
+                table.save_events(spark=spark)
         else:
             # Save events for specific tables
             for name in table_names:
                 if name not in self.named_tables:
                     raise KeyError(f"Table '{name}' not found")
-                self.named_tables[name].save_events()
+                self.named_tables[name].save_events(spark=spark)
 
     def save_all(self, output_dir:str=None, tables:list[str]=[], spark=None):
         """
@@ -457,7 +458,7 @@ class TableCollection:
             write_event.out_format = "parquet"
             # Set indent_depth to None for single-line JSON like the original transforms
             write_event.indent_depth = None
-            write_event.log()
+            write_event.log(spark=spark)
         
         self.save_events()
     
