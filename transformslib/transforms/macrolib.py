@@ -8,7 +8,6 @@ if TYPE_CHECKING:
 from transformslib.transforms.pipeevent import PipelineEvent
 from .base import MacroTransform, printwidth
 from .atomiclib import *
-from adaptiveio import append_json_newline
 import os
 
 #get this from environment variable
