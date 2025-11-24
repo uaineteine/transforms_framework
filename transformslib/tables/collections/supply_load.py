@@ -381,6 +381,8 @@ class SupplyLoad(TableCollection):
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             paths_info = sum_df.copy()
+            paths_info = paths_info.select("table_name", "table_path").distinct()
+            paths_info = paths_info.sort("table_name")
             paths_info.show(truncate=False)
             
             #show column info
@@ -401,7 +403,8 @@ class SupplyLoad(TableCollection):
 
             #show table names and convert to a list
             #collect the table names from the frame
-            table_names = sum_df.select("table_name").distinct()
+            table_names = paths_info.copy()
+            table_names = table_names.select("table_name").distinct()
             table_names.show(truncate=False)
             table_names = table_names.get_pandas_frame()["table_name"]
             table_names = table_names.tolist()
