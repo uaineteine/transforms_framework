@@ -31,7 +31,7 @@ def get_execution_engine_info() -> Dict[str, Any]:
 
     return ALL_VARS
 
-def clear_outputs():
+def clear_last_run():
     """
     Remove output paths on request
     """
