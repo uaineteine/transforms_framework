@@ -149,26 +149,6 @@ class Transform(PipelineEvent):
         raise NotImplementedError("Child classes to override this method")
         return True  # Default implementation always passes
     
-    def apply(self, supply_frames: "SupplyLoad", **kwargs):
-        """
-        Call the transformation function with the provided supply frames and keyword arguments.
-        
-        This method provides a convenient callable interface for applying transformations.
-        It automatically logs the transformation event after execution.
-
-        Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
-
-        Returns:
-            MetaFrame: The transformed MetaFrame.
-
-        Example:
-            >>> transform = MyTransform()
-            >>> result = transform(supply_loader, df1="customers", df2="orders")  # Same as transform.apply(supply_loader, df1="customers", df2="orders")
-        """
-        return self.apply(supply_frames, **kwargs)
-    
     def _get_table_row_counts(self, supply_frames: "TableCollection", table_names: list[str]) -> dict[str, int]:
         """
         Helper method to get row counts for specified tables.
