@@ -183,7 +183,7 @@ class Transform(PipelineEvent):
                 columns[table_name] = list(supply_frames[table_name].columns)
         return columns
 
-    def apply(self, supply_frames: "SupplyLoad", **kwargs, spark=None):
+    def apply(self, supply_frames: SupplyLoad, spark=None, **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
         
