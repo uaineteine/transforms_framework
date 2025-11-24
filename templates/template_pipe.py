@@ -21,9 +21,8 @@ if __name__ == "__main__":
 
     # Create Spark session
     print("Creating Spark session")
-    spark = SparkSession.builder.master("local").appName(appName).getOrCreate()
-    #set drive memory to 2GB
-    spark.conf.set("spark.driver.memory", "2g")
+    # Set driver memory before creating the Spark session
+    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
 
     #---TEMPLATE STARTS HERE---
     
