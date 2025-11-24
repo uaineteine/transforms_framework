@@ -48,7 +48,7 @@ class Macro:
         MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
         self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
-    def apply(self, **kwargs, spark=None):
+    def apply(self, spark=None, **kwargs):
         """
         Applies the macro transformation to the input tables and logs the operation.
 
