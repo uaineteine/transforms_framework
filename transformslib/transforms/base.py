@@ -183,7 +183,7 @@ class Transform(PipelineEvent):
                 columns[table_name] = list(supply_frames[table_name].columns)
         return columns
 
-    def apply(self, supply_frames: "SupplyLoad", **kwargs):
+    def apply(self, supply_frames: "SupplyLoad", **kwargs, spark=None):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
         
@@ -194,6 +194,7 @@ class Transform(PipelineEvent):
         Args:
             supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
             MetaFrame: The transformed MetaFrame.
@@ -217,7 +218,7 @@ class Transform(PipelineEvent):
 
         self.params = kwargs # capture all keyword arguments
 
-        self.log()
+        self.log(spark=spark)
 
         return result_df
 

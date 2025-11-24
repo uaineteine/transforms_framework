@@ -457,7 +457,7 @@ class TableCollection:
             write_event.out_format = "parquet"
             # Set indent_depth to None for single-line JSON like the original transforms
             write_event.indent_depth = None
-            write_event.log()
+            write_event.log(spark=spark)
         
         self.save_events()
     
