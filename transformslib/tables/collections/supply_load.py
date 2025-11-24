@@ -1,8 +1,8 @@
 import os
-import shutil
 from typing import Dict, Any
+from tabulate import tabulate
 from adaptiveio import load_json
-from transformslib.tables.multitable import MultiTable
+from transformslib.tables.multitable import MultiTable, load_delta_table
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
@@ -19,6 +19,11 @@ def get_execution_engine_info() -> Dict[str, Any]:
     try:
         path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
         ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
+        ALL_VARS["DATABRICKS_NOTEBOOK_NAME"] = os.path.basename(path)
+        ALL_VARS["DATABRICKS_WORKSPACE_URL"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().get()
+        ALL_VARS["DATABRICKS_CLUSTER_ID"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("clusterId").get()
+        ALL_VARS["DATABRICKS_USER"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("user").get()
+        
     except NameError:
         pass
     except Exception as e:
@@ -103,44 +108,20 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     colpath = apply_formats(colpath)
     sumpath = apply_formats(sumpath)
     
-    #get the format from the path, delta or parquet, csv
-    col_fmt = colpath.split(".")[-1]
-    sum_fmt = sumpath.split(".")[-1]
+    col_df = load_delta_table(colpath, spark=spark)
+    sum_df = load_delta_table(sumpath, spark=spark)
     
     try:
-        if (spark is None):
-            col_df = MultiTable.load(
-                path=colpath,
-                format=col_fmt,
-                frame_type="pandas"
-            )
-            sum_df = MultiTable.load(
-                path=sumpath,
-                format=sum_fmt,
-                frame_type="pandas"
-            )
-        else:
-            #read the column dataframe
-            col_df = MultiTable.load(
-                path=colpath,
-                format=col_fmt,
-                frame_type="pyspark",
-                spark=spark
-            )
-            sum_df = MultiTable.load(
-                path=sumpath,
-                format=sum_fmt,
-                frame_type="pyspark",
-                spark=spark
-            )
+        col_df = col_df.distinct()
+        sum_df = sum_df.distinct()
     except Exception as e:
-        print(f"SL011 Error loading pre-transform tables: {e}")
+        print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
         raise e
     
     #deuplicate frames before returning
-    return col_df.distinct(), sum_df.distinct()
+    return col_df, sum_df
 
-def load_single_table(data: Dict[str, Any],
+def load_single_table_from_sampling(data: Dict[str, Any],
         sample: bool, sample_rows: int = None, sample_frac: float = None,
         seed: int = None, spark=None, enable_schema_validation: bool = True) -> MetaFrame:
     """
@@ -322,9 +303,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        self.load_supplies(spark=spark)
+        names_of_loaded = self.load_supplies(spark=spark)
 
-    def load_supplies(self, spark=None):
+    def load_supplies(self, spark=None) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -335,6 +316,9 @@ class SupplyLoad(TableCollection):
 
         Args:
             spark: SparkSession object required for PySpark operations. Defaults to None.
+            
+        Returns:
+            List[str]: A list of names of the loaded tables.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -347,12 +331,16 @@ class SupplyLoad(TableCollection):
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
         table_names = []
+        paths = []
         try:
             try:
                 print(f"Reading the delta tables to extract meta information")
                 col_df, sum_df = load_pre_transform_data(spark=spark)
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
+            
+            paths_info = sum_df.copy()
+            paths_info.show(truncate=False)
             
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
@@ -362,25 +350,30 @@ class SupplyLoad(TableCollection):
                 #show warning messages - using pandas for easy display
                 warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
                 #explode the warnings on pipe
-                warnings_frame = warnings_frame.explode(column="warning_messages", sep="|", outer=False)
+                warnings_frame.explode("warning_messages", sep="|", outer=False)
                 warnings_frame = warnings_frame.get_pandas_frame()
-                #warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
+                warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
                 warnings_frame = warnings_frame.drop_duplicates()
-                print(warnings_frame)
+                print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             except Exception as e:
                 print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
 
             #show table names and convert to a list
             #collect the table names from the frame
             table_names = sum_df.select("table_name").distinct()
+            table_names.show(truncate=False)
             table_names = table_names.get_pandas_frame()["table_name"]
-            print(table_names)
             table_names = table_names.tolist()
+            
+            paths = paths_info.select("table_path").distinct()
+            paths = paths.get_pandas_frame()["table_path"]
+            paths = paths.tolist()
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
         if table_names == []:
+            print("")
             print(f"Attempting supply loading from: {self.supply_load_src}")
             try:
                 print("reading the state file")
@@ -395,39 +388,73 @@ class SupplyLoad(TableCollection):
         
         print(table_names)
         
-        print("for each table, loading the supply file")
-        for t in table_names:
-            try:
-                supply_file = get_supply_file(t)
-                print(f"Table '{t}' supply file located at: {supply_file}")
-                data = load_json(supply_file, spark=spark)
+        print("Transformslib will now attempt to load each table in the supply...")
+       
+        #using the json method given there is no path list
+        if paths == []:
+            print("")
+            print("No paths found from pre-transform tables, using sampling input method")
+            for t in table_names:
+                try:
+                    supply_file = get_supply_file(t)
+                    print(f"Table '{t}' supply file located at: {supply_file}")
+                    data = load_json(supply_file, spark=spark)
 
-                # Determine format based on the structure of the JSON file
-                if "table_name" in data:
-                    print(f"Attempting load of table '{t}'")
-                    # New sampling input method (sampling_state.json format)
-                    # Schema validation is only available for the new system
-                    mt = load_single_table(
-                        data=data, 
-                        sample=self.sample,
-                        sample_rows=self.sample_rows,
-                        sample_frac=self.sample_frac,
-                        seed=self.seed,
-                        spark=spark,
-                        enable_schema_validation=self.enable_schema_validation
+                    # Determine format based on the structure of the JSON file
+                    if "table_name" in data:
+                        print(f"Attempting load of table '{t}'")
+                        # New sampling input method (sampling_state.json format)
+                        # Schema validation is only available for the new system
+                        mt = load_single_table_from_sampling(
+                            data=data, 
+                            sample=self.sample,
+                            sample_rows=self.sample_rows,
+                            sample_frac=self.sample_frac,
+                            seed=self.seed,
+                            spark=spark,
+                            enable_schema_validation=self.enable_schema_validation
+                        )
+
+                        print(f"Load of table '{t}'")
+                        self.tables.append(mt)
+                        self.named_tables[t] = mt
+
+                    else:
+                        raise ValueError("SL002 Unrecognized JSON format: expected 'table_name' key")
+                except Exception as e:
+                    print(f"Error SL001 loading table '{t}': {e}")
+                    raise e
+        else:
+            print("Using delta table method to load supplies...")
+            print("")
+            #flag error if lengths do not match
+            if len(paths) != len(table_names):
+                print("SL008")
+                print("PATHS:")
+                print(paths)
+                print("TABLE NAMES:")
+                print(table_names)
+                
+                raise ValueError("SL008 Mismatch in length between number of table names to load and data loaded paths")
+
+            for i, t in enumerate(table_names):
+                try:
+                    mt = MetaFrame.load(
+                        path=paths[i],
+                        format="csv", #this format must be updated depending on the supply type TODO
+                        frame_type="pyspark",
+                        spark=spark
                     )
-
-                    print(f"Load of table '{t}'")
                     self.tables.append(mt)
                     self.named_tables[t] = mt
+                except Exception as e:
+                    print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
+                    raise e
 
-                else:
-                    raise ValueError("SL002 Unrecognized JSON format: expected 'table_name' key")
-            except Exception as e:
-                print(f"Error SL001 loading table '{t}': {e}")
-                raise e
-        
+        print("")
         print(f"Successfully loaded {len(self.tables)} tables")
-        
+            
         print("Loaded the following tables: ")
         print(self.named_tables)
+        
+        return table_names

@@ -6,6 +6,11 @@ if __name__ == "__main__":
     # Add the parent directory to sys.path
     parent_dir = os.path.join(current_dir, '..')
     sys.path.append(os.path.abspath(parent_dir))
+    
+    #start recording run time
+    import time
+    start_time = time.time()
+    print(f"Starting test pipeline execution at {time.ctime(start_time)}")
 
     #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
@@ -227,6 +232,15 @@ if __name__ == "__main__":
     hsh = HashColumns("name", "hextest")
     supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
     supply_frames["location"].show()
+    
+    # -------------------------------
+    # Test 20: HMAC HASHING - Atomic version
+    # -------------------------------
+    
+    #print("Applying HMAC hashing on city column with key length 24")
+    #hmac = ApplyHMAC("city", 24)
+    #supply_frames = hmac.apply(supply_frames, df="location", hmac_key="a super secret key")
+    #supply_frames["location"].show()
 
     # -------------------------------
     # Apply TopBottomCode macro to salary table
@@ -277,3 +291,8 @@ if __name__ == "__main__":
 
     #keep onyl salary tables
     supply_frames.save_all(tables=["salary*"], spark=spark)
+
+    end_time = time.time()
+    print(f"Test pipeline execution completed at {time.ctime(end_time)}")
+    print(f"Total execution time: {end_time - start_time:.2f} seconds")
+    

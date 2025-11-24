@@ -1,5 +1,7 @@
 from typing import Union, TYPE_CHECKING
 
+from transformslib.templates.pathing import apply_formats
+
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
@@ -46,7 +48,7 @@ class Macro:
         self.input_variables = input_variables
         self.output_variables = output_variables
         # Use default log location
-        self.macro_log_loc = MACRO_LOG_LOC.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+        self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
     def apply(self, **kwargs):
         """

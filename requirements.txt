@@ -1,4 +1,5 @@
 polars
+tabulate
 pandas
 pyspark
 polars-readstat
