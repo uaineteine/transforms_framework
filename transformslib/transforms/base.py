@@ -72,14 +72,14 @@ class Transform(PipelineEvent):
 
         self.params = []
     
-    def transforms(self, supply_frames: "SupplyLoad", **kwargs) -> "TableCollection":
+    def transforms(self, supply_frames: TableCollection, **kwargs) -> TableCollection:
         """
         Abstract method that must be implemented by subclasses.
         
         This method should contain the actual transformation logic for the data.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc. where
                      the keys are dataframe parameter names and values are table names in supply_frames.
 
