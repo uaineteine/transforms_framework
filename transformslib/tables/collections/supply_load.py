@@ -404,9 +404,8 @@ class SupplyLoad(TableCollection):
             #show table names and convert to a list
             #collect the table names from the frame
             paths_info = paths_info.get_pandas_frame()
-            table_names = paths_info["table_name"]
-            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
-            table_names = table_names.tolist()
+            print(tabulate(paths_info, tablefmt='pretty', showindex=False))
+            table_names = paths_info["table_name"].tolist()
             
             paths = paths_info["table_path"]
             paths = paths.tolist()
