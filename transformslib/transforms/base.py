@@ -13,13 +13,14 @@ import pandas as pd
 import __main__
 
 sparkSession = None
+processing_engine = "pyspark"
 if hasattr(__main__, "spark") and __main__.spark is not None:
     print("Setting engine to pyspark")
-    engine="pyspark"
+    processing_engine="pyspark"
     sparkSession=__main__.spark
 else:
     print("defaulting to polars engine given no spark session has been given")
-    engine="polars"
+    processing_engine="polars"
 
 printwidth = 120 #the width to print things out in notebooks
 
