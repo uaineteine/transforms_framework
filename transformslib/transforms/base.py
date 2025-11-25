@@ -10,6 +10,15 @@ import pyspark
 import polars as pl
 import pandas as pd
 
+import __main__
+
+sparkSession = None
+if hasattr(__main__, "spark") and __main__.spark is not None:
+    engine="pyspark"
+    sparkSession=__main__.spark
+else:
+    raise ValueError("EG001 spark global variable not being reocngised under __main__")
+
 printwidth = 120 #the width to print things out in notebooks
 
 class Transform(PipelineEvent):
@@ -200,6 +209,11 @@ class Transform(PipelineEvent):
             >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
             >>> # Transformation is automatically logged
         """
+        
+        #check if spark variable is around at a global level
+        if spark == None:
+            spark = sparkSession
+        
         # Perform error checking before transformation
         self.error_check(supply_frames, **kwargs)
         

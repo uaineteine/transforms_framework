@@ -1,3 +1,4 @@
+import __main__
 if __name__ == "__main__":
     import os
     import sys
@@ -23,6 +24,8 @@ if __name__ == "__main__":
     print("Creating Spark session")
     # Set driver memory before creating the Spark session
     spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
+    #add to global variables
+    __main__.spark = spark
 
     #---TEMPLATE STARTS HERE---
     
