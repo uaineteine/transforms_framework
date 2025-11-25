@@ -1,12 +1,8 @@
 import __main__
+
 if __name__ == "__main__":
     import os
     import sys
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
     
     #start recording run time
     import time
@@ -18,15 +14,20 @@ if __name__ == "__main__":
     #tmp for test data
     from pyspark.sql.functions import to_date
 
-    appName = "TransformTest"
-
     # Create Spark session
     print("Creating Spark session")
+    appName = "TransformTest"
     # Set driver memory before creating the Spark session
     spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
     #add to global variables
     __main__.spark = spark
 
+    
+    # Get the directory of the current script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Add the parent directory to sys.path
+    parent_dir = os.path.join(current_dir, '..')
+    sys.path.append(os.path.abspath(parent_dir))
     #---TEMPLATE STARTS HERE---
     
     from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
