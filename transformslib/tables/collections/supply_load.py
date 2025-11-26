@@ -2,7 +2,7 @@ import os
 from typing import Dict, Any
 from tabulate import tabulate
 from adaptiveio import load_json
-from transformslib.tables.multitable import MultiTable, load_delta_table
+from transformslib.tables.multitable import MultiTable
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from transformslib.tables.sv import SchemaValidator, SchemaValidationError
@@ -31,7 +31,7 @@ def get_execution_engine_info() -> Dict[str, Any]:
 
     return ALL_VARS
 
-def clear_outputs():
+def clear_last_run():
     """
     Remove output paths on request
     """
@@ -104,19 +104,60 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_TABLE_SUMMARY_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
+    
+    def _load_table(path:str, format=None, spark=None) -> MultiTable:
+        """
+        Load a pre transform table from the given path. Applying formats if needed and attempting de-duplication.
+        
+        Args:
+            path (str): The path to the delta table.
+            format (str): The format of the table, default is "delta".
+            spark: SparkSession object for PySpark operations.
 
-    colpath = apply_formats(colpath)
-    sumpath = apply_formats(sumpath)
-    
-    col_df = load_delta_table(colpath, spark=spark)
-    sum_df = load_delta_table(sumpath, spark=spark)
-    
-    try:
-        col_df = col_df.distinct()
-        sum_df = sum_df.distinct()
-    except Exception as e:
-        print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
-        raise e
+        Returns:
+            MultiTable: The loaded MultiTable instance.
+        """
+        path = apply_formats(path)
+
+        if format == None:
+            #infer the format from the path
+            format = path.split(".")[-1]
+            if format.lower() not in ["parquet", "delta", "csv", "json"]:
+                format = "delta"
+        else:
+            if len(format) == 0:
+                raise ValueError("MT013 Format string cannot be empty")
+        
+        #lowercase override
+        format = format.lower()
+        try:
+            if (spark is None):
+                mt = MultiTable.load(
+                    path=path,
+                    format=format,
+                    frame_type="pandas"
+                )
+            else:
+                mt = MultiTable.load(
+                    path=path,
+                    format=format,
+                    frame_type="pyspark",
+                    spark=spark
+                )
+        except Exception as e:
+            print(f"SL050 Error loading pre-transform table at {path}: {e}")
+            raise e
+        
+        try:
+            mt = mt.distinct()
+        except Exception as e:
+            print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
+            raise e
+
+        return mt
+
+    col_df = _load_table(colpath, spark=spark)
+    sum_df = _load_table(sumpath, spark=spark)
     
     #deuplicate frames before returning
     return col_df, sum_df
@@ -303,9 +344,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        self.load_supplies(spark=spark)
+        names_of_loaded = self.load_supplies(spark=spark)
 
-    def load_supplies(self, spark=None):
+    def load_supplies(self, spark=None) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -316,6 +357,9 @@ class SupplyLoad(TableCollection):
 
         Args:
             spark: SparkSession object required for PySpark operations. Defaults to None.
+            
+        Returns:
+            List[str]: A list of names of the loaded tables.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -329,12 +373,18 @@ class SupplyLoad(TableCollection):
         """
         table_names = []
         paths = []
+        formats = []
         try:
             try:
                 print(f"Reading the delta tables to extract meta information")
                 col_df, sum_df = load_pre_transform_data(spark=spark)
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
+            
+            paths_info = sum_df.copy()
+            paths_info = paths_info.select("table_name", "table_path").distinct()
+            paths_info = paths_info.sort("table_name")
+            paths_info.show(truncate=False)
             
             #show column info
             col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
@@ -354,15 +404,20 @@ class SupplyLoad(TableCollection):
 
             #show table names and convert to a list
             #collect the table names from the frame
-            table_names = sum_df.select("table_name").distinct()
-            table_names = table_names.get_pandas_frame()["table_name"]
-            print(tabulate(table_names, headers='keys', tablefmt='pretty', showindex=False))
-            table_names = table_names.tolist()
+            paths_info = paths_info.get_pandas_frame()
+            print(tabulate(paths_info, tablefmt='pretty', showindex=False))
+            table_names = paths_info["table_name"].tolist()
+            
+            paths = paths_info["table_path"]
+            paths = paths.tolist()
+            
+            formats = paths_info["format"].tolist()
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
         if table_names == []:
+            print("")
             print(f"Attempting supply loading from: {self.supply_load_src}")
             try:
                 print("reading the state file")
@@ -377,10 +432,11 @@ class SupplyLoad(TableCollection):
         
         print(table_names)
         
-        print("Transformslib will not attempt to load each table in the supply...")
+        print("Transformslib will now attempt to load each table in the supply...")
        
         #using the json method given there is no path list
         if paths == []:
+            print("")
             print("No paths found from pre-transform tables, using sampling input method")
             for t in table_names:
                 try:
@@ -414,6 +470,7 @@ class SupplyLoad(TableCollection):
                     raise e
         else:
             print("Using delta table method to load supplies...")
+            print("")
             #flag error if lengths do not match
             if len(paths) != len(table_names):
                 print("SL008")
@@ -428,17 +485,20 @@ class SupplyLoad(TableCollection):
                 try:
                     mt = MetaFrame.load(
                         path=paths[i],
-                        format="delta",
+                        format=formats[i],
                         frame_type="pyspark",
                         spark=spark
                     )
                     self.tables.append(mt)
                     self.named_tables[t] = mt
                 except Exception as e:
-                    print(f"Error SL200 loading table '{t}': {e}")
+                    print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
                     raise e
 
+        print("")
         print(f"Successfully loaded {len(self.tables)} tables")
             
         print("Loaded the following tables: ")
         print(self.named_tables)
+        
+        return table_names

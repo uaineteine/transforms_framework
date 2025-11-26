@@ -1,7 +1,8 @@
+from transformslib.templates.pathing import apply_formats
 from transformslib.tables.multitable import MultiTable
 from transformslib.transforms.pipeevent import PipelineEvent
 from naming_standards import Tablename
-import transformslib as meta 
+from transformslib import module_version
 
 import os
 from typing import List
@@ -11,7 +12,7 @@ from .fv import FrameTypeVerifier
 class Meta:
     def __init__(self, inherit_events: List[PipelineEvent] = None):
         #store a version number
-        self.meta_version = meta.module_version
+        self.meta_version = module_version
         #initialise events as a list, optionally inheriting from existing events
         self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
 
@@ -66,7 +67,8 @@ class MetaFrame(MultiTable):
 
         self.meta = Meta(inherit_events=inherit_events)
 
-        outpth = os.environ.get("TNSFRMS_LOG_LOC", "").format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+        outpth = os.environ.get("TNSFRMS_LOG_LOC", "")
+        outpth = apply_formats(outpth)
         dn = os.path.dirname(outpth)
         self.log_path = f"{dn}/table_specific/{self.table_name}_events.json"
 
@@ -137,13 +139,16 @@ class MetaFrame(MultiTable):
         
         return ptable
 
-    def save_events(self) -> None:
+    def save_events(self, spark=None) -> None:
         """
         Save all logged events to a JSON file in the events_log directory.
 
         This method creates the events_log directory structure and saves each event
         as a separate JSON file. The events are organised by job and table name.
 
+        Args:
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
+            
         Returns:
             None
 
@@ -161,7 +166,7 @@ class MetaFrame(MultiTable):
         
         for event in self.meta.events:
             event.log_location = self.log_path
-            event.log()
+            event.log(spark=spark)
         
         print(f"Events saved to {self.log_path}")
 
@@ -172,19 +177,12 @@ class MetaFrame(MultiTable):
         Returns:
             MetaFrame: A new MetaFrame instance with copied data and events.
         """
-        if new_name is None:
-            new_name = self.table_name
-
-        # Copy the underlying MultiTable (data and metadata)
-        copied_multitable = MultiTable(
-            self.df.copy() if hasattr(self.df, "copy") else self.df,
-            self.src_path,
-            new_name,
-            self.frame_type
-        )
+        
+        copied_table = super().copy() #multitable copy
+        
         # Copy events
         copied_events = self.meta.events.copy()
-        return MetaFrame(copied_multitable, inherit_events=copied_events)
+        return MetaFrame(copied_table, inherit_events=copied_events)
 
     def write(self, path: str, format: str = "parquet", overwrite: bool = True, spark=None):
         """

@@ -1,61 +1,16 @@
 import os
-
 from typing import Union, List
 import polars as pl
 import pandas as pd
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.functions import concat_ws, col, explode, explode_outer, split
 import sparkpolars as sp
-import polars_readstat as prs
-from deltalake import DeltaTable
 
 #module imports
 from naming_standards import Tablename
 from .fv import FrameTypeVerifier
-
-def _load_spark_df(path:str, format: str = "parquet", table_name: str = "", spark=None) -> SparkDataFrame:
-    """
-    Load a Spark DataFrame from the given path and return a MetaFrame.
-    """
-    if spark is None:
-        raise ValueError("MT020 SparkSession required for PySpark")
-
-    if format == "sas":
-        return spark.read.format("com.github.saurfang.sas.spark").load(path)
-    elif format == "csv":
-        return spark.read.format("csv").option("header", "true").load(path)
-    elif format == "parquet" or format == "delta":
-        return spark.read.format(format).load(path)
-    else:
-        raise ValueError("MT002 Unsupported format for pyspark")
-
-def _load_pandas_df(path:str, format: str = "parquet", table_name: str = "") -> pd.DataFrame:
-    """
-    Load a Pandas DataFrame from the given path and return a MetaFrame.
-    """
-    if format == "parquet":
-        return pd.read_parquet(path)
-    elif format == "delta":
-        dt = DeltaTable(path)
-        return dt.to_pandas()
-    elif format == "csv":
-        return pd.read_csv(path)  # Default: header inferred
-    elif format == "sas":
-        return pd.read_sas(path)
-    else:
-        raise ValueError("MT001 Unsupported format for pandas")
-
-def _load_polars_df(path:str, format: str = "parquet", table_name: str = "") -> pl.LazyFrame:
-    if format == "parquet":
-        return pl.scan_parquet(path)
-    elif format == "delta":
-        raise ValueError("MT003 Delta format not supported for polars. Use pandas instead.")
-    elif format == "csv":
-        return pl.scan_csv(path)  # Default: header inferred
-    elif format == "sas":
-        return prs.scan_readstat(path)
-    else:
-       raise ValueError("MT004 Unsupported format for polars")
+from .flexread import _load_spark_df, _load_pandas_df, _load_polars_df
+from adaptiveio.pathing import normalisePaths
 
 class MultiTable: 
     """
@@ -126,11 +81,7 @@ class MultiTable:
             raise ValueError("MT100 Source path cannot be empty")
         
         #remove trailing / at the end if it exists, but only the last character
-        if src_path.endswith("/") or src_path.endswith("\\"):
-            try:
-                src_path = src_path[:-1]
-            except Exception as e:
-                print(f"MT101 Warning: Exception while removing trailing slash: {e}")
+        src_path = normalisePaths(src_path)
 
         #does it have a file extension?
         bn = os.path.basename(src_path)
@@ -566,6 +517,33 @@ class MultiTable:
 
         self.df = new_df
 
+    def copy(self, new_name: str = None):
+        """
+        Create a deep copy of the multitable.
+        
+        Args:
+            new_name (str, optional): New name for the copied MultiTable. 
+                                      If None, retains the original name. Defaults to None.
+
+        Returns:
+            MultiTable: A new MultiTable instance with copied data and events.
+        """
+        if new_name is None:
+            new_name = self.table_name
+
+        newdf = None
+        #make a copy to newdf based on frame type
+        if self.frame_type == "pandas":
+            newdf = self.df.copy(deep=True)
+        elif self.frame_type == "polars":
+            newdf = self.df.clone()
+        elif self.frame_type == "pyspark":
+            newdf = self.df.select("*")
+        else:
+            raise ValueError("Unsupported frame_type for copy")
+        
+        return MultiTable(newdf, src_path=self.src_path, table_name=str(new_name), frame_type=self.frame_type)
+    
     def distinct(self, subset: Union[str, list, None] = None):
         """
         Return a new MultiTable with distinct rows.
@@ -878,43 +856,3 @@ class MultiTable:
         
         else:
             raise ValueError("Unsupported frame_type")
-
-def load_delta_table(path:str, format=None, spark=None) -> MultiTable:
-    """
-    Load a delta table from the given path.
-    
-    Args:
-        path (str): The path to the delta table.
-        spark: SparkSession object for PySpark operations.
-
-    Returns:
-        MultiTable: The loaded MultiTable instance.
-    """
-    if format is None:
-        #infer the format
-        format = path.split(".")[-1]
-    else:
-        if len(format) == 0:
-            raise ValueError("MT013 Format string cannot be empty")
-    
-    #lowercase override
-    format = format.lower()
-    try:
-        if (spark is None):
-            mt = MultiTable.load(
-                path=path,
-                format=format,
-                frame_type="pandas"
-            )
-        else:
-            mt = MultiTable.load(
-                path=path,
-                format=format,
-                frame_type="pyspark",
-                spark=spark
-            )
-    except Exception as e:
-        print(f"MT0014 Error loading delta table at {path}: {e}")
-        raise e
-    
-    return mt

@@ -50,11 +50,12 @@ class DropVariable(TableTransform):
         """
         table_name = kwargs.get('df')
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL003 Must specify 'df' parameter with table name")
 
         missing_vars = [var for var in self.vars if var not in supply_frames[table_name].columns]
         if missing_vars:
-            raise ValueError(f"Variables not found in DataFrame columns: {missing_vars}")
+            print(f"AL002 Columns available: {supply_frames[table_name].columns}")
+            raise ValueError(f"AL002 Variables not found in DataFrame columns: {missing_vars}.")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """

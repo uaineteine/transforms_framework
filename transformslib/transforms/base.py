@@ -1,10 +1,7 @@
+from transformslib.templates.pathing import apply_formats
 from .pipeevent import TransformEvent, PipelineEvent
 from naming_standards import ColList, Colname
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from transformslib.tables.collections.collection import TableCollection
-    from transformslib.tables.collections.supply_load import SupplyLoad
+from transformslib.tables.collections.collection import TableCollection
 
 import os
 import uuid
@@ -12,6 +9,18 @@ import sys
 import pyspark
 import polars as pl
 import pandas as pd
+
+import __main__
+
+sparkSession = None
+processing_engine = "pyspark"
+if hasattr(__main__, "spark") and __main__.spark is not None:
+    print("Setting engine to pyspark")
+    processing_engine="pyspark"
+    sparkSession=__main__.spark
+else:
+    print("defaulting to polars engine given no spark session has been given")
+    processing_engine="polars"
 
 printwidth = 120 #the width to print things out in notebooks
 
@@ -57,7 +66,7 @@ class Transform(PipelineEvent):
             >>> print(transform.transform_type)  # "cleaning"
         """
         path = os.environ.get("TNSFRMS_LOG_LOC", "")
-        ll = path.format(job_id=os.environ.get("TNSFRMS_JOB_ID", 1), prodtest=os.environ.get("TNSFRMS_PROD", "prod"))
+        ll = apply_formats(path)
         super().__init__("transform", None, event_description=description, log_location=ll, macro_uuid=macro_uuid)
         self.name = name  # Set name manually
         self.transform_type = transform_type
@@ -71,14 +80,14 @@ class Transform(PipelineEvent):
 
         self.params = []
     
-    def transforms(self, supply_frames: "SupplyLoad", **kwargs) -> "TableCollection":
+    def transforms(self, supply_frames: TableCollection, **kwargs) -> TableCollection:
         """
         Abstract method that must be implemented by subclasses.
         
         This method should contain the actual transformation logic for the data.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc. where
                      the keys are dataframe parameter names and values are table names in supply_frames.
 
@@ -99,7 +108,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def error_check(self, supply_frames: "SupplyLoad", **kwargs):
+    def error_check(self, supply_frames: TableCollection, **kwargs):
         """
         Abstract method for error checking before transformation.
         
@@ -107,7 +116,7 @@ class Transform(PipelineEvent):
         can be safely applied to the provided data.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Raises:
@@ -124,7 +133,7 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Subclasses should implement this method.")
     
-    def test(self, supply_frames: "SupplyLoad", **kwargs) -> bool:
+    def test(self, supply_frames: TableCollection, **kwargs) -> bool:
         """
         Test method for validating transformation results.
         
@@ -132,7 +141,7 @@ class Transform(PipelineEvent):
         correctly and the results meet expected criteria.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
 
         Returns:
@@ -147,26 +156,6 @@ class Transform(PipelineEvent):
         """
         raise NotImplementedError("Child classes to override this method")
         return True  # Default implementation always passes
-    
-    def apply(self, supply_frames: "SupplyLoad", **kwargs):
-        """
-        Call the transformation function with the provided supply frames and keyword arguments.
-        
-        This method provides a convenient callable interface for applying transformations.
-        It automatically logs the transformation event after execution.
-
-        Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
-            **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
-
-        Returns:
-            MetaFrame: The transformed MetaFrame.
-
-        Example:
-            >>> transform = MyTransform()
-            >>> result = transform(supply_loader, df1="customers", df2="orders")  # Same as transform.apply(supply_loader, df1="customers", df2="orders")
-        """
-        return self.apply(supply_frames, **kwargs)
     
     def _get_table_row_counts(self, supply_frames: "TableCollection", table_names: list[str]) -> dict[str, int]:
         """
@@ -202,7 +191,7 @@ class Transform(PipelineEvent):
                 columns[table_name] = list(supply_frames[table_name].columns)
         return columns
 
-    def apply(self, supply_frames: "SupplyLoad", **kwargs):
+    def apply(self, supply_frames: TableCollection, spark=None, **kwargs):
         """
         Apply the transformation to the provided supply frames with keyword arguments.
         
@@ -211,8 +200,9 @@ class Transform(PipelineEvent):
         and testing after transformation if the transform is testable.
 
         Args:
-            supply_frames (SupplyLoad): The supply frames collection containing the dataframes.
+            supply_frames (TableCollection): The supply frames collection containing the dataframes.
             **kwargs: Keyword arguments in the format df1="name1", df2="name2" etc.
+            spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         Returns:
             MetaFrame: The transformed MetaFrame.
@@ -222,6 +212,11 @@ class Transform(PipelineEvent):
             >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
             >>> # Transformation is automatically logged
         """
+        
+        #check if spark variable is around at a global level
+        if spark == None:
+            spark = sparkSession
+        
         # Perform error checking before transformation
         self.error_check(supply_frames, **kwargs)
         
@@ -236,7 +231,7 @@ class Transform(PipelineEvent):
 
         self.params = kwargs # capture all keyword arguments
 
-        self.log()
+        self.log(spark=spark)
 
         return result_df
 

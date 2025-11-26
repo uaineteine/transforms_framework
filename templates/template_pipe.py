@@ -1,40 +1,46 @@
 if __name__ == "__main__":
     import os
     import sys
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
+    import __main__
     
     #start recording run time
     import time
     start_time = time.time()
     print(f"Starting test pipeline execution at {time.ctime(start_time)}")
 
-    #---TEMPLATE STARTS HERE---
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col
     #tmp for test data
     from pyspark.sql.functions import to_date
+
+    # Create Spark session
+    print("Creating Spark session")
+    appName = "TransformTest"
+    # Set driver memory before creating the Spark session
+    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
+    #add to global variables
+    __main__.spark = spark
+
+    # Get the directory of the current script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Add the parent directory to sys.path
+    parent_dir = os.path.join(current_dir, '..')
+    sys.path.append(os.path.abspath(parent_dir))
+    #---TEMPLATE STARTS HERE---
     
-    from transformslib.tables.collections.supply_load import SupplyLoad
+    from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
     from transformslib import set_job_id, set_default_variables
 
     set_default_variables()
 
-    appName = "TransformTest"
-
-    # Create Spark session
-    print("Creating Spark session")
-    spark = SparkSession.builder.master("local").appName(appName).getOrCreate()
-
     # load pipeline tables
     job_id = 1
     run_id = 1
     set_job_id(job_id, new_run_id=run_id, mode="prod")
+
+    clear_last_run()
     
     supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
     
@@ -289,7 +295,7 @@ if __name__ == "__main__":
 
     # save table output tables
 
-    #keep onyl salary tables
+    #keep only salary tables
     supply_frames.save_all(tables=["salary*"], spark=spark)
 
     end_time = time.time()
