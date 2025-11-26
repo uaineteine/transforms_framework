@@ -1,8 +1,7 @@
-import __main__
-
 if __name__ == "__main__":
     import os
     import sys
+    import __main__
     
     #start recording run time
     import time
@@ -22,7 +21,6 @@ if __name__ == "__main__":
     #add to global variables
     __main__.spark = spark
 
-    
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Add the parent directory to sys.path
@@ -297,7 +295,7 @@ if __name__ == "__main__":
 
     # save table output tables
 
-    #keep onyl salary tables
+    #keep only salary tables
     supply_frames.save_all(tables=["salary*"], spark=spark)
 
     end_time = time.time()

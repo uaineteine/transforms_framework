@@ -10,6 +10,7 @@ import sparkpolars as sp
 from naming_standards import Tablename
 from .fv import FrameTypeVerifier
 from .flexread import _load_spark_df, _load_pandas_df, _load_polars_df
+from adaptiveio.pathing import normalisePaths
 
 class MultiTable: 
     """
@@ -80,11 +81,7 @@ class MultiTable:
             raise ValueError("MT100 Source path cannot be empty")
         
         #remove trailing / at the end if it exists, but only the last character
-        if src_path.endswith("/") or src_path.endswith("\\"):
-            try:
-                src_path = src_path[:-1]
-            except Exception as e:
-                print(f"MT101 Warning: Exception while removing trailing slash: {e}")
+        src_path = normalisePaths(src_path)
 
         #does it have a file extension?
         bn = os.path.basename(src_path)

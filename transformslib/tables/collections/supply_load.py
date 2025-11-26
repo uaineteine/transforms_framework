@@ -373,6 +373,7 @@ class SupplyLoad(TableCollection):
         """
         table_names = []
         paths = []
+        formats = []
         try:
             try:
                 print(f"Reading the delta tables to extract meta information")
@@ -409,6 +410,8 @@ class SupplyLoad(TableCollection):
             
             paths = paths_info["table_path"]
             paths = paths.tolist()
+            
+            formats = paths_info["format"].tolist()
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
@@ -482,7 +485,7 @@ class SupplyLoad(TableCollection):
                 try:
                     mt = MetaFrame.load(
                         path=paths[i],
-                        format="csv", #this format must be updated depending on the supply type TODO
+                        format=formats[i],
                         frame_type="pyspark",
                         spark=spark
                     )
