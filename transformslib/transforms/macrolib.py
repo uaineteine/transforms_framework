@@ -60,7 +60,6 @@ class Macro:
         :rtype: dict[str, pd.DataFrame]
         """
         return_frames = self.macros.apply(self.input_tables, **kwargs)
-        self.log(spark=spark)
         return return_frames
 
     def log(self, spark=None):
