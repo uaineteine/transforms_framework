@@ -17,6 +17,8 @@ if exist tests\test_log.txt del tests\test_log.txt
 cd tests
 cd scripts
 
+powershell -Command "python save_raw_text.py | Tee-Object -FilePath ../../tests/test_log.txt -Append"
+
 powershell -Command "python list_transforms.py | Tee-Object -FilePath ../../tests/test_log.txt -Append"
 
 cd ..
