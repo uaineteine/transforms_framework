@@ -2,8 +2,6 @@ polars
 tabulate
 pandas
 pyspark
-polars-readstat
-deltalake
 pyvis
 networkx
 naming-standards>=1.0.0
