@@ -295,7 +295,7 @@ if __name__ == "__main__":
 
     # save table output tables
 
-    #keep onyl salary tables
+    #keep only salary tables
     supply_frames.save_all(tables=["salary*"], spark=spark)
 
     end_time = time.time()
