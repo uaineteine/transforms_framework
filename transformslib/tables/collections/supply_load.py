@@ -5,9 +5,26 @@ from adaptiveio import load_json
 from multitable import MultiTable, SchemaValidator
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
-from transformslib.tables.sv import get_schema_summary
 from .collection import TableCollection
 from transformslib.templates.pathing import apply_formats
+
+def get_schema_summary(expected_dtypes: Dict[str, Dict[str, str]]) -> str:
+    """
+    Get a human-readable summary of the expected schema.
+    
+    Args:
+        expected_dtypes: Dictionary mapping column names to dtype information
+        
+    Returns:
+        str: A formatted string describing the expected schema
+    """
+    summary_lines = ["Expected Schema:"]
+    for col_name, dtype_info in expected_dtypes.items():
+        dtype_source = dtype_info.get('dtype_source', 'Unknown')
+        dtype_output = dtype_info.get('dtype_output', dtype_source)
+        summary_lines.append(f"  {col_name}: {dtype_source} -> {dtype_output}")
+    
+    return "\n".join(summary_lines)
 
 class SchemaValidationError(Exception):
     """Exception raised when schema validation fails."""
