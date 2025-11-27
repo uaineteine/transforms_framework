@@ -32,8 +32,6 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- fv.py
 |   |   |-- sv.py
 |   |   |-- metaframe.py
-|   |   |-- multitable.py
-|   |   `-- flexread.py
 |   |-- dag/
 |   |   |-- webcanvas.py
 |   |   `-- dag.py
