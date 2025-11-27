@@ -2,12 +2,16 @@ import os
 from typing import Dict, Any
 from tabulate import tabulate
 from adaptiveio import load_json
-from transformslib.tables.multitable import MultiTable
+from multitable import MultiTable, SchemaValidator
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
-from transformslib.tables.sv import SchemaValidator, SchemaValidationError
+from transformslib.tables.sv import get_schema_summary
 from .collection import TableCollection
 from transformslib.templates.pathing import apply_formats
+
+class SchemaValidationError(Exception):
+    """Exception raised when schema validation fails."""
+    pass
 
 def get_execution_engine_info() -> Dict[str, Any]:
     """
@@ -214,7 +218,7 @@ def load_single_table_from_sampling(data: Dict[str, Any],
             print(f"Validating schema for table '{name}'...")
             dtypes = data["dtypes"]
             # Print schema summary for transparency
-            schema_summary = SchemaValidator.get_schema_summary(dtypes)
+            schema_summary = get_schema_summary(dtypes)
             print(schema_summary)
             # Validate the schema
             SchemaValidator.validate_schema(
