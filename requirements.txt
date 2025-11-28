@@ -2,9 +2,6 @@ polars
 tabulate
 pandas
 pyspark
-polars-readstat
-sparkpolars
-deltalake
 pyvis
 networkx
 # Custom packages are installed from GitHub via custom_packages.txt
