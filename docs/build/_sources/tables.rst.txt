@@ -13,27 +13,9 @@ transformslib.tables.collections.supply_load
 .. automodule:: transformslib.tables.collections.supply_load
    :members:
 
-transformslib.tables.fv
------------------------
-
-.. automodule:: transformslib.tables.fv
-   :members:
-
 transformslib.tables.metaframe
 ------------------------------
 
 .. automodule:: transformslib.tables.metaframe
-   :members:
-
-transformslib.tables.multitable
--------------------------------
-
-.. automodule:: transformslib.tables.multitable
-   :members:
-
-transformslib.tables.sv
------------------------
-
-.. automodule:: transformslib.tables.sv
    :members:
 
