@@ -4,9 +4,11 @@ on:
   pull_request:
     branches:
       - master
+      - update_tests
   push:
     branches:
       - master
+      - update_tests
 
 jobs:
   duplicate-code-check:

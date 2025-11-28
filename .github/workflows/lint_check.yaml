@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - master
+      - update_tests
     paths-ignore:
       - 'archive/**'
   pull_request:
     branches:
       - master
+      - update_tests
     paths-ignore:
       - 'archive/**'
 
@@ -18,4 +20,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # Delete all contents of archive/
+      - name: Delete archive contents
+        run: |
+          rm -rf archive/*
+
       - uses: cclauss/Find-Python-syntax-errors-action@master
