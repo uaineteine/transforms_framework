@@ -1,6 +1,21 @@
 if __name__ == "__main__":
     import os
     import sys
+    
+    # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
+    is_windows = sys.platform.startswith('win')
+    if is_windows:
+        # Point to the hadoop directory in the project root
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(script_dir)
+        hadoop_home = os.path.join(project_root, "hadoop")
+        hadoop_bin = os.path.join(hadoop_home, "bin")
+        os.environ["HADOOP_HOME"] = hadoop_home
+        # Add hadoop\bin to PATH so Java can find hadoop.dll
+        os.environ["PATH"] = hadoop_bin + os.pathsep + os.environ.get("PATH", "")
+        # Disable Hadoop native library warnings
+        os.environ["HADOOP_OPTS"] = "-Djava.library.path="
+    
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Add the parent directory to sys.path
@@ -22,11 +37,6 @@ if __name__ == "__main__":
     # Create Spark session
     print("Creating Spark session")
     # Set driver memory before creating the Spark session
-    import os
-    import sys
-    
-    # For Windows CI environment, configure Spark to minimize Hadoop dependencies
-    is_windows = sys.platform.startswith('win')
     
     builder = SparkSession.builder.master("local").appName(appName)\
         .config("spark.driver.memory", "2g")\
@@ -38,6 +48,7 @@ if __name__ == "__main__":
             .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")\
             .config("spark.hadoop.mapreduce.fileoutputcommitter.cleanup-failures.ignored", "true")\
             .config("spark.hadoop.fs.file.impl", "org.apache.hadoop.fs.RawLocalFileSystem")\
+            .config("spark.hadoop.fs.permissions.umask-mode", "000")\
             .config("spark.sql.streaming.schemaInference", "true")
     
     spark = builder.getOrCreate()
