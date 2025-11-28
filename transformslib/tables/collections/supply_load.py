@@ -404,7 +404,10 @@ class SupplyLoad(TableCollection):
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             paths_info = sum_df.copy()
-            paths_info = paths_info.select("table_name", "table_path").distinct()
+            if "format" in sum_df.columns:
+                paths_info = paths_info.select("table_name", "table_path", "format").distinct()
+            else:
+                paths_info = paths_info.select("table_name", "table_path").distinct()
             paths_info = paths_info.sort("table_name")
             paths_info.show(truncate=False)
             
@@ -433,7 +436,12 @@ class SupplyLoad(TableCollection):
             paths = paths_info["table_path"]
             paths = paths.tolist()
             
-            formats = paths_info["format"].tolist()
+            if "format" in sum_df.columns:
+                formats = paths_info["format"].tolist()
+            else:
+                #infer from the same length that it will be parquet
+                n = len(paths)
+                formats = ["parquet" for i in range(n)]
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
