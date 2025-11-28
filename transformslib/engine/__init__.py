@@ -4,7 +4,10 @@ import os
 from pyspark.sql import SparkSession
 
 # Global variables inside this module
-sparkSession = None
+_sparkSession = None
+
+def get_spark() -> SparkSession
+    return _sparkSession
 
 def get_engine() -> str:
     return os.getenv("TNSFRMS_EXE_ENGINE", "polars")
@@ -26,23 +29,23 @@ def set_spark_session(spark=None):
     Returns:
         tuple: (sparkSession, processing_engine)
     """
-    global sparkSession
+    global _sparkSession
     processing_engine
 
     if spark is not None:
         # Use the provided SparkSession
-        sparkSession = spark
+        _sparkSession = spark
         processing_engine = "pyspark"
         print("Using provided Spark session. Engine set to pyspark.")
     else:
         try:
             # Try to create or get an existing SparkSession
-            sparkSession = SparkSession.builder.getOrCreate()
+            _sparkSession = SparkSession.builder.getOrCreate()
             processing_engine = "pyspark"
             print("Spark session initialized. Engine set to pyspark.")
         except Exception:
             # If Spark is not available, fallback
-            sparkSession = None
+            _sparkSession = None
             processing_engine = "polars"
             print("No Spark session available. Defaulting to polars engine.")
 

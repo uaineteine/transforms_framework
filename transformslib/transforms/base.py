@@ -1,3 +1,4 @@
+from transformslib.engine import get_engine, get_spark
 from transformslib.templates.pathing import apply_formats
 from .pipeevent import TransformEvent, PipelineEvent
 from naming_standards import ColList, Colname
@@ -9,18 +10,6 @@ import sys
 import pyspark
 import polars as pl
 import pandas as pd
-
-import __main__
-
-sparkSession = None
-processing_engine = "pyspark"
-if hasattr(__main__, "spark") and __main__.spark is not None:
-    print("Setting engine to pyspark")
-    processing_engine="pyspark"
-    sparkSession=__main__.spark
-else:
-    print("defaulting to polars engine given no spark session has been given")
-    processing_engine="polars"
 
 printwidth = 120 #the width to print things out in notebooks
 
@@ -215,7 +204,7 @@ class Transform(PipelineEvent):
         
         #check if spark variable is around at a global level
         if spark == None:
-            spark = sparkSession
+            spark = get_spark()
         
         # Perform error checking before transformation
         self.error_check(supply_frames, **kwargs)
