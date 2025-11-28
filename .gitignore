@@ -33,3 +33,5 @@ transformslib/dag/__pycache__/*
 test_tables/jobs/prod/job_1/output/*
 templates/jobs/prod/job_1/*.parquet/
 transformslib/engine/__pycache__/*
+docs/source/templates.rst
+docs/source/dag.rst
