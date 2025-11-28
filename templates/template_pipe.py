@@ -1,11 +1,6 @@
 if __name__ == "__main__":
     import os
     import sys
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
     
     #start recording run time
     import time
@@ -17,15 +12,23 @@ if __name__ == "__main__":
     #tmp for test data
     from pyspark.sql.functions import to_date
 
-    appName = "TransformTest"
-
     # Create Spark session
     print("Creating Spark session")
+    appName = "TransformTest"
     # Set driver memory before creating the Spark session
     spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
 
+    # Get the directory of the current script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Add the parent directory to sys.path
+    parent_dir = os.path.join(current_dir, '..')
+    sys.path.append(os.path.abspath(parent_dir))
     #---TEMPLATE STARTS HERE---
     
+    from transformslib.engine import set_engine, set_spark_session
+    set_engine("pyspark")
+    set_spark_session(spark)
+
     from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
@@ -40,7 +43,7 @@ if __name__ == "__main__":
 
     clear_last_run()
     
-    supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad() #sample_rows=xyz
     
     listatomic()
 
@@ -234,7 +237,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Applying hashing test")
     hsh = HashColumns("name", "hextest")
-    supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
+    supply_frames = hsh.apply(supply_frames, df="location")
     supply_frames["location"].show()
     
     # -------------------------------
@@ -293,8 +296,8 @@ if __name__ == "__main__":
 
     # save table output tables
 
-    #keep onyl salary tables
-    supply_frames.save_all(tables=["salary*"], spark=spark)
+    #keep only salary tables
+    supply_frames.save_all(tables=["salary*"])
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")

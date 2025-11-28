@@ -1,3 +1,4 @@
+from transformslib.engine import get_engine, get_spark
 from transformslib.templates.pathing import apply_formats
 from .pipeevent import TransformEvent, PipelineEvent
 from naming_standards import ColList, Colname
@@ -200,6 +201,11 @@ class Transform(PipelineEvent):
             >>> result = transform.apply(supply_loader, df1="customers", df2="orders")
             >>> # Transformation is automatically logged
         """
+        
+        #check if spark variable is around at a global level
+        if spark == None:
+            spark = get_spark()
+        
         # Perform error checking before transformation
         self.error_check(supply_frames, **kwargs)
         

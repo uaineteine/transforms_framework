@@ -32,3 +32,4 @@ test_tables/prod/job_1/output/*
 transformslib/dag/__pycache__/*
 test_tables/jobs/prod/job_1/output/*
 templates/jobs/prod/job_1/*.parquet/
+transformslib/engine/__pycache__/*

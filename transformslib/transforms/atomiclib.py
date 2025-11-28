@@ -17,6 +17,8 @@ from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, rou
 import polars as pl
 import pandas as pd
 
+from transformslib.engine import get_spark, get_engine
+
 def _get_lambda_source(func) -> str:
     try:
         return inspect.getsource(func).strip()
@@ -1572,11 +1574,11 @@ class HashColumns(TableTransform):
     
     def transforms(self, supply_frames, **kwargs):
         tbn = kwargs.get("df")
-        spark = kwargs.get("spark")
         backend = supply_frames[tbn].frame_type
         
         for col in self.columns:
             if backend == "pyspark":
+                spark = get_spark()
                 supply_frames[tbn].df = method_hash(supply_frames[tbn].df, col, col, self.hash_method, spark=spark)
             else:
                 raise NotImplementedError(f"HashColumns not implemented for backend '{backend}'")
@@ -1722,7 +1724,8 @@ class AttachSynID(TableTransform):
         incols = list(supply_frames[table_name].columns)
         
         #load the entity map
-        entmap = load_ent_map(spark=kwargs.get("spark"))
+        spark = get_spark()
+        entmap = load_ent_map(spark=spark)
 
         #use modified id group variable to join if it exists on both frames
         vars_to_join = [self.source_id]
