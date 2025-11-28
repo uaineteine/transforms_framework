@@ -1,5 +1,6 @@
 import os
 from typing import Dict, Any
+from transformslib.engine import get_engine, get_spark
 from tabulate import tabulate
 from adaptiveio import load_json
 from multitable import MultiTable, SchemaValidator
@@ -302,7 +303,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -314,7 +315,6 @@ class SupplyLoad(TableCollection):
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
-            spark: SparkSession object required for loading PySpark DataFrames. Defaults to None.
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
@@ -365,9 +365,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        names_of_loaded = self.load_supplies(spark=spark)
+        names_of_loaded = self.load_supplies()
 
-    def load_supplies(self, spark=None) -> list[str]:
+    def load_supplies(self) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -375,9 +375,6 @@ class SupplyLoad(TableCollection):
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
-
-        Args:
-            spark: SparkSession object required for PySpark operations. Defaults to None.
             
         Returns:
             List[str]: A list of names of the loaded tables.
@@ -392,6 +389,10 @@ class SupplyLoad(TableCollection):
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
+        spark = None
+        if get_engine() == "pyspark":
+            spark = get_spark()
+
         table_names = []
         paths = []
         formats = []

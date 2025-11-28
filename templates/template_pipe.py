@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     clear_last_run()
     
-    supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad() #sample_rows=xyz
     
     listatomic()
 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
     # save table output tables
 
     #keep only salary tables
-    supply_frames.save_all(tables=["salary*"], spark=spark)
+    supply_frames.save_all(tables=["salary*"])
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
