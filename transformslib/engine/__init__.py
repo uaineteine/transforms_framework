@@ -1,4 +1,4 @@
-# my_module.py
+# Engine module to set the execution spark sessions and framework for data operations
 
 import os
 from pyspark.sql import SparkSession
