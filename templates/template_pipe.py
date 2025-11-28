@@ -23,15 +23,27 @@ if __name__ == "__main__":
     print("Creating Spark session")
     # Set driver memory before creating the Spark session
     import os
-    # Ensure we're using the right temp directory
-    os.environ['HADOOP_HOME'] = os.environ.get('HADOOP_HOME', 'C:\\hadoop')
+    import sys
     
-    spark = SparkSession.builder.master("local").appName(appName)\
+    # For Windows CI environment, configure Spark to minimize Hadoop dependencies
+    is_windows = sys.platform.startswith('win')
+    
+    builder = SparkSession.builder.master("local").appName(appName)\
         .config("spark.driver.memory", "2g")\
-        .config("spark.hadoop.fs.file.impl.disable.cache", "true")\
-        .config("spark.sql.warehouse.dir", "file:///C:/tmp/hive")\
-        .config("spark.hadoop.mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")\
-        .getOrCreate()
+        .config("spark.sql.warehouse.dir", "file:///C:/tmp/hive")
+    
+    if is_windows:
+        # Windows-specific configs to avoid winutils issues
+        builder = builder\
+            .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")\
+            .config("spark.hadoop.mapreduce.fileoutputcommitter.cleanup-failures.ignored", "true")\
+            .config("spark.hadoop.fs.file.impl", "org.apache.hadoop.fs.RawLocalFileSystem")\
+            .config("spark.sql.streaming.schemaInference", "true")
+    
+    spark = builder.getOrCreate()
+    
+    # Set log level to reduce noise
+    spark.sparkContext.setLogLevel("ERROR")
 
     #---TEMPLATE STARTS HERE---
     
