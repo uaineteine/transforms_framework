@@ -1,3 +1,4 @@
+from transformslib.engine import get_spark, get_engine
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.pipeevent import PipelineEvent
 from transformslib.transforms.reader import transform_log_loc
@@ -386,7 +387,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events(spark=spark)
 
-    def save_all(self, output_dir:str=None, tables:list[str]=[], spark=None):
+    def save_all(self, output_dir:str=None, tables:list[str]=[]):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -397,7 +398,6 @@ class TableCollection:
         Args:
             output_dir (str): The directory where all tables should be saved.
             tables (list[str], optional): List of table names to save. If empty, saves all tables.
-            spark (SparkSession, optional): The Spark session to use for writing tables.
 
         Returns:
             None
@@ -408,6 +408,11 @@ class TableCollection:
         Example:
             >>> pt_collection.save_all("output_data/")
         """
+        #spark flex
+        spark = None
+        if get_engine() == "pyspark":
+            spark = get_spark()
+
         #use environment variable if output_dir not specified
         if output_dir is None:
             output_dir = os.environ.get("TNSFRMS_OUT_TABLE_LOC", output_dir)
@@ -424,6 +429,8 @@ class TableCollection:
         if len(tables) > 0:
             save_list = self.select_by_names(*tables)
 
+        print(f"Saving all tables: {save_list}")
+        print("")
         for table in save_list.tables:
             output_path = os.path.join(output_dir, table.table_name + ".parquet")
             output_path = str(Path(output_path))

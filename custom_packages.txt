@@ -3,5 +3,6 @@ git+https://github.com/uaineteine/naming-standards.git
 git+https://github.com/uaineteine/adaptiveio.git
 git+https://github.com/uaineteine/hashing-tool.git
 git+https://github.com/uaineteine/transforms_events.git
+git+https://github.com/uaineteine/multitable.git
 git+https://github.com/uaineteine/concordance_lib.git#subdirectory=conclib
 git+https://github.com/uaineteine/concordance_lib.git#subdirectory=rkeylib
