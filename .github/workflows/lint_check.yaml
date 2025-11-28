@@ -3,12 +3,14 @@ name: Lint Check
 on:
   push:
     branches:
-      - 'master'
       - master
+    paths-ignore:
+      - 'archive/**'
   pull_request:
     branches:
-      - 'master'
       - master
+    paths-ignore:
+      - 'archive/**'
 
 jobs:
   lint:
