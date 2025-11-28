@@ -15,16 +15,27 @@ jobs:
   unit_tests:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
+      - name: Setup Hadoop for Windows
+        run: |
+          mkdir C:\hadoop\bin -Force
+          Invoke-WebRequest -Uri "https://github.com/steveloughran/winutils/raw/master/hadoop-3.0.0/bin/winutils.exe" -OutFile "C:\hadoop\bin\winutils.exe"
+          Invoke-WebRequest -Uri "https://github.com/steveloughran/winutils/raw/master/hadoop-3.0.0/bin/hadoop.dll" -OutFile "C:\hadoop\bin\hadoop.dll"
+          echo "HADOOP_HOME=C:\hadoop" >> $env:GITHUB_ENV
+          echo "C:\hadoop\bin" >> $env:GITHUB_PATH
+          mkdir C:\tmp\hive -Force
+          icacls C:\hadoop /grant Everyone:F /T
+          icacls C:\tmp /grant Everyone:F /T
+        shell: pwsh
       - name: Install custom packages
         run: |
           python -m pip install --upgrade pip
@@ -32,10 +43,16 @@ jobs:
       - name: Install requirements
         run: |
           pip install -r requirements.txt
-      - name: Run unit tests
+      - name: Set Spark environment variables
         run: |
-          ./run_unit_test.bat
+          echo "SPARK_LOCAL_IP=127.0.0.1" >> $env:GITHUB_ENV
+        shell: pwsh
+      - name: Run unit tests
+        shell: cmd
+        run: |
+          run_unit_test.bat
       - name: Upload test results as artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
@@ -43,9 +60,10 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: Upload DAG report as artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: dag-report
-          path: templates/transform_dag_job_run1.html
+          path: templates/transform_dags/transform_dag_job1_run1.html
           if-no-files-found: warn
           retention-days: 14
