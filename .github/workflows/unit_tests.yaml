@@ -95,6 +95,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dag-report
-          path: templates/transform_dag_job_run1.html
+          path: templates/transform_dags/transform_dag_job1_run1.html
           if-no-files-found: warn
           retention-days: 14
