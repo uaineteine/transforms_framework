@@ -48,10 +48,38 @@ jobs:
         run: |
           echo "SPARK_LOCAL_IP=127.0.0.1" >> $env:GITHUB_ENV
         shell: pwsh
+      - name: Verify environment setup
+        run: |
+          Write-Host "=== Environment Verification ==="
+          Write-Host "Python: $(python --version)"
+          Write-Host "Python Path: $(python -c 'import sys; print(sys.executable)')"
+          Write-Host "Java: $(java -version 2>&1 | Select-Object -First 1)"
+          Write-Host "HADOOP_HOME: $env:HADOOP_HOME"
+          Write-Host "PATH contains hadoop\bin: $($env:PATH -like '*hadoop\bin*')"
+          Write-Host "Hadoop binaries:"
+          Get-ChildItem C:\hadoop\bin | Format-Table Name, Length
+          Write-Host "PySpark version:"
+          python -c "import pyspark; print(f'PySpark {pyspark.__version__}')"
+          Write-Host "=== End Verification ==="
+        shell: pwsh
       - name: Run unit tests
         shell: cmd
         run: |
           run_unit_test.bat
+      - name: Check exit code and display summary
+        if: always()
+        run: |
+          Write-Host "=== Test Execution Summary ==="
+          Write-Host "Exit Code: $LASTEXITCODE"
+          if (Test-Path "tests\test_log.txt") {
+            Write-Host "`n=== Last 50 lines of test log ==="
+            Get-Content "tests\test_log.txt" -Tail 50
+          }
+          if (Test-Path "templates\transform_dag_job_run1.html") {
+            Write-Host "`n=== DAG report generated successfully ==="
+          }
+          Write-Host "=== End Summary ==="
+        shell: pwsh
       - name: Upload test results as artifact
         if: always()
         uses: actions/upload-artifact@v4

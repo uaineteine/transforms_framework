@@ -332,3 +332,10 @@ if __name__ == "__main__":
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
     print(f"Total execution time: {end_time - start_time:.2f} seconds")
     
+    # Properly stop Spark to ensure clean exit
+    spark.stop()
+    print("Spark session stopped successfully")
+    
+    # Explicit successful exit
+    sys.exit(0)
+    
