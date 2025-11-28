@@ -1,12 +1,11 @@
 from transformslib.templates.pathing import apply_formats
-from transformslib.tables.multitable import MultiTable
+from multitable import MultiTable, FrameTypeVerifier
 from transformslib.transforms.pipeevent import PipelineEvent
 from naming_standards import Tablename
 from transformslib import module_version
 
 import os
 from typing import List
-from .fv import FrameTypeVerifier
 
 #structure type
 class Meta:

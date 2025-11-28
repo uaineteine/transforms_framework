@@ -1,7 +1,6 @@
 if __name__ == "__main__":
     import os
     import sys
-    import __main__
     
     #start recording run time
     import time
@@ -18,8 +17,6 @@ if __name__ == "__main__":
     appName = "TransformTest"
     # Set driver memory before creating the Spark session
     spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
-    #add to global variables
-    __main__.spark = spark
 
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -28,6 +25,10 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(parent_dir))
     #---TEMPLATE STARTS HERE---
     
+    from transformslib.engine import set_engine, set_spark_session
+    set_engine("pyspark")
+    set_spark_session(spark)
+
     from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
@@ -42,7 +43,7 @@ if __name__ == "__main__":
 
     clear_last_run()
     
-    supply_frames = SupplyLoad(spark=spark) #sample_rows=xyz
+    supply_frames = SupplyLoad() #sample_rows=xyz
     
     listatomic()
 
@@ -236,7 +237,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Applying hashing test")
     hsh = HashColumns("name", "hextest")
-    supply_frames = hsh.apply(supply_frames, df="location", spark=spark)
+    supply_frames = hsh.apply(supply_frames, df="location")
     supply_frames["location"].show()
     
     # -------------------------------
@@ -296,7 +297,7 @@ if __name__ == "__main__":
     # save table output tables
 
     #keep only salary tables
-    supply_frames.save_all(tables=["salary*"], spark=spark)
+    supply_frames.save_all(tables=["salary*"])
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")

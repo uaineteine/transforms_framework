@@ -1,6 +1,6 @@
 # Meta Transforms Framework
 
-![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.31.3](https://img.shields.io/badge/version-0.31.3-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml) [![Unit Tests](https://github.com/uaineteine/transforms_framework/actions/workflows/unit_tests.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/unit_tests.yaml)
+![py version](https://img.shields.io/badge/python-3.10+-blue) ![Version 0.40.0](https://img.shields.io/badge/version-0.40.0-brightgreen) [![Lint Check](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/lint_check.yaml) [![Dup Checks](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/dup_checks.yaml) [![Package](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/package.yaml) [![Unit Tests](https://github.com/uaineteine/transforms_framework/actions/workflows/unit_tests.yaml/badge.svg)](https://github.com/uaineteine/transforms_framework/actions/workflows/unit_tests.yaml)
 
 This program provides a data transformation framework for working with tables (DataFrames) in PySpark, Pandas, or Polars. It tracks all transformations and important events in a structured, auditable way using JSON logs.
 
@@ -29,11 +29,7 @@ This program provides a data transformation framework for working with tables (D
 |   |   |-- collections/
 |   |   |   |-- collection.py
 |   |   |   `-- supply_load.py
-|   |   |-- fv.py
-|   |   |-- sv.py
 |   |   |-- metaframe.py
-|   |   |-- multitable.py
-|   |   `-- flexread.py
 |   |-- dag/
 |   |   |-- webcanvas.py
 |   |   `-- dag.py

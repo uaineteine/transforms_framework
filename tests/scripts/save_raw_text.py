@@ -8,7 +8,7 @@ from adaptiveio import save_raw_text, read_raw_text, normalisePaths
 sparkSession = SparkSession.builder.master("local").appName("adio").getOrCreate()
 
 path = normalisePaths(path)
-os.makedirs(os.path.dirname(path))
+os.makedirs(os.path.dirname(path), exist_ok=True)
 
 save_raw_text(path, test_str, spark=sparkSession)
 
