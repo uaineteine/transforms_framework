@@ -2,6 +2,20 @@ if __name__ == "__main__":
     import os
     import sys
     
+    # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
+    is_windows = sys.platform.startswith('win')
+    if is_windows:
+        # Point to the hadoop directory in the project root
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(script_dir)
+        hadoop_home = os.path.join(project_root, "hadoop")
+        hadoop_bin = os.path.join(hadoop_home, "bin")
+        os.environ["HADOOP_HOME"] = hadoop_home
+        # Add hadoop\bin to PATH so Java can find hadoop.dll
+        os.environ["PATH"] = hadoop_bin + os.pathsep + os.environ.get("PATH", "")
+        # Disable Hadoop native library warnings
+        os.environ["HADOOP_OPTS"] = "-Djava.library.path="
+    
     #start recording run time
     import time
     start_time = time.time()
@@ -16,7 +30,12 @@ if __name__ == "__main__":
     print("Creating Spark session")
     appName = "TransformTest"
     # Set driver memory before creating the Spark session
-    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
+    spark = SparkSession.builder\
+            .master("local")\
+            .appName(appName)\
+            .config("spark.driver.memory", "2g")\
+            .config("spark.hadoop.fs.permissions.umask-mode", "000")\
+            .getOrCreate()
 
     # Get the directory of the current script
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -302,4 +321,11 @@ if __name__ == "__main__":
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
     print(f"Total execution time: {end_time - start_time:.2f} seconds")
+    
+    # Properly stop Spark to ensure clean exit
+    spark.stop()
+    print("Spark session stopped successfully")
+    
+    # Explicit successful exit
+    sys.exit(0)
     
