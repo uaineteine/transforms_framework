@@ -1,5 +1,7 @@
 from typing import Union, TYPE_CHECKING
 
+from transformslib.engine import get_engine, get_spark
+
 from transformslib.templates.pathing import apply_formats
 
 if TYPE_CHECKING:
@@ -48,7 +50,7 @@ class Macro:
         MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
         self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
-    def apply(self, spark=None, **kwargs):
+    def apply(self, **kwargs):
         """
         Applies the macro transformation to the input tables and logs the operation.
 
@@ -62,7 +64,7 @@ class Macro:
         return_frames = self.macros.apply(self.input_tables, **kwargs)
         return return_frames
 
-    def log(self, spark=None):
+    def log(self):
         """
         Logs the macro transformation metadata to a JSON file.
 
@@ -81,6 +83,7 @@ class Macro:
             'macro_type': self.macros.transform_type
         }
         log_info = PipelineEvent("macro_log", json_info, event_description="the driver macro for atomic transforms", log_location=self.macro_log_loc)
+        spark = get_spark()
         log_info.log(spark=spark)
 
 ###### LIBRARY OF MACRO TRANSFORMS ######

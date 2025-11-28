@@ -1,13 +1,35 @@
 import os
 from typing import Dict, Any
+from transformslib.engine import get_engine, get_spark
 from tabulate import tabulate
 from adaptiveio import load_json
-from transformslib.tables.multitable import MultiTable
+from multitable import MultiTable, SchemaValidator
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
-from transformslib.tables.sv import SchemaValidator, SchemaValidationError
 from .collection import TableCollection
 from transformslib.templates.pathing import apply_formats
+
+def get_schema_summary(expected_dtypes: Dict[str, Dict[str, str]]) -> str:
+    """
+    Get a human-readable summary of the expected schema.
+    
+    Args:
+        expected_dtypes: Dictionary mapping column names to dtype information
+        
+    Returns:
+        str: A formatted string describing the expected schema
+    """
+    summary_lines = ["Expected Schema:"]
+    for col_name, dtype_info in expected_dtypes.items():
+        dtype_source = dtype_info.get('dtype_source', 'Unknown')
+        dtype_output = dtype_info.get('dtype_output', dtype_source)
+        summary_lines.append(f"  {col_name}: {dtype_source} -> {dtype_output}")
+    
+    return "\n".join(summary_lines)
+
+class SchemaValidationError(Exception):
+    """Exception raised when schema validation fails."""
+    pass
 
 def get_execution_engine_info() -> Dict[str, Any]:
     """
@@ -214,7 +236,7 @@ def load_single_table_from_sampling(data: Dict[str, Any],
             print(f"Validating schema for table '{name}'...")
             dtypes = data["dtypes"]
             # Print schema summary for transparency
-            schema_summary = SchemaValidator.get_schema_summary(dtypes)
+            schema_summary = get_schema_summary(dtypes)
             print(schema_summary)
             # Validate the schema
             SchemaValidator.validate_schema(
@@ -281,7 +303,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, spark=None, enable_schema_validation: bool = True):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -293,7 +315,6 @@ class SupplyLoad(TableCollection):
             sample_frac (float, optional): Fraction of rows to sample (0 < frac <= 1).
             sample_rows (int, optional): Number of rows to sample.
             seed (int, optional): Random seed for reproducibility.
-            spark: SparkSession object required for loading PySpark DataFrames. Defaults to None.
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
@@ -344,9 +365,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        names_of_loaded = self.load_supplies(spark=spark)
+        names_of_loaded = self.load_supplies()
 
-    def load_supplies(self, spark=None) -> list[str]:
+    def load_supplies(self) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -354,9 +375,6 @@ class SupplyLoad(TableCollection):
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
-
-        Args:
-            spark: SparkSession object required for PySpark operations. Defaults to None.
             
         Returns:
             List[str]: A list of names of the loaded tables.
@@ -371,6 +389,10 @@ class SupplyLoad(TableCollection):
 
             >>> supply_loader = SupplyLoad(job_id=1, spark=spark)  # New sampling input method
         """
+        spark = None
+        if get_engine() == "pyspark":
+            spark = get_spark()
+
         table_names = []
         paths = []
         formats = []
@@ -382,7 +404,10 @@ class SupplyLoad(TableCollection):
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
             paths_info = sum_df.copy()
-            paths_info = paths_info.select("table_name", "table_path").distinct()
+            if "format" in sum_df.columns:
+                paths_info = paths_info.select("table_name", "table_path", "format").distinct()
+            else:
+                paths_info = paths_info.select("table_name", "table_path").distinct()
             paths_info = paths_info.sort("table_name")
             paths_info.show(truncate=False)
             
@@ -411,7 +436,12 @@ class SupplyLoad(TableCollection):
             paths = paths_info["table_path"]
             paths = paths.tolist()
             
-            formats = paths_info["format"].tolist()
+            if "format" in sum_df.columns:
+                formats = paths_info["format"].tolist()
+            else:
+                #infer from the same length that it will be parquet
+                n = len(paths)
+                formats = ["parquet" for i in range(n)]
         
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
