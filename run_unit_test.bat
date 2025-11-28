@@ -19,6 +19,8 @@ cd scripts
 
 powershell -Command "python save_raw_text.py | Tee-Object -FilePath ../../tests/test_log.txt -Append"
 
+del "test_tables/unit_test_subpackage/this_is_a_test.txt"
+
 powershell -Command "python list_transforms.py | Tee-Object -FilePath ../../tests/test_log.txt -Append"
 
 cd ..
