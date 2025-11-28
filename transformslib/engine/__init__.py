@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 # Global variables inside this module
 _sparkSession = None
 
-def get_spark() -> SparkSession
+def get_spark() -> SparkSession:
     return _sparkSession
 
 def get_engine() -> str:
@@ -29,8 +29,11 @@ def set_spark_session(spark=None):
     Returns:
         tuple: (sparkSession, processing_engine)
     """
+    
     global _sparkSession
-    processing_engine
+    processing_engine = get_engine()
+    
+    print(f"Current setup engine is: {processing_engine}")
 
     if spark is not None:
         # Use the provided SparkSession
