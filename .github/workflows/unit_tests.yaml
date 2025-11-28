@@ -25,14 +25,17 @@ jobs:
           java-version: '17'
       - name: Setup Hadoop for Windows
         run: |
-          mkdir C:\hadoop\bin
-          curl -L https://github.com/cdarlint/winutils/raw/master/hadoop-3.3.5/bin/winutils.exe -o C:\hadoop\bin\winutils.exe
-          curl -L https://github.com/cdarlint/winutils/raw/master/hadoop-3.3.5/bin/hadoop.dll -o C:\hadoop\bin\hadoop.dll
+          mkdir C:\hadoop\bin -Force
+          # Use a more reliable winutils source
+          Invoke-WebRequest -Uri "https://github.com/steveloughran/winutils/raw/master/hadoop-3.0.0/bin/winutils.exe" -OutFile "C:\hadoop\bin\winutils.exe"
+          Invoke-WebRequest -Uri "https://github.com/steveloughran/winutils/raw/master/hadoop-3.0.0/bin/hadoop.dll" -OutFile "C:\hadoop\bin\hadoop.dll"
           echo "HADOOP_HOME=C:\hadoop" >> $env:GITHUB_ENV
           echo "C:\hadoop\bin" >> $env:GITHUB_PATH
-          # Grant full permissions to avoid permission errors
-          icacls C:\hadoop\bin\winutils.exe /grant Everyone:F
-          icacls C:\hadoop\bin\hadoop.dll /grant Everyone:F
+          # Create temp directory for Spark
+          mkdir C:\tmp\hive -Force
+          # Grant permissions
+          icacls C:\hadoop /grant Everyone:F /T
+          icacls C:\tmp /grant Everyone:F /T
         shell: pwsh
       - name: Install custom packages
         run: |

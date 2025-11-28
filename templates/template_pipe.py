@@ -22,10 +22,15 @@ if __name__ == "__main__":
     # Create Spark session
     print("Creating Spark session")
     # Set driver memory before creating the Spark session
+    import os
+    # Ensure we're using the right temp directory
+    os.environ['HADOOP_HOME'] = os.environ.get('HADOOP_HOME', 'C:\\hadoop')
+    
     spark = SparkSession.builder.master("local").appName(appName)\
         .config("spark.driver.memory", "2g")\
         .config("spark.hadoop.fs.file.impl.disable.cache", "true")\
-        .config("spark.sql.warehouse.dir", "file:///C:/tmp/spark-warehouse")\
+        .config("spark.sql.warehouse.dir", "file:///C:/tmp/hive")\
+        .config("spark.hadoop.mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")\
         .getOrCreate()
 
     #---TEMPLATE STARTS HERE---
