@@ -17,17 +17,32 @@ if exist tests\test_log.txt del tests\test_log.txt
 cd tests
 cd scripts
 
-powershell -Command "python list_transforms.py | Tee-Object -FilePath ../../tests/test_log.txt -Append"
+powershell -Command "python list_transforms.py 2>&1 | Tee-Object -FilePath ../../tests/test_log.txt -Append"
+if %ERRORLEVEL% NEQ 0 (
+    echo list_transforms.py failed with exit code %ERRORLEVEL%
+    cd ..\..
+    exit /b %ERRORLEVEL%
+)
 
 cd ..
 cd ..
 
 cd templates
 
-rmdir /S /Q jobs
+if exist jobs rmdir /S /Q jobs
 
-powershell -Command "python template_pipe.py | Tee-Object -FilePath ../tests/test_log.txt -Append"
+powershell -Command "python template_pipe.py 2>&1 | Tee-Object -FilePath ../tests/test_log.txt -Append"
+if %ERRORLEVEL% NEQ 0 (
+    echo template_pipe.py failed with exit code %ERRORLEVEL%
+    cd ..
+    exit /b %ERRORLEVEL%
+)
 
-powershell -Command "python make_dag.py | Tee-Object -FilePath ../tests/test_log.txt -Append"
+powershell -Command "python make_dag.py 2>&1 | Tee-Object -FilePath ../tests/test_log.txt -Append"
+if %ERRORLEVEL% NEQ 0 (
+    echo make_dag.py failed with exit code %ERRORLEVEL%
+    cd ..
+    exit /b %ERRORLEVEL%
+)
 
 cd ..
