@@ -30,6 +30,9 @@ jobs:
           curl -L https://github.com/cdarlint/winutils/raw/master/hadoop-3.3.5/bin/hadoop.dll -o C:\hadoop\bin\hadoop.dll
           echo "HADOOP_HOME=C:\hadoop" >> $env:GITHUB_ENV
           echo "C:\hadoop\bin" >> $env:GITHUB_PATH
+          # Grant full permissions to avoid permission errors
+          icacls C:\hadoop\bin\winutils.exe /grant Everyone:F
+          icacls C:\hadoop\bin\hadoop.dll /grant Everyone:F
         shell: pwsh
       - name: Install custom packages
         run: |
@@ -38,6 +41,10 @@ jobs:
       - name: Install requirements
         run: |
           pip install -r requirements.txt
+      - name: Set Spark environment variables
+        run: |
+          echo "SPARK_LOCAL_IP=127.0.0.1" >> $env:GITHUB_ENV
+        shell: pwsh
       - name: Run unit tests
         shell: cmd
         run: |

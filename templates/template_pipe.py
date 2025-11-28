@@ -22,7 +22,11 @@ if __name__ == "__main__":
     # Create Spark session
     print("Creating Spark session")
     # Set driver memory before creating the Spark session
-    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
+    spark = SparkSession.builder.master("local").appName(appName)\
+        .config("spark.driver.memory", "2g")\
+        .config("spark.hadoop.fs.file.impl.disable.cache", "true")\
+        .config("spark.sql.warehouse.dir", "file:///C:/tmp/spark-warehouse")\
+        .getOrCreate()
 
     #---TEMPLATE STARTS HERE---
     
