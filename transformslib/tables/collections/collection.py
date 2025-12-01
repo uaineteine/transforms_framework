@@ -432,8 +432,7 @@ class TableCollection:
         print(f"Saving all tables: {save_list}")
         print("")
         for table in save_list.tables:
-            output_path = os.path.join(output_dir, table.table_name + ".parquet")
-            output_path = str(Path(output_path))
+            output_path = f"{output_dir}/{table.table_name}.parquet"
             table.write(path=output_path, spark=spark)
             
             # Also log the write event to the global transforms.json for DAG generation

@@ -1,29 +1,48 @@
+import os
+import sys
+import time
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+#tmp for test data
+from pyspark.sql.functions import to_date
+
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Add the parent directory to sys.path
+parent_dir = os.path.join(current_dir, '..')
+sys.path.append(os.path.abspath(parent_dir))
+#---TEMPLATE STARTS HERE---
+
 if __name__ == "__main__":
-    import os
-    import sys
+    # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
+    is_windows = sys.platform.startswith('win')
+    if is_windows:
+        # Point to the hadoop directory in the project root
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(script_dir)
+        hadoop_home = os.path.join(project_root, "hadoop")
+        hadoop_bin = os.path.join(hadoop_home, "bin")
+        os.environ["HADOOP_HOME"] = hadoop_home
+        # Add hadoop\bin to PATH so Java can find hadoop.dll
+        os.environ["PATH"] = hadoop_bin + os.pathsep + os.environ.get("PATH", "")
+        # Disable Hadoop native library warnings
+        os.environ["HADOOP_OPTS"] = "-Djava.library.path="
     
     #start recording run time
-    import time
     start_time = time.time()
     print(f"Starting test pipeline execution at {time.ctime(start_time)}")
-
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import col
-    #tmp for test data
-    from pyspark.sql.functions import to_date
 
     # Create Spark session
     print("Creating Spark session")
     appName = "TransformTest"
     # Set driver memory before creating the Spark session
-    spark = SparkSession.builder.master("local").appName(appName).config("spark.driver.memory", "2g").getOrCreate()
-
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
-    #---TEMPLATE STARTS HERE---
+    spark = SparkSession.builder\
+            .master("local")\
+            .appName(appName)\
+            .config("spark.driver.memory", "2g")\
+            .config("spark.hadoop.fs.permissions.umask-mode", "000")\
+            .getOrCreate()
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
@@ -302,4 +321,11 @@ if __name__ == "__main__":
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
     print(f"Total execution time: {end_time - start_time:.2f} seconds")
+    
+    # Properly stop Spark to ensure clean exit
+    spark.stop()
+    print("Spark session stopped successfully")
+    
+    # Explicit successful exit
+    sys.exit(0)
     
