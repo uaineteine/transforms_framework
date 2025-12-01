@@ -19,6 +19,13 @@ def detect_if_hadoop_home_set() -> bool:
         return True
     return False
 
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Add the parent directory to sys.path
+parent_dir = os.path.join(current_dir, '..')
+sys.path.append(os.path.abspath(parent_dir))
+#---TEMPLATE STARTS HERE---
+
 if __name__ == "__main__":
     # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
     is_windows = sys.platform.startswith('win')
@@ -49,13 +56,6 @@ if __name__ == "__main__":
             .config("spark.driver.memory", "2g")\
             .config("spark.hadoop.fs.permissions.umask-mode", "000")\
             .getOrCreate()
-
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
-    #---TEMPLATE STARTS HERE---
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
