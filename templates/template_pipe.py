@@ -1,7 +1,20 @@
+import os
+import sys
+import time
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+#tmp for test data
+from pyspark.sql.functions import to_date
+
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Add the parent directory to sys.path
+parent_dir = os.path.join(current_dir, '..')
+sys.path.append(os.path.abspath(parent_dir))
+#---TEMPLATE STARTS HERE---
+
 if __name__ == "__main__":
-    import os
-    import sys
-    
     # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
     is_windows = sys.platform.startswith('win')
     if is_windows:
@@ -17,14 +30,8 @@ if __name__ == "__main__":
         os.environ["HADOOP_OPTS"] = "-Djava.library.path="
     
     #start recording run time
-    import time
     start_time = time.time()
     print(f"Starting test pipeline execution at {time.ctime(start_time)}")
-
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import col
-    #tmp for test data
-    from pyspark.sql.functions import to_date
 
     # Create Spark session
     print("Creating Spark session")
@@ -36,13 +43,6 @@ if __name__ == "__main__":
             .config("spark.driver.memory", "2g")\
             .config("spark.hadoop.fs.permissions.umask-mode", "000")\
             .getOrCreate()
-
-    # Get the directory of the current script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Add the parent directory to sys.path
-    parent_dir = os.path.join(current_dir, '..')
-    sys.path.append(os.path.abspath(parent_dir))
-    #---TEMPLATE STARTS HERE---
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
