@@ -39,7 +39,7 @@ def output_loc() -> str:
     job_id = os.environ.get("TNSFRMS_JOB_ID", "unknown")
     run_id = os.environ.get("TNSFRMS_RUN_ID", "unknown")
     report_name = f"transform_dag_job{job_id}_run{run_id}.html"
-    return os.path.join("transform_dags", report_name)
+    return f"transform_dags/{report_name}"
 
 
 def set_default_network_options(net: Network) -> Network:
