@@ -1,3 +1,4 @@
+from transformslib.engine import get_engine, get_spark
 from transformslib.templates.pathing import apply_formats
 from multitable import MultiTable, FrameTypeVerifier
 from transformslib.transforms.pipeevent import PipelineEvent
@@ -162,6 +163,11 @@ class MetaFrame(MultiTable):
         """
         dir = os.path.dirname(self.log_path)
         os.makedirs(dir, exist_ok=True)
+
+        #spark flex
+        spark = None
+        if get_engine() == "pyspark":
+            spark = get_spark()
         
         for event in self.meta.events:
             event.log_location = self.log_path
