@@ -1,30 +1,43 @@
+import os
+import sys
+import time
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+#tmp for test data
+from pyspark.sql.functions import to_date
+
+def detect_if_hadoop_home_set() -> bool:
+    """
+    Checks whether the HADOOP_HOME environment variable is set and points to a valid directory.
+
+    Returns:
+        bool: True if HADOOP_HOME is set and the path exists, False otherwise.
+    """
+    home = os.environ.get("HADOOP_HOME")
+    if home and os.path.exists(home):
+        return True
+    return False
+
 if __name__ == "__main__":
-    import os
-    import sys
-    
     # For Windows, set HADOOP_HOME to use winutils BEFORE importing Spark
     is_windows = sys.platform.startswith('win')
     if is_windows:
-        # Point to the hadoop directory in the project root
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(script_dir)
-        hadoop_home = os.path.join(project_root, "hadoop")
-        hadoop_bin = os.path.join(hadoop_home, "bin")
-        os.environ["HADOOP_HOME"] = hadoop_home
-        # Add hadoop\bin to PATH so Java can find hadoop.dll
-        os.environ["PATH"] = hadoop_bin + os.pathsep + os.environ.get("PATH", "")
-        # Disable Hadoop native library warnings
-        os.environ["HADOOP_OPTS"] = "-Djava.library.path="
+        if detect_if_hadoop_home_set() == False:
+            # Point to the hadoop directory in the project root
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(script_dir)
+            hadoop_home = os.path.join(project_root, "hadoop")
+            hadoop_bin = os.path.join(hadoop_home, "bin")
+            os.environ["HADOOP_HOME"] = hadoop_home
+            # Add hadoop\bin to PATH so Java can find hadoop.dll
+            os.environ["PATH"] = hadoop_bin + os.pathsep + os.environ.get("PATH", "")
+            # Disable Hadoop native library warnings
+            os.environ["HADOOP_OPTS"] = "-Djava.library.path="
     
     #start recording run time
-    import time
     start_time = time.time()
     print(f"Starting test pipeline execution at {time.ctime(start_time)}")
-
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import col
-    #tmp for test data
-    from pyspark.sql.functions import to_date
 
     # Create Spark session
     print("Creating Spark session")
