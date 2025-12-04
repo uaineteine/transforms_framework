@@ -204,14 +204,34 @@ class MetaFrame(MultiTable):
         Example:
             >>> pt.write("output.parquet", format="parquet")
         """
-        # Write the data using MultiTable's write method
-        super().write(path, format=format, overwrite=overwrite, spark=spark)
+
+        #if data is modded, part the data
+        try:
+            id_mod_var = os.getenv("TNSFRMS_ID_MOD", "id_mod")
+            if id_mod_var in self.columns:
+                #rename variable to synth_id_mod
+                dict_remap = { id_mod_var : "synth_id_mod"}
+                self.rename(dict_remap)
+        except Exception as e:
+            print(f"MF900 Error in renaming id mod variable: {e}")
+
+        #identify if set can be parted on write
+        part_on = []
+        try:
+            if "synth_id_mod" in self.columns:
+                part_on = ["synth_id_mod"]
+        except Exception as e:
+            print(f"MF901 Error in identifying sets for partition: {e}")
+
+        # Write the data using MultiTable's write method 
+        super().write(path, format=format, overwrite=overwrite, part_on=part_on, spark=spark)
 
         payload = {
             "filepath": path,
             "table_name": self.table_name,
             "out_format": format
         }
+
         # Log the write event
         event = PipelineEvent(
             event_type="write",

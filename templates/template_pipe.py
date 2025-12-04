@@ -43,6 +43,10 @@ if __name__ == "__main__":
             .config("spark.driver.memory", "2g")\
             .config("spark.hadoop.fs.permissions.umask-mode", "000")\
             .getOrCreate()
+    # Access Hadoop configuration properly
+    hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
+    hadoop_conf.set("mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")
+    hadoop_conf.set("parquet.enable.summary-metadata", "false")
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
