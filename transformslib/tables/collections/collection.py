@@ -6,7 +6,6 @@ from transformslib.templates.pathing import apply_formats
 import fnmatch
 from typing import List
 import os
-from pathlib import Path
 
 class TableCollection:
     """
