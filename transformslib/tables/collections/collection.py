@@ -436,7 +436,7 @@ class TableCollection:
             #extend the output path if a file extension has been given
             output_path = f"{output_dir}/{table.table_name}"            
             if extn != "" or extn != None:
-                output_path = output_path + "." + extn
+                output_path = f"{output_path}.{extn}"
             
             #write table
             table.write(path=output_path, format="parquet", spark=spark)
