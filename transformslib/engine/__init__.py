@@ -55,3 +55,17 @@ def set_spark_session(spark=None):
     set_engine(processing_engine)
 
     return processing_engine
+
+def detect_if_dbutils_available() -> bool:
+    """Returns if dbutils is available in the current py engine"""
+    #test if dbutils is available
+    try:
+        dbls = dbutils.fs.ls("/")
+        return True
+    except NameError:
+        print("dbutils is NOT available")
+        return False
+    except Exception as e:
+        print(f"SL112 failed checking for dbutils: {e}")
+        return False
+    

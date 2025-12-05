@@ -6,7 +6,6 @@ from transformslib.templates.pathing import apply_formats
 import fnmatch
 from typing import List
 import os
-from pathlib import Path
 
 class TableCollection:
     """
@@ -387,7 +386,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events(spark=spark)
 
-    def save_all(self, output_dir:str=None, tables:list[str]=[]):
+    def save_all(self, output_dir:str=None, tables:list[str]=[], extn:str=""):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -398,6 +397,7 @@ class TableCollection:
         Args:
             output_dir (str): The directory where all tables should be saved.
             tables (list[str], optional): List of table names to save. If empty, saves all tables.
+            extn (str, optional): The file extension to save for the file. If none, will use just the table name as the basename.
 
         Returns:
             None
@@ -432,8 +432,14 @@ class TableCollection:
         print(f"Saving all tables: {save_list}")
         print("")
         for table in save_list.tables:
-            output_path = f"{output_dir}/{table.table_name}.parquet"
-            table.write(path=output_path, spark=spark)
+            #create the output path location
+            #extend the output path if a file extension has been given
+            output_path = f"{output_dir}/{table.table_name}"            
+            if extn != "" or extn != None:
+                output_path = f"{output_path}.{extn}"
+            
+            #write table
+            table.write(path=output_path, format="parquet", spark=spark)
             
             # Also log the write event to the global transforms.json for DAG generation
             # Create a unique output identifier for the write operation
