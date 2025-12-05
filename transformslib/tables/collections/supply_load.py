@@ -38,18 +38,20 @@ def get_execution_engine_info() -> Dict[str, Any]:
     ALL_VARS = os.environ
 
     #append with dbutils notebook info
-    try:
-        path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
-        ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
-        ALL_VARS["DATABRICKS_NOTEBOOK_NAME"] = os.path.basename(path)
-        ALL_VARS["DATABRICKS_WORKSPACE_URL"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().get()
-        ALL_VARS["DATABRICKS_CLUSTER_ID"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("clusterId").get()
-        ALL_VARS["DATABRICKS_USER"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("user").get()
-        
-    except NameError:
-        pass
-    except Exception as e:
-        print(f"SL020 Warning: Unhandled exception to get databricks notebook path: {e}")
+    dbav = detect_if_dbutils_available()
+    if dbav:
+        try:
+            path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
+            ALL_VARS["DATABRICKS_NOTEBOOK_PATH"] = path
+            ALL_VARS["DATABRICKS_NOTEBOOK_NAME"] = os.path.basename(path)
+            ALL_VARS["DATABRICKS_WORKSPACE_URL"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().get()
+            ALL_VARS["DATABRICKS_CLUSTER_ID"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("clusterId").get()
+            ALL_VARS["DATABRICKS_USER"] = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().get("user").get()
+            
+        except NameError:
+            pass
+        except Exception as e:
+            print(f"SL020 Warning: Unhandled exception to get databricks notebook path: {e}")
 
     return ALL_VARS
 
