@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Access Hadoop configuration properly
     hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
     hadoop_conf.set("mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")
-    hadoop_conf.set("parquet.enable.summary-metadata", "false")
+    hadoop_conf.set("parquet.summary.metadata.level", "false")
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
