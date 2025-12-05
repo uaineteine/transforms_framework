@@ -56,11 +56,25 @@ class Macro:
 
         Args:
             **kwargs: Keyword arguments to pass to the underlying transforms.
+                     If 'df' is not provided, it will be inferred from input_tables when unambiguous.
             spark: SparkSession object (required for PySpark frame_type). Defaults to None.
 
         :return: Transformed table frames.
         :rtype: dict[str, pd.DataFrame]
         """
+        # Smart inference: if df not provided, try to infer from input_tables
+        if 'df' not in kwargs:
+            table_names = self.input_tables.get_table_names()
+            
+            # If there's only one table in input_tables, use it automatically
+            if len(table_names) == 1:
+                kwargs['df'] = table_names[0]
+            # If output_tables has one entry and it exists in input_tables, use it
+            elif len(self.output_tables) == 1 and self.output_tables[0] in table_names:
+                kwargs['df'] = self.output_tables[0]
+            # Otherwise, df parameter is required (backward compatible behavior)
+            # This handles multi-table scenarios where explicit df is needed
+        
         return_frames = self.macros.apply(self.input_tables, **kwargs)
         return return_frames
 
