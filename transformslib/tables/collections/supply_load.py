@@ -1,6 +1,6 @@
 import os
 from typing import Dict, Any
-from transformslib.engine import get_engine, get_spark
+from transformslib.engine import get_engine, get_spark, detect_if_dbutils_available
 from tabulate import tabulate
 from adaptiveio import load_json
 from multitable import MultiTable, SchemaValidator
@@ -61,14 +61,12 @@ def clear_last_run():
         #remove it using 2 different systems
         path = transform_log_loc()
         if "dbfs:/" in path:
-            try:
-                #test if dbutils is available
-                dbls = dbutils.fs.ls("/")
-
+            dbav = detect_if_dbutils_available()
+            if dbav:
                 dbutils.fs.rm(path, True)
                 print("Cleared the transform log path using dbutils")
-            except NameError:
-                print("SL012 dbutils is NOT available to clear the path")
+            else:
+                raise NameError("SL012 dbutils could not clear the path")
         else:
             os.remove(path)
 
