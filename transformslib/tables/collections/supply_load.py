@@ -421,7 +421,11 @@ class SupplyLoad(TableCollection):
                 #explode the warnings on pipe
                 warnings_frame.explode("warning_messages", sep="|", outer=False)
                 warnings_frame = warnings_frame.get_pandas_frame()
-                warnings_frame = warnings_frame[warnings_frame["warning_messages"].notnull()]
+                # Filter out NULL AND empty strings
+                warnings_frame = warnings_frame[
+                    (warnings_frame["warning_messages"].notnull()) & 
+                    (warnings_frame["warning_messages"] != "")
+                ]
                 warnings_frame = warnings_frame.drop_duplicates()
                 print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             except Exception as e:
