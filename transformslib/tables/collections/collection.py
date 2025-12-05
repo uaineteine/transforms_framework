@@ -439,7 +439,7 @@ class TableCollection:
                 output_path = output_path + "." + extn
             
             #write table
-            table.write(path=output_path, spark=spark)
+            table.write(path=output_path, format="parquet", spark=spark)
             
             # Also log the write event to the global transforms.json for DAG generation
             # Create a unique output identifier for the write operation
