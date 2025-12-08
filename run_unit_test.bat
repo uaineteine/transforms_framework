@@ -82,6 +82,13 @@ if %ERRORLEVEL% NEQ 0 (
 
 cd ..
 
+echo. >> ../tests/test_log.txt
+echo. >> ../tests/test_log.txt
+echo ================================================================================ >> ../tests/test_log.txt
+echo Running: check_spark_metadata.bat >> ../tests/test_log.txt
+echo ================================================================================ >> ../tests/test_log.txt
+echo. >> ../tests/test_log.txt
+
 cd tests
 cd scripts
 
