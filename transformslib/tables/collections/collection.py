@@ -228,7 +228,7 @@ class TableCollection:
             >>> table = pt_collection.get_table("my_table")
         """
         if name not in self.named_tables:
-            raise KeyError(f"Table '{name}' not found")
+            raise KeyError(f"CL100 Table '{name}' not found")
         return self.named_tables[name]
 
     def __getitem__(self, name: str):
@@ -295,7 +295,7 @@ class TableCollection:
             >>> del pt_collection["old_table"]
         """
         if name not in self.named_tables:
-            raise KeyError(f"Table '{name}' not found")
+            raise KeyError(f"CL200 Table '{name}' not found")
         
         table = self.named_tables[name]
         if table in self.tables:

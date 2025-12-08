@@ -251,7 +251,8 @@ if __name__ == "__main__":
     # Test 18: TopBottomCoding
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
-    supply_frames = TopBottomCode(supply_frames, ["income"], 500, 450).apply(df="salary")
+    s_col = supply_frames.select_by_names("salary")
+    supply_frames = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
 
@@ -279,14 +280,14 @@ if __name__ == "__main__":
     
     # Create TopBottomCode macro instance
     topbottom_macro = TopBottomCode(
-        input_tables=supply_frames,
+        input_tables=s_col,
         input_variables=["income"],  # Apply coding to salary column
         max_value=650,               # Cap values above 650
         min_value=450                # Floor values below 450
     )
     
     # Apply the macro transformation to the salary table
-    supply_frames = topbottom_macro.apply(df="salary")
+    s_col = topbottom_macro.apply()
     
     print("After TopBottomCode transformation:")
     supply_frames["salary"].show()
