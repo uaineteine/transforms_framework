@@ -93,11 +93,7 @@ cd tests
 cd scripts
 
 :: Call the batch file and log its output live + to file
-powershell -Command ^
-    "$output = & { call check_spark_metadata.bat } 2>&1; ^
-     $exitCode = $LASTEXITCODE; ^
-     $output | Tee-Object -FilePath tests\test_log.txt -Append; ^
-     exit $exitCode"
+powershell -Command "$output = & { .\check_spark_metadata.bat } 2>&1; $exitCode = $LASTEXITCODE; $output | Tee-Object -FilePath ../../tests/test_log.txt -Append; exit $exitCode"
 
 if %ERRORLEVEL% NEQ 0 (
     echo check_spark_metadata.bat failed with exit code %ERRORLEVEL%
