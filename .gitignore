@@ -36,3 +36,6 @@ transformslib/engine/__pycache__/*
 docs/source/templates.rst
 docs/source/dag.rst
 tests/scripts/test_tables/unit_test_subpackage/this_is_a_test.txt
+*.parquet.crc
+.gitignore
+*.parquet

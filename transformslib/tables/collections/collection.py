@@ -6,7 +6,6 @@ from transformslib.templates.pathing import apply_formats
 import fnmatch
 from typing import List
 import os
-from pathlib import Path
 
 class TableCollection:
     """
@@ -229,7 +228,7 @@ class TableCollection:
             >>> table = pt_collection.get_table("my_table")
         """
         if name not in self.named_tables:
-            raise KeyError(f"Table '{name}' not found")
+            raise KeyError(f"CL100 Table '{name}' not found")
         return self.named_tables[name]
 
     def __getitem__(self, name: str):
@@ -269,16 +268,20 @@ class TableCollection:
             >>> pt_collection["new_table"] = my_pipeline_table
         """
         if not name:
-            raise ValueError("Table name cannot be empty")
-        
+            raise ValueError("CL100 Table name cannot be empty")
+
+        # Ensure the MetaFrame carries the name
+        if hasattr(table, "table_name"):
+            table.table_name = name
+        else:
+            raise TypeError("CL101 Assigned table must have a 'table_name' attribute")
+
         # If the table already exists, update it
         if name in self.named_tables:
-            # Remove the old table from the tables list
             old_table = self.named_tables[name]
             if old_table in self.tables:
                 self.tables.remove(old_table)
-        
-        # Add the new table
+
         self.named_tables[name] = table
         self.tables.append(table)
 
@@ -296,7 +299,7 @@ class TableCollection:
             >>> del pt_collection["old_table"]
         """
         if name not in self.named_tables:
-            raise KeyError(f"Table '{name}' not found")
+            raise KeyError(f"CL200 Table '{name}' not found")
         
         table = self.named_tables[name]
         if table in self.tables:
@@ -387,7 +390,7 @@ class TableCollection:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events(spark=spark)
 
-    def save_all(self, output_dir:str=None, tables:list[str]=[]):
+    def save_all(self, output_dir:str=None, tables:list[str]=[], extn:str=""):
         """
         Save all tables in the collection to the specified output directory.
         
@@ -398,6 +401,7 @@ class TableCollection:
         Args:
             output_dir (str): The directory where all tables should be saved.
             tables (list[str], optional): List of table names to save. If empty, saves all tables.
+            extn (str, optional): The file extension to save for the file. If none, will use just the table name as the basename.
 
         Returns:
             None
@@ -408,6 +412,10 @@ class TableCollection:
         Example:
             >>> pt_collection.save_all("output_data/")
         """
+        #avoid mutable default
+        if tables is None:
+            tables = []
+
         #spark flex
         spark = None
         if get_engine() == "pyspark":
@@ -432,8 +440,14 @@ class TableCollection:
         print(f"Saving all tables: {save_list}")
         print("")
         for table in save_list.tables:
-            output_path = f"{output_dir}/{table.table_name}.parquet"
-            table.write(path=output_path, spark=spark)
+            #create the output path location
+            #extend the output path if a file extension has been given
+            output_path = f"{output_dir}/{table.table_name}"            
+            if extn != "" and extn != None:
+                output_path = f"{output_path}.{extn}"
+            
+            #write table
+            table.write(path=output_path, format="parquet", spark=spark)
             
             # Also log the write event to the global transforms.json for DAG generation
             # Create a unique output identifier for the write operation
@@ -468,7 +482,7 @@ class TableCollection:
         
         self.save_events()
     
-    def keep(self, strings: List[str]):
+    def keep(self, strings: List[str]) -> int:
         """
         Keep only the tables whose names are in the provided list.
         
@@ -482,8 +496,10 @@ class TableCollection:
         Example:
             >>> pt_collection.keep(["table1", "table_prefix_*"])
         """
-        self.tables = self.select_by_names(*strings)
-        self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
+        selected = self.select_by_names(*strings)
+        # selected is a TableCollection; copy its internal list and rebuild named_tables
+        self.tables = list(selected.tables)
+        self.named_tables = {t.table_name: t for t in self.tables if getattr(t, "table_name", None)}
 
         print("Tables kept:", self.get_table_names())
 

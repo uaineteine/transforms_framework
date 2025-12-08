@@ -419,12 +419,13 @@ class JoinTable(TableTransform):
         """
         for tbl in [self.left_table, self.right_table]:
             if tbl not in supply_frames:
-                raise ValueError(f"Table '{tbl}' not found in TableCollection")
+                all_tables = supply_frames.get_table_names()
+                raise ValueError(f"AT101 Table '{tbl}' not found in TableCollection: Please refer to full list: {all_tables}")
             if supply_frames[tbl].nrow < 1:
-                raise ValueError(f"Table '{tbl}' must have at least one row")
+                raise ValueError(f"AT100 Table '{tbl}' must have at least one row")
             missing = [col for col in self.join_columns if col not in supply_frames[tbl].columns]
             if missing:
-                raise ValueError(f"Columns {missing} not found in table '{tbl}'")
+                raise ValueError(f"AT102 Columns {missing} not found in table '{tbl}'")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """

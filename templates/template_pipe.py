@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Access Hadoop configuration properly
     hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
     hadoop_conf.set("mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")
-    hadoop_conf.set("parquet.enable.summary-metadata", "false")
+    hadoop_conf.set("parquet.summary.metadata.level", "NONE")
     
     from transformslib.engine import set_engine, set_spark_session
     set_engine("pyspark")
@@ -251,7 +251,8 @@ if __name__ == "__main__":
     # Test 18: TopBottomCoding
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
-    supply_frames = TopBottomCode(supply_frames, ["income"], 500, 450).apply(df="salary")
+    s_col = supply_frames.select_by_names("salary")
+    s_col = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
 
@@ -279,14 +280,14 @@ if __name__ == "__main__":
     
     # Create TopBottomCode macro instance
     topbottom_macro = TopBottomCode(
-        input_tables=supply_frames,
+        input_tables=s_col,
         input_variables=["income"],  # Apply coding to salary column
         max_value=650,               # Cap values above 650
         min_value=450                # Floor values below 450
     )
     
     # Apply the macro transformation to the salary table
-    supply_frames = topbottom_macro.apply(df="salary")
+    s_col = topbottom_macro.apply()
     
     print("After TopBottomCode transformation:")
     supply_frames["salary"].show()
@@ -320,7 +321,7 @@ if __name__ == "__main__":
     # save table output tables
 
     #keep only salary tables
-    supply_frames.save_all(tables=["salary*"])
+    supply_frames.select_by_prefix("salary*").save_all()
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
