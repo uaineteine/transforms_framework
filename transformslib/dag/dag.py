@@ -84,6 +84,7 @@ def build_di_graph(logs:list) -> nx.DiGraph:
 
         log_info = event.get("log_info", {}) or {}
         input_tables = log_info.get("input_tables", []) or []
+        #print(input_tables)
         output_tables = log_info.get("output_tables", []) or []
         transform_name = event.get("name", "unknown")
         is_testable = bool(event.get("testable_transform", False))
@@ -91,6 +92,7 @@ def build_di_graph(logs:list) -> nx.DiGraph:
         # Determine input nodes (latest version so far)
         input_nodes = []
         for tbl in input_tables:
+            #print(latest_node_for_table)
             if tbl in latest_node_for_table:
                 input_nodes.append(latest_node_for_table[tbl])
             else:

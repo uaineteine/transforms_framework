@@ -268,16 +268,20 @@ class TableCollection:
             >>> pt_collection["new_table"] = my_pipeline_table
         """
         if not name:
-            raise ValueError("Table name cannot be empty")
-        
+            raise ValueError("CL100 Table name cannot be empty")
+
+        # Ensure the MetaFrame carries the name
+        if hasattr(table, "table_name"):
+            table.table_name = name
+        else:
+            raise TypeError("CL101 Assigned table must have a 'table_name' attribute")
+
         # If the table already exists, update it
         if name in self.named_tables:
-            # Remove the old table from the tables list
             old_table = self.named_tables[name]
             if old_table in self.tables:
                 self.tables.remove(old_table)
-        
-        # Add the new table
+
         self.named_tables[name] = table
         self.tables.append(table)
 
