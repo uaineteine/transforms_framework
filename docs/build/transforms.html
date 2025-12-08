@@ -1105,9 +1105,12 @@ and logging the transformation metadata.</p>
 <dt class="sig sig-object py" id="transformslib.transforms.macrolib.Macro.apply">
 <span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.transforms.macrolib.Macro.apply" title="Link to this definition"></a></dt>
 <dd><p>Applies the macro transformation to the input tables and logs the operation.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs: Keyword arguments to pass to the underlying transforms.
-spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs: Keyword arguments to pass to the underlying transforms.</dt><dd><p>If ‘df’ is not provided, it will be inferred from input_tables when unambiguous.</p>
+</dd>
+</dl>
+<p>spark: SparkSession object (required for PySpark frame_type). Defaults to None.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
