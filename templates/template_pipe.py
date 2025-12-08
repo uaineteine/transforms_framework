@@ -252,7 +252,7 @@ if __name__ == "__main__":
     #   -------------------------------
     print("Applying TopBottomCode macro to salary column")
     s_col = supply_frames.select_by_names("salary")
-    supply_frames = TopBottomCode(s_col, ["income"], 500, 450).apply()
+    s_col = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
 
@@ -321,7 +321,7 @@ if __name__ == "__main__":
     # save table output tables
 
     #keep only salary tables
-    supply_frames.save_all(tables=["salary*"])
+    supply_frames.select_by_prefix("salary*").save_all()
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
