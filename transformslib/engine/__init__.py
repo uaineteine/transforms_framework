@@ -1,6 +1,7 @@
 # Engine module to set the execution spark sessions and framework for data operations
 
 import os
+import importlib.util
 from pyspark.sql import SparkSession
 
 # Global variables inside this module
@@ -60,8 +61,7 @@ def detect_if_dbutils_available() -> bool:
     """Returns if dbutils is available in the current py engine"""
     #test if dbutils is available
     try:
-        dbls = dbutils.fs.ls("/")
-        return True
+        return importlib.util.find_spec("dbutils") is not None
     except NameError:
         print("dbutils is NOT available")
         return False
