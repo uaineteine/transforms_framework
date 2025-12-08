@@ -408,6 +408,10 @@ class TableCollection:
         Example:
             >>> pt_collection.save_all("output_data/")
         """
+        #avoid mutable default
+        if tables is None:
+            tables = []
+
         #spark flex
         spark = None
         if get_engine() == "pyspark":
@@ -474,7 +478,7 @@ class TableCollection:
         
         self.save_events()
     
-    def keep(self, strings: List[str]):
+    def keep(self, strings: List[str]) -> int:
         """
         Keep only the tables whose names are in the provided list.
         
@@ -488,8 +492,10 @@ class TableCollection:
         Example:
             >>> pt_collection.keep(["table1", "table_prefix_*"])
         """
-        self.tables = self.select_by_names(*strings)
-        self.named_tables = {name: table for name, table in self.named_tables.items() if name in strings}
+        selected = self.select_by_names(*strings)
+        # selected is a TableCollection; copy its internal list and rebuild named_tables
+        self.tables = list(selected.tables)
+        self.named_tables = {t.table_name: t for t in self.tables if getattr(t, "table_name", None)}
 
         print("Tables kept:", self.get_table_names())
 
