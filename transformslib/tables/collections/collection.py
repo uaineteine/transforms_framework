@@ -439,7 +439,7 @@ class TableCollection:
             #create the output path location
             #extend the output path if a file extension has been given
             output_path = f"{output_dir}/{table.table_name}"            
-            if extn != "" or extn != None:
+            if extn != "" and extn != None:
                 output_path = f"{output_path}.{extn}"
             
             #write table
