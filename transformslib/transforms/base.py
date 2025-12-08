@@ -10,8 +10,22 @@ import sys
 import pyspark
 import polars as pl
 import pandas as pd
+import time
 
 printwidth = 120 #the width to print things out in notebooks
+
+class Timer:
+    def __enter__(self):
+        """Start timing when entering the context."""
+        self.start_time = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Stop timing when exiting the context."""
+        self.end_time = time.perf_counter()
+        self.elapsed = self.end_time - self.start_time
+        # Returning False means exceptions (if any) are not suppressed
+        return False
 
 class Transform(PipelineEvent):
     """
@@ -207,18 +221,28 @@ class Transform(PipelineEvent):
             spark = get_spark()
         
         # Perform error checking before transformation
-        self.error_check(supply_frames, **kwargs)
+        with Timer() as tec:
+            self.error_check(supply_frames, **kwargs)
         
         # Apply transformation
-        result_df = self.transforms(supply_frames, **kwargs)
+        with Timer() as ttrnfms:
+            result_df = self.transforms(supply_frames, **kwargs)
         
         # Perform testing after transformation
         if self.testable_transform:
-            res = self.test(supply_frames, **kwargs)
-            if not res:
-                raise ValueError(f"Transform test failed for {self.name}") 
+            with Timer() as ttest:
+                res = self.test(supply_frames, **kwargs)
+                
+                if not res:
+                    raise ValueError(f"Transform test failed for {self.name}") 
+            
+            #store time taken
+            self.transform_test_time = ttest.elapsed
 
         self.params = kwargs # capture all keyword arguments
+        
+        self.transform_error_check_time = tec.elapsed
+        self.transform_application_time = ttrnfms.elapsed
 
         self.log(spark=spark)
 
