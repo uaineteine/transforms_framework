@@ -188,7 +188,7 @@ def filter_logs_for_rendering(logs: list) -> list:
 
     return logs
 
-def build_dag(height: Union[int, float, str] = 900, use_local_path=False) -> str:
+def build_dag(height: Union[int, float, str] = 900) -> str:
     """
     Build a PyVis DAG with hierarchical tree layout where nodes are tables (versioned per event) and edges are transforms.
 
