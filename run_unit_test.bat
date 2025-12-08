@@ -85,7 +85,7 @@ cd ..
 echo. >> ../tests/test_log.txt
 echo. >> ../tests/test_log.txt
 echo ================================================================================ >> ../tests/test_log.txt
-echo Running: check_spark_metadata.bat >> ../tests/test_log.txt
+echo Running: chck_sprk_mtdat.py >> ../tests/test_log.txt
 echo ================================================================================ >> ../tests/test_log.txt
 echo. >> ../tests/test_log.txt
 
@@ -93,13 +93,13 @@ cd tests
 cd scripts
 
 :: Call the batch file and log its output live + to file
-powershell -Command "$output = & { .\check_spark_metadata.bat } 2>&1; $exitCode = $LASTEXITCODE; $output | Tee-Object -FilePath ../../tests/test_log.txt -Append; exit $exitCode"
+powershell -Command "$output = & { python .\chck_sprk_mtdat.py } 2>&1; $exitCode = $LASTEXITCODE; $output | Tee-Object -FilePath ../../tests/test_log.txt -Append; exit $exitCode"
 
 if %ERRORLEVEL% NEQ 0 (
-    echo check_spark_metadata.bat failed with exit code %ERRORLEVEL%
+    echo chck_sprk_mtdat.py failed with exit code %ERRORLEVEL%
     exit /b %ERRORLEVEL%
 ) else (
-    echo check_spark_metadata.bat completed successfully.
+    echo chck_sprk_mtdat.py completed successfully.
 )
 
 cd ..
