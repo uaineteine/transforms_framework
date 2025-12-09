@@ -84,39 +84,6 @@ def get_run_state() -> str:
 
     return path
 
-def get_supply_file(table_name: str) -> str:
-    """
-    Return the path location of the input payload.
-
-    Args: table_name (str): The name of the table to load.
-
-    Returns:
-        str: The payload path.
-    """
-    base_path = os.environ.get("TNSFRMS_JOB_PATH", "../test_tables")
-    #format the path for job_id
-    path = apply_formats(base_path)
-    path = path.replace("{tablename}", table_name)
-    
-    print(path)
-    
-    return path
-
-def get_table_names_from_run_state(run_state: Dict[str, Any]) -> list[str]:
-    """
-    Extract a unique, sorted list of table_name values from a run_state dict
-    (looks under all_files -> data_files, map_files, enum_file, schema_file, other_files).
-    
-    Input directory is the run_state.json
-    """
-    names = set()
-    all_files = run_state.get("all_files", {})
-    for entry in all_files.get("data_files", []):
-            tn = entry.get("table_name")
-            if tn:
-                names.add(tn)
-    return sorted(names)
-
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform tables for supply loading.
@@ -183,82 +150,6 @@ def load_pre_transform_data(spark=None) -> list[MultiTable]:
     
     #deuplicate frames before returning
     return col_df, sum_df
-
-def load_single_table_from_sampling(data: Dict[str, Any],
-        sample: bool, sample_rows: int = None, sample_frac: float = None,
-        seed: int = None, spark=None, enable_schema_validation: bool = True) -> MetaFrame:
-    """
-    Load supplies from new sampling_state.json format with optional schema validation.
-    
-    Args:
-        data (Dict[str, Any]): The parsed JSON data from sampling_state.json
-        sample (bool): Whether to apply sampling to loaded tables
-        sample_rows (int, optional): Number of rows to sample
-        sample_frac (float, optional): Fraction of rows to sample
-        seed (int, optional): Random seed for reproducible sampling
-        spark: SparkSession object for PySpark operations
-        enable_schema_validation (bool): Whether to perform schema validation. Defaults to True.
-
-    Returns:
-        MetaFrame: The loaded MetaFrame instance.
-    """
-    name = data.get("table_name")
-    if not name:
-        raise ValueError("Each sample file item must have a 'table_name' field")
-
-    # Handle path normalization - sampling_state.json may use relative paths
-    # Some older versions use input_file_path, sticking to that for backward compatibility
-    file_path = data.get("input_path", "NONE") #default to NONE if not found
-    if file_path == "NONE" and "input_file_path" in data:
-        print("SL030 Warning: 'input_file_path' is deprecated, please use 'input_path' instead on source")
-        file_path = data["input_file_path"]
-        
-
-    print(f"Loading table '{name}' from {file_path} (format: {data['file_format']})")
-
-    #error checking the file format
-    fmt = data["file_format"].lower()
-    if fmt not in ["part_parquet", "parquet", "csv", "json", "delta"]:
-        raise ValueError(f"SL031 Unsupported file format '{data['file_format']}' for table '{name}'")
-    #patching file format for read if needed
-    if fmt == "part_parquet":
-        fmt = "parquet"
-    table = MetaFrame.load(
-            path=file_path,
-            format=fmt,
-            frame_type="pyspark",
-            spark=spark
-    )
-
-    # Perform schema validation if enabled and dtypes are provided
-    if enable_schema_validation and "dtypes" in data:
-        try:
-            print(f"Validating schema for table '{name}'...")
-            dtypes = data["dtypes"]
-            # Print schema summary for transparency
-            schema_summary = get_schema_summary(dtypes)
-            print(schema_summary)
-            # Validate the schema
-            SchemaValidator.validate_schema(
-                df=table.df,
-                expected_dtypes=dtypes,
-                frame_type=table.frame_type,
-                table_name=name
-            )
-            print(f"Schema validation passed for table '{name}'")
-        except SchemaValidationError as e:
-            print(f"SL007 Schema validation failed for table '{name}': {e}")
-            raise e
-        except Exception as e:
-            print(f"Warning: SL006 Unexpected error during schema validation for table '{name}': {e}")
-    elif enable_schema_validation:
-        print(f"Warning: No schema information (dtypes) found for table '{name}' - skipping validation")
-
-    # Apply sampling if requested
-    if sample:
-        table.sample(n=sample_rows, frac=sample_frac, seed=seed)
-
-    return table
 
 class SupplyLoad(TableCollection):
     """
@@ -450,84 +341,34 @@ class SupplyLoad(TableCollection):
         except Exception as e:
             print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
         
-        if table_names == []:
-            print("")
-            print(f"Attempting supply loading from: {self.supply_load_src}")
-            try:
-                print("reading the state file")
-                run_state = load_json(self.supply_load_src, spark=spark)
-                table_names = get_table_names_from_run_state(run_state)
-        
-            except FileNotFoundError:
-                raise FileNotFoundError(f"SL004 Supply JSON file not found at {self.supply_load_src}")
-            except Exception as e:
-                print(f"Error SL005 reading supply JSON file: {e}")
-                raise e
-        
         print(table_names)
         
         print("Transformslib will now attempt to load each table in the supply...")
-       
-        #using the json method given there is no path list
-        if paths == []:
-            print("")
-            print("No paths found from pre-transform tables, using sampling input method")
-            for t in table_names:
-                try:
-                    supply_file = get_supply_file(t)
-                    print(f"Table '{t}' supply file located at: {supply_file}")
-                    data = load_json(supply_file, spark=spark)
+        print("")
+        
+        #flag error if lengths do not match
+        if len(paths) != len(table_names):
+            print("SL008")
+            print("PATHS:")
+            print(paths)
+            print("TABLE NAMES:")
+            print(table_names)
+            
+            raise ValueError("SL008 Mismatch in length between number of table names to load and data loaded paths")
 
-                    # Determine format based on the structure of the JSON file
-                    if "table_name" in data:
-                        print(f"Attempting load of table '{t}'")
-                        # New sampling input method (sampling_state.json format)
-                        # Schema validation is only available for the new system
-                        mt = load_single_table_from_sampling(
-                            data=data, 
-                            sample=self.sample,
-                            sample_rows=self.sample_rows,
-                            sample_frac=self.sample_frac,
-                            seed=self.seed,
-                            spark=spark,
-                            enable_schema_validation=self.enable_schema_validation
-                        )
-
-                        print(f"Load of table '{t}'")
-                        self.tables.append(mt)
-                        self.named_tables[t] = mt
-
-                    else:
-                        raise ValueError("SL002 Unrecognized JSON format: expected 'table_name' key")
-                except Exception as e:
-                    print(f"Error SL001 loading table '{t}': {e}")
-                    raise e
-        else:
-            print("Using delta table method to load supplies...")
-            print("")
-            #flag error if lengths do not match
-            if len(paths) != len(table_names):
-                print("SL008")
-                print("PATHS:")
-                print(paths)
-                print("TABLE NAMES:")
-                print(table_names)
-                
-                raise ValueError("SL008 Mismatch in length between number of table names to load and data loaded paths")
-
-            for i, t in enumerate(table_names):
-                try:
-                    mt = MetaFrame.load(
-                        path=paths[i],
-                        format=formats[i],
-                        frame_type="pyspark",
-                        spark=spark
-                    )
-                    self.tables.append(mt)
-                    self.named_tables[t] = mt
-                except Exception as e:
-                    print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
-                    raise e
+        for i, t in enumerate(table_names):
+            try:
+                mt = MetaFrame.load(
+                    path=paths[i],
+                    format=formats[i],
+                    frame_type="pyspark",
+                    spark=spark
+                )
+                self.tables.append(mt)
+                self.named_tables[t] = mt
+            except Exception as e:
+                print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
+                raise e
 
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
