@@ -1,0 +1,26 @@
+I need a warning display when I select by names
+I need a info method to show information on these tables, nrows for example
+Interactive table presentation/display - itables
+
+Delta table load - need to bring these in for user show
+  These are also pipe delimitted
+processing_comments
+review_comments
+safe_data_comments
+
+grab the person key - scram pin
+column info has a bool for person key makes life easy
+
+Profiling reports can just be deferred to the worm for this
+
+Template can show 4.x for each of the tables we need to process, 5-7 for saving and such.
+Update this template to really display the information we need.
+
+In the create notebook, allow people to tick if they want to transform
+
+pre-populated for transforms
+call transforms that table
+
+save_all at the end of the spark
+
+sample_row in worm - get it all going.
