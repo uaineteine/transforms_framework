@@ -1785,7 +1785,7 @@ from pyspark.sql.types import StringType
 KEY_LOCATION = os.environ.get("TNSFRMS_KEY_LOC")
 try:
     current_spark = get_spark()
-    if os.environ.get("THIS_IS_A_TEST") == "Yes":
+    if os.environ.get("TEST_ONLY") == "yes":
         raw_key = "testsecrethash"
     else:
         raw_key = textio.read_raw_text(KEY_LOCATION, spark=current_spark)
