@@ -1784,8 +1784,13 @@ from pyspark.sql.types import StringType
 
 KEY_LOCATION = os.environ.get("TNSFRMS_HMACKEY_LOC")
 try:
-    current_spark = get_spark()
-    raw_key = textio.read_raw_text(KEY_LOCATION, spark=current_spark)
+    current_engine = get_engine()
+    if current_engine == "pyspark":
+        current_spark = get_spark()
+        raw_key = textio.read_raw_text(KEY_LOCATION, spark=current_spark)
+    else:
+        raw_key = textio.read_raw_text(KEY_LOCATION)
+        
     encoded_key = raw_key.encode('utf-8')
 except Exception as e:
     encoded_key = ""
