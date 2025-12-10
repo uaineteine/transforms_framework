@@ -1776,33 +1776,26 @@ class AttachSynID(TableTransform):
 
 import hmac
 import hashlib
-from pyspark.sql.functions import udf
-from pyspark.sql import DataFrame
-def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFrame:
-    """
-    Apply HMAC hashing to a specified column in a PySpark DataFrame.
+from adaptiveio import textio
+from pyspark.sql.functions import pandas_udf
+from pyspark.sql.types import StringType
 
-    Args:
-        df (DataFrame): The PySpark DataFrame.
-        column (str): The name of the column to hash.
-        salt_key (str): The secret key for HMAC.
-        trunc_length (int): The length to truncate the hash to.
-    Returns:
-        DataFrame: The DataFrame with the hashed column.
-    """
-    def hmac_hash(value: str) -> str:
-        if value is None:
-            return None
-        hmac_obj = hmac.new(salt_key.encode(), value.encode(), hashlib.sha256)
-        return hmac_obj.hexdigest()[:trunc_length]
+# TEMPORARY CODE FOLLOWS
 
-    hmac_udf = udf(hmac_hash)
+KEY_LOCATION = os.environ.get("TNSFRMS_KEY_LOC")
+try:
+    current_spark = get_spark()
+    raw_key = textio.read_raw_text(KEY_LOCATION, spark=current_spark)
+    encoded_key = raw_key.encode('utf-8')
+except Exception as e:
+    encoded_key = ""
+    error = e
 
-    return df.withColumn(column, hmac_udf(df[column]))
+# END TEMPORARY CODE
 
 class ApplyHMAC(TableTransform):
     """
-    Transform class to apply specific HMAC hashing to a specified column using a secret key.
+    Transform class to apply specific HMAC hashing to a specified column using a secret (hardcoded) key.
     """
 
     def __init__(self, column:str, trunclength:int):
