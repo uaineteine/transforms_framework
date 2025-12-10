@@ -1782,7 +1782,7 @@ from pyspark.sql.types import StringType
 
 # TEMPORARY CODE FOLLOWS
 
-KEY_LOCATION = os.environ.get("TNSFRMS_KEY_LOC")
+KEY_LOCATION = os.environ.get("TNSFRMS_HMACKEY_LOC")
 try:
     current_spark = get_spark()
     if os.environ.get("TEST_ONLY") == "yes":
