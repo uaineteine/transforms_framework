@@ -1813,7 +1813,7 @@ class ApplyHMAC(TableTransform):
             f"Applies HMAC hashing to given variables",
             [*columns],
             "HMACHash",
-            testable_transform=False
+            testable_transform=True
         )
         self.columns_to_hash = columns
         self.length = trunc_length
