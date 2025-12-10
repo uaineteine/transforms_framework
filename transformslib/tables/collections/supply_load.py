@@ -427,6 +427,8 @@ class SupplyLoad(TableCollection):
                     (warnings_frame["warning_messages"] != "")
                 ]
                 warnings_frame = warnings_frame.drop_duplicates()
+                # Sort by table_name first, then column_name
+                warnings_frame = warnings_frame.sort_values(by=["table_name", "column_name"])
                 print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             except Exception as e:
                 print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
