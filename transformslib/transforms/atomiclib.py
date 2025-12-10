@@ -1826,20 +1826,20 @@ class ApplyHMAC(TableTransform):
         """
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL753 Must specify 'df' parameter with table name")
 
         # Filter to only columns that exist
         self.existing_columns = [col for col in self.columns_to_hash if col in supply_frames[table_name].columns]
         
         if not self.existing_columns:
-            raise ValueError(f"None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
+            raise ValueError(f"AL752 None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
 
         # Check for valid key
         if encoded_key == "" and error:
-            raise ValueError(f"No valid hash key provided, error was: {error}")
+            raise ValueError(f"AL750 No valid hash key provided, error was: {error}")
 
         if encoded_key == "" and not error:
-            raise ValueError("No valid hash key was found and there was no error logged")
+            raise ValueError("AL751 No valid hash key was found and there was no error logged")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
