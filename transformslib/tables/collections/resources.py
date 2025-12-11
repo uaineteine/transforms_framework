@@ -24,7 +24,7 @@ def load_specific_ent_map(id_group:int) -> MetaFrame:
 
     tn = "entity_map_{id_group}"
     engine = get_engine()
-    df = MetaFrame.load(map_path, format="parquet", table_name=tn, frame_type=engine, spark=get_spark())
+    df = MetaFrame.load(map_path, format="csv", table_name=tn, frame_type=engine, spark=get_spark())
     return df
 
 def load_ent_map(id_groups:list[int]) -> MetaFrame:

@@ -45,9 +45,6 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-cd ..
-cd ..
-
 echo. >> ../../tests/test_log.txt
 echo. >> ../../tests/test_log.txt
 echo ================================================================================ >> ../../tests/test_log.txt
@@ -61,6 +58,9 @@ if %ERRORLEVEL% NEQ 0 (
     cd ..\..
     exit /b %ERRORLEVEL%
 )
+
+cd ..
+cd ..
 
 cd templates
 
