@@ -2,7 +2,6 @@ import os
 from typing import Dict, Any
 from transformslib.engine import get_engine, get_spark, detect_if_dbutils_available
 from tabulate import tabulate
-from adaptiveio import load_json
 from multitable import MultiTable, SchemaValidator
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
