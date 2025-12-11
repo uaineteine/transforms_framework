@@ -5,8 +5,8 @@ from multitable import MultiTable
 
 import pandas as pd
 import polars as pl
-from pyspark.sql import DataFrame
-from pyspark.sql.functions import reduce
+
+from functools import reduce
 
 import os
 
@@ -17,23 +17,23 @@ def concat(frames:list[MultiTable], engine:str) -> MultiTable:
 
     if engine == "pandas":
         combined = pd.concat(native_frames, ignore_index=True)
-        combined = MultiTable(combined, frame_type=engine)
-        return combined
 
     elif engine == "polars":
         combined = pl.concat(native_frames)
-        combined = MultiTable(combined, frame_type=engine)
-        return combined
 
     elif engine == "pyspark":
-        combined = reduce(DataFrame.unionAll, native_frames)
-        combined = MultiTable(combined, frame_type=engine)
-        return combined
+        # Safe union across all frames
+        if len(native_frames) == 1:
+            combined = native_frames[0]
+        else:
+            combined = reduce(lambda df1, df2: df1.union(df2), native_frames)
 
     else:
         raise NotImplementedError(
             f"RS400 Metaframe appendage not implemented for backend '{engine}'"
         )
+    
+    return MultiTable(combined, src_path=frames[0].src_path, table_name=frames[0].table_name, frame_type=engine)
 
 def load_specific_ent_map(id_group:int) -> MultiTable:
     """
@@ -79,12 +79,11 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
         
         #append these frames together
         df = concat(frames, engine)
+    
     #there is only 1 df
     else:
         df = load_specific_ent_map(id_groups[0])
 
-    #df is a native frame, parse this into multitable
-    df = MultiTable(df, src_path="TNSFRMS_RES_LOC", table_name="entity_map", frame_type=engine)
     df.distinct()
     
     return MetaFrame(df)
