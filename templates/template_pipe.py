@@ -293,10 +293,43 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
+    # Test 21: MetaFrame Metadata Tracking
+    # -------------------------------
+    print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
+    
+    # Set metadata on individual tables
+    supply_frames["salary"].set_warning_messages({
+        "income": "Values have been top/bottom coded",
+        "age": "Some age values may be missing"
+    })
+    supply_frames["salary"].set_person_keys(["name", "age"])
+    
+    supply_frames["location"].set_warning_messages({
+        "name": "Contains PII - names have been hashed",
+        "city": "Some city values may be null"
+    })
+    supply_frames["location"].set_person_keys(["name"])
+    
+    # Retrieve metadata from a specific table
+    print("\nMetadata for 'salary' table:")
+    salary_info = supply_frames["salary"].info()
+    print(f"  Warning messages: {salary_info['warning_messages']}")
+    print(f"  Person keys: {salary_info['person_keys']}")
+    
+    # Retrieve metadata from all tables using TableCollection
+    print("\nMetadata for all tables:")
+    all_info = supply_frames.get_info()
+    for table_name, info in all_info.items():
+        if info['warning_messages'] or info['person_keys']:
+            print(f"\n  Table: {table_name}")
+            print(f"    Warning messages: {info['warning_messages']}")
+            print(f"    Person keys: {info['person_keys']}")
+    
+    # -------------------------------
     # Repeated tests to continue
     # -------------------------------
 
-    print("example of final table going through some tests")
+    print("\nexample of final table going through some tests")
     join_transform = JoinTable(
         left_table="location",
         right_table="state",
