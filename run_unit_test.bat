@@ -48,6 +48,20 @@ if %ERRORLEVEL% NEQ 0 (
 cd ..
 cd ..
 
+echo. >> ../../tests/test_log.txt
+echo. >> ../../tests/test_log.txt
+echo ================================================================================ >> ../../tests/test_log.txt
+echo Running: load_resources.py >> ../../tests/test_log.txt
+echo ================================================================================ >> ../../tests/test_log.txt
+echo. >> ../../tests/test_log.txt
+
+powershell -Command "$output = python load_resources.py 2>&1; $exitCode = $LASTEXITCODE; $output | Tee-Object -FilePath ../../tests/test_log.txt -Append; exit $exitCode"
+if %ERRORLEVEL% NEQ 0 (
+    echo load_resources.py failed with exit code %ERRORLEVEL%
+    cd ..\..
+    exit /b %ERRORLEVEL%
+)
+
 cd templates
 
 if exist jobs rmdir /S /Q jobs
