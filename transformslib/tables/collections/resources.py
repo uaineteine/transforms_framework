@@ -22,7 +22,7 @@ def load_specific_ent_map(id_group:int) -> MetaFrame:
     map_path = apply_formats(os.getenv("TNSFRMS_RES_LOC"))
     map_path = f"{map_path}/dss_entity_map_view/id_group={id_group}/"
 
-    tn = "entity_map_{id_group}"
+    tn = f"entity_map_{id_group}"
     engine = get_engine()
     df = MetaFrame.load(map_path, format="csv", table_name=tn, frame_type=engine, spark=get_spark())
     return df
