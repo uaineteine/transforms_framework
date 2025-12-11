@@ -45,7 +45,7 @@ jobs:
           pip install -r requirements.txt
       - name: Install PyArrow for tests
         run: |
-          pip install pyarrow~=15.0.2
+          pip install pyarrow
       - name: Set Spark environment variables
         run: |
           echo "SPARK_LOCAL_IP=127.0.0.1" >> $env:GITHUB_ENV
