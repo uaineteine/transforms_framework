@@ -1,6 +1,7 @@
 from transformslib.engine import get_engine, get_spark
 from transformslib.templates.pathing import apply_formats
 from transformslib.tables.metaframe import MetaFrame
+from multitable import MultiTable
 
 import pandas as pd
 import polars as pl
@@ -8,6 +9,28 @@ from pyspark.sql import DataFrame
 from pyspark.sql.functions import reduce
 
 import os
+
+def concat(frames:list[MultiTable], engine:str):
+    if not frames:
+        raise ValueError("No frames to concatenate")
+    native_frames = [f.df for f in frames]
+
+    if engine == "pandas":
+        combined = pd.concat(native_frames, ignore_index=True)
+        return combined
+
+    elif engine == "polars":
+        combined = pl.concat(native_frames)
+        return combined
+
+    elif engine == "pyspark":
+        combined = reduce(DataFrame.unionAll, native_frames)
+        return combined
+
+    else:
+        raise NotImplementedError(
+            f"RS400 Metaframe appendage not implemented for backend '{engine}'"
+        )
 
 def load_specific_ent_map(id_group:int) -> MetaFrame:
     """
@@ -42,6 +65,9 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
     #this will reduce the amount of frames to concat
     id_groups = list(set(id_groups))
 
+    
+    engine = get_engine()
+    
     #if using multiple id groups
     if len(id_groups) > 1:
         frames = []
@@ -49,23 +75,13 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
             frames.append(load_specific_ent_map(id))
         
         #append these frames together
-        engine = get_engine()
-        if engine == "pandas":
-            df = pd.concat(frames, ignore_index=True)
-
-        elif engine == "polars":
-            df = pl.concat(frames)
-
-        elif engine == "pyspark":
-            df = reduce(DataFrame.unionAll, frames)
-
-        else:
-            raise NotImplementedError(f"RS001 Entity mapping appendage not implemented for backend '{engine}'")
+        df = concat(frames, engine)
     #there is only 1 df
     else:
         df = load_specific_ent_map(id_groups[0])
 
-    #deuplicate for return
-    return df.distinct()
-
+    #df is a native frame, parse this into multitable
+    df = MultiTable(df, src_path="TNSFRMS_RES_LOC", table_name="entity_map", frame_type=engine)
+    df.distinct()
     
+    return MetaFrame(df)
