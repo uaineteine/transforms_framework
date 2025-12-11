@@ -46,7 +46,7 @@ def load_specific_ent_map(id_group:int) -> MultiTable:
     """
     #set the map paths
     map_path = apply_formats(os.getenv("TNSFRMS_RES_LOC"))
-    map_path = map_path.replace("{id_group}", id_group)
+    map_path = map_path.replace("{id_group}", str(id_group))
     
     #gather resource format
     fmt = os.getenv("TNSFRMS_RES_TYPE", "parquet")
