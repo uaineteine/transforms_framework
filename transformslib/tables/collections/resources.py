@@ -10,21 +10,24 @@ from pyspark.sql.functions import reduce
 
 import os
 
-def concat(frames:list[MultiTable], engine:str):
+def concat(frames:list[MultiTable], engine:str) -> MultiTable:
     if not frames:
         raise ValueError("No frames to concatenate")
     native_frames = [f.df for f in frames]
 
     if engine == "pandas":
         combined = pd.concat(native_frames, ignore_index=True)
+        combined = MultiTable(combined, frame_type=engine)
         return combined
 
     elif engine == "polars":
         combined = pl.concat(native_frames)
+        combined = MultiTable(combined, frame_type=engine)
         return combined
 
     elif engine == "pyspark":
         combined = reduce(DataFrame.unionAll, native_frames)
+        combined = MultiTable(combined, frame_type=engine)
         return combined
 
     else:
@@ -32,14 +35,14 @@ def concat(frames:list[MultiTable], engine:str):
             f"RS400 Metaframe appendage not implemented for backend '{engine}'"
         )
 
-def load_specific_ent_map(id_group:int) -> MetaFrame:
+def load_specific_ent_map(id_group:int) -> MultiTable:
     """
     Docstring for load_specific_ent_map
     
     :param id_group: The id group to load
     :type id_group: int
     :return: The entity map of that group
-    :rtype: MetaFrame
+    :rtype: MultiTable
     """
 
     map_path = apply_formats(os.getenv("TNSFRMS_RES_LOC"))
@@ -47,7 +50,7 @@ def load_specific_ent_map(id_group:int) -> MetaFrame:
 
     tn = f"entity_map_{id_group}"
     engine = get_engine()
-    df = MetaFrame.load(map_path, format="csv", table_name=tn, frame_type=engine, spark=get_spark())
+    df = MultiTable.load(map_path, format="csv", table_name=tn, frame_type=engine, auto_lowercase=True, spark=get_spark())
     return df
 
 def load_ent_map(id_groups:list[int]) -> MetaFrame:

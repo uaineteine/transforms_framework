@@ -17,7 +17,7 @@ if __name__ == "__main__":
     if is_windows:
         # Point to the hadoop directory in the project root
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(script_dir)
+        project_root = os.path.dirname(os.path.dirname(script_dir))
         hadoop_home = os.path.join(project_root, "hadoop")
         hadoop_bin = os.path.join(hadoop_home, "bin")
         os.environ["HADOOP_HOME"] = hadoop_home
