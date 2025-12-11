@@ -350,6 +350,45 @@ class TableCollection:
         """
         return len(self.tables)
 
+    def get_info(self, table_name: str = None):
+        """
+        Get metadata information (warning_messages and person_keys) from one or all MetaFrames.
+        
+        Args:
+            table_name (str, optional): Name of a specific table to get info from.
+                                       If None, returns info for all tables in the collection.
+                                       Defaults to None.
+        
+        Returns:
+            dict: If table_name is provided, returns info dict for that table.
+                  If table_name is None, returns dict mapping table names to their info dicts.
+        
+        Raises:
+            KeyError: If the specified table_name does not exist in the collection.
+        
+        Example:
+            >>> # Get info for a specific table
+            >>> info = pt_collection.get_info("table1")
+            >>> print(info['warning_messages'])
+            >>> print(info['person_keys'])
+            >>> 
+            >>> # Get info for all tables
+            >>> all_info = pt_collection.get_info()
+            >>> for table_name, info in all_info.items():
+            >>>     print(f"{table_name}: {info['warning_messages']}")
+        """
+        if table_name is not None:
+            # Return info for a specific table
+            if table_name not in self.named_tables:
+                raise KeyError(f"CL102 Table '{table_name}' not found")
+            return self.named_tables[table_name].info()
+        else:
+            # Return info for all tables
+            all_info = {}
+            for name, table in self.named_tables.items():
+                all_info[name] = table.info()
+            return all_info
+
     def save_events(self, table_names: list[str] = None, spark=None):
         """
         Save events for all tables or specific tables in the collection.
