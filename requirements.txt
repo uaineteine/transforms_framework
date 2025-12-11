@@ -3,6 +3,7 @@ tabulate
 pandas
 pyspark
 pyvis
+pyarrow
 networkx
 naming-standards>=1.0.0
 adaptiveio>=2.0.4
