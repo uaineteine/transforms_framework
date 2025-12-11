@@ -35,6 +35,9 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
 
     Returns: Metaframe of the id groups
     """
+    if len(id_groups) == 0:
+        raise ValueError("RS100 ID groups cannot be empty as a list")
+    
     #deduplicate the id groups first
     #this will reduce the amount of frames to concat
     id_groups = list(set(id_groups))
@@ -60,7 +63,7 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
             raise NotImplementedError(f"RS001 Entity mapping appendage not implemented for backend '{engine}'")
     #there is only 1 df
     else:
-        df = load_specific_ent_map(id)
+        df = load_specific_ent_map(id_groups[0])
 
     #deuplicate for return
     return df.distinct()
