@@ -44,13 +44,16 @@ def load_specific_ent_map(id_group:int) -> MultiTable:
     :return: The entity map of that group
     :rtype: MultiTable
     """
-
+    #set the map paths
     map_path = apply_formats(os.getenv("TNSFRMS_RES_LOC"))
-    map_path = f"{map_path}/dss_entity_map_view/id_group={id_group}/"
+    map_path = map_path.replace("{id_group}", str(id_group))
+    
+    #gather resource format
+    fmt = os.getenv("TNSFRMS_RES_TYPE", "parquet")
 
     tn = f"entity_map_{id_group}"
     engine = get_engine()
-    df = MultiTable.load(map_path, format="csv", table_name=tn, frame_type=engine, auto_lowercase=True, spark=get_spark())
+    df = MultiTable.load(map_path, format=fmt, table_name=tn, frame_type=engine, auto_lowercase=True, spark=get_spark())
     return df
 
 def load_ent_map(id_groups:list[int]) -> MetaFrame:

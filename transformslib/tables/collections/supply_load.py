@@ -2,11 +2,11 @@ import os
 from typing import Dict, Any
 from transformslib.engine import get_engine, get_spark, detect_if_dbutils_available
 from tabulate import tabulate
-from adaptiveio import load_json
 from multitable import MultiTable, SchemaValidator
 from transformslib.tables.metaframe import MetaFrame
 from transformslib.transforms.reader import transform_log_loc, does_transform_log_exist
 from .collection import TableCollection
+from .resources import *
 from transformslib.templates.pathing import apply_formats
 
 def get_schema_summary(expected_dtypes: Dict[str, Dict[str, str]]) -> str:
@@ -357,7 +357,7 @@ class SupplyLoad(TableCollection):
             print(table_names)
             
             raise ValueError("SL008 Mismatch in length between number of table names to load and data loaded paths")
-
+        
         for i, t in enumerate(table_names):
             try:
                 mt = MetaFrame.load(
@@ -371,10 +371,16 @@ class SupplyLoad(TableCollection):
             except Exception as e:
                 print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
                 raise e
-
+            
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
-            
+        
+        print("")
+        print("Loading the entity map...")
+        #ent_map = load_ent_map(id_groups)
+        #self.tables.append(ent_map)
+        #self.named_tables[ent_map.table_name] = ent_map 
+        
         print("Loaded the following tables: ")
         print(self.named_tables)
         
