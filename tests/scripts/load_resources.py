@@ -50,6 +50,9 @@ if __name__ == "__main__":
     set_spark_session(spark)
 
     from transformslib.tables.collections.resources import *
+    from transformslib import set_default_variables
+
+    set_default_variables()
 
     print("TEST LOADING ENTITY MAP FOR ID GROUP 1")
 
