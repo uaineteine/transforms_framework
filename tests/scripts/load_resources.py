@@ -67,3 +67,7 @@ if __name__ == "__main__":
     mf.show()
 
     print("TEST COMPLETE")
+
+    spark.stop()
+    print("Spark session stopped successfully")
+    sys.exit()
