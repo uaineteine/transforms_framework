@@ -303,7 +303,7 @@ class SupplyLoad(TableCollection):
                     ids = ids.select("id_group_cd").distinct()
                     #convert to pandas an extract the list
                     ids = ids.get_pandas_frame()
-                    ids = paths_info["id_group_cd"].tolist()
+                    ids = ids["id_group_cd"].tolist()
                 else:
                     raise ValueError("SL950 ERROR there is no id_group_cd column in table summary data")
             except Exception as e:
