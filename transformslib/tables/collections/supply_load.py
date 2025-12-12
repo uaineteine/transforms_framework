@@ -298,6 +298,7 @@ class SupplyLoad(TableCollection):
             ids = []
             try:
                 ids = sum_df.copy()
+                print(ids)
                 if "id_group_cd" in ids:
                     ids = ids.select("id_group_cd").distinct()
                     #convert to pandas an extract the list
@@ -389,11 +390,12 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
-        print("")
-        print("Loading the entity map...")
-        #ent_map = load_ent_map(id_groups)
-        #self.tables.append(ent_map)
-        #self.named_tables[ent_map.table_name] = ent_map 
+        if len(ids) > 0:
+            print("")
+            print("Loading the entity map...")
+            ent_map = load_ent_map(ids)
+            self.tables.append(ent_map)
+            self.named_tables[ent_map.table_name] = ent_map 
         
         print("Loaded the following tables: ")
         print(self.named_tables)
