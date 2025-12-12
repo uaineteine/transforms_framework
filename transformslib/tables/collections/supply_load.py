@@ -298,8 +298,8 @@ class SupplyLoad(TableCollection):
             ids = []
             try:
                 ids = sum_df.copy()
-                print(ids)
-                if "id_group_cd" in ids:
+                #ids.show()
+                if "id_group_cd" in ids.columns:
                     ids = ids.select("id_group_cd").distinct()
                     #convert to pandas an extract the list
                     ids = ids.get_pandas_frame()
