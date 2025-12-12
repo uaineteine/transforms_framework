@@ -84,6 +84,63 @@ def get_run_state() -> str:
 
     return path
 
+def extract_table_metadata(col_df: MultiTable, sum_df: MultiTable, table_name: str) -> tuple[dict, list]:
+    """
+    Extract warning messages and person keys for a specific table from metadata DataFrames.
+    
+    Args:
+        col_df: Column metadata DataFrame with columns: table_name, column_name, warning_messages
+        sum_df: Table summary DataFrame with columns: table_name, person key
+        table_name: Name of the table to extract metadata for
+    
+    Returns:
+        tuple: (warning_messages_dict, person_keys_list)
+            - warning_messages_dict: {column_name: warning_message_string}
+            - person_keys_list: [person_key_column_name] or []
+    """
+    # Extract warning messages for this table
+    warning_messages = {}
+    try:
+        # Filter col_df for this table
+        table_cols = col_df.copy()
+        table_cols = table_cols.select("column_name", "warning_messages")
+        table_cols_pd = table_cols.get_pandas_frame()
+        
+        # Filter by table name if we have it in the dataframe
+        if "table_name" in col_df.columns:
+            col_with_table = col_df.select("table_name", "column_name", "warning_messages")
+            col_with_table_pd = col_with_table.get_pandas_frame()
+            table_cols_pd = col_with_table_pd[col_with_table_pd["table_name"] == table_name]
+        
+        # Build dict of column_name: warning_messages (keep pipe-delimited string)
+        for _, row in table_cols_pd.iterrows():
+            col_name = row["column_name"]
+            warnings = row["warning_messages"]
+            # Only add if warnings exist and are not empty
+            if warnings and str(warnings).strip() and str(warnings) != "nan":
+                warning_messages[col_name] = str(warnings)
+    except Exception as e:
+        print(f"SL301 Warning: Could not extract warning messages for table '{table_name}': {e}")
+    
+    # Extract person keys for this table
+    person_keys = []
+    try:
+        # Filter sum_df for this table
+        if "person key" in sum_df.columns:
+            table_summary = sum_df.select("table_name", "person key")
+            table_summary_pd = table_summary.get_pandas_frame()
+            table_row = table_summary_pd[table_summary_pd["table_name"] == table_name]
+            
+            if not table_row.empty:
+                person_key = table_row.iloc[0]["person key"]
+                # Only add if person_key exists and is not empty
+                if person_key and str(person_key).strip() and str(person_key) != "nan":
+                    person_keys = [str(person_key)]
+    except Exception as e:
+        print(f"SL302 Warning: Could not extract person keys for table '{table_name}': {e}")
+    
+    return warning_messages, person_keys
+
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform tables for supply loading.
@@ -308,7 +365,8 @@ class SupplyLoad(TableCollection):
 
             try:
                 #show warning messages - using pandas for easy display
-                warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
+                # Make a copy to avoid modifying col_df for later metadata extraction
+                warnings_frame = col_df.select("table_name", "column_name", "warning_messages").copy()
                 #explode the warnings on pipe
                 warnings_frame.explode("warning_messages", sep="|", outer=False)
                 warnings_frame = warnings_frame.get_pandas_frame()
@@ -366,6 +424,17 @@ class SupplyLoad(TableCollection):
                     frame_type="pyspark",
                     spark=spark
                 )
+                
+                # Extract and set metadata from pre-transform data
+                try:
+                    warnings_dict, person_keys_list = extract_table_metadata(col_df, sum_df, t)
+                    if warnings_dict:
+                        mt.set_warning_messages(warnings_dict)
+                    if person_keys_list:
+                        mt.set_person_keys(person_keys_list)
+                except Exception as e:
+                    print(f"SL300 Warning: Could not set metadata for table '{t}': {e}")
+                
                 self.tables.append(mt)
                 self.named_tables[t] = mt
             except Exception as e:

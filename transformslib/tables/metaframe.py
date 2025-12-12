@@ -6,6 +6,7 @@ from naming_standards import Tablename
 from transformslib import module_version
 
 import os
+import re
 from typing import List
 
 #structure type
@@ -15,10 +16,6 @@ class Meta:
         self.meta_version = module_version
         #initialise events as a list, optionally inheriting from existing events
         self.events: List[PipelineEvent] = inherit_events.copy() if inherit_events else []
-        
-        # Metadata for data quality and person tracking
-        self.warning_messages = {}  # Dict of column names to warning messages
-        self.person_keys = []  # List of person identifier keys
 
 class MetaFrame(MultiTable):
     """
@@ -70,6 +67,10 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
+        
+        # Metadata for data quality and person tracking
+        self.warning_messages = {}  # Dict of column names to warning messages
+        self.person_keys = []  # List of person identifier keys
 
         outpth = os.environ.get("TNSFRMS_LOG_LOC", "")
         outpth = apply_formats(outpth)
@@ -110,7 +111,7 @@ class MetaFrame(MultiTable):
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
             >>> warnings = pt.get_warning_messages()
         """
-        return self.meta.warning_messages
+        return self.warning_messages
     
     def set_warning_messages(self, warning_messages: dict):
         """
@@ -125,7 +126,7 @@ class MetaFrame(MultiTable):
         """
         if not isinstance(warning_messages, dict):
             raise TypeError("warning_messages must be a dictionary")
-        self.meta.warning_messages = warning_messages
+        self.warning_messages = warning_messages
     
     def get_person_keys(self):
         """
@@ -138,7 +139,7 @@ class MetaFrame(MultiTable):
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
             >>> keys = pt.get_person_keys()
         """
-        return self.meta.person_keys
+        return self.person_keys
     
     def set_person_keys(self, person_keys: list):
         """
@@ -153,9 +154,9 @@ class MetaFrame(MultiTable):
         """
         if not isinstance(person_keys, list):
             raise TypeError("person_keys must be a list")
-        self.meta.person_keys = person_keys
+        self.person_keys = person_keys
     
-    def info(self):
+    def get_metadata(self):
         """
         Return metadata information about the MetaFrame.
         
@@ -166,14 +167,58 @@ class MetaFrame(MultiTable):
         
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
-            >>> info = pt.info()
-            >>> print(info['warning_messages'])
-            >>> print(info['person_keys'])
+            >>> metadata = pt.get_metadata()
+            >>> print(metadata['warning_messages'])
+            >>> print(metadata['person_keys'])
         """
         return {
-            'warning_messages': self.meta.warning_messages,
-            'person_keys': self.meta.person_keys
+            'warning_messages': self.warning_messages,
+            'person_keys': self.person_keys
         }
+    
+    def info(self):
+        """
+        Print a formatted table showing column information including warnings and person key flags.
+        
+        Displays:
+            - Table name and row count
+            - For each column: name, person key indicator, and warning message (if any)
+        
+        Example:
+            >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
+            >>> pt.info()
+            Table: my_table (1000 rows)
+            ================================================================================
+            Column Name          | Person Key  | Warning Message
+            ---------------------+-------------+--------------------------------------------
+            name                 | *           | Contains PII
+            age                  |             |
+        """
+        # Header
+        print(f"\nTable: {self.table_name} ({self.nrow} rows)")
+        print("=" * 100)
+        print(f"{'Column Name':<20} | {'Person Key':<11} | {'Warning Message'}")
+        print("-" * 100)
+        
+        # Rows for each column - handle pipe-delimited warnings
+        for col in self.columns:
+            person_key_flag = "DETECTED" if col in self.person_keys else ""
+            warning_msg = self.warning_messages.get(col, "")
+            
+            # Split pipe-delimited warnings and print each on a separate row
+            if warning_msg and "|" in warning_msg:
+                warnings = [w.strip() for w in re.split(r'\|', warning_msg)]
+                # First warning with column name
+                first_warning = warnings[0] if warnings else ""
+                print(f"{col:<20} | {person_key_flag:<11} | {first_warning}")
+                # Remaining warnings without repeating column name
+                for w in warnings[1:]:
+                    print(f"{'':<20} | {'':<11} | {w}")
+            else:
+                # Single warning or no warning
+                print(f"{col:<20} | {person_key_flag:<11} | {warning_msg}")
+        
+        print("=" * 100 + "\n")
 
     @staticmethod
     def load(path: str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):

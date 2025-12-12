@@ -310,20 +310,23 @@ if __name__ == "__main__":
     })
     supply_frames["location"].set_person_keys(["name"])
     
-    # Retrieve metadata from a specific table
-    print("\nMetadata for 'salary' table:")
-    salary_info = supply_frames["salary"].info()
-    print(f"  Warning messages: {salary_info['warning_messages']}")
-    print(f"  Person keys: {salary_info['person_keys']}")
+    # Display formatted info for salary table
+    print("\nFormatted info for 'salary' table:")
+    supply_frames["salary"].info()
     
-    # Retrieve metadata from all tables using TableCollection
-    print("\nMetadata for all tables:")
-    all_info = supply_frames.get_info()
-    for table_name, info in all_info.items():
-        if info['warning_messages'] or info['person_keys']:
-            print(f"\n  Table: {table_name}")
-            print(f"    Warning messages: {info['warning_messages']}")
-            print(f"    Person keys: {info['person_keys']}")
+    # Display formatted info for location table
+    print("\nFormatted info for 'location' table:")
+    supply_frames["location"].info()
+    
+    # Can still get metadata programmatically if needed
+    print("\nProgrammatic access to metadata:")
+    salary_metadata = supply_frames["salary"].get_metadata()
+    print(f"  Salary warning messages: {salary_metadata['warning_messages']}")
+    print(f"  Salary person keys: {salary_metadata['person_keys']}")
+    
+    # Print info for all tables using TableCollection
+    print("\nInfo for all tables via TableCollection.get_info():")
+    supply_frames.get_info()
     
     # -------------------------------
     # Repeated tests to continue
