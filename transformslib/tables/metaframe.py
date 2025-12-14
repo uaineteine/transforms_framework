@@ -55,7 +55,7 @@ class MetaFrame(MultiTable):
             person_keys (list[str], optional): List of person identifier keys. Defaults to empty list.
             warning_messages (dict, optional): Mapping of column names to warning messages. Defaults to empty dict.
             id_group_cd (optional): Optional ID group code. Defaults to None.
-            
+
         Raises:
             TypeError: If MultiTable is not a MultiTable instance.
             AttributeError: If MultiTable is missing required attributes.
@@ -70,6 +70,12 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
+
+        #error checks if person keys and warnings are valid
+        if person_keys is not None and not isinstance(person_keys, list):
+            raise TypeError("person_keys must be a list of strings")
+        if warning_messages is not None and not isinstance(warning_messages, dict):
+            raise TypeError("warning_messages must be a dictionary")
 
         # Metadata for data quality and person tracking
         self.warning_messages = warning_messages  # Dict of column names to warning messages
