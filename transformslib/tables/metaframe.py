@@ -42,7 +42,7 @@ class MetaFrame(MultiTable):
         >>> pt.save_events()
     """
 
-    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys = list[str], warning_messages:dict = {}, id_group_cd=None):
         """
         Initialise a MetaFrame with a MultiTable and optional event log.
 
@@ -52,7 +52,10 @@ class MetaFrame(MultiTable):
                                  table_name, and frame_type attributes.
             inherit_events (List[PipelineEvent], optional): List of events to inherit from
                                  another MetaFrame. Defaults to None.
-
+            person_keys (list[str], optional): List of person identifier keys. Defaults to empty list.
+            warning_messages (dict, optional): Mapping of column names to warning messages. Defaults to empty dict.
+            id_group_cd (optional): Optional ID group code. Defaults to None.
+            
         Raises:
             TypeError: If MultiTable is not a MultiTable instance.
             AttributeError: If MultiTable is missing required attributes.
@@ -67,10 +70,11 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
-        
+
         # Metadata for data quality and person tracking
-        self.warning_messages = {}  # Dict of column names to warning messages
-        self.person_keys = []  # List of person identifier keys
+        self.warning_messages = warning_messages  # Dict of column names to warning messages
+        self.person_keys = person_keys  # List of person identifier keys
+        self.id_group = id_group_cd  # Optional ID group code
 
         outpth = os.environ.get("TNSFRMS_LOG_LOC", "")
         outpth = apply_formats(outpth)
