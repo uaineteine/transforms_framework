@@ -73,9 +73,9 @@ class MetaFrame(MultiTable):
 
         #error checks if person keys and warnings are valid
         if person_keys is not None and not isinstance(person_keys, list):
-            raise TypeError("person_keys must be a list of strings")
+            raise TypeError("MF501 person_keys must be a list of strings")
         if warning_messages is not None and not isinstance(warning_messages, dict):
-            raise TypeError("warning_messages must be a dictionary")
+            raise TypeError("MF502 warning_messages must be a dictionary")
 
         # Metadata for data quality and person tracking
         self.warning_messages = warning_messages  # Dict of column names to warning messages
