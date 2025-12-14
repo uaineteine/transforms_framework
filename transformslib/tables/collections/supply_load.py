@@ -351,6 +351,21 @@ class SupplyLoad(TableCollection):
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
+            #get distinct list of ids
+            ids = []
+            try:
+                ids = sum_df.copy()
+                #ids.show()
+                if "id_group_cd" in ids.columns:
+                    ids = ids.select("id_group_cd").distinct()
+                    #convert to pandas an extract the list
+                    ids = ids.get_pandas_frame()
+                    ids = ids["id_group_cd"].tolist()
+                else:
+                    raise ValueError("SL950 ERROR there is no id_group_cd column in table summary data")
+            except Exception as e:
+                print(f"SL951 {e}")
+            
             paths_info = sum_df.copy()
             if "format" in sum_df.columns:
                 paths_info = paths_info.select("table_name", "table_path", "format").distinct()
@@ -444,11 +459,12 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
-        print("")
-        print("Loading the entity map...")
-        #ent_map = load_ent_map(id_groups)
-        #self.tables.append(ent_map)
-        #self.named_tables[ent_map.table_name] = ent_map 
+        if len(ids) > 0:
+            print("")
+            print("Loading the entity map...")
+            ent_map = load_ent_map(ids)
+            self.tables.append(ent_map)
+            self.named_tables[ent_map.table_name] = ent_map 
         
         print("Loaded the following tables: ")
         print(self.named_tables)
