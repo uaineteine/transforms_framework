@@ -72,18 +72,6 @@ def clear_last_run():
         else:
             os.remove(path)
 
-def get_run_state() -> str:
-    """
-    Return the path location of the input payload.
-
-    Returns:
-        str: The payload path.
-    """
-    path = os.environ.get("TNSFRMS_JOB_STATE", "../test_tables")
-    path = apply_formats(path)
-
-    return path
-
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform tables for supply loading.
@@ -175,7 +163,6 @@ class SupplyLoad(TableCollection):
         }
 
     Attributes:
-        supply_load_src (str): The path to the JSON configuration file.
         job (int): The job ID for the current operation.
         run (int): The run ID for the current operation (None for new sampling input method).
         enable_schema_validation (bool): Whether schema validation is enabled (new system only).
@@ -237,8 +224,6 @@ class SupplyLoad(TableCollection):
         self.job = os.environ.get("TNSFRMS_JOB_ID", 1)
         self.run = os.environ.get("TNSFRMS_RUN_ID", 1) 
         self.enable_schema_validation = enable_schema_validation
-
-        self.supply_load_src = get_run_state()
         
         #gather the source payload location
         self.output_loc = transform_log_loc()
