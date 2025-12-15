@@ -94,7 +94,12 @@ def load_input_table(path:str, format=None, spark=None) -> MultiTable:
     else:
         if len(format) == 0:
             raise ValueError("SL013 Format string cannot be empty")
-    
+    return path
+
+def load_pre_transform_data(spark=None) -> list[MultiTable]:
+    """
+    Load the pre-transform tables for supply loading.
+    """
     #lowercase override
     format = format.lower()
     try:
@@ -389,6 +394,17 @@ class SupplyLoad(TableCollection):
                     frame_type="pyspark",
                     spark=spark
                 )
+                
+                # Extract and set metadata from pre-transform data
+                try:
+                    warnings_dict, person_keys_list = extract_table_metadata(col_df, sum_df, t)
+                    if warnings_dict:
+                        mt.set_warning_messages(warnings_dict)
+                    if person_keys_list:
+                        mt.set_person_keys(person_keys_list)
+                except Exception as e:
+                    print(f"SL300 Warning: Could not set metadata for table '{t}': {e}")
+                
                 self.tables.append(mt)
                 self.named_tables[t] = mt
             except Exception as e:
