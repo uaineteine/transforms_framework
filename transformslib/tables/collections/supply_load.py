@@ -196,12 +196,10 @@ def get_supply_srcs(spark=None) -> pd.DataFrame:
     #error flags
     if "format" not in sum_df.columns:
         raise ValueError("SL400 Summary data does not contain 'format' column")
-    if "data_type" not in sum_df.columns:
-        raise ValueError("SL401 Summary data does not contain 'data_type' column")
 
     try:
         #filter down for target columns, sort by table name
-        sum_df = sum_df.select("table_name", "table_path", "format", "data_type").distinct()
+        sum_df = sum_df.select("table_name", "table_path", "format").distinct()
         sum_df = sum_df.sort("table_name")
         sum_df = sum_df.get_pandas_frame()
         
@@ -398,9 +396,9 @@ class SupplyLoad(TableCollection):
         except Exception as e:
             print(f"SL009 Could not extract warning messages: {e}")
         
+        print("Transformslib will now attempt to read in the data types...")
+        
         print("Transformslib will now attempt to read in the list of person keys...")
-        
-        
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
         ids = gather_supply_ids()
