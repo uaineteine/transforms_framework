@@ -106,38 +106,6 @@ def load_input_table(path:str, format=None, spark=None) -> MultiTable:
     
     return mt
 
-def load_pre_transform_data(spark=None) -> list[MultiTable]:
-    """
-    Load the pre-transform tables for supply loading.
-    """
-    #lowercase override
-    format = format.lower()
-    try:
-        if (spark is None):
-            mt = MultiTable.load(
-                path=path,
-                format=format,
-                frame_type="pandas"
-            )
-        else:
-            mt = MultiTable.load(
-                path=path,
-                format=format,
-                frame_type="pyspark",
-                spark=spark
-            )
-    except Exception as e:
-        print(f"SL050 Error loading pre-transform table at {path}: {e}")
-        raise e
-    
-    try:
-        mt = mt.distinct()
-    except Exception as e:
-        print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
-        raise e
-
-    return mt
-
 def load_summary_data(spark=None) -> MultiTable:
     """
     Load the pre-transform table summary data.
