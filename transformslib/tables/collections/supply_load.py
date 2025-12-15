@@ -323,7 +323,7 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        names_of_loaded = self.load_supplies()
+        self.load_supplies()
 
     def load_supplies(self):
         """
