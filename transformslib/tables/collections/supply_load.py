@@ -325,7 +325,7 @@ class SupplyLoad(TableCollection):
 
         names_of_loaded = self.load_supplies()
 
-    def load_supplies(self) -> list[str]:
+    def load_supplies(self):
         """
         Load supply data from the JSON configuration file.
 
@@ -333,9 +333,6 @@ class SupplyLoad(TableCollection):
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
-            
-        Returns:
-            List[str]: A list of names of the loaded tables.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -355,48 +352,8 @@ class SupplyLoad(TableCollection):
         sources = get_supply_srcs(spark=spark)
         print("Transformslib has successfully read in the table sources.")
         print(tabulate(sources, tablefmt='pretty', showindex=False))
-        print("Loading data from those sources")
-
-            try:
-                #show warning messages - using pandas for easy display
-                warnings_frame = load_table_warnings(spark=spark)
-                print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
-            except Exception as e:
-                print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
-
-            #show table names and convert to a list
-            #collect the table names from the frame
-            paths_info = paths_info.get_pandas_frame()
-            print(tabulate(paths_info, tablefmt='pretty', showindex=False))
-            table_names = paths_info["table_name"].tolist()
-            
-            paths = paths_info["table_path"]
-            paths = paths.tolist()
-            
-            if "format" in sum_df.columns:
-                formats = paths_info["format"].tolist()
-            else:
-                #infer from the same length that it will be parquet
-                n = len(paths)
-                formats = ["parquet" for i in range(n)]
         
-        except Exception as e:
-            print(f"SL010 Error reading pre-transform delta tables: Exception {e}")
-        
-        print(table_names)
-        
-        print("Transformslib will now attempt to load each table in the supply...")
-        print("")
-        
-        #flag error if lengths do not match
-        if len(paths) != len(table_names):
-            print("SL008")
-            print("PATHS:")
-            print(paths)
-            print("TABLE NAMES:")
-            print(table_names)
-            
-            raise ValueError("SL008 Mismatch in length between number of table names to load and data loaded paths")
+        print("Transformslib will now attempt to load each table in this supply...")
         
         for i, t in enumerate(table_names):
             try:
@@ -426,6 +383,14 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
+        print("Transformslib will not gather the warning messages from the pre-transform column data...")
+        try:
+            #show warning messages - using pandas for easy display
+            warnings_frame = load_table_warnings(spark=spark)
+            print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
+        except Exception as e:
+            print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
+        
         print("Transformslib will now attempt to read in the list of known entity ids...")
         ids = gather_supply_ids()
         if len(ids) > 0:
@@ -438,4 +403,3 @@ class SupplyLoad(TableCollection):
         print("Loaded the following tables: ")
         print(self.named_tables)
         
-        return table_names
