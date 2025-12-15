@@ -1,4 +1,5 @@
 @echo off
+
 echo Removing all __pycache__ folders...
 
 REM Search and remove all __pycache__ folders recursively
@@ -13,6 +14,9 @@ echo Done.
 
 echo Removing the previous test_log.txt file if it exists...
 if exist tests\test_log.txt del tests\test_log.txt
+
+:: Check if --express flag is passed
+if "%1"=="--express" goto EXPRESS_MODE
 
 cd tests
 cd scripts
@@ -61,6 +65,8 @@ if %ERRORLEVEL% NEQ 0 (
 
 cd ..
 cd ..
+
+:EXPRESS_MODE
 
 cd templates
 
