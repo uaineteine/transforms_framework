@@ -355,30 +355,20 @@ class SupplyLoad(TableCollection):
         
         print("Transformslib will now attempt to load each table in this supply...")
         
-        for i, t in enumerate(table_names):
+        engine = get_engine()
+        for _, row in sources.iterrows():
             try:
                 mt = MetaFrame.load(
-                    path=paths[i],
-                    format=formats[i],
-                    frame_type="pyspark",
+                    path=row["paths"],
+                    format=row["formats"],
+                    frame_type=engine,
                     spark=spark
                 )
-                
-                # Extract and set metadata from pre-transform data
-                try:
-                    warnings_dict, person_keys_list = extract_table_metadata(col_df, sum_df, t)
-                    if warnings_dict:
-                        mt.set_warning_messages(warnings_dict)
-                    if person_keys_list:
-                        mt.set_person_keys(person_keys_list)
-                except Exception as e:
-                    print(f"SL300 Warning: Could not set metadata for table '{t}': {e}")
-                
+                # You can also access row["table_names"] if needed
                 self.tables.append(mt)
-                self.named_tables[t] = mt
+                self.named_tables[row["table_names"]] = mt
             except Exception as e:
-                print(f"Error SL200 loading table '{t}' from {paths[i]}: {e}")
-                raise e
+                print(f"SL200 Error loading {row['table_names']}: {e}")
             
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
@@ -388,8 +378,19 @@ class SupplyLoad(TableCollection):
             #show warning messages - using pandas for easy display
             warnings_frame = load_table_warnings(spark=spark)
             print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
+            
+            # Extract and set metadata from pre-transform data
+            try:
+                mt.set_warning_messages(warnings_frame)
+            except Exception as e:
+                print(f"SL300 Warning: Could not set metadata for table '{t}': {e}")
+            
         except Exception as e:
-            print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
+            print(f"SL009 Could not extract warning messages: {e}")
+        
+        print("Transformslib will now attempt to read in the list of person keys...")
+        
+        
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
         ids = gather_supply_ids()
