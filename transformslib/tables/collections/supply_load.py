@@ -94,7 +94,17 @@ def load_input_table(path:str, format=None, spark=None) -> MultiTable:
     else:
         if len(format) == 0:
             raise ValueError("SL013 Format string cannot be empty")
-    return path
+        
+    engine = get_engine()
+    mt = MultiTable.load(
+        path=path,
+        format=format,
+        frame_type=engine,
+        auto_lowercase=True,
+        spark=spark
+    )
+    
+    return mt
 
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
