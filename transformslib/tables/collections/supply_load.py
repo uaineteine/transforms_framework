@@ -147,6 +147,31 @@ def load_column_data(spark=None) -> MultiTable:
     #deuplicate frames before returning
     return col_df
 
+def load_table_warnings(spark=None) -> pd.DataFrame:
+    """
+    Load and display warning messages from the pre-transform column data.
+    """
+    try:
+        col_df = load_column_data(spark=spark)
+        
+        #show warning messages - using pandas for easy display
+        warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
+        #explode the warnings on pipe
+        warnings_frame.explode("warning_messages", sep="|", outer=False)
+        warnings_frame = warnings_frame.get_pandas_frame()
+        # Filter out NULL AND empty strings
+        warnings_frame = warnings_frame[
+            (warnings_frame["warning_messages"].notnull()) & 
+            (warnings_frame["warning_messages"] != "")
+        ]
+        warnings_frame = warnings_frame.drop_duplicates()
+        # Sort by table_name first, then column_name
+        warnings_frame = warnings_frame.sort_values(by=["table_name", "column_name"])
+        
+        return warnings_frame
+    except Exception as e:
+        print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
+
 class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
@@ -317,18 +342,7 @@ class SupplyLoad(TableCollection):
 
             try:
                 #show warning messages - using pandas for easy display
-                warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
-                #explode the warnings on pipe
-                warnings_frame.explode("warning_messages", sep="|", outer=False)
-                warnings_frame = warnings_frame.get_pandas_frame()
-                # Filter out NULL AND empty strings
-                warnings_frame = warnings_frame[
-                    (warnings_frame["warning_messages"].notnull()) & 
-                    (warnings_frame["warning_messages"] != "")
-                ]
-                warnings_frame = warnings_frame.drop_duplicates()
-                # Sort by table_name first, then column_name
-                warnings_frame = warnings_frame.sort_values(by=["table_name", "column_name"])
+                warnings_frame = load_table_warnings(spark=spark)
                 print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             except Exception as e:
                 print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
