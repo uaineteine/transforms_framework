@@ -5,3 +5,4 @@
 1,1,test,"../tests/test_tables/jobs/prod/job_1/location.csv",2025-10-23T10:27:17.391,location,4,csv,name,1
 1,1,test,"../tests/test_tables/jobs/prod/job_1/positions.csv",2025-10-23T10:27:17.391,positions,5,csv,name,2
 1,1,test,"../tests/test_tables/jobs/prod/job_1/state.csv",2025-10-23T10:27:17.391,state,2,csv,,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/salary.csv",2025-10-23T10:27:17.391,salary,3,csv,id,1
