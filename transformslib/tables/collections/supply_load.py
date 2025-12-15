@@ -153,7 +153,7 @@ def load_table_warnings(spark=None) -> pd.DataFrame:
         
         return warnings_frame
     except Exception as e:
-        print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
+        print(f"SL009 Error in warning messages: Could not extract warning messages: {e}")
 
 def get_supply_srcs(spark=None) -> pd.DataFrame:
     """
@@ -358,13 +358,17 @@ class SupplyLoad(TableCollection):
             print(tabulate(warnings_frame, headers='keys', tablefmt='pretty', showindex=False))
             
             # Extract and set metadata from pre-transform data
-            try:
-                mt.set_warning_messages(warnings_frame)
-            except Exception as e:
-                print(f"SL300 Warning: Could not set metadata for table '{mt.table_name}': {e}")
+            for _, row in warnings_frame.iterrows():
+                try:
+                    warning_subframe = warnings_frame[
+                        (warnings_frame["table_name"] == row["table_name"])
+                    ]
+                    self.tables[row["table_name"]].set_warning_messages(warning_subframe)
+                except Exception as e:
+                    print(f"SL300 Warning: Could not set metadata for table '{mt.table_name}': {e}")
             
         except Exception as e:
-            print(f"SL009 Could not extract warning messages: {e}")
+            print(f"SL010 Could not extract warning messages: {e}")
         
         print("Transformslib will now attempt to read in the data types...")
         
