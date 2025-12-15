@@ -177,6 +177,28 @@ def load_table_warnings(spark=None) -> pd.DataFrame:
     except Exception as e:
         print(f"SL009 Error in signposting: Could not extract warning messages: {e}")
 
+def get_supply_srcs(spark=None) -> pd.DataFrame:
+    """
+    Load and return the supply sources from the pre-transform summary data.
+    """
+    sum_df = load_summary_data(spark=spark)
+
+    #error flags
+    if "format" not in sum_df.columns:
+        raise ValueError("SL400 Summary data does not contain 'format' column")
+    if "data_type" not in sum_df.columns:
+        raise ValueError("SL401 Summary data does not contain 'data_type' column")
+
+    try:
+        #filter down for target columns, sort by table name
+        sum_df = sum_df.select("table_name", "table_path", "format").distinct()
+        sum_df = sum_df.sort("table_name")
+        sum_df = sum_df.get_pandas_frame()
+        
+        return sum_df
+    except Exception as e:
+        print(f"SL030 Error in extracting supply sources: {e}")
+
 class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
@@ -266,7 +288,7 @@ class SupplyLoad(TableCollection):
         #gather the source payload location
         self.output_loc = transform_log_loc()
         if (does_transform_log_exist()):
-            raise ValueError("SL010 Transform has been run beforehand, please CLEAR previous result or use new run id")
+            raise ValueError("SL021 Transform has been run beforehand, please CLEAR previous result or use new run id")
 
         if sample_frac != None or sample_rows != None:
             self.sample = True
