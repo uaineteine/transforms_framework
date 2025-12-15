@@ -123,20 +123,29 @@ def load_input_table(path:str, format=None, spark=None) -> MultiTable:
 
     return mt
 
-def load_pre_transform_data(spark=None) -> list[MultiTable]:
+def load_summary_data(spark=None) -> MultiTable:
     """
-    Load the pre-transform tables for supply loading.
+    Load the pre-transform table summary data.
     
-    Returns Multitable lists of frames
+    Returns Multitable of frame
     """
-    colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_TABLE_SUMMARY_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
-
-    col_df = load_input_table(colpath, spark=spark)
     sum_df = load_input_table(sumpath, spark=spark)
     
     #deuplicate frames before returning
-    return col_df, sum_df
+    return sum_df
+
+def load_column_data(spark=None) -> MultiTable:
+    """
+    Load the pre-transform column data.
+    
+    Returns Multitable of frame
+    """
+    colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
+    col_df = load_input_table(colpath, spark=spark)
+    
+    #deuplicate frames before returning
+    return col_df
 
 class SupplyLoad(TableCollection):
     """
@@ -274,7 +283,8 @@ class SupplyLoad(TableCollection):
         try:
             try:
                 print(f"Reading the delta tables to extract meta information")
-                col_df, sum_df = load_pre_transform_data(spark=spark)
+                col_df = load_column_data(spark=spark)
+                sum_df = load_summary_data(spark=spark)
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
             
