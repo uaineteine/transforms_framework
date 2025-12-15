@@ -382,6 +382,8 @@ class SupplyLoad(TableCollection):
             ent_map = load_ent_map(ids)
             self.tables.append(ent_map)
             self.named_tables[ent_map.table_name] = ent_map 
+        else:
+            print("No entity map IDs found in the supply, skipping entity map load.")
         
         print("Loaded the following tables: ")
         print(self.named_tables)
