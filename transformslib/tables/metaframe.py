@@ -42,7 +42,7 @@ class MetaFrame(MultiTable):
         >>> pt.save_events()
     """
 
-    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys = list[str], warning_messages:dict = {}, id_group_cd=None):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys:list[str]=None, warning_messages:dict = {}, id_group_cd=None):
         """
         Initialise a MetaFrame with a MultiTable and optional event log.
 
