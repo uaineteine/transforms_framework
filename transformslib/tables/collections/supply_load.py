@@ -191,13 +191,35 @@ def get_supply_srcs(spark=None) -> pd.DataFrame:
 
     try:
         #filter down for target columns, sort by table name
-        sum_df = sum_df.select("table_name", "table_path", "format").distinct()
+        sum_df = sum_df.select("table_name", "table_path", "format", "data_type").distinct()
         sum_df = sum_df.sort("table_name")
         sum_df = sum_df.get_pandas_frame()
         
         return sum_df
     except Exception as e:
         print(f"SL030 Error in extracting supply sources: {e}")
+
+def gather_supply_ids(spark=None) -> list[int]:
+    """
+    Placeholder for parsing in data from a dataframe, will be replaced with integrated loading later.
+    """
+    sum_df = load_summary_data(spark=spark)
+    
+    #error checking
+    if "id_group_cd" not in sum_df.columns:
+        raise ValueError("SL950 ERROR there is no id_group_cd column in table summary data")
+    
+    #get distinct list of ids
+    ids = []
+    try:
+        sum_df = sum_df.select("id_group_cd").distinct()
+        #convert to pandas an extract the list
+        sum_df = sum_df.get_pandas_frame()
+        ids = sum_df["id_group_cd"].tolist()
+    except Exception as e:
+        print(f"SL951 {e}")
+    
+    return ids
 
 class SupplyLoad(TableCollection):
     """
@@ -329,43 +351,11 @@ class SupplyLoad(TableCollection):
         if get_engine() == "pyspark":
             spark = get_spark()
 
-        table_names = []
-        paths = []
-        formats = []
-        try:
-            try:
-                print(f"Reading the delta tables to extract meta information")
-                col_df = load_column_data(spark=spark)
-                sum_df = load_summary_data(spark=spark)
-            except FileNotFoundError:
-                raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
-            
-            #get distinct list of ids
-            ids = []
-            try:
-                ids = sum_df.copy()
-                #ids.show()
-                if "id_group_cd" in ids.columns:
-                    ids = ids.select("id_group_cd").distinct()
-                    #convert to pandas an extract the list
-                    ids = ids.get_pandas_frame()
-                    ids = ids["id_group_cd"].tolist()
-                else:
-                    raise ValueError("SL950 ERROR there is no id_group_cd column in table summary data")
-            except Exception as e:
-                print(f"SL951 {e}")
-            
-            paths_info = sum_df.copy()
-            if "format" in sum_df.columns:
-                paths_info = paths_info.select("table_name", "table_path", "format").distinct()
-            else:
-                paths_info = paths_info.select("table_name", "table_path").distinct()
-            paths_info = paths_info.sort("table_name")
-            paths_info.show(truncate=False)
-            
-            #show column info
-            col_info = col_df.select("table_name","column_name","description", "data_type", "warning_messages").distinct()
-            col_info.show(truncate=False)
+        print("Transformslib will now attempt to read in the table sources from the pre-transform summary data...")
+        sources = get_supply_srcs(spark=spark)
+        print("Transformslib has successfully read in the table sources.")
+        print(tabulate(sources, tablefmt='pretty', showindex=False))
+        print("Loading data from those sources")
 
             try:
                 #show warning messages - using pandas for easy display
@@ -436,6 +426,8 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
+        print("Transformslib will now attempt to read in the list of known entity ids...")
+        ids = gather_supply_ids()
         if len(ids) > 0:
             print("")
             print("Loading the entity map...")
