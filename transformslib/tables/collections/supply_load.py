@@ -72,69 +72,68 @@ def clear_last_run():
         else:
             os.remove(path)
 
+def load_input_table(path:str, format=None, spark=None) -> MultiTable:
+    """
+    Load a pre transform table from the given path. Applying formats if needed and attempting de-duplication.
+    
+    Args:
+        path (str): The path to the delta table.
+        format (str): The format of the table, default is "delta".
+        spark: SparkSession object for PySpark operations.
+
+    Returns:
+        MultiTable: The loaded MultiTable instance.
+    """
+    path = apply_formats(path)
+
+    if format == None:
+        #infer the format from the path
+        format = path.split(".")[-1]
+        if format.lower() not in ["parquet", "delta", "csv", "json"]:
+            format = "delta"
+    else:
+        if len(format) == 0:
+            raise ValueError("SL013 Format string cannot be empty")
+    
+    #lowercase override
+    format = format.lower()
+    try:
+        if (spark is None):
+            mt = MultiTable.load(
+                path=path,
+                format=format,
+                frame_type="pandas"
+            )
+        else:
+            mt = MultiTable.load(
+                path=path,
+                format=format,
+                frame_type="pyspark",
+                spark=spark
+            )
+    except Exception as e:
+        print(f"SL050 Error loading pre-transform table at {path}: {e}")
+        raise e
+    
+    try:
+        mt = mt.distinct()
+    except Exception as e:
+        print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
+        raise e
+
+    return mt
+
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
     Load the pre-transform tables for supply loading.
     
     Returns Multitable lists of frames
     """
-    
     colpath = os.environ.get("TNSFRMS_JOB_COLS_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_columns.delta")
     sumpath = os.environ.get("TNSFRMS_TABLE_SUMMARY_PATH", "../test_tables/jobs/{prodtest}/{job_id}/run/{run_id}/data_quality/pre_transform_table_summary.delta")
-    
-    def _load_table(path:str, format=None, spark=None) -> MultiTable:
-        """
-        Load a pre transform table from the given path. Applying formats if needed and attempting de-duplication.
-        
-        Args:
-            path (str): The path to the delta table.
-            format (str): The format of the table, default is "delta".
-            spark: SparkSession object for PySpark operations.
 
-        Returns:
-            MultiTable: The loaded MultiTable instance.
-        """
-        path = apply_formats(path)
-
-        if format == None:
-            #infer the format from the path
-            format = path.split(".")[-1]
-            if format.lower() not in ["parquet", "delta", "csv", "json"]:
-                format = "delta"
-        else:
-            if len(format) == 0:
-                raise ValueError("MT013 Format string cannot be empty")
-        
-        #lowercase override
-        format = format.lower()
-        try:
-            if (spark is None):
-                mt = MultiTable.load(
-                    path=path,
-                    format=format,
-                    frame_type="pandas"
-                )
-            else:
-                mt = MultiTable.load(
-                    path=path,
-                    format=format,
-                    frame_type="pyspark",
-                    spark=spark
-                )
-        except Exception as e:
-            print(f"SL050 Error loading pre-transform table at {path}: {e}")
-            raise e
-        
-        try:
-            mt = mt.distinct()
-        except Exception as e:
-            print(f"SL011 Error processing newly loaded pre-transform tables: {e}")
-            raise e
-
-        return mt
-
-    col_df = _load_table(colpath, spark=spark)
-    sum_df = _load_table(sumpath, spark=spark)
+    col_df = load_input_table(colpath, spark=spark)
+    sum_df = load_input_table(sumpath, spark=spark)
     
     #deuplicate frames before returning
     return col_df, sum_df
