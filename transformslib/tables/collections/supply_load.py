@@ -372,11 +372,11 @@ class SupplyLoad(TableCollection):
                     frame_type=engine,
                     spark=spark
                 )
-                # You can also access row["table_names"] if needed
+                
                 self.tables.append(mt)
-                self.named_tables[row["table_names"]] = mt
+                self.named_tables[row["table_name"]] = mt
             except Exception as e:
-                print(f"SL200 Error loading {row['table_names']}: {e}")
+                print(f"SL200 Error loading {row['table_name']}: {e}")
             
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
@@ -401,7 +401,7 @@ class SupplyLoad(TableCollection):
         print("Transformslib will now attempt to read in the list of person keys...")
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
-        ids = gather_supply_ids()
+        ids = gather_supply_ids(spark=spark)
         if len(ids) > 0:
             print("")
             print("Loading the entity map...")
