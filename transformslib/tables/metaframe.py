@@ -42,7 +42,7 @@ class MetaFrame(MultiTable):
         >>> pt.save_events()
     """
 
-    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys = list[str], warning_messages:dict = {}, id_group_cd=None):
         """
         Initialise a MetaFrame with a MultiTable and optional event log.
 
@@ -52,6 +52,9 @@ class MetaFrame(MultiTable):
                                  table_name, and frame_type attributes.
             inherit_events (List[PipelineEvent], optional): List of events to inherit from
                                  another MetaFrame. Defaults to None.
+            person_keys (list[str], optional): List of person identifier keys. Defaults to empty list.
+            warning_messages (dict, optional): Mapping of column names to warning messages. Defaults to empty dict.
+            id_group_cd (optional): Optional ID group code. Defaults to None.
 
         Raises:
             TypeError: If MultiTable is not a MultiTable instance.
@@ -67,10 +70,20 @@ class MetaFrame(MultiTable):
         super().__init__(MultiTable.df, MultiTable.src_path, MultiTable.table_name, MultiTable.frame_type)
 
         self.meta = Meta(inherit_events=inherit_events)
-        
+
         # Metadata for data quality and person tracking
-        self.warning_messages = {}  # Dict of column names to warning messages
-        self.person_keys = []  # List of person identifier keys
+        # Initialize attributes using setter methods for validation
+        self.warning_messages = {}  # Initialize empty, then use setter
+        self.person_keys = []  # Initialize empty, then use setter
+        self.id_group_cd = None  # Initialize empty, then use setter
+        
+        # Use setters to apply validation
+        if warning_messages:
+            self.set_warning_messages(warning_messages)
+        if person_keys:
+            self.set_person_keys(person_keys)
+        if id_group_cd:
+            self.set_id_group_cd(id_group_cd)
 
         outpth = os.environ.get("TNSFRMS_LOG_LOC", "")
         outpth = apply_formats(outpth)
@@ -120,13 +133,16 @@ class MetaFrame(MultiTable):
         Args:
             warning_messages (dict): Mapping of column names to warning messages.
         
+        Raises:
+            TypeError: If warning_messages is not a dictionary.
+        
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
             >>> pt.set_warning_messages({"col_a": "some message", "col_b": "another warning"})
         """
-        if not isinstance(warning_messages, dict):
-            raise TypeError("warning_messages must be a dictionary")
-        self.warning_messages = warning_messages
+        if warning_messages is not None and not isinstance(warning_messages, dict):
+            raise TypeError("MF502 warning_messages must be a dictionary")
+        self.warning_messages = warning_messages if warning_messages is not None else {}
     
     def get_person_keys(self):
         """
@@ -148,13 +164,42 @@ class MetaFrame(MultiTable):
         Args:
             person_keys (list): List of person identifier keys.
         
+        Raises:
+            TypeError: If person_keys is not a list.
+        
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
             >>> pt.set_person_keys(["person_id", "user_id"])
         """
-        if not isinstance(person_keys, list):
-            raise TypeError("person_keys must be a list")
-        self.person_keys = person_keys
+        if person_keys is not None and not isinstance(person_keys, list):
+            raise TypeError("MF501 person_keys must be a list of strings")
+        self.person_keys = person_keys if person_keys is not None else []
+    
+    def get_id_group_cd(self):
+        """
+        Get the ID group code.
+        
+        Returns:
+            Optional ID group code.
+        
+        Example:
+            >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
+            >>> id_group_cd = pt.get_id_group_cd()
+        """
+        return self.id_group_cd
+    
+    def set_id_group_cd(self, id_group_cd):
+        """
+        Set the ID group code.
+        
+        Args:
+            id_group_cd: ID group code (can be any type).
+        
+        Example:
+            >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
+            >>> pt.set_id_group_cd("group_001")
+        """
+        self.id_group_cd = id_group_cd
     
     def get_metadata(self):
         """
