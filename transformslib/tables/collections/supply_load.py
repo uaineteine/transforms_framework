@@ -343,6 +343,8 @@ class SupplyLoad(TableCollection):
                 
                 self.tables.append(mt)
                 self.named_tables[row["table_name"]] = mt
+                
+                print(f"Successfully loaded table: {row['table_name']}")
             except Exception as e:
                 print(f"SL200 Error loading {row['table_name']}: {e}")
             
