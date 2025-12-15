@@ -365,7 +365,7 @@ class SupplyLoad(TableCollection):
                     ]
                     self.tables[row["table_name"]].set_warning_messages(warning_subframe)
                 except Exception as e:
-                    print(f"SL300 Warning: Could not set metadata for table '{mt.table_name}': {e}")
+                    print(f"SL300 Warning: Could not set metadata for table '{row['table_name']}': {e}")
             
         except Exception as e:
             print(f"SL010 Could not extract warning messages: {e}")
