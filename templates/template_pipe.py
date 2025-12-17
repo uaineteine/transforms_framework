@@ -310,8 +310,7 @@ if __name__ == "__main__":
     # Can still get metadata programmatically if needed
     print("\nProgrammatic access to metadata:")
     salary_metadata = supply_frames["salary"].get_metadata()
-    print(f"  Salary warning messages: {salary_metadata['warning_messages']}")
-    print(f"  Salary person keys: {salary_metadata['person_keys']}")
+    print(salary_metadata)
     
     # Print info for all tables using TableCollection
     print("\nInfo for all tables via TableCollection.get_info():")

@@ -5,8 +5,10 @@ from transformslib.transforms.pipeevent import PipelineEvent
 from naming_standards import Tablename
 from transformslib import module_version
 
+import pandas as pd
+from tabulate import tabulate
+
 import os
-import re
 from typing import List
 
 #structure type
@@ -42,7 +44,7 @@ class MetaFrame(MultiTable):
         >>> pt.save_events()
     """
 
-    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys:list[str]=None, warning_messages:dict = {}, id_group_cd=None):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys:list[str]=None, warning_messages:pd.DataFrame = None, id_group_cd=None):
         """
         Initialise a MetaFrame with a MultiTable and optional event log.
 
@@ -53,7 +55,7 @@ class MetaFrame(MultiTable):
             inherit_events (List[PipelineEvent], optional): List of events to inherit from
                                  another MetaFrame. Defaults to None.
             person_keys (list[str], optional): List of person identifier keys. Defaults to empty list.
-            warning_messages (dict, optional): Mapping of column names to warning messages. Defaults to empty dict.
+            warning_messages (pd.DataFrame, optional): DataFrame of warning messages. Defaults to None.
             id_group_cd (optional): Optional ID group code. Defaults to None.
 
         Raises:
@@ -126,23 +128,24 @@ class MetaFrame(MultiTable):
         """
         return self.warning_messages
     
-    def set_warning_messages(self, warning_messages: dict):
+    def set_warning_messages(self, warning_messages: pd.DataFrame):
         """
-        Set the warning messages dictionary.
+        Set the warning messages table.
         
         Args:
-            warning_messages (dict): Mapping of column names to warning messages.
+            warning_messages (pd.DataFrame): Table of column names to warning messages.
         
         Raises:
-            TypeError: If warning_messages is not a dictionary.
+            TypeError: If warning_messages is not a pd DataFrame.
         
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
-            >>> pt.set_warning_messages({"col_a": "some message", "col_b": "another warning"})
+            >>> pt.set_warning_messages(pd.DataFrame({"col1": "Warning 1", "col2": "Warning 2"}))
         """
-        if warning_messages is not None and not isinstance(warning_messages, dict):
-            raise TypeError("MF502 warning_messages must be a dictionary")
-        self.warning_messages = warning_messages if warning_messages is not None else {}
+        if warning_messages is not None and not isinstance(warning_messages, pd.DataFrame):
+            raise TypeError("MF502 warning_messages must be a pd DataFrame")
+        def_cols = ["table_name", "column_name", "warning_messages", "processing_comments", "review_comments", "safe_data_comments"]
+        self.warning_messages = warning_messages if warning_messages is not None else pd.DataFrame(columns=def_cols)
     
     def get_person_keys(self):
         """
@@ -207,7 +210,7 @@ class MetaFrame(MultiTable):
         
         Returns:
             dict: A dictionary containing warning_messages and person_keys.
-                - warning_messages (dict): Mapping of column names to warning messages.
+                - warning_messages (pd.DataFrame): Mapping of column names to warning messages.
                 - person_keys (list): List of person identifier keys.
         
         Example:
@@ -218,7 +221,8 @@ class MetaFrame(MultiTable):
         """
         return {
             'warning_messages': self.warning_messages,
-            'person_keys': self.person_keys
+            'person_keys': self.person_keys,
+            'id_group_cd': self.id_group_cd
         }
     
     def info(self):
@@ -227,7 +231,7 @@ class MetaFrame(MultiTable):
         
         Displays:
             - Table name and row count
-            - For each column: name, person key indicator, and warning message (if any)
+            - For each column: name, person key indicator, and warning messages (if any)
         
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
@@ -240,30 +244,15 @@ class MetaFrame(MultiTable):
             age                  |             |
         """
         # Header
-        print(f"\nTable: {self.table_name} ({self.nrow} rows)")
-        print("=" * 100)
-        print(f"{'Column Name':<20} | {'Person Key':<11} | {'Warning Message'}")
-        print("-" * 100)
+        print(f"\nTable: {self.table_name} ({self.nrow} rows) ID Group Code: {self.id_group_cd if self.id_group_cd else 'N/A'}")
         
-        # Rows for each column - handle pipe-delimited warnings
-        for col in self.columns:
-            person_key_flag = "*" if col in self.person_keys else ""
-            warning_msg = self.warning_messages.get(col, "")
-            
-            # Split pipe-delimited warnings and print each on a separate row
-            if warning_msg and "|" in warning_msg:
-                warnings = [w.strip() for w in re.split(r'\|', warning_msg)]
-                # First warning with column name
-                first_warning = warnings[0] if warnings else ""
-                print(f"{col:<20} | {person_key_flag:<11} | {first_warning}")
-                # Remaining warnings without repeating column name
-                for w in warnings[1:]:
-                    print(f"{'':<20} | {'':<11} | {w}")
-            else:
-                # Single warning or no warning
-                print(f"{col:<20} | {person_key_flag:<11} | {warning_msg}")
-        
-        print("=" * 100 + "\n")
+        df_print = self.warning_messages.copy()
+        nrow = df_print.shape[0]
+        if nrow == 0:
+            #get shape from person keys only
+            df_print = pd.DataFrame({'column_name': self.columns})
+        df_print['person_key'] = df_print['column_name'].apply(lambda col: '*' if col in self.person_keys else '')
+        print(tabulate(df_print.values, df_print.columns, tablefmt="pretty", showindex=False))
 
     @staticmethod
     def load(path: str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
