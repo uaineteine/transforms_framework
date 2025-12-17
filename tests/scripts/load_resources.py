@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     set_default_variables()
     set_prodtest_mode("prod")
-    os.environ["TNSFRMS_RES_LOC"] = "../test_tables/resources/{prodtest}"
+    os.environ["TNSFRMS_RES_LOC"] = "../test_tables/resources/{prodtest}/dss_entity_map_view/id_group={id_group}"
 
     print("TEST LOADING ENTITY MAP FOR ID GROUP 1")
 

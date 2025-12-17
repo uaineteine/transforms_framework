@@ -299,19 +299,6 @@ if __name__ == "__main__":
     # -------------------------------
     print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
     
-    # Set metadata on individual tables
-    supply_frames["salary"].set_warning_messages({
-        "income": "Values have been top/bottom coded",
-        "age": "Some age values may be missing"
-    })
-    supply_frames["salary"].set_person_keys(["name", "age"])
-    
-    supply_frames["location"].set_warning_messages({
-        "name": "Contains PII - names have been hashed",
-        "city": "Some city values may be null"
-    })
-    supply_frames["location"].set_person_keys(["name"])
-    
     # Display formatted info for salary table
     print("\nFormatted info for 'salary' table:")
     supply_frames["salary"].info()
