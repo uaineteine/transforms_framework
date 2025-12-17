@@ -371,8 +371,8 @@ class SupplyLoad(TableCollection):
         for _, row in sources.iterrows():
             try:
                 mt = MetaFrame.load(
-                    path=row["paths"],
-                    format=row["formats"],
+                    path=row["table_path"],
+                    format=row["format"],
                     frame_type=engine,
                     spark=spark
                 )
