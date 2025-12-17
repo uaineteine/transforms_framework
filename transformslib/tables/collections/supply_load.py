@@ -181,11 +181,11 @@ def gather_supply_ids(spark=None) -> list[int]:
     
     return ids
 
-def load_data_types() -> pd.DataFrame:
+def load_data_types(spark=None) -> pd.DataFrame:
     """
     Load and return the data types from the pre-transform summary data.
     """
-    col_df = load_column_data()
+    col_df = load_column_data(spark=spark)
     
     #error flags
     if "data_type" not in col_df.columns:
@@ -200,6 +200,31 @@ def load_data_types() -> pd.DataFrame:
         return dt_df
     except Exception as e:
         print(f"SL031 Error in extracting data types: {e}")
+
+def load_person_keys(spark=None) -> pd.DataFrame:
+    """
+    Load and return the person keys from the pre-transform summary data.
+    """
+    sum_df = load_summary_data(spark=spark)
+    
+    #error flags
+    if "person_key" not in sum_df.columns:
+        raise ValueError("SL420 Summary data does not contain required columns for person keys")
+    try:
+        #filter down for target columns, sort by table name
+        pk_df = sum_df.select("table_name", "person_key").distinct()
+        pk_df = pk_df.get_pandas_frame()
+        
+        #remove missing cases
+        pk_df = pk_df[pk_df["person_key"].notnull()]
+        pk_df = pk_df[pk_df["person_key"] != ""]
+        
+        #extract dictionary of table names to person keys
+        pk_dict = pk_df.set_index("table_name")["person_key"].to_dict()
+        
+        return pk_dict
+    except Exception as e:
+        print(f"SL032 Error in extracting person keys: {e}")
 
 class SupplyLoad(TableCollection):
     """
@@ -382,11 +407,11 @@ class SupplyLoad(TableCollection):
             print(f"SL010 Could not extract warning messages: {e}")
         
         print("Transformslib will now attempt to read in the data types...")
-        data_types = load_data_types()
+        data_types = load_data_types(spark=spark)
         print("TODO: schema validation checks against loaded tables with data types")
         
         print("Transformslib will now attempt to read in the list of person keys...")
-        person_keys = load_person_keys()
+        person_keys = load_person_keys(spark=spark)
         if len(person_keys) > 0:
             print("TODO map person keys to tables")
         else:
