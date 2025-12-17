@@ -199,6 +199,26 @@ def gather_supply_ids(spark=None) -> list[int]:
     
     return ids
 
+def load_data_types() -> pd.DataFrame:
+    """
+    Load and return the data types from the pre-transform summary data.
+    """
+    col_df = load_column_data()
+    
+    #error flags
+    if "data_type" not in col_df.columns:
+        raise ValueError("SL410 Column data does not contain required columns for data types")
+
+    try:
+        #filter down for target columns, sort by table name
+        dt_df = col_df.select("table_name", "column_name", "data_type").distinct()
+        dt_df = dt_df.sort("table_name", "column_name")
+        dt_df = dt_df.get_pandas_frame()
+        
+        return dt_df
+    except Exception as e:
+        print(f"SL031 Error in extracting data types: {e}")
+
 class SupplyLoad(TableCollection):
     """
     A specialised collection manager for loading and managing supply data from JSON configuration files.
@@ -380,8 +400,15 @@ class SupplyLoad(TableCollection):
             print(f"SL010 Could not extract warning messages: {e}")
         
         print("Transformslib will now attempt to read in the data types...")
+        data_types = load_data_types()
+        print("TODO: schema validation checks against loaded tables with data types")
         
         print("Transformslib will now attempt to read in the list of person keys...")
+        person_keys = load_person_keys()
+        if len(person_keys) > 0:
+            print("TODO map person keys to tables")
+        else:
+            print("No person keys found in the supply, skipping person key load.")
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
         #ids = gather_supply_ids(spark=spark)
