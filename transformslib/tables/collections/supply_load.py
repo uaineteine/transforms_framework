@@ -142,6 +142,8 @@ def load_table_warnings(spark=None) -> pd.DataFrame:
         #explode the warnings on pipe
         warnings_frame.explode("warning_messages", sep="|", outer=False)
         warnings_frame = warnings_frame.get_pandas_frame()
+        #turn the warning messages into lowercase strings
+        warnings_frame["warning_messages"] = warnings_frame["warning_messages"].astype(str).str.lower()
         # Filter out NULL AND empty strings
         warnings_frame = warnings_frame[
             (warnings_frame["warning_messages"].notnull()) & 
