@@ -360,7 +360,7 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
-        print("Transformslib will not gather the warning messages from the pre-transform column data...")
+        print("Transformslib will now gather the warning messages from the pre-transform column data...")
         try:
             #show warning messages - using pandas for easy display
             warnings_frame = load_table_warnings(spark=spark)
