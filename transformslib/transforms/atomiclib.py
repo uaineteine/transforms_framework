@@ -1776,65 +1776,78 @@ class AttachSynID(TableTransform):
 
 import hmac
 import hashlib
-from pyspark.sql.functions import udf
-from pyspark.sql import DataFrame
-def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFrame:
-    """
-    Apply HMAC hashing to a specified column in a PySpark DataFrame.
+from adaptiveio import textio
+from pyspark.sql.functions import encode, pandas_udf
+from pyspark.sql.types import StringType
 
-    Args:
-        df (DataFrame): The PySpark DataFrame.
-        column (str): The name of the column to hash.
-        salt_key (str): The secret key for HMAC.
-        trunc_length (int): The length to truncate the hash to.
-    Returns:
-        DataFrame: The DataFrame with the hashed column.
-    """
-    def hmac_hash(value: str) -> str:
-        if value is None:
-            return None
-        hmac_obj = hmac.new(salt_key.encode(), value.encode(), hashlib.sha256)
-        return hmac_obj.hexdigest()[:trunc_length]
+# TEMPORARY CODE FOLLOWS
+def load_key():
 
-    hmac_udf = udf(hmac_hash)
+    KEY_LOCATION = os.environ.get("TNSFRMS_HMACKEY_LOC")
+    try:
+        current_engine = get_engine()
+        if current_engine == "pyspark":
+            current_spark = get_spark()
+            raw_key = textio.read_raw_text(KEY_LOCATION, spark=current_spark)
+        else:
+            raw_key = textio.read_raw_text(KEY_LOCATION)
+            
+        encoded_key = raw_key.encode('utf-8')
+        error = None
+    except Exception as e:
+        encoded_key = ""
+        error = e
 
-    return df.withColumn(column, hmac_udf(df[column]))
+    return (encoded_key, error)
+# END TEMPORARY CODE
 
 class ApplyHMAC(TableTransform):
     """
-    Transform class to apply specific HMAC hashing to a specified column using a secret key.
+    Transform class to apply specific HMAC hashing to a specified column using a secret (hardcoded) key.
     """
 
-    def __init__(self, column:str, trunclength:int):
+    def __init__(self, columns:list, trunc_length:int=24, preserve_original_cols:bool=True):
         """
         Initialise an HMAC transform.
 
         Args:
-            column (str): The name of the column to hash.
+            columns (list): The names of the columns to hash.
+            trunc_length (int): To what string length the column should be truncated; default 24.
+            preserve_original_cols (bool): Whether or not to keep the original, unhashed columns; default True.
         """
 
         super().__init__(
             "ApplyHMAC",
             f"Applies HMAC hashing to given variables",
-            [column],
+            [*columns],
             "HMACHash",
             testable_transform=True
         )
-        self.columns_to_hash = [column]
+        self.columns_to_hash = columns
+        self.length = trunc_length
+        self.preserve_original_cols = preserve_original_cols
 
     def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
-        Validate that at least one target column exists in the table.
+        Validate that at least one target column exists in the table and the key was successfully read and encoded.
         """
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL753 Must specify 'df' parameter with table name")
 
         # Filter to only columns that exist
         self.existing_columns = [col for col in self.columns_to_hash if col in supply_frames[table_name].columns]
         
         if not self.existing_columns:
-            raise ValueError(f"None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
+            raise ValueError(f"AL752 None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
+
+        (test_key, error) = load_key()
+        # Check for valid key
+        if test_key == "" and error:
+            raise ValueError(f"AL750 No valid hash key provided, error was: {error}")
+
+        if test_key == "" and not error:
+            raise ValueError("AL751 No valid hash key was found and there was no error logged")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
@@ -1842,25 +1855,64 @@ class ApplyHMAC(TableTransform):
         """
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
-        key = kwargs.get("hmac_key")
+        (bytekey, error) = load_key()
+
+        def hmac_and_truncate_value(col:pd.Series, bytekey, length):
+            return col.apply(
+                lambda x: hmac.new(bytekey, x, hashlib.sha256).hexdigest()[:length].upper() if pd.notnull(x) else ""
+            )
+
+        hash_udf = pandas_udf(lambda x: hmac_and_truncate_value(x, bytekey, length=self.length), StringType())
+
+        # List of variables
+        tlist = self.target_variables.overlap(supply_frames[table_name].columns)
 
         if backend == "pyspark":
-            for column in self.existing_columns:
-                supply_frames[table_name].df = apply_hmac_spark(
-                    supply_frames[table_name].df,
+            output_cols = []
+            
+            for column in tlist:
+                dtype = supply_frames[table_name].df.schema[column].dataType
+
+                if self.preserve_original_cols:
+                    new_col_name = f"{column}_HASH"
+                    supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                        new_col_name,
+                        col(column)
+                    )
+                    column = new_col_name
+
+                if dtype != StringType():
+                    supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                        column,
+                        col(column).cast(StringType())
+                    )
+
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
                     column,
-                    key,
-                    trunc_length=16
+                    when(trim(col(column)) == "", None).otherwise(col(column))
                 )
+
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    column,
+                    encode(trim(col(column)), "UTF-8")
+                )
+                
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    column,
+                    hash_udf(col(column))
+                )
+
+                output_cols.append(column)
         else:
             raise NotImplementedError(f"HMAC hash not implemented for backend '{backend}'")
 
         # Log event
+        self.hashed_variables = tlist
         self.log_info = TransformEvent(
             input_tables=[table_name],
             output_tables=[table_name],
-            input_variables=self.existing_columns,
-            output_variables=self.existing_columns,
+            input_variables=self.columns_to_hash,
+            output_variables=output_cols,
         )
         supply_frames[table_name].add_event(self)
 
