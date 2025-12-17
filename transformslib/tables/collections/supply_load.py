@@ -251,7 +251,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True, ent_keys:dict={}):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -266,6 +266,7 @@ class SupplyLoad(TableCollection):
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
+            ent_keys (dict): Dictionary of entity keys for loading the entity map.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -313,9 +314,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        names_of_loaded = self.load_supplies()
+        names_of_loaded = self.load_supplies(ent_keys)
 
-    def load_supplies(self) -> list[str]:
+    def load_supplies(self, ent_keys: dict) -> list[str]:
         """
         Load supply data from the JSON configuration file.
 
@@ -323,7 +324,10 @@ class SupplyLoad(TableCollection):
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
-            
+        
+        Args:
+            ent_keys (dict): Dictionary of entity keys for loading the entity map.
+        
         Returns:
             List[str]: A list of names of the loaded tables.
 
@@ -350,21 +354,6 @@ class SupplyLoad(TableCollection):
                 col_df, sum_df = load_pre_transform_data(spark=spark)
             except FileNotFoundError:
                 raise FileNotFoundError(f"SL003 Pre-transform delta tables not found for job {self.job} run {self.run}")
-            
-            #get distinct list of ids
-            ids = []
-            try:
-                ids = sum_df.copy()
-                #ids.show()
-                if "id_group_cd" in ids.columns:
-                    ids = ids.select("id_group_cd").distinct()
-                    #convert to pandas an extract the list
-                    ids = ids.get_pandas_frame()
-                    ids = ids["id_group_cd"].tolist()
-                else:
-                    raise ValueError("SL950 ERROR there is no id_group_cd column in table summary data")
-            except Exception as e:
-                print(f"SL951 {e}")
             
             paths_info = sum_df.copy()
             if "format" in sum_df.columns:
@@ -459,10 +448,12 @@ class SupplyLoad(TableCollection):
         print("")
         print(f"Successfully loaded {len(self.tables)} tables")
         
-        if len(ids) > 0:
+        if len(ent_keys) > 0:
             print("")
             print("Loading the entity map...")
-            ent_map = load_ent_map(ids)
+            vals = list(ent_keys.values())
+            #print(vals)
+            ent_map = load_ent_map(vals)
             self.tables.append(ent_map)
             self.named_tables[ent_map.table_name] = ent_map 
         
