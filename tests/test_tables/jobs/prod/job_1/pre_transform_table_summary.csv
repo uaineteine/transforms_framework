@@ -1,8 +1,8 @@
-﻿run_id,job_id,environment,table_path,timestamp,table_name,total_columns,format,person key,msg1,msg2,mgs3,id_group_cd
-1,1,test,"../tests/test_tables/jobs/prod/job_1/array_like.csv",2025-10-23T10:27:17.391,array_like,3,csv,var1,msg1row1,msg2row1,msg3row1,1
-1,1,test,"../tests/test_tables/jobs/prod/job_1/date_table.csv",2025-10-23T10:27:17.391,date_table,3,csv,id,msg1row2,msg2row2,msg3row2,1
-1,1,test,"../tests/test_tables/jobs/prod/job_1/decimal_table.csv",2025-10-23T10:27:17.391,decimal_table,3,csv,value1,msg1row3,msg2row3,msg3row3,1
-1,1,test,"../tests/test_tables/jobs/prod/job_1/location.csv",2025-10-23T10:27:17.391,location,4,csv,name,msg1row4,msg2row4,msg3row4,1
-1,1,test,"../tests/test_tables/jobs/prod/job_1/positions.csv",2025-10-23T10:27:17.391,positions,5,csv,name,msg1row5,msg2row5,msg3row5,1
-1,1,test,"../tests/test_tables/jobs/prod/job_1/salary.csv",2025-10-23T10:27:17.391,salary,3,csv,name,msg1row6,msg2row6,msg3row6,2
-1,1,test,"../tests/test_tables/jobs/prod/job_1/state.csv",2025-10-23T10:27:17.391,state,2,csv,,msg1row7,msg2row7,msg3row7,1
+﻿run_id,job_id,environment,table_path,timestamp,table_name,total_columns,format,person_key,id_group_cd
+1,1,test,"../tests/test_tables/jobs/prod/job_1/array_like.csv",2025-10-23T10:27:17.391,array_like,3,csv,var1,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/date_table.csv",2025-10-23T10:27:17.391,date_table,3,csv,id,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/decimal_table.csv",2025-10-23T10:27:17.391,decimal_table,3,csv,value1,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/location.csv",2025-10-23T10:27:17.391,location,4,csv,name,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/positions.csv",2025-10-23T10:27:17.391,positions,5,csv,name,2
+1,1,test,"../tests/test_tables/jobs/prod/job_1/state.csv",2025-10-23T10:27:17.391,state,2,csv,,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/salary.csv",2025-10-23T10:27:17.391,salary,3,csv,id,1

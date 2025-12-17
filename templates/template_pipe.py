@@ -65,8 +65,10 @@ if __name__ == "__main__":
     set_job_id(job_id, new_run_id=run_id, mode="prod")
 
     clear_last_run()
-    
-    supply_frames = SupplyLoad() #sample_rows=xyz
+
+    ent_keys = {"name":1, "id":2}
+
+    supply_frames = SupplyLoad(ent_keys=ent_keys) #sample_rows=xyz
     
     listatomic()
 
@@ -297,33 +299,18 @@ if __name__ == "__main__":
     # -------------------------------
     print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
     
-    # Set metadata on individual tables
-    supply_frames["salary"].set_warning_messages({
-        "income": "Values have been top/bottom coded",
-        "age": "Some age values may be missing"
-    })
-    supply_frames["salary"].set_person_keys(["name", "age"])
+    # Display formatted info for salary table
+    print("\nFormatted info for 'salary' table:")
+    supply_frames["salary"].info()
     
-    supply_frames["location"].set_warning_messages({
-        "name": "Contains PII - names have been hashed",
-        "city": "Some city values may be null"
-    })
-    supply_frames["location"].set_person_keys(["name"])
+    # Display formatted info for location table
+    print("\nFormatted info for 'location' table:")
+    supply_frames["location"].info()
     
-    # Retrieve metadata from a specific table
-    print("\nMetadata for 'salary' table:")
-    salary_info = supply_frames["salary"].info()
-    print(f"  Warning messages: {salary_info['warning_messages']}")
-    print(f"  Person keys: {salary_info['person_keys']}")
-    
-    # Retrieve metadata from all tables using TableCollection
-    print("\nMetadata for all tables:")
-    all_info = supply_frames.get_info()
-    for table_name, info in all_info.items():
-        if info['warning_messages'] or info['person_keys']:
-            print(f"\n  Table: {table_name}")
-            print(f"    Warning messages: {info['warning_messages']}")
-            print(f"    Person keys: {info['person_keys']}")
+    # Print info for all tables using TableCollection
+    print("-------------------------------")
+    print("\nInfo for all tables via TableCollection.get_info():")
+    supply_frames.get_info()
     
     # -------------------------------
     # Repeated tests to continue
