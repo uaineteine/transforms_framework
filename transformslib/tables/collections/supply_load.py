@@ -251,7 +251,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True, ent_keys:dict):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True, ent_keys:dict={}):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -451,7 +451,9 @@ class SupplyLoad(TableCollection):
         if len(ent_keys) > 0:
             print("")
             print("Loading the entity map...")
-            ent_map = load_ent_map(ent_keys.values())
+            vals = list(ent_keys.values())
+            #print(vals)
+            ent_map = load_ent_map(vals)
             self.tables.append(ent_map)
             self.named_tables[ent_map.table_name] = ent_map 
         
