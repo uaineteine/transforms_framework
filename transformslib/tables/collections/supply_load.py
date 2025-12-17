@@ -120,7 +120,7 @@ def load_table_warnings(spark=None) -> pd.DataFrame:
         col_df = load_column_data(spark=spark)
         
         #show warning messages - using pandas for easy display
-        warnings_frame = col_df.select("table_name", "column_name", "warning_messages")
+        warnings_frame = col_df.select("table_name", "column_name", "warning_messages", "processing_comments", "review_comments", "safe_data_comments")
         warnings_frame = warnings_frame.distinct()
         #explode the warnings on pipe
         warnings_frame.explode("warning_messages", sep="|", outer=False)
