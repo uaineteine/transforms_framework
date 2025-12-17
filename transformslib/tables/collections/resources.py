@@ -87,6 +87,10 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
     else:
         df = load_specific_ent_map(id_groups[0])
 
+    #deduplicate the entity map
     df.distinct()
+
+    #rename the entity map
+    df.table_name = "entity_map"
     
     return MetaFrame(df)

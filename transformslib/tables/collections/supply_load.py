@@ -239,7 +239,7 @@ class SupplyLoad(TableCollection):
         >>> supply_loader.save_events()
     """
     
-    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True):
+    def __init__(self, sample_frac: float = None, sample_rows: int = None, seed: int = None, enable_schema_validation: bool = True, ent_keys:dict={}):
         """
         Initialise a SupplyLoad instance with a JSON configuration file.
 
@@ -254,6 +254,7 @@ class SupplyLoad(TableCollection):
             enable_schema_validation (bool, optional): Enable schema validation for new sampling system. 
                                                      Only applies when run_id is None (new system).
                                                      Defaults to True.
+            ent_keys (dict): Dictionary of entity keys for loading the entity map.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -299,9 +300,9 @@ class SupplyLoad(TableCollection):
             self.sample_rows = None
             self.seed = seed
 
-        self.load_supplies()
+        self.load_supplies(ent_keys)
 
-    def load_supplies(self):
+    def load_supplies(self, ent_keys:dict={}):
         """
         Load supply data from the JSON configuration file.
 
@@ -309,6 +310,12 @@ class SupplyLoad(TableCollection):
         configuration file and creates MetaFrame instances for each supply item. It validates that each 
         supply item has the required fields, loads the data using the specified format and path, and 
         optionally applies sampling. For the new sampling system, schema validation is performed if enabled.
+        
+        Args:
+            ent_keys (dict): Dictionary of entity keys for loading the entity map.
+        
+        Returns:
+            List[str]: A list of names of the loaded tables.
 
         Raises:
             FileNotFoundError: If the JSON configuration file doesn't exist.
@@ -375,11 +382,14 @@ class SupplyLoad(TableCollection):
         print("Transformslib will now attempt to read in the list of person keys...")
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
-        ids = gather_supply_ids(spark=spark)
-        if len(ids) > 0:
+        #ids = gather_supply_ids(spark=spark)
+        #if len(ids) > 0:
+        if len(ent_keys) > 0:
             print("")
             print("Loading the entity map...")
-            ent_map = load_ent_map(ids)
+            vals = list(ent_keys.values())
+            #print(vals)
+            ent_map = load_ent_map(vals)
             self.tables.append(ent_map)
             self.named_tables[ent_map.table_name] = ent_map 
         else:
