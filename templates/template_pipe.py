@@ -65,8 +65,10 @@ if __name__ == "__main__":
     set_job_id(job_id, new_run_id=run_id, mode="prod")
 
     clear_last_run()
-    
-    supply_frames = SupplyLoad() #sample_rows=xyz
+
+    ent_keys = {"name":1, "id":2}
+
+    supply_frames = SupplyLoad(ent_keys=ent_keys) #sample_rows=xyz
     
     listatomic()
 

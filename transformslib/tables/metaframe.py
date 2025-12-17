@@ -202,7 +202,7 @@ class MetaFrame(MultiTable):
         
         # Rows for each column - handle pipe-delimited warnings
         for col in self.columns:
-            person_key_flag = "DETECTED" if col in self.person_keys else ""
+            person_key_flag = "*" if col in self.person_keys else ""
             warning_msg = self.warning_messages.get(col, "")
             
             # Split pipe-delimited warnings and print each on a separate row
