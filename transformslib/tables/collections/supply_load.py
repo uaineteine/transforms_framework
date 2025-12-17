@@ -422,8 +422,8 @@ class SupplyLoad(TableCollection):
             #filter the entity map for the right columns
             for tbl_name, tbl in self.named_tables.items():
                 for ent_key, ent_id in ent_keys.items():
-                    print(ent_key)
-                    print(tbl_name)
+                    #print(ent_key)
+                    #print(tbl_name)
                     #print(self.tables[tbl_name].columns)
                     #if the entity key exists in the table, add the id group
                     if ent_key in self.named_tables[tbl_name].columns:
