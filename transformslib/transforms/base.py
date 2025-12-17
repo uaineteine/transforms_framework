@@ -244,6 +244,12 @@ class Transform(PipelineEvent):
         self.transform_error_check_time = tec.elapsed
         self.transform_application_time = ttrnfms.elapsed
 
+        #aggregate execution times
+        self.transform_total_time = self.transform_error_check_time + self.transform_application_time
+        if self.testable_transform:
+            self.transform_total_time = self.transform_total_time + self.transform_test_time
+
+
         self.log(spark=spark)
 
         return result_df

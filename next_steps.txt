@@ -1,0 +1,11 @@
+Profiling reports can just be deferred to the worm for this
+
+Template can show 4.x for each of the tables we need to process, 5-7 for saving and such.
+Update this template to really display the information we need.
+
+pre-populated for transforms
+call transforms that table
+
+save_all at the end of the spark
+
+sample_row in worm - get it all going.
