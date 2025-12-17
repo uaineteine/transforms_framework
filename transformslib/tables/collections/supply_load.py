@@ -409,24 +409,34 @@ class SupplyLoad(TableCollection):
         data_types = load_data_types(spark=spark)
         print("TODO: schema validation checks against loaded tables with data types")
         
-        print("Transformslib will now attempt to read in the list of person keys...")
-        person_keys = load_person_keys(spark=spark)
-        if len(person_keys) > 0:
-            print("TODO map person keys to tables")
-        else:
-            print("No person keys found in the supply, skipping person key load.")
+        #print("Transformslib will now attempt to read in the list of person keys...")
+        #person_keys = load_person_keys(spark=spark)
+        #if len(person_keys) > 0:
+        #    print("TODO map person keys to tables")
+        #else:
+        #    print("No person keys found in the supply, skipping person key load.")
         
         print("Transformslib will now attempt to read in the list of known entity ids...")
-        #ids = gather_supply_ids(spark=spark)
-        #if len(ids) > 0:
+        #ids = gather_supply_ids(spark=spark)\
         if len(ent_keys) > 0:
+            #filter the entity map for the right columns
+            for tbl_name, tbl in self.named_tables.items():
+                for ent_key, ent_id in ent_keys.items():
+                    print(ent_key)
+                    print(tbl_name)
+                    #print(self.tables[tbl_name].columns)
+                    #if the entity key exists in the table, add the id group
+                    if ent_key in self.named_tables[tbl_name].columns:
+                        self.named_tables[tbl_name].set_id_group_cd(ent_id)
+                        print(f"Set id_group_cd {ent_id} for entity key '{ent_key}' in table '{tbl_name}'")
+            
             print("")
             print("Loading the entity map...")
             vals = list(ent_keys.values())
             #print(vals)
             ent_map = load_ent_map(vals)
             self.tables.append(ent_map)
-            self.named_tables[ent_map.table_name] = ent_map 
+            self.named_tables[ent_map.table_name] = ent_map
         else:
             print("No entity map IDs found in the supply, skipping entity map load.")
         
