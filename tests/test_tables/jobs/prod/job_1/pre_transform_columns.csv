@@ -7,3 +7,7 @@
 1,1,test,positions,Title,Title,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,warning12 | warning 14 | warning 18,
 1,1,test,state,Director,Director,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning, warning11 | warning 4, warning 111,
 1,1,test,state,Cast,Cast,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,,
+1,1,test,location,name,The name of the person,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,,
+1,1,test,decimal_table,value1,some col1,String,,,,
+1,1,test,decimal_table,value2,some col2,String,,,,
+1,1,test,decimal_table,value3,some col3,String,,,,

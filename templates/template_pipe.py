@@ -307,12 +307,8 @@ if __name__ == "__main__":
     print("\nFormatted info for 'location' table:")
     supply_frames["location"].info()
     
-    # Can still get metadata programmatically if needed
-    print("\nProgrammatic access to metadata:")
-    salary_metadata = supply_frames["salary"].get_metadata()
-    print(salary_metadata)
-    
     # Print info for all tables using TableCollection
+    print("-------------------------------")
     print("\nInfo for all tables via TableCollection.get_info():")
     supply_frames.get_info()
     
