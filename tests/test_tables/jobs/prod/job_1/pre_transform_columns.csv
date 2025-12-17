@@ -1,19 +1,13 @@
-﻿run_id,job_id,environment,table_name,column_name,description,data_type,warning_messages
-1,1,test,DCSKINPRODUCT,ProductKey,ProductKey,String,
-1,1,test,DCSKINPRODUCT,DistributionCenter,DistributionCenter,String,
-1,1,test,DCSKINPRODUCT,DATE,DATE,String,[SCHEMA] Column found in schema with description but data type mismatch | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,DCSKINPRODUCT,Discount,Discount,String,[SCHEMA] Column found in schema with description but data type mismatch | [SCHEMA] Numeric column has non-numeric data type | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,DCSKINPRODUCT,Revenue,Revenue,String,[SCHEMA] Column found in schema with description but data type mismatch | [SCHEMA] Numeric column has non-numeric data type | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,DCSKINPRODUCT,worm_id_mod,,Int64,
-1,1,test,netflix,Show_Id,Show_Id,String,
-1,1,test,netflix,Category,Category,String,
-1,1,test,netflix,Title,Title,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,netflix,Director,Director,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,netflix,Cast,Cast,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,netflix,Country,Country,String,
-1,1,test,netflix,Release_Date,Release_Date,String,
-1,1,test,netflix,Rating,Rating,String,
-1,1,test,netflix,Duration,Duration,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,netflix,Type,Type,String,
-1,1,test,netflix,Description,Description,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning
-1,1,test,netflix,worm_id_mod,,UInt64,
+﻿run_id,job_id,environment,table_name,column_name,description,data_type,warning_messages,processing_comments,review_comments,safe_data_comments
+1,1,test,salary,salary,The income for the person,String,,msg1row1,msg2row1,msg3row1
+1,1,test,salary,name,The person name,String,,msg1row2,msg2row2,msg3row2
+1,1,test,salary,age,The person age,String,[SCHEMA] Column found in schema with description but data type mismatch | [ALL] No all_pass rules matched - using default status: warning,msg1row3,msg2row3,msg3row3
+1,1,test,array_like,Show_Id,Show_Id,String,,,,
+1,1,test,positions,Category,Category,String,,,,
+1,1,test,positions,Title,Title,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,warning12 | warning 14 | warning 18,
+1,1,test,state,Director,Director,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning, warning11 | warning 4, warning 111,
+1,1,test,state,Cast,Cast,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,,
+1,1,test,location,name,The name of the person,String,[UNIQUE] Free text or array category requires manual review | [ALL] No all_pass rules matched - using default status: warning,,,
+1,1,test,decimal_table,value1,some col1,String,,,,
+1,1,test,decimal_table,value2,some col2,String,,,,
+1,1,test,decimal_table,value3,some col3,String,,,,

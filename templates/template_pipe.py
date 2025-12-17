@@ -65,8 +65,10 @@ if __name__ == "__main__":
     set_job_id(job_id, new_run_id=run_id, mode="prod")
 
     clear_last_run()
-    
-    supply_frames = SupplyLoad() #sample_rows=xyz
+
+    ent_keys = {"name":1, "id":2}
+
+    supply_frames = SupplyLoad(ent_keys=ent_keys) #sample_rows=xyz
     
     listatomic()
 
@@ -293,10 +295,28 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
+    # Test 21: MetaFrame Metadata Tracking
+    # -------------------------------
+    print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
+    
+    # Display formatted info for salary table
+    print("\nFormatted info for 'salary' table:")
+    supply_frames["salary"].info()
+    
+    # Display formatted info for location table
+    print("\nFormatted info for 'location' table:")
+    supply_frames["location"].info()
+    
+    # Print info for all tables using TableCollection
+    print("-------------------------------")
+    print("\nInfo for all tables via TableCollection.get_info():")
+    supply_frames.get_info()
+    
+    # -------------------------------
     # Repeated tests to continue
     # -------------------------------
 
-    print("example of final table going through some tests")
+    print("\nexample of final table going through some tests")
     join_transform = JoinTable(
         left_table="location",
         right_table="state",
