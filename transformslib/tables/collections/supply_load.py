@@ -152,7 +152,6 @@ def get_supply_srcs(spark=None) -> pd.DataFrame:
     try:
         #filter down for target columns, sort by table name
         sum_df = sum_df.select("table_name", "table_path", "format").distinct()
-        sum_df = sum_df.sort("table_name")
         sum_df = sum_df.get_pandas_frame()
         
         return sum_df
@@ -363,7 +362,7 @@ class SupplyLoad(TableCollection):
         print("Transformslib will now attempt to read in the table sources from the pre-transform summary data...")
         sources = get_supply_srcs(spark=spark)
         print("Transformslib has successfully read in the table sources.")
-        print(tabulate(sources, tablefmt='pretty', showindex=False))
+        print(tabulate(sources.values, sources.columns, tablefmt='pretty', showindex=False))
         
         print("Transformslib will now attempt to load each table in this supply...")
         
