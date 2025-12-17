@@ -1,5 +1,6 @@
 import os
 from typing import Dict, Any
+import pandas as pd
 from transformslib.engine import get_engine, get_spark, detect_if_dbutils_available
 from tabulate import tabulate
 from multitable import MultiTable, SchemaValidator
@@ -84,22 +85,18 @@ def get_run_state() -> str:
 
     return path
 
-def extract_table_metadata(col_df: MultiTable, sum_df: MultiTable, table_name: str) -> tuple[dict, list]:
+def extract_warning_messages_frame(col_df: MultiTable, table_name: str) -> pd.DataFrame:
     """
-    Extract warning messages and person keys for a specific table from metadata DataFrames.
+    Extract warning messages for a specific table as a pandas DataFrame.
     
     Args:
         col_df: Column metadata DataFrame with columns: table_name, column_name, warning_messages
-        sum_df: Table summary DataFrame with columns: table_name, person key
         table_name: Name of the table to extract metadata for
     
     Returns:
-        tuple: (warning_messages_dict, person_keys_list)
-            - warning_messages_dict: {column_name: warning_message_string}
-            - person_keys_list: [person_key_column_name] or []
+        pd.DataFrame: DataFrame with 'column_name' and 'warning_message' columns.
     """
-    # Extract warning messages for this table
-    warning_messages = {}
+    warning_messages_df = pd.DataFrame(columns=['column_name', 'warning_message'])
     try:
         # Filter col_df for this table
         table_cols = col_df.copy()
@@ -112,18 +109,39 @@ def extract_table_metadata(col_df: MultiTable, sum_df: MultiTable, table_name: s
             col_with_table_pd = col_with_table.get_pandas_frame()
             table_cols_pd = col_with_table_pd[col_with_table_pd["table_name"] == table_name]
         
-        # Build dict of column_name: warning_messages (keep pipe-delimited string)
+        # Build DataFrame rows from column warnings
+        rows = []
         for _, row in table_cols_pd.iterrows():
             col_name = row["column_name"]
             warnings = row["warning_messages"]
             # Only add if warnings exist and are not empty
             if warnings and str(warnings).strip() and str(warnings) != "nan":
-                warning_messages[col_name] = str(warnings)
+                # Split pipe-delimited warnings into separate rows
+                for warning in str(warnings).split("|"):
+                    warning = warning.strip()
+                    if warning:
+                        rows.append({'column_name': col_name, 'warning_message': warning})
+        
+        if rows:
+            warning_messages_df = pd.DataFrame(rows)
     except Exception as e:
         print(f"SL301 Warning: Could not extract warning messages for table '{table_name}': {e}")
     
-    # Extract person keys for this table
-    person_keys = []
+    return warning_messages_df
+
+
+def extract_person_keys_frame(sum_df: MultiTable, table_name: str) -> pd.DataFrame:
+    """
+    Extract person keys for a specific table as a pandas DataFrame.
+    
+    Args:
+        sum_df: Table summary DataFrame with columns: table_name, person key
+        table_name: Name of the table to extract metadata for
+    
+    Returns:
+        pd.DataFrame: DataFrame with 'person_key' column containing person key column names.
+    """
+    person_keys_df = pd.DataFrame(columns=['person_key'])
     try:
         # Filter sum_df for this table
         if "person key" in sum_df.columns:
@@ -135,11 +153,92 @@ def extract_table_metadata(col_df: MultiTable, sum_df: MultiTable, table_name: s
                 person_key = table_row.iloc[0]["person key"]
                 # Only add if person_key exists and is not empty
                 if person_key and str(person_key).strip() and str(person_key) != "nan":
-                    person_keys = [str(person_key)]
+                    person_keys_df = pd.DataFrame({'person_key': [str(person_key)]})
     except Exception as e:
         print(f"SL302 Warning: Could not extract person keys for table '{table_name}': {e}")
     
-    return warning_messages, person_keys
+    return person_keys_df
+
+
+def parse_person_keys_to_list(person_keys_df: pd.DataFrame) -> list:
+    """
+    Parse a person keys DataFrame to a list of strings.
+    
+    Args:
+        person_keys_df: DataFrame with 'person_key' column
+    
+    Returns:
+        list: List of person key column names
+    """
+    if person_keys_df.empty:
+        return []
+    return person_keys_df['person_key'].tolist()
+
+
+def extract_data_types_frame(col_df: MultiTable, table_name: str) -> pd.DataFrame:
+    """
+    Extract data type information for a specific table as a pandas DataFrame.
+    
+    Args:
+        col_df: Column metadata DataFrame with columns: table_name, column_name, data_type
+        table_name: Name of the table to extract data types for
+    
+    Returns:
+        pd.DataFrame: DataFrame with 'column_name' and 'data_type' columns.
+    """
+    print("TODO: Placeholder for loading data types")
+    data_types_df = pd.DataFrame(columns=['column_name', 'data_type'])
+    try:
+        # Filter col_df for this table
+        if "data_type" in col_df.columns:
+            table_cols = col_df.copy()
+            table_cols = table_cols.select("column_name", "data_type")
+            table_cols_pd = table_cols.get_pandas_frame()
+            
+            # Filter by table name if we have it in the dataframe
+            if "table_name" in col_df.columns:
+                col_with_table = col_df.select("table_name", "column_name", "data_type")
+                col_with_table_pd = col_with_table.get_pandas_frame()
+                table_cols_pd = col_with_table_pd[col_with_table_pd["table_name"] == table_name]
+            
+            # Build DataFrame rows
+            rows = []
+            for _, row in table_cols_pd.iterrows():
+                col_name = row["column_name"]
+                data_type = row["data_type"]
+                if col_name and str(col_name).strip():
+                    rows.append({'column_name': col_name, 'data_type': str(data_type) if data_type else ''})
+            
+            if rows:
+                data_types_df = pd.DataFrame(rows)
+    except Exception as e:
+        print(f"SL303 Warning: Could not extract data types for table '{table_name}': {e}")
+    
+    return data_types_df
+
+
+def extract_table_metadata(col_df: MultiTable, sum_df: MultiTable, table_name: str) -> tuple[pd.DataFrame, list]:
+    """
+    Extract warning messages and person keys for a specific table from metadata DataFrames.
+    
+    Args:
+        col_df: Column metadata DataFrame with columns: table_name, column_name, warning_messages
+        sum_df: Table summary DataFrame with columns: table_name, person key
+        table_name: Name of the table to extract metadata for
+    
+    Returns:
+        tuple: (warning_messages_df, person_keys_list)
+            - warning_messages_df: pd.DataFrame with 'column_name' and 'warning_message' columns
+            - person_keys_list: [person_key_column_name] or []
+    """
+    # Extract warning messages as DataFrame
+    warning_messages_df = extract_warning_messages_frame(col_df, table_name)
+    
+    # Extract person keys as DataFrame and parse to list
+    person_keys_df = extract_person_keys_frame(sum_df, table_name)
+    person_keys_list = parse_person_keys_to_list(person_keys_df)
+    
+    return warning_messages_df, person_keys_list
 
 def load_pre_transform_data(spark=None) -> list[MultiTable]:
     """
@@ -442,13 +541,29 @@ class SupplyLoad(TableCollection):
                 
                 # Extract and set metadata from pre-transform data
                 try:
-                    warnings_dict, person_keys_list = extract_table_metadata(col_df, sum_df, t)
-                    if warnings_dict:
-                        mt.set_warning_messages(warnings_dict)
+                    warnings_df, person_keys_list = extract_table_metadata(col_df, sum_df, t)
+                    if not warnings_df.empty:
+                        mt.set_warning_messages(warnings_df)
                     if person_keys_list:
                         mt.set_person_keys(person_keys_list)
                 except Exception as e:
                     print(f"SL300 Warning: Could not set metadata for table '{t}': {e}")
+                
+                print("Transformslib will now attempt to read in the data types...")
+                try:
+                    data_types_df = extract_data_types_frame(col_df, t)
+                    # TODO: Placeholder for setting data types on MetaFrame
+                except Exception as e:
+                    print(f"SL304 Warning: Could not extract data types for table '{t}': {e}")
+                
+                print("Transformslib will now attempt to read in the list of person keys...")
+                try:
+                    person_keys_df = extract_person_keys_frame(sum_df, t)
+                    person_keys_list = parse_person_keys_to_list(person_keys_df)
+                    if person_keys_list:
+                        mt.set_person_keys(person_keys_list)
+                except Exception as e:
+                    print(f"SL305 Warning: Could not set person keys for table '{t}': {e}")
                 
                 self.tables.append(mt)
                 self.named_tables[t] = mt

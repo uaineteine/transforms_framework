@@ -8,6 +8,8 @@ from transformslib import module_version
 import os
 import re
 from typing import List
+import pandas as pd
+from tabulate import tabulate
 
 #structure type
 class Meta:
@@ -42,7 +44,7 @@ class MetaFrame(MultiTable):
         >>> pt.save_events()
     """
 
-    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys = list[str], warning_messages:dict = {}, id_group_cd=None):
+    def __init__(self, MultiTable: MultiTable, inherit_events: List[PipelineEvent] = None, person_keys: list = None, warning_messages: pd.DataFrame = None, id_group_cd=None):
         """
         Initialise a MetaFrame with a MultiTable and optional event log.
 
@@ -53,7 +55,7 @@ class MetaFrame(MultiTable):
             inherit_events (List[PipelineEvent], optional): List of events to inherit from
                                  another MetaFrame. Defaults to None.
             person_keys (list[str], optional): List of person identifier keys. Defaults to empty list.
-            warning_messages (dict, optional): Mapping of column names to warning messages. Defaults to empty dict.
+            warning_messages (pd.DataFrame, optional): DataFrame with 'column_name' and 'warning_message' columns. Defaults to None.
             id_group_cd (optional): Optional ID group code. Defaults to None.
 
         Raises:
@@ -73,12 +75,12 @@ class MetaFrame(MultiTable):
 
         # Metadata for data quality and person tracking
         # Initialize attributes using setter methods for validation
-        self.warning_messages = {}  # Initialize empty, then use setter
+        self.warning_messages = pd.DataFrame(columns=['column_name', 'warning_message'])  # Initialize empty DataFrame
         self.person_keys = []  # Initialize empty, then use setter
         self.id_group_cd = None  # Initialize empty, then use setter
         
         # Use setters to apply validation
-        if warning_messages:
+        if warning_messages is not None and not warning_messages.empty:
             self.set_warning_messages(warning_messages)
         if person_keys:
             self.set_person_keys(person_keys)
@@ -115,10 +117,10 @@ class MetaFrame(MultiTable):
 
     def get_warning_messages(self):
         """
-        Get the warning messages dictionary.
+        Get the warning messages DataFrame.
         
         Returns:
-            dict: Mapping of column names to warning messages.
+            pd.DataFrame: DataFrame with 'column_name' and 'warning_message' columns.
         
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
@@ -126,23 +128,29 @@ class MetaFrame(MultiTable):
         """
         return self.warning_messages
     
-    def set_warning_messages(self, warning_messages: dict):
+    def set_warning_messages(self, warning_messages: pd.DataFrame):
         """
-        Set the warning messages dictionary.
+        Set the warning messages DataFrame.
         
         Args:
-            warning_messages (dict): Mapping of column names to warning messages.
+            warning_messages (pd.DataFrame): DataFrame with 'column_name' and 'warning_message' columns.
         
         Raises:
-            TypeError: If warning_messages is not a dictionary.
+            TypeError: If warning_messages is not a pandas DataFrame.
+            ValueError: If DataFrame is missing required columns.
         
         Example:
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
-            >>> pt.set_warning_messages({"col_a": "some message", "col_b": "another warning"})
+            >>> warnings_df = pd.DataFrame({'column_name': ['col_a', 'col_b'], 'warning_message': ['some message', 'another warning']})
+            >>> pt.set_warning_messages(warnings_df)
         """
-        if warning_messages is not None and not isinstance(warning_messages, dict):
-            raise TypeError("MF502 warning_messages must be a dictionary")
-        self.warning_messages = warning_messages if warning_messages is not None else {}
+        if warning_messages is not None and not isinstance(warning_messages, pd.DataFrame):
+            raise TypeError("MF502 warning_messages must be a pandas DataFrame")
+        if warning_messages is not None and not warning_messages.empty:
+            required_cols = {'column_name', 'warning_message'}
+            if not required_cols.issubset(warning_messages.columns):
+                raise ValueError("MF503 warning_messages DataFrame must have 'column_name' and 'warning_message' columns")
+        self.warning_messages = warning_messages if warning_messages is not None else pd.DataFrame(columns=['column_name', 'warning_message'])
     
     def get_person_keys(self):
         """
@@ -207,7 +215,7 @@ class MetaFrame(MultiTable):
         
         Returns:
             dict: A dictionary containing warning_messages and person_keys.
-                - warning_messages (dict): Mapping of column names to warning messages.
+                - warning_messages (pd.DataFrame): DataFrame with 'column_name' and 'warning_message' columns.
                 - person_keys (list): List of person identifier keys.
         
         Example:
@@ -233,37 +241,48 @@ class MetaFrame(MultiTable):
             >>> pt = MetaFrame.load("data.parquet", "parquet", "my_table")
             >>> pt.info()
             Table: my_table (1000 rows)
-            ================================================================================
-            Column Name          | Person Key  | Warning Message
-            ---------------------+-------------+--------------------------------------------
-            name                 | *           | Contains PII
-            age                  |             |
+            +----------------------+-------------+--------------------------------------------+
+            | Column Name          | Person Key  | Warning Message                            |
+            +----------------------+-------------+--------------------------------------------+
+            | name                 | DETECTED    | Contains PII                               |
+            | age                  |             |                                            |
+            +----------------------+-------------+--------------------------------------------+
         """
-        # Header
-        print(f"\nTable: {self.table_name} ({self.nrow} rows)")
-        print("=" * 100)
-        print(f"{'Column Name':<20} | {'Person Key':<11} | {'Warning Message'}")
-        print("-" * 100)
+        # Build warning lookup from DataFrame
+        warning_lookup = {}
+        if not self.warning_messages.empty:
+            for _, row in self.warning_messages.iterrows():
+                col_name = row['column_name']
+                msg = row['warning_message']
+                if col_name in warning_lookup:
+                    warning_lookup[col_name] = warning_lookup[col_name] + " | " + msg
+                else:
+                    warning_lookup[col_name] = msg
         
-        # Rows for each column - handle pipe-delimited warnings
+        # Build table data
+        table_data = []
         for col in self.columns:
             person_key_flag = "DETECTED" if col in self.person_keys else ""
-            warning_msg = self.warning_messages.get(col, "")
+            warning_msg = warning_lookup.get(col, "")
             
-            # Split pipe-delimited warnings and print each on a separate row
+            # Split pipe-delimited warnings and add each as a separate row
             if warning_msg and "|" in warning_msg:
                 warnings = [w.strip() for w in re.split(r'\|', warning_msg)]
                 # First warning with column name
                 first_warning = warnings[0] if warnings else ""
-                print(f"{col:<20} | {person_key_flag:<11} | {first_warning}")
+                table_data.append([col, person_key_flag, first_warning])
                 # Remaining warnings without repeating column name
                 for w in warnings[1:]:
-                    print(f"{'':<20} | {'':<11} | {w}")
+                    table_data.append(["", "", w])
             else:
                 # Single warning or no warning
-                print(f"{col:<20} | {person_key_flag:<11} | {warning_msg}")
+                table_data.append([col, person_key_flag, warning_msg])
         
-        print("=" * 100 + "\n")
+        # Print header and table using tabulate
+        print(f"\nTable: {self.table_name} ({self.nrow} rows)")
+        headers = ["Column Name", "Person Key", "Warning Message"]
+        print(tabulate(table_data, headers=headers, tablefmt="grid"))
+        print()
 
     @staticmethod
     def load(path: str, format: str = "parquet", table_name: str = "", frame_type: str = FrameTypeVerifier.pyspark, spark=None):
