@@ -419,6 +419,21 @@ class TableCollection:
                 if name not in self.named_tables:
                     raise KeyError(f"Table '{name}' not found")
                 self.named_tables[name].save_events(spark=spark)
+    
+    def check_table_exists(self, name: str) -> bool:
+        """
+        Check if a table with the given name exists in the collection.
+
+        Args:
+            name (str): The name of the table to check.
+
+        Returns:
+            bool: True if the table exists, False otherwise.
+
+        Example:
+            >>> exists = pt_collection.check_table_exists("my_table")
+        """
+        return name in self.named_tables.keys()
 
     def save_all(self, output_dir:str=None, tables:list[str]=[], extn:str=""):
         """

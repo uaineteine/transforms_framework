@@ -4,7 +4,6 @@ import sys
 import os
 
 from hash_method import method_hash
-from conclib import load_ent_map
 
 from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
@@ -1702,16 +1701,22 @@ class AttachSynID(TableTransform):
             "SYNID",
             testable_transform=True
         )
-
+        #set the expected map name to be found in supply loads
+        self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL920 Must specify 'df' parameter with table name")
         if self.source_id not in supply_frames[table_name].columns:
-            raise ValueError(f"Column '{self.source_id}' not found in DataFrame '{table_name}'")
+            raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
+        
+        #error check if map exists
+        does_exist = supply_frames.check_table_exists(self.expected_map_name)
+        if does_exist is False:
+            raise LookupError(f"AL922 Expected entity map table '{self.expected_map_name}' not found in supply_frames")
         
     def transforms(self, supply_frames, **kwargs):
         #get table name
@@ -1726,13 +1731,12 @@ class AttachSynID(TableTransform):
         
         #load the entity map
         spark = get_spark()
-        entmap = load_ent_map(spark=spark)
 
         #use modified id group variable to join if it exists on both frames
         vars_to_join = [self.source_id]
         if (self.use_fast_join):
             mod_col = os.getenv("TNSFRMS_MOD_VAR", "id_mod")
-            if mod_col in entmap.columns:
+            if mod_col in supply_frames["entity_map"].columns:
                 if mod_col in incols:
                     vars_to_join.append(mod_col)
                     print("Using modified ID group variable for joining synthetic ID.")
@@ -1740,7 +1744,7 @@ class AttachSynID(TableTransform):
         
         #run a pyspark join to attach the synthetic ID
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-            entmap,
+                supply_frames["entity_map"].df,
             on=vars_to_join,
             how="left"
         )
