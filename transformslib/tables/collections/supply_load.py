@@ -147,12 +147,12 @@ def get_supply_srcs(spark=None) -> pd.DataFrame:
     sum_df = load_summary_data(spark=spark)
 
     #error flags
-    if "format" not in sum_df.columns:
-        raise ValueError("SL400 Summary data does not contain 'format' column")
+    if "table_path" not in sum_df.columns:
+        raise ValueError("SL400 Summary data does not contain 'table_path' column")
 
     try:
         #filter down for target columns, sort by table name
-        sum_df = sum_df.select("table_name", "table_path", "format").distinct()
+        sum_df = sum_df.select("table_name", "table_path").distinct()
         sum_df = sum_df.get_pandas_frame()
         
         return sum_df
@@ -368,11 +368,12 @@ class SupplyLoad(TableCollection):
         print("Transformslib will now attempt to load each table in this supply...")
         
         engine = get_engine()
+        load_format = os.getenv("TNSFRMS_SUPPLY_LOAD_FORMAT", "parquet").lower()
         for _, row in sources.iterrows():
             try:
                 mt = MetaFrame.load(
                     path=row["table_path"],
-                    format=row["format"],
+                    format=load_format,
                     frame_type=engine,
                     spark=spark
                 )
