@@ -4,7 +4,6 @@ import sys
 import os
 
 from hash_method import method_hash
-from conclib import load_ent_map
 
 from .pipeevent import TransformEvent
 from .base import TableTransform, printwidth
@@ -1702,16 +1701,22 @@ class AttachSynID(TableTransform):
             "SYNID",
             testable_transform=True
         )
-
+        #set the expected map name to be found in supply loads
+        self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL920 Must specify 'df' parameter with table name")
         if self.source_id not in supply_frames[table_name].columns:
-            raise ValueError(f"Column '{self.source_id}' not found in DataFrame '{table_name}'")
+            raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
+        
+        #error check if map exists
+        does_exist = supply_frames.check_table_exists(self.expected_map_name)
+        if does_exist is False:
+            raise LookupError(f"AL922 Expected entity map table '{self.expected_map_name}' not found in supply_frames")
         
     def transforms(self, supply_frames, **kwargs):
         #get table name
@@ -1726,13 +1731,12 @@ class AttachSynID(TableTransform):
         
         #load the entity map
         spark = get_spark()
-        entmap = load_ent_map(spark=spark)
 
         #use modified id group variable to join if it exists on both frames
         vars_to_join = [self.source_id]
         if (self.use_fast_join):
             mod_col = os.getenv("TNSFRMS_MOD_VAR", "id_mod")
-            if mod_col in entmap.columns:
+            if mod_col in supply_frames["entity_map"].columns:
                 if mod_col in incols:
                     vars_to_join.append(mod_col)
                     print("Using modified ID group variable for joining synthetic ID.")
@@ -1740,7 +1744,7 @@ class AttachSynID(TableTransform):
         
         #run a pyspark join to attach the synthetic ID
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-            entmap,
+                supply_frames["entity_map"].df,
             on=vars_to_join,
             how="left"
         )
@@ -1773,108 +1777,6 @@ class AttachSynID(TableTransform):
                 return False
         else:
             return False
-
-import hmac
-import hashlib
-from pyspark.sql.functions import udf
-from pyspark.sql import DataFrame
-def apply_hmac_spark(df, column: str, salt_key: str, trunc_length:int) -> DataFrame:
-    """
-    Apply HMAC hashing to a specified column in a PySpark DataFrame.
-
-    Args:
-        df (DataFrame): The PySpark DataFrame.
-        column (str): The name of the column to hash.
-        salt_key (str): The secret key for HMAC.
-        trunc_length (int): The length to truncate the hash to.
-    Returns:
-        DataFrame: The DataFrame with the hashed column.
-    """
-    def hmac_hash(value: str) -> str:
-        if value is None:
-            return None
-        hmac_obj = hmac.new(salt_key.encode(), value.encode(), hashlib.sha256)
-        return hmac_obj.hexdigest()[:trunc_length]
-
-    hmac_udf = udf(hmac_hash)
-
-    return df.withColumn(column, hmac_udf(df[column]))
-
-class ApplyHMAC(TableTransform):
-    """
-    Transform class to apply specific HMAC hashing to a specified column using a secret key.
-    """
-
-    def __init__(self, column:str, trunclength:int):
-        """
-        Initialise an HMAC transform.
-
-        Args:
-            column (str): The name of the column to hash.
-        """
-
-        super().__init__(
-            "ApplyHMAC",
-            f"Applies HMAC hashing to given variables",
-            [column],
-            "HMACHash",
-            testable_transform=True
-        )
-        self.columns_to_hash = [column]
-
-    def error_check(self, supply_frames: "TableCollection", **kwargs):
-        """
-        Validate that at least one target column exists in the table.
-        """
-        table_name = kwargs.get("df")
-        if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
-
-        # Filter to only columns that exist
-        self.existing_columns = [col for col in self.columns_to_hash if col in supply_frames[table_name].columns]
-        
-        if not self.existing_columns:
-            raise ValueError(f"None of the columns {self.columns_to_hash} found in DataFrame '{table_name}'")
-
-    def transforms(self, supply_frames: "TableCollection", **kwargs):
-        """
-        Apply HMAC hashing to the columns that exist in the DataFrame.
-        """
-        table_name = kwargs.get("df")
-        backend = supply_frames[table_name].frame_type
-        key = kwargs.get("hmac_key")
-
-        if backend == "pyspark":
-            for column in self.existing_columns:
-                supply_frames[table_name].df = apply_hmac_spark(
-                    supply_frames[table_name].df,
-                    column,
-                    key,
-                    trunc_length=16
-                )
-        else:
-            raise NotImplementedError(f"HMAC hash not implemented for backend '{backend}'")
-
-        # Log event
-        self.log_info = TransformEvent(
-            input_tables=[table_name],
-            output_tables=[table_name],
-            input_variables=self.existing_columns,
-            output_variables=self.existing_columns,
-        )
-        supply_frames[table_name].add_event(self)
-
-        self.target_tables = [table_name]
-        return supply_frames
-
-    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
-        """
-        Test that all existing columns still exist after HMAC application.
-        """
-        table_name = kwargs.get("df")
-        if not table_name:
-            return False
-        return all(col in supply_frames[table_name].columns for col in self.existing_columns)
 
 class UnionTables(TableTransform):
     """
