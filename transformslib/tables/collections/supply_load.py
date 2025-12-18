@@ -124,6 +124,9 @@ def load_table_warnings(spark=None) -> pd.DataFrame:
         warnings_frame = warnings_frame.distinct()
         #explode the warnings on pipe
         warnings_frame.explode("warning_messages", sep="|", outer=False)
+        warnings_frame.explode("processing_comments", sep="|", outer=False)
+        warnings_frame.explode("review_comments", sep="|", outer=False)
+        warnings_frame.explode("safe_data_comments", sep="|", outer=False)
         warnings_frame = warnings_frame.get_pandas_frame()
         #turn the warning messages into lowercase strings
         warnings_frame["warning_messages"] = warnings_frame["warning_messages"].astype(str).str.lower()
