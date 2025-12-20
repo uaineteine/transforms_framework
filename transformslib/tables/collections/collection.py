@@ -388,9 +388,7 @@ class TableCollection:
         method to persist the event logs to JSON files.
 
         Args:
-            table_names (list[str], optional): List of table names to save events for.
-                                             If None, saves events for all tables in the collection.
-                                             Defaults to None.
+            table_names (list[str], optional): List of table names to save events for. If None, saves events for all tables in the collection. Defaults to None.
             spark (SparkSession, optional): The Spark session to use for logging events.
 
         Returns:
