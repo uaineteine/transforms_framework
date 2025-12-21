@@ -9,6 +9,8 @@ from .collection import TableCollection
 from .resources import *
 from transformslib.templates.pathing import apply_formats
 
+import pandas as pd
+
 class SchemaValidationError(Exception):
     """Exception raised when schema validation fails."""
     pass
