@@ -11,7 +11,7 @@ from .base import TableTransform, printwidth
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, round as spark_round
+from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper
 
 import polars as pl
 import pandas as pd
@@ -1495,21 +1495,7 @@ class RoundNumber(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
 
-        if backend == "pandas":
-            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].round(self.decimals)
-
-        elif backend == "polars":
-            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
-                pl.col(self.column).round(self.decimals).alias(self.column)
-            )
-
-        elif backend == "pyspark":
-            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
-                self.column, spark_round(col(self.column), self.decimals)
-            )
-
-        else:
-            raise NotImplementedError(f"RoundNumber not implemented for backend '{backend}'")
+        supply_frames[table_name].round(self.column, self.decimals)
 
         # Log event
         self.log_info = TransformEvent(
