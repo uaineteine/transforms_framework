@@ -3,11 +3,6 @@ from transformslib.templates.pathing import apply_formats
 from transformslib.tables.metaframe import MetaFrame
 from multitable import MultiTable, concatlist
 
-import pandas as pd
-import polars as pl
-
-from functools import reduce
-
 import os
 
 def load_specific_ent_map(id_group:int) -> MultiTable:
