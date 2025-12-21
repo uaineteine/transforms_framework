@@ -1733,8 +1733,12 @@ class AttachSynID(TableTransform):
                     print("Variables to join on:", vars_to_join)
         
         #run a pyspark join to attach the synthetic ID
+        
+        #id group extraction for frame
+        id_group = supply_frames[table_name].id_group_cd
+        
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-                supply_frames["entity_map"].df,
+                supply_frames["entity_map"].df.filter(col("id_group_cd") == id_group),
             on=vars_to_join,
             how="left"
         )
