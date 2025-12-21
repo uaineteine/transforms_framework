@@ -1,4 +1,4 @@
-id_group_cd,syn_id,spine_id
-2,1,114
-2,2,212
-2,3,313
+id_group_cd,src_id,syn_id_refresh,syn_id_interim,post_worm_cutover
+2,1,12,114,false
+2,2,21,212,false
+2,3,31,313,true

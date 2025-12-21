@@ -1,39 +1,41 @@
 from transformslib.engine import get_engine, get_spark
 from transformslib.templates.pathing import apply_formats
 from transformslib.tables.metaframe import MetaFrame
-from multitable import MultiTable
-
-import pandas as pd
-import polars as pl
-
-from functools import reduce
+from multitable import MultiTable, concatlist
 
 import os
 
-def concat(frames:list[MultiTable], engine:str) -> MultiTable:
-    if not frames:
-        raise ValueError("No frames to concatenate")
-    native_frames = [f.df for f in frames]
+def integrity_check_ent_map(ent_map:MultiTable) -> bool:
+    """
+    Perform an integrity check on the entity map
 
-    if engine == "pandas":
-        combined = pd.concat(native_frames, ignore_index=True)
+    Args:
+        ent_map (MultiTable): _description_
 
-    elif engine == "polars":
-        combined = pl.concat(native_frames)
-
-    elif engine == "pyspark":
-        # Safe union across all frames
-        if len(native_frames) == 1:
-            combined = native_frames[0]
-        else:
-            combined = reduce(lambda df1, df2: df1.union(df2), native_frames)
-
-    else:
-        raise NotImplementedError(
-            f"RS400 Metaframe appendage not implemented for backend '{engine}'"
-        )
+    Raises:
+        ValueError: Handled exception RS210, entity map is missing required coluns.
+    Returns:
+        bool: _description_
+    """
+    #type check multitable
+    if not isinstance(ent_map, MultiTable):
+        raise TypeError("RS200 Entity map must be a MultiTable")
     
-    return MultiTable(combined, src_path=frames[0].src_path, table_name=frames[0].table_name, frame_type=engine)
+    #check required columns
+    syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
+    required_cols = ["id_group_cd", "src_id", f"{syn_id}_refresh", f"{syn_id}_interim"]
+    
+    for col in required_cols:
+        try:
+            if col not in ent_map.columns:
+                print(f"RS210 ent_map columns: {ent_map.columns}")
+                print(f"RS210 required columns: {required_cols}")
+                raise ValueError(f"RS210 Entity map is missing required column: {col}")
+        except Exception as e:
+            return False
+    
+    #implied else with return
+    return True
 
 def load_specific_ent_map(id_group:int) -> MultiTable:
     """
@@ -54,6 +56,10 @@ def load_specific_ent_map(id_group:int) -> MultiTable:
     tn = f"entity_map_{id_group}"
     engine = get_engine()
     df = MultiTable.load(map_path, format=fmt, table_name=tn, frame_type=engine, auto_lowercase=True, spark=get_spark())
+    
+    if integrity_check_ent_map(df) is False:
+        raise ValueError(f"RS220 Entity map for ID group {id_group} failed integrity check")
+    
     return df
 
 def load_ent_map(id_groups:list[int]) -> MetaFrame:
@@ -81,7 +87,7 @@ def load_ent_map(id_groups:list[int]) -> MetaFrame:
             frames.append(load_specific_ent_map(id))
         
         #append these frames together
-        df = concat(frames, engine)
+        df = concatlist(frames, engine)
     
     #there is only 1 df
     else:

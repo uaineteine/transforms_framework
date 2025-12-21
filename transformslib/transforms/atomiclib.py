@@ -11,7 +11,7 @@ from .base import TableTransform, printwidth
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper, round as spark_round
+from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper
 
 import polars as pl
 import pandas as pd
@@ -1495,21 +1495,7 @@ class RoundNumber(TableTransform):
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
 
-        if backend == "pandas":
-            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].round(self.decimals)
-
-        elif backend == "polars":
-            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
-                pl.col(self.column).round(self.decimals).alias(self.column)
-            )
-
-        elif backend == "pyspark":
-            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
-                self.column, spark_round(col(self.column), self.decimals)
-            )
-
-        else:
-            raise NotImplementedError(f"RoundNumber not implemented for backend '{backend}'")
+        supply_frames[table_name].round(self.column, self.decimals)
 
         # Log event
         self.log_info = TransformEvent(
@@ -1704,6 +1690,8 @@ class AttachSynID(TableTransform):
         #set the expected map name to be found in supply loads
         self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
+        syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
+        self.attached_id = f"{syn_id}_interim"
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
@@ -1712,7 +1700,9 @@ class AttachSynID(TableTransform):
             raise ValueError("AL920 Must specify 'df' parameter with table name")
         if self.source_id not in supply_frames[table_name].columns:
             raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
-        
+        if self.attached_id not in supply_frames[table_name].columns:
+            raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame '{table_name}'")
+
         #error check if map exists
         does_exist = supply_frames.check_table_exists(self.expected_map_name)
         if does_exist is False:
@@ -1743,8 +1733,12 @@ class AttachSynID(TableTransform):
                     print("Variables to join on:", vars_to_join)
         
         #run a pyspark join to attach the synthetic ID
+        
+        #id group extraction for frame
+        id_group = supply_frames[table_name].id_group_cd
+        
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-                supply_frames["entity_map"].df,
+                supply_frames["entity_map"].df.filter(col("id_group_cd") == id_group),
             on=vars_to_join,
             how="left"
         )

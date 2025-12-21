@@ -12,9 +12,13 @@ absolute_directory = os.path.abspath(relative_directory)
 def list_python_files(base_dir):
     python_files = []
     for root, _, files in os.walk(base_dir):
-        for file in files:
-            if file.endswith(".py") and file != "__init__.py":
-                python_files.append(os.path.join(root, file))
+        # Include directories with only __init__.py
+        if "__init__.py" in files and len(files) == 1:
+            python_files.append(os.path.join(root, "__init__.py"))
+        else:
+            for file in files:
+                if file.endswith(".py") and file != "__init__.py":
+                    python_files.append(os.path.join(root, file))
     return python_files
 
 python_files = list_python_files(absolute_directory)

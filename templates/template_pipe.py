@@ -73,6 +73,11 @@ if __name__ == "__main__":
     listatomic()
 
     listmacro()
+    
+    # -------------------------------
+    # Test Resources: Try and rad the resource files
+    # -------------------------------
+    supply_frames["entity_map"].show()
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary

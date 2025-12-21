@@ -9,6 +9,8 @@ from .collection import TableCollection
 from .resources import *
 from transformslib.templates.pathing import apply_formats
 
+import pandas as pd
+
 class SchemaValidationError(Exception):
     """Exception raised when schema validation fails."""
     pass
@@ -237,20 +239,6 @@ class SupplyLoad(TableCollection):
     
     The new sampling system includes schema validation capabilities that automatically verify
     loaded data against the expected schema defined in the dtypes field.
-    
-    New sampling state JSON configuration follows this structure:
-    {
-        "sample_files": [
-            {
-                "table_name": "table_name",
-                "input_path": "path/to/data.parquet",
-                "file_format": "parquet",
-                "dtypes": {
-                    "column1": {"dtype_source": "String", "dtype_output": "String"},
-                    "column2": {"dtype_source": "Int64", "dtype_output": "Int64"}
-                }
-            ]
-        }
 
     Attributes:
         job (int): The job ID for the current operation.
