@@ -5,6 +5,38 @@ from multitable import MultiTable, concatlist
 
 import os
 
+def integrity_check_ent_map(ent_map:MultiTable) -> bool:
+    """
+    Perform an integrity check on the entity map
+
+    Args:
+        ent_map (MultiTable): _description_
+
+    Raises:
+        ValueError: Handled exception RS210, entity map is missing required coluns.
+    Returns:
+        bool: _description_
+    """
+    #type check multitable
+    if not isinstance(ent_map, MultiTable):
+        raise TypeError("RS200 Entity map must be a MultiTable")
+    
+    #check required columns
+    syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
+    required_cols = ["id_group_cd", "src_id", f"{syn_id}_refresh", f"{syn_id}_interim"]
+    
+    for col in required_cols:
+        try:
+            if col not in ent_map.columns:
+                print(f"RS210 ent_map columns: {ent_map.columns}")
+                print(f"RS210 required columns: {required_cols}")
+                raise ValueError(f"RS210 Entity map is missing required column: {col}")
+        except Exception as e:
+            return False
+    
+    #implied else with return
+    return True
+
 def load_specific_ent_map(id_group:int) -> MultiTable:
     """
     Docstring for load_specific_ent_map
@@ -24,6 +56,10 @@ def load_specific_ent_map(id_group:int) -> MultiTable:
     tn = f"entity_map_{id_group}"
     engine = get_engine()
     df = MultiTable.load(map_path, format=fmt, table_name=tn, frame_type=engine, auto_lowercase=True, spark=get_spark())
+    
+    if integrity_check_ent_map(df) is False:
+        raise ValueError(f"RS220 Entity map for ID group {id_group} failed integrity check")
+    
     return df
 
 def load_ent_map(id_groups:list[int]) -> MetaFrame:
