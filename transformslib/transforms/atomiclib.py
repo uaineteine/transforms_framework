@@ -1690,6 +1690,8 @@ class AttachSynID(TableTransform):
         #set the expected map name to be found in supply loads
         self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
+        syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
+        self.attached_id = f"{syn_id}_interim"
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
@@ -1698,7 +1700,9 @@ class AttachSynID(TableTransform):
             raise ValueError("AL920 Must specify 'df' parameter with table name")
         if self.source_id not in supply_frames[table_name].columns:
             raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
-        
+        if self.attached_id not in supply_frames[table_name].columns:
+            raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame '{table_name}'")
+
         #error check if map exists
         does_exist = supply_frames.check_table_exists(self.expected_map_name)
         if does_exist is False:
