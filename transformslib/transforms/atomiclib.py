@@ -1736,9 +1736,17 @@ class AttachSynID(TableTransform):
         
         #id group extraction for frame
         id_group = supply_frames[table_name].id_group_cd
+        src_id = os.getenv("TNSFRMS_SRC_VAR", "src_id")
         
+        #isolate for id group
+        target_ent_map = supply_frames["entity_map"].copy().df.filter(col("id_group_cd") == id_group)
+        #select only needed columns
+        target_ent_map = target_ent_map.select(src_id, self.attached_id)
+        #rename src_id to self.source_id for join
+        target_ent_map = target_ent_map.withColumnRenamed(src_id, self.source_id)
+
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-                supply_frames["entity_map"].df.filter(col("id_group_cd") == id_group),
+                target_ent_map,
             on=vars_to_join,
             how="left"
         )
