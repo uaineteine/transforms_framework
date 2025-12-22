@@ -23,7 +23,8 @@ def integrity_check_ent_map(ent_map:MultiTable) -> bool:
     
     #check required columns
     syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
-    required_cols = ["id_group_cd", "src_id", f"{syn_id}_refresh", f"{syn_id}_interim"]
+    src_id = os.getenv("TNSFORMS_SRC_VAR", "src_id")
+    required_cols = ["id_group_cd", src_id, f"{syn_id}_refresh", f"{syn_id}_interim"]
     
     for col in required_cols:
         try:
