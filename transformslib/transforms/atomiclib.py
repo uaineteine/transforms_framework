@@ -117,8 +117,6 @@ class SubsetTable(TableTransform):
             testable_transform=True
         )
 
-        print(self.target_variables)
-
     def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that all variables to keep exist in the DataFrame.
@@ -1688,6 +1686,7 @@ class AttachSynID(TableTransform):
             testable_transform=True
         )
         #set the expected map name to be found in supply loads
+        self.source_id = source_id
         self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
         syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
@@ -1744,7 +1743,8 @@ class AttachSynID(TableTransform):
         target_ent_map = target_ent_map.select(src_id, self.attached_id)
         #rename src_id to self.source_id for join
         target_ent_map = target_ent_map.withColumnRenamed(src_id, self.source_id)
-
+        
+        #perform the join
         supply_frames[table_name].df = supply_frames[table_name].df.join(
                 target_ent_map,
             on=vars_to_join,
