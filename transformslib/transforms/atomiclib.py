@@ -1781,9 +1781,17 @@ class AttachSynID(TableTransform):
             return False
         
         if self.attached_id in supply_frames[table_name].columns:
-            #check the null count is zero: #TODO ADD OTHER SUPPORTED BACKENDS
-            if supply_frames[table_name].df[self.attached_id].isnull().sum() > 0:
-                return False
+            #check the null count is zero:
+            engine  = supply_frames[table_name].frame_type
+            if engine == "pandas":
+                if supply_frames[table_name].df[self.attached_id].isnull().sum() > 0:
+                    return False
+            elif engine == "polars":
+                if supply_frames[table_name].df[self.attached_id].null_count() > 0:
+                    return False
+            elif engine == "pyspark":
+                if supply_frames[table_name].df.filter(col(self.attached_id).isNull()).count() > 0:
+                    return False
         else:
             print("TEST FAIL FOR ATTACHSYNID: COLUMN NOT FOUND")
             return False
