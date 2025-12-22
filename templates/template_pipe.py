@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     clear_last_run()
 
-    ent_keys = {"name":1, "id":2}
+    ent_keys = {"name":3, "id":2}
 
     supply_frames = SupplyLoad(ent_keys=ent_keys) #sample_rows=xyz
     
@@ -300,7 +300,14 @@ if __name__ == "__main__":
     supply_frames["salary"].show()
 
     # -------------------------------
-    # Test 21: MetaFrame Metadata Tracking
+    # Test 21: Attach synthetic ID test
+    # -------------------------------
+    atn_synth = AttachSynID("name")
+    supply_frames = atn_synth.apply(supply_frames, df="location")
+    supply_frames["location"].show()
+    
+    # -------------------------------
+    # Test 22: MetaFrame Metadata Tracking
     # -------------------------------
     print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
     
