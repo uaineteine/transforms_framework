@@ -1695,12 +1695,17 @@ class AttachSynID(TableTransform):
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
         table_name = kwargs.get("df")
+        #check table name is in supply
         if not table_name:
             raise ValueError("AL920 Must specify 'df' parameter with table name")
+        
+        #check the source for the target column
+        if self.source_id not in supply_frames[table_name].columns:
+            raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
+        
+        #check the entity maps
         if not supply_frames.check_table_exists("entity_map"):
             raise LookupError("AL925 Expected entity map table 'entity_map' not found in supply_frames")
-        if self.source_id not in supply_frames["entity_map"].columns:
-            raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame 'entity_map'")
         if self.attached_id not in supply_frames["entity_map"].columns:
             raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame 'entity_map'")
 
@@ -1771,6 +1776,7 @@ class AttachSynID(TableTransform):
         #simple test to check the SYNID column exists
         table_name = kwargs.get("df")
         SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        SYNVARID = f"{SYNVARID}_interim"
         
         if not table_name:
             return False
