@@ -262,6 +262,13 @@ if __name__ == "__main__":
     s_col = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
+    
+    # -------------------------------
+    # Test 21: Attach synthetic ID test
+    # -------------------------------
+    atn_synth = AttachSynID("name")
+    supply_frames = atn_synth.apply(supply_frames, df="location")
+    supply_frames["location"].show()
 
     # -------------------------------
     # Test 19: HASHING
@@ -298,13 +305,6 @@ if __name__ == "__main__":
     
     print("After TopBottomCode transformation:")
     supply_frames["salary"].show()
-
-    # -------------------------------
-    # Test 21: Attach synthetic ID test
-    # -------------------------------
-    atn_synth = AttachSynID("name")
-    supply_frames = atn_synth.apply(supply_frames, df="location")
-    supply_frames["location"].show()
     
     # -------------------------------
     # Test 22: MetaFrame Metadata Tracking
