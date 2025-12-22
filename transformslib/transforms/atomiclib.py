@@ -1775,17 +1775,17 @@ class AttachSynID(TableTransform):
     def test(self, supply_frames, **kwargs):
         #simple test to check the SYNID column exists
         table_name = kwargs.get("df")
-        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
-        SYNVARID = f"{SYNVARID}_interim"
+        #self.attached_id provides the new column in the data
         
         if not table_name:
             return False
         
-        if SYNVARID in supply_frames[table_name].columns:
+        if self.attached_id in supply_frames[table_name].columns:
             #check the null count is zero: #TODO ADD OTHER SUPPORTED BACKENDS
-            if supply_frames[table_name].df[SYNVARID].isnull().sum() > 0:
+            if supply_frames[table_name].df[self.attached_id].isnull().sum() > 0:
                 return False
         else:
+            print("TEST FAIL FOR ATTACHSYNID: COLUMN NOT FOUND")
             return False
 
 class UnionTables(TableTransform):
