@@ -1783,17 +1783,19 @@ class AttachSynID(TableTransform):
         if self.attached_id in supply_frames[table_name].columns:
             #check the null count is zero:
             engine  = supply_frames[table_name].frame_type
+            sum = 0
             if engine == "pandas":
-                if supply_frames[table_name].df[self.attached_id].isnull().sum() > 0:
-                    return False
+                sum = supply_frames[table_name].df[self.attached_id].isnull().sum()
             elif engine == "polars":
-                if supply_frames[table_name].df[self.attached_id].null_count() > 0:
-                    return False
+                sum = supply_frames[table_name].df[self.attached_id].null_count()
             elif engine == "pyspark":
-                if supply_frames[table_name].df.filter(col(self.attached_id).isNull()).count() > 0:
-                    return False
+                sum = supply_frames[table_name].df.filter(col(self.attached_id).isNull()).count()
+            
+            if sum > 0:
+                print(f"TEST FAIL FOR ATTACH SYNID: {sum} NULLS FOUND")
+                return False
         else:
-            print("TEST FAIL FOR ATTACHSYNID: COLUMN NOT FOUND")
+            print("TEST FAIL FOR ATTACH SYNID: COLUMN NOT FOUND")
             return False
 
 class UnionTables(TableTransform):
