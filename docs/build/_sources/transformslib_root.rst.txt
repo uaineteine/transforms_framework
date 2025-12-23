@@ -1,15 +1,9 @@
 transformslib (root)
 ====================
 
-transformslib.meta
-------------------
+transformslib.__init__
+----------------------
 
-.. automodule:: transformslib.meta
-   :members:
-
-transformslib.setup
--------------------
-
-.. automodule:: transformslib.setup
+.. automodule:: transformslib.__init__
    :members:
 

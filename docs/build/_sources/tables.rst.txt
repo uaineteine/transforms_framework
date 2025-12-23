@@ -7,12 +7,6 @@ transformslib.tables.collections.collection
 .. automodule:: transformslib.tables.collections.collection
    :members:
 
-transformslib.tables.collections.old_supply_load
-------------------------------------------------
-
-.. automodule:: transformslib.tables.collections.old_supply_load
-   :members:
-
 transformslib.tables.collections.resources
 ------------------------------------------
 
