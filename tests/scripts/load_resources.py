@@ -65,6 +65,22 @@ if __name__ == "__main__":
 
     mf = load_ent_map([2,1])
     mf.show()
+    
+    print("TEST LOADING ENTITY MAP WITH STRING AND INT IDS 3 and 2")
+
+    mf = load_ent_map([2,3])
+    mf.show()
+    
+    print("TEST LOADING ENTITY MAP TO AVOID DUPLICATES")
+
+    mf = load_ent_map([1,1])
+    n_before = mf.nrow
+    mf = mf.distinct()
+    n_after = mf.nrow
+    if n_before == n_after:
+        print("No duplicates found after loading entity map with duplicate ID groups")
+    else:
+        raise Exception("Duplicates found after loading entity map with duplicate ID groups")
 
     print("TEST COMPLETE")
 

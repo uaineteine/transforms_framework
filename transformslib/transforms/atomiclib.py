@@ -117,8 +117,6 @@ class SubsetTable(TableTransform):
             testable_transform=True
         )
 
-        print(self.target_variables)
-
     def error_check(self, supply_frames: "TableCollection", **kwargs):
         """
         Validate that all variables to keep exist in the DataFrame.
@@ -1688,6 +1686,7 @@ class AttachSynID(TableTransform):
             testable_transform=True
         )
         #set the expected map name to be found in supply loads
+        self.source_id = source_id
         self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
         syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
@@ -1696,12 +1695,19 @@ class AttachSynID(TableTransform):
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
         table_name = kwargs.get("df")
+        #check table name is in supply
         if not table_name:
             raise ValueError("AL920 Must specify 'df' parameter with table name")
+        
+        #check the source for the target column
         if self.source_id not in supply_frames[table_name].columns:
             raise ValueError(f"AL921 Column '{self.source_id}' not found in DataFrame '{table_name}'")
-        if self.attached_id not in supply_frames[table_name].columns:
-            raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame '{table_name}'")
+        
+        #check the entity maps
+        if not supply_frames.check_table_exists("entity_map"):
+            raise LookupError("AL925 Expected entity map table 'entity_map' not found in supply_frames")
+        if self.attached_id not in supply_frames["entity_map"].columns:
+            raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame 'entity_map'")
 
         #error check if map exists
         does_exist = supply_frames.check_table_exists(self.expected_map_name)
@@ -1736,12 +1742,24 @@ class AttachSynID(TableTransform):
         
         #id group extraction for frame
         id_group = supply_frames[table_name].id_group_cd
+        src_id = os.getenv("TNSFRMS_SRC_VAR", "src_id")
         
+        #isolate for id group
+        target_ent_map = supply_frames["entity_map"].copy().df.filter(col("id_group_cd") == id_group)
+        #select only needed columns
+        target_ent_map = target_ent_map.select(src_id, self.attached_id)
+        #rename src_id to self.source_id for join
+        target_ent_map = target_ent_map.withColumnRenamed(src_id, self.source_id)
+        
+        #perform the join
         supply_frames[table_name].df = supply_frames[table_name].df.join(
-                supply_frames["entity_map"].df.filter(col("id_group_cd") == id_group),
+                target_ent_map,
             on=vars_to_join,
             how="left"
         )
+        
+        #now drop the src id after join
+        supply_frames[table_name] = supply_frames[table_name].drop(self.source_id)
         
         SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
         
@@ -1760,16 +1778,27 @@ class AttachSynID(TableTransform):
     def test(self, supply_frames, **kwargs):
         #simple test to check the SYNID column exists
         table_name = kwargs.get("df")
-        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        #self.attached_id provides the new column in the data
         
         if not table_name:
             return False
         
-        if SYNVARID in supply_frames[table_name].columns:
-            #check the null count is zero: #TODO ADD OTHER SUPPORTED BACKENDS
-            if supply_frames[table_name].df[SYNVARID].isnull().sum() > 0:
+        if self.attached_id in supply_frames[table_name].columns:
+            #check the null count is zero:
+            engine  = supply_frames[table_name].frame_type
+            sum = 0
+            if engine == "pandas":
+                sum = supply_frames[table_name].df[self.attached_id].isnull().sum()
+            elif engine == "polars":
+                sum = supply_frames[table_name].df[self.attached_id].null_count()
+            elif engine == "pyspark":
+                sum = supply_frames[table_name].df.filter(col(self.attached_id).isNull()).count()
+            
+            if sum > 0:
+                print(f"TEST FAIL FOR ATTACH SYNID: {sum} NULLS FOUND")
                 return False
         else:
+            print("TEST FAIL FOR ATTACH SYNID: COLUMN NOT FOUND")
             return False
 
 class UnionTables(TableTransform):
@@ -1824,31 +1853,26 @@ class UnionTables(TableTransform):
         # Capture row counts before transformation
         left_row_count = supply_frames[self.left_table].nrow
         right_row_count = supply_frames[self.right_table].nrow
+        
+        # Store result in a new table
+        union_table_name = f"{self.left_table}_union_{self.right_table}"
+        supply_frames[union_table_name] = supply_frames[self.left_table].copy()
 
         if backend == "pandas":
-            df = pd.concat(
+            supply_frames[union_table_name].df = pd.concat(
                 [supply_frames[self.left_table].df, supply_frames[self.right_table].df],
                 ignore_index=True
             )
-            if not self.union_all:
-                df = df.drop_duplicates()
-
         elif backend == "polars":
-            df = supply_frames[self.left_table].df.vstack(supply_frames[self.right_table].df)
-            if not self.union_all:
-                df = df.unique()
-
+            supply_frames[union_table_name].df = supply_frames[self.left_table].df.vstack(supply_frames[self.right_table].df)
         elif backend == "pyspark":
-            df = supply_frames[self.left_table].df.union(supply_frames[self.right_table].df)
-            if not self.union_all:
-                df = df.dropDuplicates()
-
+            supply_frames[union_table_name].df = supply_frames[self.left_table].df.union(supply_frames[self.right_table].df)
         else:
             raise NotImplementedError(f"UnionTables not implemented for backend '{backend}'")
-
-        # Store result in a new table
-        union_table_name = f"{self.left_table}_union_{self.right_table}"
-        supply_frames[union_table_name] = supply_frames[self.left_table].clone_with_new_df(df)
+        
+        #now drop duplicates
+        if not self.union_all:
+            supply_frames[union_table_name] = supply_frames[union_table_name].distinct()
 
         # Capture row count and columns after transformation
         output_row_count = supply_frames[union_table_name].nrow

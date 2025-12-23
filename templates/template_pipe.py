@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     clear_last_run()
 
-    ent_keys = {"name":1, "id":2}
+    ent_keys = {"name":3, "id":2}
 
     supply_frames = SupplyLoad(ent_keys=ent_keys) #sample_rows=xyz
     
@@ -256,12 +256,28 @@ if __name__ == "__main__":
 
     # -------------------------------
     # Test 18: TopBottomCoding
-    #   -------------------------------
+    # -------------------------------
     print("Applying TopBottomCode macro to salary column")
     s_col = supply_frames.select_by_names("salary")
     s_col = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
+    
+    # -------------------------------
+    # Test 30: Union Tables
+    # ------------------------
+    print("Applying UnionTables on two location tables (with and without duplicates)")
+    union_transform = UnionTables("salary_400", "salary_500", union_all=False)
+    supply_frames = union_transform.apply(supply_frames, output_table="salary_union")
+    print("After UnionTables (salary_400 and salary_500):")
+    supply_frames["salary_union"].show()
+    
+    # -------------------------------
+    # Test 21: Attach synthetic ID test
+    # -------------------------------
+    atn_synth = AttachSynID("name")
+    supply_frames = atn_synth.apply(supply_frames, df="location")
+    supply_frames["location"].show()
 
     # -------------------------------
     # Test 19: HASHING
@@ -298,9 +314,9 @@ if __name__ == "__main__":
     
     print("After TopBottomCode transformation:")
     supply_frames["salary"].show()
-
+    
     # -------------------------------
-    # Test 21: MetaFrame Metadata Tracking
+    # Test 22: MetaFrame Metadata Tracking
     # -------------------------------
     print("Testing MetaFrame metadata tracking (warning_messages and person_keys)")
     
