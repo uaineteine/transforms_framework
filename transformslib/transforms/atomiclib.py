@@ -1853,31 +1853,26 @@ class UnionTables(TableTransform):
         # Capture row counts before transformation
         left_row_count = supply_frames[self.left_table].nrow
         right_row_count = supply_frames[self.right_table].nrow
+        
+        # Store result in a new table
+        union_table_name = f"{self.left_table}_union_{self.right_table}"
+        supply_frames[union_table_name] = supply_frames[self.left_table].copy()
 
         if backend == "pandas":
-            df = pd.concat(
+            supply_frames[union_table_name].df = pd.concat(
                 [supply_frames[self.left_table].df, supply_frames[self.right_table].df],
                 ignore_index=True
             )
-            if not self.union_all:
-                df = df.drop_duplicates()
-
         elif backend == "polars":
-            df = supply_frames[self.left_table].df.vstack(supply_frames[self.right_table].df)
-            if not self.union_all:
-                df = df.unique()
-
+            supply_frames[union_table_name].df = supply_frames[self.left_table].df.vstack(supply_frames[self.right_table].df)
         elif backend == "pyspark":
-            df = supply_frames[self.left_table].df.union(supply_frames[self.right_table].df)
-            if not self.union_all:
-                df = df.dropDuplicates()
-
+            supply_frames[union_table_name].df = supply_frames[self.left_table].df.union(supply_frames[self.right_table].df)
         else:
             raise NotImplementedError(f"UnionTables not implemented for backend '{backend}'")
-
-        # Store result in a new table
-        union_table_name = f"{self.left_table}_union_{self.right_table}"
-        supply_frames[union_table_name] = supply_frames[self.left_table].clone_with_new_df(df)
+        
+        #now drop duplicates
+        if not self.union_all:
+            supply_frames[union_table_name] = supply_frames[union_table_name].distinct()
 
         # Capture row count and columns after transformation
         output_row_count = supply_frames[union_table_name].nrow
