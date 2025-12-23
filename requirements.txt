@@ -8,4 +8,4 @@ naming-standards>=1.0.0
 adaptiveio>=2.0.4
 hash_method>=2.0.2
 transforms_events>=1.0.2
-multitable>=1.0.5.1
+multitable>=1.1.0

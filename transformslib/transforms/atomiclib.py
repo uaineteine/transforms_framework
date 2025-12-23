@@ -11,7 +11,7 @@ from .base import TableTransform, printwidth
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper
+from pyspark.sql.functions import col, when, date_trunc, lower, upper
 
 import polars as pl
 import pandas as pd
@@ -1223,21 +1223,11 @@ class TrimWhitespace(TableTransform):
         """
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
-
-        if backend == "pandas":
-            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.strip()
-
-        elif backend == "polars":
-            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
-                pl.col(self.column).str.strip_chars().alias(self.column)
-            )
-
-        elif backend == "pyspark":
-            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
-                self.column, trim(col(self.column))
-            )
-        else:
+        if backend not in ["pandas", "polars", "pyspark"]:
             raise NotImplementedError(f"TrimWhitespace not implemented for backend '{backend}'")
+
+        #apply the trim
+        supply_frames[table_name].trim(self.column)
 
         # Log the transform event
         self.log_info = TransformEvent(
