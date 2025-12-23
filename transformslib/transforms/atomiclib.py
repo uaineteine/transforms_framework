@@ -1227,7 +1227,7 @@ class TrimWhitespace(TableTransform):
             raise NotImplementedError(f"TrimWhitespace not implemented for backend '{backend}'")
 
         #apply the trim
-        supply_frames[table_name].trim(self.column)
+        supply_frames[table_name].trimwhite(self.column)
 
         # Log the transform event
         self.log_info = TransformEvent(
