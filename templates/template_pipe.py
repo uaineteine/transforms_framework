@@ -266,7 +266,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 30: Union Tables
     # ------------------------
-    print("Applying UnionTables on two location tables (with and without duplicates)")
+    print("Applying UnionTables on two salary tables (with and without duplicates)")
     union_transform = UnionTables("salary_400", "salary_500", union_all=False)
     supply_frames = union_transform.apply(supply_frames, output_table="salary_union")
     print("After UnionTables (salary_400 and salary_500):")

@@ -1755,14 +1755,12 @@ class AttachSynID(TableTransform):
         #now drop the src id after join
         supply_frames[table_name] = supply_frames[table_name].drop(self.source_id)
         
-        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
-        
         #create the event
         self.log_info = TransformEvent(
             input_tables=[table_name, "entmap"],
             output_tables=[table_name],
             input_variables=[self.source_id],
-            output_variables=[SYNVARID],
+            output_variables=[self.attached_id],
             input_columns=incols,
             output_columns={table_name: list(supply_frames[table_name].columns)}
         )
