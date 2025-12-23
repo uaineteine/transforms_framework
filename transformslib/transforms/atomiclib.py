@@ -1758,6 +1758,9 @@ class AttachSynID(TableTransform):
             how="left"
         )
         
+        #now drop the src id after join
+        supply_frames[table_name] = supply_frames[table_name].drop(self.source_id)
+        
         SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
         
         #create the event
