@@ -256,12 +256,21 @@ if __name__ == "__main__":
 
     # -------------------------------
     # Test 18: TopBottomCoding
-    #   -------------------------------
+    # -------------------------------
     print("Applying TopBottomCode macro to salary column")
     s_col = supply_frames.select_by_names("salary")
     s_col = TopBottomCode(s_col, ["income"], 500, 450).apply()
     print("Original salary data:")
     supply_frames["salary"].show()
+    
+    # -------------------------------
+    # Test 30: Union Tables
+    # ------------------------
+    print("Applying UnionTables on two location tables (with and without duplicates)")
+    union_transform = UnionTables("salary_400", "salary_500", union_all=False)
+    supply_frames = union_transform.apply(supply_frames, output_table="salary_union")
+    print("After UnionTables (salary_400 and salary_500):")
+    supply_frames["salary_union"].show()
     
     # -------------------------------
     # Test 21: Attach synthetic ID test
