@@ -1661,19 +1661,23 @@ class AttachSynID(TableTransform):
     Will attach a synthetic ID to the Table from its source ID
     """
     
-    def __init__(self, source_id:str, use_fast_join=False):
+    def __init__(self, source_id:str, use_fast_join=False, ignore_tests=False):
         """
         Initialise an AttachSynID transform.
         
         Args:
             source_id (str): The name of the source ID column to base the synthetic ID on.
+            use_fast_join (bool): Whether to use modified ID group variable for joining if available.
+            ignore_tests (bool): Whether to skip test checks after transformation.
         """
+        self.ignore_tests = ignore_tests
+        testable = not ignore_tests
         super().__init__(
             "SynID",
             f"Attach the synthetic ID based on source ID '{source_id}'",
             [source_id],
             "SYNID",
-            testable_transform=True
+            testable_transform=testable
         )
         #set the expected map name to be found in supply loads
         self.source_id = source_id
@@ -1833,6 +1837,8 @@ class UnionTables(TableTransform):
         Perform the union operation.
         """
         backend = supply_frames[self.left_table].frame_type
+        
+        union_table_name = kwargs.get("output_table", f"{self.left_table}_union_{self.right_table}")
 
         # Capture input columns before transformation
         input_columns = {
@@ -1845,7 +1851,6 @@ class UnionTables(TableTransform):
         right_row_count = supply_frames[self.right_table].nrow
         
         # Store result in a new table
-        union_table_name = f"{self.left_table}_union_{self.right_table}"
         supply_frames[union_table_name] = supply_frames[self.left_table].copy()
 
         if backend == "pandas":
