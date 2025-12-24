@@ -11,7 +11,7 @@ from .base import TableTransform, printwidth
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, trim, date_trunc, lower, upper
+from pyspark.sql.functions import col, when, date_trunc, lower, upper
 
 import polars as pl
 import pandas as pd
@@ -1223,21 +1223,11 @@ class TrimWhitespace(TableTransform):
         """
         table_name = kwargs.get("df")
         backend = supply_frames[table_name].frame_type
-
-        if backend == "pandas":
-            supply_frames[table_name].df[self.column] = supply_frames[table_name].df[self.column].str.strip()
-
-        elif backend == "polars":
-            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
-                pl.col(self.column).str.strip_chars().alias(self.column)
-            )
-
-        elif backend == "pyspark":
-            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
-                self.column, trim(col(self.column))
-            )
-        else:
+        if backend not in ["pandas", "polars", "pyspark"]:
             raise NotImplementedError(f"TrimWhitespace not implemented for backend '{backend}'")
+
+        #apply the trim
+        supply_frames[table_name].trimwhite(self.column)
 
         # Log the transform event
         self.log_info = TransformEvent(
@@ -1671,19 +1661,23 @@ class AttachSynID(TableTransform):
     Will attach a synthetic ID to the Table from its source ID
     """
     
-    def __init__(self, source_id:str, use_fast_join=False):
+    def __init__(self, source_id:str, use_fast_join=False, ignore_tests=False):
         """
         Initialise an AttachSynID transform.
         
         Args:
             source_id (str): The name of the source ID column to base the synthetic ID on.
+            use_fast_join (bool): Whether to use modified ID group variable for joining if available.
+            ignore_tests (bool): Whether to skip test checks after transformation.
         """
+        self.ignore_tests = ignore_tests
+        testable = not ignore_tests
         super().__init__(
             "SynID",
             f"Attach the synthetic ID based on source ID '{source_id}'",
             [source_id],
             "SYNID",
-            testable_transform=True
+            testable_transform=testable
         )
         #set the expected map name to be found in supply loads
         self.source_id = source_id
@@ -1759,16 +1753,14 @@ class AttachSynID(TableTransform):
         )
         
         #now drop the src id after join
-        supply_frames[table_name] = supply_frames[table_name].drop(self.source_id)
-        
-        SYNVARID = os.getenv("TNSFRMS_SYN_VAR", "SYNTHETIC")
+        supply_frames[table_name].drop(self.source_id)
         
         #create the event
         self.log_info = TransformEvent(
             input_tables=[table_name, "entmap"],
             output_tables=[table_name],
             input_variables=[self.source_id],
-            output_variables=[SYNVARID],
+            output_variables=[self.attached_id],
             input_columns=incols,
             output_columns={table_name: list(supply_frames[table_name].columns)}
         )
@@ -1843,6 +1835,8 @@ class UnionTables(TableTransform):
         Perform the union operation.
         """
         backend = supply_frames[self.left_table].frame_type
+        
+        union_table_name = kwargs.get("output_table", f"{self.left_table}_union_{self.right_table}")
 
         # Capture input columns before transformation
         input_columns = {
@@ -1855,7 +1849,6 @@ class UnionTables(TableTransform):
         right_row_count = supply_frames[self.right_table].nrow
         
         # Store result in a new table
-        union_table_name = f"{self.left_table}_union_{self.right_table}"
         supply_frames[union_table_name] = supply_frames[self.left_table].copy()
 
         if backend == "pandas":

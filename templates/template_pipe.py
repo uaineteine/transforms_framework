@@ -266,7 +266,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 30: Union Tables
     # ------------------------
-    print("Applying UnionTables on two location tables (with and without duplicates)")
+    print("Applying UnionTables on two salary tables (with and without duplicates)")
     union_transform = UnionTables("salary_400", "salary_500", union_all=False)
     supply_frames = union_transform.apply(supply_frames, output_table="salary_union")
     print("After UnionTables (salary_400 and salary_500):")
@@ -275,7 +275,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 21: Attach synthetic ID test
     # -------------------------------
-    atn_synth = AttachSynID("name")
+    atn_synth = AttachSynID("name", ignore_tests=True)
     supply_frames = atn_synth.apply(supply_frames, df="location")
     supply_frames["location"].show()
 

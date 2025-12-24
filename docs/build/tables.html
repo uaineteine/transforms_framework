@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="templates" href="templates.html" />
-    <link rel="prev" title="dag" href="dag.html" /> 
+    <link rel="prev" title="engine" href="engine.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +43,13 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="transformslib_root.html">transformslib (root)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dag.html">dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine.html">engine</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">tables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.tables.collections.collection">transformslib.tables.collections.collection</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection"><code class="docutils literal notranslate"><span class="pre">TableCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection.check_table_exists"><code class="docutils literal notranslate"><span class="pre">TableCollection.check_table_exists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection.drop"><code class="docutils literal notranslate"><span class="pre">TableCollection.drop()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection.filter_tables"><code class="docutils literal notranslate"><span class="pre">TableCollection.filter_tables()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.collection.TableCollection.get_info"><code class="docutils literal notranslate"><span class="pre">TableCollection.get_info()</span></code></a></li>
@@ -64,23 +67,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-transformslib.tables.collections.old_supply_load">transformslib.tables.collections.old_supply_load</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.SchemaValidationError"><code class="docutils literal notranslate"><span class="pre">SchemaValidationError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.SupplyLoad"><code class="docutils literal notranslate"><span class="pre">SupplyLoad</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.SupplyLoad.load_supplies"><code class="docutils literal notranslate"><span class="pre">SupplyLoad.load_supplies()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.clear_last_run"><code class="docutils literal notranslate"><span class="pre">clear_last_run()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.get_execution_engine_info"><code class="docutils literal notranslate"><span class="pre">get_execution_engine_info()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.get_run_state"><code class="docutils literal notranslate"><span class="pre">get_run_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.get_schema_summary"><code class="docutils literal notranslate"><span class="pre">get_schema_summary()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.get_supply_file"><code class="docutils literal notranslate"><span class="pre">get_supply_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.get_table_names_from_run_state"><code class="docutils literal notranslate"><span class="pre">get_table_names_from_run_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.load_pre_transform_data"><code class="docutils literal notranslate"><span class="pre">load_pre_transform_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.old_supply_load.load_single_table_from_sampling"><code class="docutils literal notranslate"><span class="pre">load_single_table_from_sampling()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.tables.collections.resources">transformslib.tables.collections.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.resources.integrity_check_ent_map"><code class="docutils literal notranslate"><span class="pre">integrity_check_ent_map()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.resources.load_ent_map"><code class="docutils literal notranslate"><span class="pre">load_ent_map()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.resources.load_specific_ent_map"><code class="docutils literal notranslate"><span class="pre">load_specific_ent_map()</span></code></a></li>
 </ul>
@@ -92,16 +80,23 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.clear_last_run"><code class="docutils literal notranslate"><span class="pre">clear_last_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.gather_supply_ids"><code class="docutils literal notranslate"><span class="pre">gather_supply_ids()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_execution_engine_info"><code class="docutils literal notranslate"><span class="pre">get_execution_engine_info()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_run_state"><code class="docutils literal notranslate"><span class="pre">get_run_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_schema_summary"><code class="docutils literal notranslate"><span class="pre">get_schema_summary()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_pre_transform_data"><code class="docutils literal notranslate"><span class="pre">load_pre_transform_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.get_supply_srcs"><code class="docutils literal notranslate"><span class="pre">get_supply_srcs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_column_data"><code class="docutils literal notranslate"><span class="pre">load_column_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_data_types"><code class="docutils literal notranslate"><span class="pre">load_data_types()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_input_table"><code class="docutils literal notranslate"><span class="pre">load_input_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_person_keys"><code class="docutils literal notranslate"><span class="pre">load_person_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_summary_data"><code class="docutils literal notranslate"><span class="pre">load_summary_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.collections.supply_load.load_table_warnings"><code class="docutils literal notranslate"><span class="pre">load_table_warnings()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-transformslib.tables.metaframe">transformslib.tables.metaframe</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame"><code class="docutils literal notranslate"><span class="pre">MetaFrame</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.add_event"><code class="docutils literal notranslate"><span class="pre">MetaFrame.add_event()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.copy"><code class="docutils literal notranslate"><span class="pre">MetaFrame.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.get_id_group_cd"><code class="docutils literal notranslate"><span class="pre">MetaFrame.get_id_group_cd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.get_metadata"><code class="docutils literal notranslate"><span class="pre">MetaFrame.get_metadata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.get_person_keys"><code class="docutils literal notranslate"><span class="pre">MetaFrame.get_person_keys()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.get_warning_messages"><code class="docutils literal notranslate"><span class="pre">MetaFrame.get_warning_messages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.info"><code class="docutils literal notranslate"><span class="pre">MetaFrame.info()</span></code></a></li>
@@ -109,6 +104,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.rename_table"><code class="docutils literal notranslate"><span class="pre">MetaFrame.rename_table()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.sample"><code class="docutils literal notranslate"><span class="pre">MetaFrame.sample()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.save_events"><code class="docutils literal notranslate"><span class="pre">MetaFrame.save_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.set_id_group_cd"><code class="docutils literal notranslate"><span class="pre">MetaFrame.set_id_group_cd()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.set_person_keys"><code class="docutils literal notranslate"><span class="pre">MetaFrame.set_person_keys()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.set_warning_messages"><code class="docutils literal notranslate"><span class="pre">MetaFrame.set_warning_messages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame.write"><code class="docutils literal notranslate"><span class="pre">MetaFrame.write()</span></code></a></li>
@@ -152,7 +148,7 @@
 <span id="transformslib-tables-collections-collection"></span><h2>transformslib.tables.collections.collection<a class="headerlink" href="#module-transformslib.tables.collections.collection" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.collection.</span></span><span class="sig-name descname"><span class="pre">TableCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame" title="transformslib.tables.metaframe.MetaFrame"><span class="pre">MetaFrame</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.collection.</span></span><span class="sig-name descname"><span class="pre">TableCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame" title="transformslib.tables.metaframe.MetaFrame"><span class="pre">MetaFrame</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection" title="Link to this definition"></a></dt>
 <dd><p>A collection manager for multiple MetaFrame objects with dictionary-like access.</p>
 <p>This class provides a convenient way to manage multiple MetaFrame instances,
 allowing access by name through dictionary-style operations. It maintains both
@@ -188,6 +184,22 @@ named_tables (dict): Dictionary mapping table names to MetaFrame instances.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.check_table_exists">
+<span class="sig-name descname"><span class="pre">check_table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.check_table_exists" title="Link to this definition"></a></dt>
+<dd><p>Check if a table with the given name exists in the collection.</p>
+<dl>
+<dt>Args:</dt><dd><p>name (str): The name of the table to check.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if the table exists, False otherwise.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exists</span> <span class="o">=</span> <span class="n">pt_collection</span><span class="o">.</span><span class="n">check_table_exists</span><span class="p">(</span><span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.drop">
 <span class="sig-name descname"><span class="pre">drop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.drop" title="Link to this definition"></a></dt>
 <dd><p>Drop the tables whose names are in the provided list.</p>
@@ -218,31 +230,22 @@ that are specified in the input list.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.get_info">
-<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.get_info" title="Link to this definition"></a></dt>
-<dd><p>Get metadata information (warning_messages and person_keys) from one or all MetaFrames.</p>
+<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.get_info" title="Link to this definition"></a></dt>
+<dd><p>Print metadata information (warning_messages and person_keys) from one or all MetaFrames.</p>
 <dl>
 <dt>Args:</dt><dd><dl class="simple">
-<dt>table_name (str, optional): Name of a specific table to get info from.</dt><dd><p>If None, returns info for all tables in the collection.
+<dt>table_name (str, optional): Name of a specific table to print info for.</dt><dd><p>If None, prints info for all tables in the collection.
 Defaults to None.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>dict: If table_name is provided, returns info dict for that table.</dt><dd><p>If table_name is None, returns dict mapping table names to their info dicts.</p>
 </dd>
 </dl>
 </dd>
 <dt>Raises:</dt><dd><p>KeyError: If the specified table_name does not exist in the collection.</p>
 </dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get info for a specific table</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">info</span> <span class="o">=</span> <span class="n">pt_collection</span><span class="o">.</span><span class="n">get_info</span><span class="p">(</span><span class="s2">&quot;table1&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;warning_messages&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;person_keys&#39;</span><span class="p">])</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Print info for a specific table</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt_collection</span><span class="o">.</span><span class="n">get_info</span><span class="p">(</span><span class="s2">&quot;table1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get info for all tables</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_info</span> <span class="o">=</span> <span class="n">pt_collection</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">all_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;warning_messages&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Print info for all tables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt_collection</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd>
@@ -302,7 +305,7 @@ that are not specified in the input list.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.ntables">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ntables</span></span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.ntables" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ntables</span></span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.ntables" title="Link to this definition"></a></dt>
 <dd><p>Get the number of tables in the collection.</p>
 <p>This is a property that provides the same functionality as len(self),
 but with a more descriptive name for clarity.</p>
@@ -318,7 +321,7 @@ but with a more descriptive name for clarity.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.save_all">
-<span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_all" title="Link to this definition"></a></dt>
 <dd><p>Save all tables in the collection to the specified output directory.</p>
 <p>This method iterates through all tables in the collection and calls their write()
 method to persist the data to files in the specified directory. It also logs
@@ -341,17 +344,13 @@ extn (str, optional): The file extension to save for the file. If none, will use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.collection.TableCollection.save_events">
-<span class="sig-name descname"><span class="pre">save_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_events" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.collection.TableCollection.save_events" title="Link to this definition"></a></dt>
 <dd><p>Save events for all tables or specific tables in the collection.</p>
 <p>This method iterates through the specified tables and calls their save_events()
 method to persist the event logs to JSON files.</p>
 <dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>table_names (list[str], optional): List of table names to save events for.</dt><dd><p>If None, saves events for all tables in the collection.
-Defaults to None.</p>
-</dd>
-</dl>
-<p>spark (SparkSession, optional): The Spark session to use for logging events.</p>
+<dt>Args:</dt><dd><p>table_names (list[str], optional): List of table names to save events for. If None, saves events for all tables in the collection. Defaults to None.
+spark (SparkSession, optional): The Spark session to use for logging events.</p>
 </dd>
 <dt>Returns:</dt><dd><p>None</p>
 </dd>
@@ -456,171 +455,22 @@ end_name (str): The ending name (inclusive).</p>
 </dd></dl>
 
 </section>
-<section id="module-transformslib.tables.collections.old_supply_load">
-<span id="transformslib-tables-collections-old-supply-load"></span><h2>transformslib.tables.collections.old_supply_load<a class="headerlink" href="#module-transformslib.tables.collections.old_supply_load" title="Link to this heading"></a></h2>
-<dl class="py exception">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.SchemaValidationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">SchemaValidationError</span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.SchemaValidationError" title="Link to this definition"></a></dt>
-<dd><p>Exception raised when schema validation fails.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.SupplyLoad">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">SupplyLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_schema_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.SupplyLoad" title="Link to this definition"></a></dt>
-<dd><p>A specialised collection manager for loading and managing supply data from JSON configuration files.</p>
-<p>This class extends TableCollection to provide automated loading of multiple data sources from a JSON configuration file. It supports thr sampling input method using sampling_state.json (requires only job_id)</p>
-<p>The new sampling system includes schema validation capabilities that automatically verify
-loaded data against the expected schema defined in the dtypes field.</p>
-<p>New sampling state JSON configuration follows this structure:
-{</p>
-<blockquote>
-<div><dl>
-<dt>“sample_files”: [</dt><dd><dl>
-<dt>{</dt><dd><p>“table_name”: “table_name”,
-“input_path”: “path/to/data.parquet”,
-“file_format”: “parquet”,
-“dtypes”: {</p>
-<blockquote>
-<div><p>“column1”: {“dtype_source”: “String”, “dtype_output”: “String”},
-“column2”: {“dtype_source”: “Int64”, “dtype_output”: “Int64”}</p>
-</div></blockquote>
-<p>}</p>
-</dd>
-</dl>
-<p>]</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<dl>
-<dt>Attributes:</dt><dd><p>supply_load_src (str): The path to the JSON configuration file.
-job (int): The job ID for the current operation.
-run (int): The run ID for the current operation (None for new sampling input method).
-enable_schema_validation (bool): Whether schema validation is enabled (new system only).</p>
-</dd>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># New sampling input method with schema validation (default)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># New sampling input method without schema validation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">enable_schema_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">customers_table</span> <span class="o">=</span> <span class="n">supply_loader</span><span class="p">[</span><span class="s2">&quot;customers&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">orders_table</span> <span class="o">=</span> <span class="n">supply_loader</span><span class="p">[</span><span class="s2">&quot;orders&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Save events for all loaded tables</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span><span class="o">.</span><span class="n">save_events</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.SupplyLoad.load_supplies">
-<span class="sig-name descname"><span class="pre">load_supplies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.SupplyLoad.load_supplies" title="Link to this definition"></a></dt>
-<dd><p>Load supply data from the JSON configuration file.</p>
-<p>This method reads either a sampling_state.json (new sampling input method)
-configuration file and creates MetaFrame instances for each supply item. It validates that each 
-supply item has the required fields, loads the data using the specified format and path, and 
-optionally applies sampling. For the new sampling system, schema validation is performed if enabled.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>List[str]: A list of names of the loaded tables.</p>
-</dd>
-<dt>Raises:</dt><dd><p>FileNotFoundError: If the JSON configuration file doesn’t exist.
-ValueError: If the JSON format is invalid or missing required fields.
-SchemaValidationError: If schema validation fails (only for new sampling system).
-Exception: If there are issues loading any of the data files.</p>
-</dd>
-</dl>
-<p>Example:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">supply_loader</span> <span class="o">=</span> <span class="n">SupplyLoad</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>  <span class="c1"># New sampling input method</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.clear_last_run">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">clear_last_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.clear_last_run" title="Link to this definition"></a></dt>
-<dd><p>Remove output paths on request</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.get_execution_engine_info">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">get_execution_engine_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.get_execution_engine_info" title="Link to this definition"></a></dt>
-<dd><p>Get databricks information if running in databricks environment</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.get_run_state">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">get_run_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.get_run_state" title="Link to this definition"></a></dt>
-<dd><p>Return the path location of the input payload.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: The payload path.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.get_schema_summary">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">get_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_dtypes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.get_schema_summary" title="Link to this definition"></a></dt>
-<dd><p>Get a human-readable summary of the expected schema.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>expected_dtypes: Dictionary mapping column names to dtype information</p>
-</dd>
-<dt>Returns:</dt><dd><p>str: A formatted string describing the expected schema</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.get_supply_file">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">get_supply_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.get_supply_file" title="Link to this definition"></a></dt>
-<dd><p>Return the path location of the input payload.</p>
-<p>Args: table_name (str): The name of the table to load.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: The payload path.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.get_table_names_from_run_state">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">get_table_names_from_run_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.get_table_names_from_run_state" title="Link to this definition"></a></dt>
-<dd><p>Extract a unique, sorted list of table_name values from a run_state dict
-(looks under all_files -&gt; data_files, map_files, enum_file, schema_file, other_files).</p>
-<p>Input directory is the run_state.json</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.load_pre_transform_data">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">load_pre_transform_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MultiTable</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.load_pre_transform_data" title="Link to this definition"></a></dt>
-<dd><p>Load the pre-transform tables for supply loading.</p>
-<p>Returns Multitable lists of frames</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.old_supply_load.load_single_table_from_sampling">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.old_supply_load.</span></span><span class="sig-name descname"><span class="pre">load_single_table_from_sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_schema_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame" title="transformslib.tables.metaframe.MetaFrame"><span class="pre">MetaFrame</span></a></span></span><a class="headerlink" href="#transformslib.tables.collections.old_supply_load.load_single_table_from_sampling" title="Link to this definition"></a></dt>
-<dd><p>Load supplies from new sampling_state.json format with optional schema validation.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>data (Dict[str, Any]): The parsed JSON data from sampling_state.json
-sample (bool): Whether to apply sampling to loaded tables
-sample_rows (int, optional): Number of rows to sample
-sample_frac (float, optional): Fraction of rows to sample
-seed (int, optional): Random seed for reproducible sampling
-spark: SparkSession object for PySpark operations
-enable_schema_validation (bool): Whether to perform schema validation. Defaults to True.</p>
-</dd>
-<dt>Returns:</dt><dd><p>MetaFrame: The loaded MetaFrame instance.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 <section id="module-transformslib.tables.collections.resources">
 <span id="transformslib-tables-collections-resources"></span><h2>transformslib.tables.collections.resources<a class="headerlink" href="#module-transformslib.tables.collections.resources" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.resources.integrity_check_ent_map">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.resources.</span></span><span class="sig-name descname"><span class="pre">integrity_check_ent_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ent_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MultiTable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#transformslib.tables.collections.resources.integrity_check_ent_map" title="Link to this definition"></a></dt>
+<dd><p>Perform an integrity check on the entity map</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ent_map (MultiTable): _description_</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: Handled exception RS210, entity map is missing required coluns.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="transformslib.tables.collections.resources.load_ent_map">
 <span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.resources.</span></span><span class="sig-name descname"><span class="pre">load_ent_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#transformslib.tables.metaframe.MetaFrame" title="transformslib.tables.metaframe.MetaFrame"><span class="pre">MetaFrame</span></a></span></span><a class="headerlink" href="#transformslib.tables.collections.resources.load_ent_map" title="Link to this definition"></a></dt>
@@ -651,41 +501,19 @@ enable_schema_validation (bool): Whether to perform schema validation. Defaults 
 <span id="transformslib-tables-collections-supply-load"></span><h2>transformslib.tables.collections.supply_load<a class="headerlink" href="#module-transformslib.tables.collections.supply_load" title="Link to this heading"></a></h2>
 <dl class="py exception">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.SchemaValidationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SchemaValidationError</span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SchemaValidationError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SchemaValidationError</span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SchemaValidationError" title="Link to this definition"></a></dt>
 <dd><p>Exception raised when schema validation fails.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.SupplyLoad">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SupplyLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_schema_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">SupplyLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_schema_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ent_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad" title="Link to this definition"></a></dt>
 <dd><p>A specialised collection manager for loading and managing supply data from JSON configuration files.</p>
 <p>This class extends TableCollection to provide automated loading of multiple data sources from a JSON configuration file. It supports thr sampling input method using sampling_state.json (requires only job_id)</p>
 <p>The new sampling system includes schema validation capabilities that automatically verify
 loaded data against the expected schema defined in the dtypes field.</p>
-<p>New sampling state JSON configuration follows this structure:
-{</p>
-<blockquote>
-<div><dl>
-<dt>“sample_files”: [</dt><dd><dl>
-<dt>{</dt><dd><p>“table_name”: “table_name”,
-“input_path”: “path/to/data.parquet”,
-“file_format”: “parquet”,
-“dtypes”: {</p>
-<blockquote>
-<div><p>“column1”: {“dtype_source”: “String”, “dtype_output”: “String”},
-“column2”: {“dtype_source”: “Int64”, “dtype_output”: “Int64”}</p>
-</div></blockquote>
-<p>}</p>
-</dd>
-</dl>
-<p>]</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
 <dl>
-<dt>Attributes:</dt><dd><p>supply_load_src (str): The path to the JSON configuration file.
-job (int): The job ID for the current operation.
+<dt>Attributes:</dt><dd><p>job (int): The job ID for the current operation.
 run (int): The run ID for the current operation (None for new sampling input method).
 enable_schema_validation (bool): Whether schema validation is enabled (new system only).</p>
 </dd>
@@ -708,13 +536,15 @@ enable_schema_validation (bool): Whether schema validation is enabled (new syste
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.SupplyLoad.load_supplies">
-<span class="sig-name descname"><span class="pre">load_supplies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad.load_supplies" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load_supplies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ent_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.collections.supply_load.SupplyLoad.load_supplies" title="Link to this definition"></a></dt>
 <dd><p>Load supply data from the JSON configuration file.</p>
 <p>This method reads either a sampling_state.json (new sampling input method)
 configuration file and creates MetaFrame instances for each supply item. It validates that each 
 supply item has the required fields, loads the data using the specified format and path, and 
 optionally applies sampling. For the new sampling system, schema validation is performed if enabled.</p>
 <dl class="simple">
+<dt>Args:</dt><dd><p>ent_keys (dict): Dictionary of entity keys for loading the entity map.</p>
+</dd>
 <dt>Returns:</dt><dd><p>List[str]: A list of names of the loaded tables.</p>
 </dd>
 <dt>Raises:</dt><dd><p>FileNotFoundError: If the JSON configuration file doesn’t exist.
@@ -738,38 +568,67 @@ Exception: If there are issues loading any of the data files.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.gather_supply_ids">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">gather_supply_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.gather_supply_ids" title="Link to this definition"></a></dt>
+<dd><p>Placeholder for parsing in data from a dataframe, will be replaced with integrated loading later.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_execution_engine_info">
 <span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_execution_engine_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_execution_engine_info" title="Link to this definition"></a></dt>
 <dd><p>Get databricks information if running in databricks environment</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_run_state">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_run_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_run_state" title="Link to this definition"></a></dt>
-<dd><p>Return the path location of the input payload.</p>
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_supply_srcs">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_supply_srcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_supply_srcs" title="Link to this definition"></a></dt>
+<dd><p>Load and return the supply sources from the pre-transform summary data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_column_data">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_column_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MultiTable</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_column_data" title="Link to this definition"></a></dt>
+<dd><p>Load the pre-transform column data.</p>
+<p>Returns Multitable of frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_data_types">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_data_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_data_types" title="Link to this definition"></a></dt>
+<dd><p>Load and return the data types from the pre-transform summary data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_input_table">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_input_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MultiTable</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_input_table" title="Link to this definition"></a></dt>
+<dd><p>Load a pre transform table from the given path. Applying formats if needed and attempting de-duplication.</p>
 <dl class="simple">
-<dt>Returns:</dt><dd><p>str: The payload path.</p>
+<dt>Args:</dt><dd><p>path (str): The path to the delta table.
+format (str): The format of the table, default is “delta”.
+spark: SparkSession object for PySpark operations.</p>
+</dd>
+<dt>Returns:</dt><dd><p>MultiTable: The loaded MultiTable instance.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.get_schema_summary">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">get_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_dtypes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.get_schema_summary" title="Link to this definition"></a></dt>
-<dd><p>Get a human-readable summary of the expected schema.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>expected_dtypes: Dictionary mapping column names to dtype information</p>
-</dd>
-<dt>Returns:</dt><dd><p>str: A formatted string describing the expected schema</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_person_keys">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_person_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_person_keys" title="Link to this definition"></a></dt>
+<dd><p>Load and return the person keys from the pre-transform summary data.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_pre_transform_data">
-<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_pre_transform_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MultiTable</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_pre_transform_data" title="Link to this definition"></a></dt>
-<dd><p>Load the pre-transform tables for supply loading.</p>
-<p>Returns Multitable lists of frames</p>
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_summary_data">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_summary_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MultiTable</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_summary_data" title="Link to this definition"></a></dt>
+<dd><p>Load the pre-transform table summary data.</p>
+<p>Returns Multitable of frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="transformslib.tables.collections.supply_load.load_table_warnings">
+<span class="sig-prename descclassname"><span class="pre">transformslib.tables.collections.supply_load.</span></span><span class="sig-name descname"><span class="pre">load_table_warnings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#transformslib.tables.collections.supply_load.load_table_warnings" title="Link to this definition"></a></dt>
+<dd><p>Load and display warning messages from the pre-transform column data.</p>
 </dd></dl>
 
 </section>
@@ -777,7 +636,7 @@ Exception: If there are issues loading any of the data files.</p>
 <span id="transformslib-tables-metaframe"></span><h2>transformslib.tables.metaframe<a class="headerlink" href="#module-transformslib.tables.metaframe" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.metaframe.</span></span><span class="sig-name descname"><span class="pre">MetaFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MultiTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MultiTable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inherit_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="transforms.html#transformslib.transforms.pipeevent.PipelineEvent" title="transformslib.transforms.pipeevent.PipelineEvent"><span class="pre">PipelineEvent</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">transformslib.tables.metaframe.</span></span><span class="sig-name descname"><span class="pre">MetaFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MultiTable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MultiTable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inherit_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="transforms.html#transformslib.transforms.pipeevent.PipelineEvent" title="transformslib.transforms.pipeevent.PipelineEvent"><span class="pre">PipelineEvent</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warning_messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_group_cd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame" title="Link to this definition"></a></dt>
 <dd><p>A specialised class that extends multitable to include event logging capabilities for data pipeline operations.</p>
 <p>This class combines the functionality of a MultiTable (which handles different DataFrame types like PySpark, 
 Pandas, or Polars) with an event logging system that tracks all operations performed on the data.</p>
@@ -827,10 +686,48 @@ description attributes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.copy" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.copy" title="Link to this definition"></a></dt>
 <dd><p>Create a deep copy of the MetaFrame, including the DataFrame and all events.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>MetaFrame: A new MetaFrame instance with copied data and events.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.get_id_group_cd">
+<span class="sig-name descname"><span class="pre">get_id_group_cd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.get_id_group_cd" title="Link to this definition"></a></dt>
+<dd><p>Get the ID group code.</p>
+<dl>
+<dt>Returns:</dt><dd><p>Optional ID group code.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">id_group_cd</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">get_id_group_cd</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.get_metadata">
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.get_metadata" title="Link to this definition"></a></dt>
+<dd><p>Return metadata information about the MetaFrame.</p>
+<dl>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict: A dictionary containing warning_messages and person_keys.</dt><dd><ul class="simple">
+<li><p>warning_messages (pd.DataFrame): Mapping of column names to warning messages.</p></li>
+<li><p>person_keys (list): List of person identifier keys.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metadata</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;warning_messages&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;person_keys&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </dd></dl>
@@ -868,20 +765,21 @@ description attributes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.info">
 <span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.info" title="Link to this definition"></a></dt>
-<dd><p>Return metadata information about the MetaFrame.</p>
+<dd><p>Print a formatted table showing column information including warnings and person key flags.</p>
 <dl>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>dict: A dictionary containing warning_messages and person_keys.</dt><dd><ul class="simple">
-<li><p>warning_messages (dict): Mapping of column names to warning messages.</p></li>
-<li><p>person_keys (list): List of person identifier keys.</p></li>
+<dt>Displays:</dt><dd><ul class="simple">
+<li><p>Table name and row count</p></li>
+<li><p>For each column: name, person key indicator, and warning messages (if any)</p></li>
 </ul>
 </dd>
-</dl>
-</dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">info</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;warning_messages&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;person_keys&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="go">Table: my_table (1000 rows)</span>
+<span class="go">================================================================================</span>
+<span class="go">Column Name          | Person Key  | Warning Message</span>
+<span class="go">---------------------+-------------+--------------------------------------------</span>
+<span class="go">name                 | *           | Contains PII</span>
+<span class="go">age                  |             |</span>
 </pre></div>
 </div>
 </dd>
@@ -890,7 +788,7 @@ description attributes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.load">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.load" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parquet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pyspark'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.load" title="Link to this definition"></a></dt>
 <dd><p>Load a DataFrame from the given path and return a MetaFrame with an initial load event.</p>
 <p>This static method creates a MetaFrame from a data file, automatically logging
 the load operation as the first event in the pipeline.</p>
@@ -934,7 +832,7 @@ Exception: If there are issues loading the data or creating the MultiTable.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.sample" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.sample" title="Link to this definition"></a></dt>
 <dd><p>Sample rows from the DataFrame and replace the existing DataFrame inplace.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>n (int, optional): Number of rows to sample. Mutually exclusive with <cite>frac</cite>.
@@ -970,11 +868,28 @@ Exception: If there are issues serializing events to JSON.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.set_id_group_cd">
+<span class="sig-name descname"><span class="pre">set_id_group_cd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_group_cd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.set_id_group_cd" title="Link to this definition"></a></dt>
+<dd><p>Set the ID group code.</p>
+<dl>
+<dt>Args:</dt><dd><p>id_group_cd: ID group code (can be any type).</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">set_id_group_cd</span><span class="p">(</span><span class="s2">&quot;group_001&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.set_person_keys">
 <span class="sig-name descname"><span class="pre">set_person_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.set_person_keys" title="Link to this definition"></a></dt>
 <dd><p>Set the list of person identifier keys.</p>
 <dl>
 <dt>Args:</dt><dd><p>person_keys (list): List of person identifier keys.</p>
+</dd>
+<dt>Raises:</dt><dd><p>TypeError: If person_keys is not a list.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">set_person_keys</span><span class="p">([</span><span class="s2">&quot;person_id&quot;</span><span class="p">,</span> <span class="s2">&quot;user_id&quot;</span><span class="p">])</span>
@@ -986,13 +901,15 @@ Exception: If there are issues serializing events to JSON.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="transformslib.tables.metaframe.MetaFrame.set_warning_messages">
-<span class="sig-name descname"><span class="pre">set_warning_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">warning_messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.set_warning_messages" title="Link to this definition"></a></dt>
-<dd><p>Set the warning messages dictionary.</p>
+<span class="sig-name descname"><span class="pre">set_warning_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">warning_messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#transformslib.tables.metaframe.MetaFrame.set_warning_messages" title="Link to this definition"></a></dt>
+<dd><p>Set the warning messages table.</p>
 <dl>
-<dt>Args:</dt><dd><p>warning_messages (dict): Mapping of column names to warning messages.</p>
+<dt>Args:</dt><dd><p>warning_messages (pd.DataFrame): Table of column names to warning messages.</p>
+</dd>
+<dt>Raises:</dt><dd><p>TypeError: If warning_messages is not a pd DataFrame.</p>
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">MetaFrame</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;my_table&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">set_warning_messages</span><span class="p">({</span><span class="s2">&quot;col_a&quot;</span><span class="p">:</span> <span class="s2">&quot;some message&quot;</span><span class="p">,</span> <span class="s2">&quot;col_b&quot;</span><span class="p">:</span> <span class="s2">&quot;another warning&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">set_warning_messages</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;col1&quot;</span><span class="p">:</span> <span class="s2">&quot;Warning 1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">:</span> <span class="s2">&quot;Warning 2&quot;</span><span class="p">}))</span>
 </pre></div>
 </div>
 </dd>
@@ -1026,7 +943,7 @@ overwrite (bool, optional): Defaults to “TRUE”.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="dag.html" class="btn btn-neutral float-left" title="dag" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="engine.html" class="btn btn-neutral float-left" title="engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="templates.html" class="btn btn-neutral float-right" title="templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
