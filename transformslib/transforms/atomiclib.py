@@ -1753,7 +1753,7 @@ class AttachSynID(TableTransform):
         )
         
         #now drop the src id after join
-        supply_frames[table_name] = supply_frames[table_name].drop(self.source_id)
+        supply_frames[table_name].drop(self.source_id)
         
         #create the event
         self.log_info = TransformEvent(
