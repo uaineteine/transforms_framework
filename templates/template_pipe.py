@@ -275,7 +275,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 21: Attach synthetic ID test
     # -------------------------------
-    atn_synth = AttachSynID("name")
+    atn_synth = AttachSynID("name", ignore_tests=True)
     supply_frames = atn_synth.apply(supply_frames, df="location")
     supply_frames["location"].show()
 
