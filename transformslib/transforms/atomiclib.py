@@ -1684,7 +1684,8 @@ class AttachSynID(TableTransform):
         self.expected_map_name = "entity_map"
         self.use_fast_join = use_fast_join
         syn_id = os.getenv("TNSFRMS_SYN_VAR", "syn_id")
-        self.attached_id = f"{syn_id}_interim"
+        self.used_id = f"{syn_id}_interim"
+        self.attached_id = syn_id
         
     def error_check(self, supply_frames, **kwargs):
         #check column actually exists in the df
@@ -1700,8 +1701,8 @@ class AttachSynID(TableTransform):
         #check the entity maps
         if not supply_frames.check_table_exists("entity_map"):
             raise LookupError("AL925 Expected entity map table 'entity_map' not found in supply_frames")
-        if self.attached_id not in supply_frames["entity_map"].columns:
-            raise ValueError(f"AL923 Column '{self.attached_id}' not found in DataFrame 'entity_map'")
+        if self.used_id not in supply_frames["entity_map"].columns:
+            raise ValueError(f"AL923 Column '{self.used_id}' not found in DataFrame 'entity_map'")
 
         #error check if map exists
         does_exist = supply_frames.check_table_exists(self.expected_map_name)
@@ -1741,7 +1742,7 @@ class AttachSynID(TableTransform):
         #isolate for id group
         target_ent_map = supply_frames["entity_map"].copy().df.filter(col("id_group_cd") == id_group)
         #select only needed columns
-        target_ent_map = target_ent_map.select(src_id, self.attached_id)
+        target_ent_map = target_ent_map.select(src_id, self.used_id)
         #rename src_id to self.source_id for join
         target_ent_map = target_ent_map.withColumnRenamed(src_id, self.source_id)
         
@@ -1751,6 +1752,9 @@ class AttachSynID(TableTransform):
             on=vars_to_join,
             how="left"
         )
+        
+        #rename the attached id columns
+        supply_frames[table_name].df = supply_frames[table_name].df.withColumnRenamed(self.used_id, self.attached_id)
         
         #now drop the src id after join
         supply_frames[table_name].drop(self.source_id)
