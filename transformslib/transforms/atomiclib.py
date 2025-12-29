@@ -1767,6 +1767,8 @@ class AttachSynID(TableTransform):
         
         supply_frames[table_name].add_event(self)
         
+        return supply_frames
+        
     def test(self, supply_frames, **kwargs):
         #simple test to check the SYNID column exists
         table_name = kwargs.get("df")
