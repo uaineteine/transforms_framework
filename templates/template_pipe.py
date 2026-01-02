@@ -283,7 +283,7 @@ if __name__ == "__main__":
     # Test 19: HASHING
     # -------------------------------
     print("Applying hashing test")
-    hsh = HashColumns("name", "hextest")
+    hsh = HashColumns("region", "hextest")
     supply_frames = hsh.apply(supply_frames, df="location")
     supply_frames["location"].show()
     
