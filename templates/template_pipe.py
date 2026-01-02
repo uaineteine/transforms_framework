@@ -347,22 +347,14 @@ if __name__ == "__main__":
     print("first join complete")
     supply_frames = join_transform.apply(supply_frames, output_table="location")
     supply_frames = DistinctTable().apply(supply_frames, df="location")
-
-    join_transform = JoinTable(
-        left_table="location",
-        right_table="example_join",
-        join_columns="name",
-        join_type="outer"
-    )
-    supply_frames = join_transform.apply(supply_frames, output_table="super_table")
-    print("second join complete")
     
-    supply_frames["super_table"].show()
+    supply_frames["location"].show()
 
     # save table output tables
 
     #keep only salary tables
     supply_frames.select_by_prefix("salary*").save_all()
+    print("Subset of tables with prefix 'salary' saved successfully")
 
     end_time = time.time()
     print(f"Test pipeline execution completed at {time.ctime(end_time)}")
