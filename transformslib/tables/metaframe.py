@@ -75,7 +75,7 @@ class MetaFrame(MultiTable):
 
         # Metadata for data quality and person tracking
         # Initialize attributes using setter methods for validation
-        self.warning_messages = {}  # Initialize empty, then use setter
+        self.warning_messages = pd.DataFrame()  # Initialize empty, then use setter
         self.person_keys = []  # Initialize empty, then use setter
         self.id_group_cd = None  # Initialize empty, then use setter
         
