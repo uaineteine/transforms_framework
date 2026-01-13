@@ -579,7 +579,7 @@ class PartitionByValue(TableTransform):
             raise NotImplementedError(f"Partition not implemented for backend '{backend}'")
 
         #if too many unique values, raise error
-        if len(unique_values) > 1000:
+        if len(unique_values) > 100:
             raise ValueError(f"Too many unique values ({len(unique_values)}) in column '{self.partition_column}' for a decent partition, please review.")
 
         output_tables = []
