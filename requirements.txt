@@ -2,6 +2,7 @@ polars
 tabulate
 pandas
 pyspark
+itables
 pyvis
 networkx
 naming-standards>=1.0.0
