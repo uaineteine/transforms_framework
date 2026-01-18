@@ -358,6 +358,8 @@ if __name__ == "__main__":
     )
     mid_dfs = concat_macro.apply()
     
+    print(mid_dfs.get_table_names())
+    
     mid_dfs["entity_multi_id"].show()
 
     # -------------------------------
