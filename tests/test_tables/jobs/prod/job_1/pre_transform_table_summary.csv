@@ -6,3 +6,4 @@
 1,1,test,"../tests/test_tables/jobs/prod/job_1/positions.csv",2025-10-23T10:27:17.391,positions,5,csv,name,2
 1,1,test,"../tests/test_tables/jobs/prod/job_1/state.csv",2025-10-23T10:27:17.391,state,2,csv,,1
 1,1,test,"../tests/test_tables/jobs/prod/job_1/salary.csv",2025-10-23T10:27:17.391,salary,3,csv,id,1
+1,1,test,"../tests/test_tables/jobs/prod/job_1/entry_multi_id.csv",2025-10-23T10:27:17.391,string_table,3,csv,id_part1,1

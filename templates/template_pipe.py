@@ -357,6 +357,8 @@ if __name__ == "__main__":
         output_column="full_id"
     )
     mid_dfs = concat_macro.apply()
+    
+    mid_dfs["entity_multi_id"].show()
 
     # -------------------------------
     # Repeated tests to continue
