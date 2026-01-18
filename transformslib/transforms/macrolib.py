@@ -50,7 +50,7 @@ class Macro:
         MACRO_LOG_LOC = os.environ.get("TNSFRMS_LOG_LOC", "jobs/prod/job_{job_id}/treatments.json")
         self.macro_log_loc = apply_formats(MACRO_LOG_LOC)
 
-    def apply(self):
+    def apply(self, **kwargs) -> "TableCollection":
         """
         Applies the macro transformation to the input tables and logs the operation.
 
@@ -60,12 +60,13 @@ class Macro:
         spark = get_spark()
         
         table_names = self.input_tables.get_table_names()
+        #print(table_names)
         
         return_frames = None
         
-        for tbl in table_names:
-            return_frames = self.macros.apply(self.input_tables, spark=spark, df=tbl)
-        
+        for i, tbl in enumerate(table_names):
+            return_frames = self.macros.apply(self.input_tables, spark=spark, df=tbl, **kwargs)
+            
         return return_frames
 
     def log(self):
@@ -187,6 +188,10 @@ class ConcatenateIDs(Macro):
             output_variables=[output_column]
         )
 
+    def apply(self, **kwargs) -> "TableCollection":
+        # Override apply to specify output column name
+        kwargs['output_var'] = self.output_variables[0]
+        return super().apply(**kwargs)
 
 class DropMissingIDs(Macro):
     """
