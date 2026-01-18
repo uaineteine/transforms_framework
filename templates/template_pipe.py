@@ -332,6 +332,19 @@ if __name__ == "__main__":
     print("-------------------------------")
     print("\nInfo for all tables via TableCollection.get_info():")
     supply_frames.get_info()
+
+    # -------------------------------
+    # Test 23: DropNAValues
+    # -------------------------------
+    print("Applying DropNAValues on salary table")
+    print("Before DropNAValues on age column in positions table:")
+    supply_frames["positions"].show()
+
+    drop_nulls = DropNAValues("age")
+    supply_frames = drop_nulls.apply(supply_frames, df="positions")
+    
+    print("After DropNAValues on age column in positions table:")
+    supply_frames["positions"].show()
     
     # -------------------------------
     # Repeated tests to continue
