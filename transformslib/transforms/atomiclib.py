@@ -53,11 +53,11 @@ class DuplicateColumn(TableTransform):
             raise ValueError("AL050 Must specify 'df' parameter with table name")
 
         #check if source column exists
-        if self.src_col not in supply_frames[table_name]:
+        if self.src_col not in supply_frames[table_name].columns:
             raise ValueError(f"AL51 source column {self.src_col} is not in the table {table_name}")
         
         #check if new column to make already exists
-        if self.new_column in supply_frames[table_name]:
+        if self.new_column in supply_frames[table_name].columns:
             raise ValueError(f"AL52 new column to create {self.new_column} is already in the table {table_name}. Please use a new column name")
     
     def transforms(self, supply_frames, **kwargs):
