@@ -99,7 +99,7 @@ class DuplicateColumn(TableTransform):
         if self.new_column in supply_frames[table_name].columns:
             return True
         else:
-            raise KeyError(f"AL53 the new column {self.new_column} does not exist in the output frame")
+            print(f"Error AL53 the new column {self.new_column} does not exist in the output frame")
         
         #fail
         return False
