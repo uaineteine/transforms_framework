@@ -24,6 +24,74 @@ def _get_lambda_source(func) -> str:
     except Exception as e:
         return f"AL001 source unavailable: {e}"
 
+class DuplicateColumn(TableTransform):
+    """
+    Duplicate and clone a column with an alias in your table
+    """
+
+    def __init__(self, src_column:str, new_column:str):
+        """
+        Duplicate and clone a column with an alias in your table
+        
+        """
+
+        super().__init__(
+            "DuplicateColumn",
+            "Duplicate and clone a column with an alias in your table",
+            [src_column],
+            "DpCol",
+            testable_transform=False
+        )
+
+        self.new_column = new_column
+        self.src_col = src_column
+
+    def error_check(self, supply_frames, **kwargs):
+        #check if df is applied
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("AL050 Must specify 'df' parameter with table name")
+
+        #check if source column exists
+        if self.src_col not in supply_frames[table_name]:
+            raise ValueError(f"AL51 source column {self.src_col} is not in the table {table_name}")
+        
+        #check if new column to make already exists
+        if self.new_column in supply_frames[table_name]:
+            raise ValueError(f"AL52 new column to create {self.new_column} is already in the table {table_name}. Please use a new column name")
+    
+    def transforms(self, supply_frames, **kwargs):
+        table_name = kwargs.get('df')
+        src = self.src_col
+        out_col = self.new_column
+        in_cols = supply_frames[table_name].columns
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pyspark":
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(out_col, col(src))
+        elif backend == "polars":
+            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.col(src).alias(out_col))
+        elif backend == "pandas":
+            supply_frames[table_name].df[out_col] = supply_frames[table_name].df[src]
+
+        #log information
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[out_col],
+            created_variables=[out_col],
+            removed_variables = [self.vars],
+            input_columns=in_cols,
+            output_columns=output_columns
+            )
+        self.target_tables = [table_name]
+
+        return supply_frames
+
 class CreateColumn(TableTransform):
     """
     Create a column to a dataframe using a default value
@@ -31,6 +99,10 @@ class CreateColumn(TableTransform):
 
     def __init__(self, new_column_name:str, default_value: Union[float, int, str]):
         """
+        Create a column to a dataframe using a default value
+
+        Args:
+
         """
 
         super().__init__(
@@ -74,6 +146,7 @@ class CreateColumn(TableTransform):
             output_tables=[table_name],
             input_variables=[self.vars],
             output_variables=[out_col],
+            created_variables=[out_col],
             removed_variables = [self.vars],
             input_columns=in_cols,
             output_columns=output_columns
