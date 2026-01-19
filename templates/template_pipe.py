@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     #create new column of initial value of 5
     new_col = CreateColumn("new_column_of_five", 5)
-    supply_frames = supply_frames.apply(supply_frames, df="salary")
+    supply_frames = new_col.apply(supply_frames, df="salary")
 
     print("we should expect a cloned column and a new column of 5s")
     supply_frames["salary"].show()
