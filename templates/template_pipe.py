@@ -80,6 +80,21 @@ if __name__ == "__main__":
     supply_frames["entity_map"].show()
 
     # -------------------------------
+    # Test NOVA GROUP: clone, create col transforms
+    # -------------------------------
+    print("Cloning a column.. Pre-transformation:")
+    supply_frames["salary"].show()
+
+    clone = DuplicateColumn("salary", "salary_clone")
+    supply_frames = clone.apply(supply_frames, df="salary")
+
+    #create new column of initial value of 5
+    new_col = CreateColumn("new_column", 5)
+    supply_frames = supply_frames.apply(supply_frames, df="salary")
+
+    supply_frames["salary"].show()
+
+    # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
     # -------------------------------
     print("Partitioning salary by salary")
