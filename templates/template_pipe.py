@@ -114,7 +114,7 @@ if __name__ == "__main__":
     print("divide of new values should give us 625")
     supply_frames = Arithmetic("new_exponent_result", "/", "new_column_of_five", "new_divide_result").apply(supply_frames, df="salary")
 
-    supply_frames.show["salary"].show()
+    supply_frames["salary"].show()
 
 
     # -------------------------------
