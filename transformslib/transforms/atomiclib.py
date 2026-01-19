@@ -11,7 +11,7 @@ from .base import TableTransform, printwidth
 if TYPE_CHECKING:
     from transformslib.tables.collections.collection import TableCollection
 
-from pyspark.sql.functions import col, when, date_trunc, lower, upper
+from pyspark.sql.functions import col, when, date_trunc, lower, upper, pow, lit
 
 import polars as pl
 import pandas as pd
@@ -23,6 +23,181 @@ def _get_lambda_source(func) -> str:
         return inspect.getsource(func).strip()
     except Exception as e:
         return f"AL001 source unavailable: {e}"
+
+class CreateColumn(TableTransform):
+    """
+    Create a column to a dataframe using a default value
+    """
+
+    def __init__(self, new_column_name:str, default_value: Union[float, int, str]):
+        """
+        """
+
+        super().__init__(
+            "CreateColumn",
+            "Createsa  new column of dataframes using a default value",
+            [new_column_name],
+            "CrCol",
+            testable_transform=False
+        )
+
+        self.init_value = default_value
+    
+    def error_check(self, supply_frames, **kwargs):
+        #check if df is applied
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("AL040 Must specify 'df' parameter with table name")
+
+        if self.vars in supply_frames[table_name].columns:
+            raise ValueError("AL041 Output columns {self.vars} exists already in table {table_name}")
+    
+    def transforms(self, supply_frames, **kwargs):
+        table_name = kwargs.get('df')
+        out_col = self.vars
+        in_cols = supply_frames[table_name].columns
+        backend = supply_frames[table_name].frame_type
+
+        if backend == "pyspark":
+            supply_frames[table_name].df = supply_frames[table_name].df.withColumn(out_col, lit(self.init_value))
+        elif backend == "polars":
+            supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.lit(self.init_value).alias(out_col))
+        elif backend == "pandas":
+            supply_frames[table_name].df[out_col] = self.init_value
+
+        #log information
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[out_col],
+            removed_variables = [self.vars],
+            input_columns=in_cols,
+            output_columns=output_columns
+            )
+        self.target_tables = [table_name]
+
+        return supply_frames
+
+class Arithmetic(TableTransform):
+    """
+    Transform class for adding, divding, subtracting columns or applying an exponent
+    """
+
+    def __init__(self, left_column:str, op: str, right_column:str, out_column:str):
+        """
+        Docstring for __init__
+        
+        :param self: Description
+        :param left_column: Description
+        :type left_column: str
+        :param op: Description
+        :type op: str
+        :param right_column: Description
+        :type right_column: str
+        """
+
+        super().__init__(
+            "Arithmetic",
+            "adding, divding, subtracting columns in a dataframe",
+            [left_column, right_column],
+            "Aritmc",
+            testable_transform=False
+        )
+
+        self.left = left_column
+        self.right = right_column
+        self.op = op
+        self.out_column = out_column
+
+    def error_check(self, supply_frames, **kwargs):
+        #check if df is applied
+        table_name = kwargs.get('df')
+        if not table_name:
+            raise ValueError("AL030 Must specify 'df' parameter with table name")
+        
+        #check if operator is in the acceptable list
+        acceptable = ["+", "/", "-", "*", "**"]
+        if self.op not in acceptable:
+            raise ValueError(f"AL033 operator {self.op} is not supported, it must be in the {acceptable} list:")
+    
+    def transforms(self, supply_frames, **kwargs):
+        table_name = kwargs.get('df')
+        out_col = self.out_column
+
+        if not supply_frames.check_table_exists(table_name):
+            raise ValueError(f"AL032 {table_name} does not exist in table collection supply_frames")
+        
+        backend = supply_frames[table_name].frame_type
+
+        in_cols = supply_frames[table_name].columns
+
+        if backend == "pyspark":
+            if self.op == "+":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    out_col, col(self.left) + col(self.right)
+                )
+            elif self.op == "-":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    out_col, col(self.left) - col(self.right)
+                )
+            elif self.op == "*":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    out_col, col(self.left) * col(self.right)
+                )
+            elif self.op == "/":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    out_col, col(self.left) / col(self.right)
+                )
+            elif self.op == "**":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    out_col, pow(col(self.left), col(self.right))
+                )
+
+        elif backend == "polars":
+            if self.op == "+":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.col(self.left) + pl.col(self.right).alias(out_col))
+            elif self.op == "-":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.col(self.left) - pl.col(self.right).alias(out_col))
+            elif self.op == "*":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.col(self.left) * pl.col(self.right).alias(out_col))
+            elif self.op == "/":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(pl.col(self.left) / pl.col(self.right).alias(out_col))
+            elif self.op == "**":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns((pl.col(self.left) ** pl.col(self.right)).alias(out_col))
+
+        elif backend == "pandas":
+            if self.op == "+":
+                supply_frames[table_name].df[out_col] = supply_frames[table_name].df[self.left] + supply_frames[table_name].df[self.right]
+            elif self.op == "-":
+                supply_frames[table_name].df[out_col] = supply_frames[table_name].df[self.left] - supply_frames[table_name].df[self.right]
+            elif self.op == "*":
+                supply_frames[table_name].df[out_col] = supply_frames[table_name].df[self.left] * supply_frames[table_name].df[self.right]
+            elif self.op == "/":
+                supply_frames[table_name].df[out_col] = supply_frames[table_name].df[self.left] / supply_frames[table_name].df[self.right]
+            elif self.op == "**":
+                supply_frames[table_name].df[out_col] = supply_frames[table_name].df[self.left] ** supply_frames[table_name].df[self.right]
+        
+        #log information
+        # Capture output columns after transformation
+        output_columns = {table_name: list(supply_frames[table_name].columns)}
+
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=[self.vars],
+            output_variables=[out_col],
+            removed_variables = [self.vars],
+            input_columns=in_cols,
+            output_columns=output_columns
+            )
+        self.deleted_variables = self.vars
+        self.target_tables = [table_name]
+
+        return supply_frames
 
 class DropVariable(TableTransform):
     """
