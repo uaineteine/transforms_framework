@@ -89,10 +89,33 @@ if __name__ == "__main__":
     supply_frames = clone.apply(supply_frames, df="salary")
 
     #create new column of initial value of 5
-    new_col = CreateColumn("new_column", 5)
+    new_col = CreateColumn("new_column_of_five", 5)
     supply_frames = supply_frames.apply(supply_frames, df="salary")
 
+    print("we should expect a cloned column and a new column of 5s")
     supply_frames["salary"].show()
+
+    # -------------------------------
+    # Test NOVA GROUP 2: arithmetic operations
+    # -------------------------------
+
+    print("adding new values together in salary table to give us 10")
+    supply_frames = Arithmetic("new_column_of_five", "+", "new_column_of_five", "new_column_of_ten").apply(supply_frames, df="salary")
+
+    print("subtracting new values should give us 0")
+    supply_frames = Arithmetic("new_column_of_ten", "-", "new_column_of_ten", "new_column_of_zero").apply(supply_frames, df="salary")
+
+    print("multiply new values should give us 50")
+    supply_frames = Arithmetic("new_column_of_five", "*", "new_column_of_ten", "new_column_of_fifty").apply(supply_frames, df="salary")
+
+    print("exponent of new values should give us 3125")
+    supply_frames = Arithmetic("new_column_of_five", "**", "new_column_of_five", "new_exponent_result").apply(supply_frames, df="salary")
+
+    print("divide of new values should give us 625")
+    supply_frames = Arithmetic("new_exponent_result", "/", "new_column_of_five", "new_divide_result").apply(supply_frames, df="salary")
+
+    supply_frames.show["salary"].show()
+
 
     # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
