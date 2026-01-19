@@ -80,6 +80,44 @@ if __name__ == "__main__":
     supply_frames["entity_map"].show()
 
     # -------------------------------
+    # Test NOVA GROUP: clone, create col transforms
+    # -------------------------------
+    print("Cloning a column.. Pre-transformation:")
+    supply_frames["salary"].show()
+
+    clone = DuplicateColumn("salary", "salary_clone")
+    supply_frames = clone.apply(supply_frames, df="salary")
+
+    #create new column of initial value of 5
+    new_col = CreateColumn("new_column_of_five", 5)
+    supply_frames = new_col.apply(supply_frames, df="salary")
+
+    print("we should expect a cloned column and a new column of 5s")
+    supply_frames["salary"].show()
+
+    # -------------------------------
+    # Test NOVA GROUP 2: arithmetic operations
+    # -------------------------------
+
+    print("adding new values together in salary table to give us 10")
+    supply_frames = Arithmetic("new_column_of_five", "+", "new_column_of_five", "new_column_of_ten").apply(supply_frames, df="salary")
+
+    print("subtracting new values should give us 0")
+    supply_frames = Arithmetic("new_column_of_ten", "-", "new_column_of_ten", "new_column_of_zero").apply(supply_frames, df="salary")
+
+    print("multiply new values should give us 50")
+    supply_frames = Arithmetic("new_column_of_five", "*", "new_column_of_ten", "new_column_of_fifty").apply(supply_frames, df="salary")
+
+    print("exponent of new values should give us 3125")
+    supply_frames = Arithmetic("new_column_of_five", "**", "new_column_of_five", "new_exponent_result").apply(supply_frames, df="salary")
+
+    print("divide of new values should give us 625")
+    supply_frames = Arithmetic("new_exponent_result", "/", "new_column_of_five", "new_divide_result").apply(supply_frames, df="salary")
+
+    supply_frames["salary"].show()
+
+
+    # -------------------------------
     # Test 1: PartitionByValue on SALARY for salary
     # -------------------------------
     print("Partitioning salary by salary")
@@ -332,6 +370,19 @@ if __name__ == "__main__":
     print("-------------------------------")
     print("\nInfo for all tables via TableCollection.get_info():")
     supply_frames.get_info()
+
+    # -------------------------------
+    # Test 23: DropNAValues
+    # -------------------------------
+    print("Applying DropNAValues on salary table")
+    print("Before DropNAValues on age column in positions table:")
+    supply_frames["positions"].show()
+
+    drop_nulls = DropNAValues("age")
+    supply_frames = drop_nulls.apply(supply_frames, df="positions")
+    
+    print("After DropNAValues on age column in positions table:")
+    supply_frames["positions"].show()
     
     # -------------------------------
     # Repeated tests to continue

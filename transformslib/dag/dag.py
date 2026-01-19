@@ -139,14 +139,17 @@ def build_di_graph(logs:list) -> nx.DiGraph:
             # Add input/output columns if present
             input_columns = log_info.get("input_columns") or {}
             output_columns = log_info.get("output_columns") or {}
-            if tbl in output_columns:
-                cols = output_columns[tbl]
-                if cols is not None:
-                    title_parts.append(f"Output Columns: {', '.join(cols)}")
-            if tbl in input_columns:
+
+            # Ensure input_columns and output_columns are dictionaries
+            if isinstance(input_columns, dict) and tbl in input_columns:
                 cols = input_columns[tbl]
                 if cols is not None:
                     title_parts.append(f"Input Columns: {', '.join(cols)}")
+
+            if isinstance(output_columns, dict) and tbl in output_columns:
+                cols = output_columns[tbl]
+                if cols is not None:
+                    title_parts.append(f"Output Columns: {', '.join(cols)}")
 
             title = "\n".join(title_parts)
 

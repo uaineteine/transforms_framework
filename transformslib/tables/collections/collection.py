@@ -480,7 +480,7 @@ class TableCollection:
         if len(tables) > 0:
             save_list = self.select_by_names(*tables)
 
-        print(f"Saving all tables: {save_list}")
+        print(f"Saving all tables: {save_list.get_table_names()}")
         print("")
         for table in save_list.tables:
             #create the output path location
