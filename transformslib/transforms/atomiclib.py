@@ -40,7 +40,7 @@ class DuplicateColumn(TableTransform):
             "Duplicate and clone a column with an alias in your table",
             [src_column],
             "DpCol",
-            testable_transform=False
+            testable_transform=True
         )
 
         self.new_column = new_column
@@ -91,6 +91,18 @@ class DuplicateColumn(TableTransform):
         self.target_tables = [table_name]
 
         return supply_frames
+    
+    def test(self, supply_frames, **kwargs):
+        table_name = kwargs.get('df')
+
+        #check the new column was created
+        if self.new_column in supply_frames[table_name].columns:
+            return True
+        else:
+            raise KeyError(f"AL53 the new column {self.new_column} does not exist in the output frame")
+        
+        #fail
+        return False
 
 class CreateColumn(TableTransform):
     """
