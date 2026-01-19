@@ -126,6 +126,7 @@ class CreateColumn(TableTransform):
         )
 
         self.init_value = default_value
+        self.new_column = new_column_name
     
     def error_check(self, supply_frames, **kwargs):
         #check if df is applied
@@ -138,7 +139,7 @@ class CreateColumn(TableTransform):
     
     def transforms(self, supply_frames, **kwargs):
         table_name = kwargs.get('df')
-        out_col = self.vars
+        out_col = self.new_column
         in_cols = supply_frames[table_name].columns
         backend = supply_frames[table_name].frame_type
 
