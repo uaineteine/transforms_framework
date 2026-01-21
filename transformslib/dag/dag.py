@@ -89,10 +89,17 @@ def build_di_graph(logs:list) -> nx.DiGraph:
         transform_name = event.get("name", "unknown")
         is_testable = bool(event.get("testable_transform", False))
 
+        # Filter out empty dictionaries from input_tables and output_tables
+        input_tables = [tbl for tbl in input_tables if tbl != {}]
+        output_tables = [tbl for tbl in output_tables if tbl != {}]
+
         # Determine input nodes (latest version so far)
         input_nodes = []
         for tbl in input_tables:
-            #print(latest_node_for_table)
+            # Ensure tbl is a string before using it as a key
+            if not isinstance(tbl, str):
+                raise TypeError(f"Expected tbl to be a string, but got {type(tbl).__name__}: {tbl}")
+
             if tbl in latest_node_for_table:
                 input_nodes.append(latest_node_for_table[tbl])
             else:

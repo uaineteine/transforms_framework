@@ -11,3 +11,5 @@
 1,1,test,decimal_table,value1,some col1,String,,,,
 1,1,test,decimal_table,value2,some col2,String,,,,
 1,1,test,decimal_table,value3,some col3,String,,,,
+1,1,test,id_part1,id_part1,The first part of the unique identifier,String,,,,
+1,1,test,id_part2,id_part2,The second part of the unique identifier,String,,,
