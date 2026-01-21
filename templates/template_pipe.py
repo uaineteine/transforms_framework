@@ -313,6 +313,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 21: Attach synthetic ID test
     # -------------------------------
+    print("Applying AttachSynID on name column")
     atn_synth = AttachSynID("name", ignore_tests=True)
     supply_frames = atn_synth.apply(supply_frames, df="location")
     supply_frames["location"].show()
@@ -389,6 +390,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Applying ConcatenateIDs macro to multi-id tables")
     mid_dfs = supply_frames.select_by_names("entity_multi_id")
+    mid_dfs["entity_multi_id"].show()
     concat_macro = ConcatenateIDs(
         input_tables=mid_dfs,
         input_columns=["id_part1", "id_part2"],
@@ -404,18 +406,13 @@ if __name__ == "__main__":
     # Test 25: DropMissingIDs
     # -------------------------------
     print("Drop missing IDs from tables using DropMissingIDs macro")
-    print("Testing on the entity_multi_id table")
-    mid_dfs = supply_frames.select_by_names("entity_multi_id")
-    concat_macro = ConcatenateIDs(
-        input_tables=mid_dfs,
-        input_columns=["id_part1", "id_part2"],
-        output_column="full_id"
-    )
-    mid_dfs = concat_macro.apply()
+    print("Testing on the location table that should have synthetic IDs")
+    loc_dfs = supply_frames.select_by_names("location")
+    loc_dfs["location"].show()
+    dropIDs = DropMissingIDs(input_tables=loc_dfs)
+    loc_dfs = dropIDs.apply()
     
-    print(mid_dfs.get_table_names())
-    
-    mid_dfs["entity_multi_id"].show()
+    loc_dfs["location"].show()
 
     # -------------------------------
     # Repeated tests to continue
