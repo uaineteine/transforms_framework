@@ -399,6 +399,23 @@ if __name__ == "__main__":
     print(mid_dfs.get_table_names())
     
     mid_dfs["entity_multi_id"].show()
+    
+    # -------------------------------
+    # Test 25: DropMissingIDs
+    # -------------------------------
+    print("Drop missing IDs from tables using DropMissingIDs macro")
+    print("Testing on the entity_multi_id table")
+    mid_dfs = supply_frames.select_by_names("entity_multi_id")
+    concat_macro = ConcatenateIDs(
+        input_tables=mid_dfs,
+        input_columns=["id_part1", "id_part2"],
+        output_column="full_id"
+    )
+    mid_dfs = concat_macro.apply()
+    
+    print(mid_dfs.get_table_names())
+    
+    mid_dfs["entity_multi_id"].show()
 
     # -------------------------------
     # Repeated tests to continue
