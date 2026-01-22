@@ -2056,6 +2056,7 @@ class AttachSynID(TableTransform):
             if sum > 0:
                 print(f"TEST FAIL FOR ATTACH SYNID: {sum} NULLS FOUND")
                 return False
+            return True  # FIX: Test passes when column exists and has no NULLs
         else:
             print("TEST FAIL FOR ATTACH SYNID: COLUMN NOT FOUND")
             return False
