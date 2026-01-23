@@ -52,12 +52,12 @@ if __name__ == "__main__":
     set_engine("pyspark")
     set_spark_session(spark)
 
+    from transformslib import set_job_id, set_default_variables
+    set_default_variables()
+    
     from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
-    from transformslib import set_job_id, set_default_variables
-
-    set_default_variables()
 
     # load pipeline tables
     job_id = 1
@@ -313,6 +313,7 @@ if __name__ == "__main__":
     # -------------------------------
     # Test 21: Attach synthetic ID test
     # -------------------------------
+    print("Applying AttachSynID on name column")
     atn_synth = AttachSynID("name", ignore_tests=True)
     supply_frames = atn_synth.apply(supply_frames, df="location")
     supply_frames["location"].show()
@@ -389,6 +390,7 @@ if __name__ == "__main__":
     # -------------------------------
     print("Applying ConcatenateIDs macro to multi-id tables")
     mid_dfs = supply_frames.select_by_names("entity_multi_id")
+    mid_dfs["entity_multi_id"].show()
     concat_macro = ConcatenateIDs(
         input_tables=mid_dfs,
         input_columns=["id_part1", "id_part2"],
@@ -399,6 +401,18 @@ if __name__ == "__main__":
     print(mid_dfs.get_table_names())
     
     mid_dfs["entity_multi_id"].show()
+    
+    # -------------------------------
+    # Test 25: DropMissingIDs
+    # -------------------------------
+    print("Drop missing IDs from tables using DropMissingIDs macro")
+    print("Testing on the location table that should have synthetic IDs")
+    loc_dfs = supply_frames.select_by_names("location")
+    loc_dfs["location"].show()
+    dropIDs = DropMissingIDs(input_tables=loc_dfs)
+    loc_dfs = dropIDs.apply()
+    
+    loc_dfs["location"].show()
 
     # -------------------------------
     # Repeated tests to continue
