@@ -52,12 +52,12 @@ if __name__ == "__main__":
     set_engine("pyspark")
     set_spark_session(spark)
 
+    from transformslib import set_job_id, set_default_variables
+    set_default_variables()
+    
     from transformslib.tables.collections.supply_load import SupplyLoad, clear_last_run
     from transformslib.transforms.atomiclib import *
     from transformslib.transforms.macrolib import *
-    from transformslib import set_job_id, set_default_variables
-
-    set_default_variables()
 
     # load pipeline tables
     job_id = 1
