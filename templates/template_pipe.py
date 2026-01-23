@@ -127,6 +127,16 @@ if __name__ == "__main__":
     for t in partitioned.tables:
         print(f"Table: {t.table_name}")
         t.show()
+    
+    # -------------------------------
+    # Casting tests, various types
+    # -------------------------------
+    print("Casting tests on various types")
+    
+    print("Casting float to an int type")
+    supply_frames["types_table"].show()
+    supply_frames = CastColumnType("float1", "int32").apply(supply_frames, df="types_table")
+    supply_frames["types_table"].show()
 
     # -------------------------------
     # Test 2: DropVariable on positions

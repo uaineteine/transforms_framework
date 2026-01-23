@@ -1463,6 +1463,30 @@ class CastColumnType(TableTransform):
         supply_frames[table_name].add_event(self)
         
         return supply_frames
+    
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
+        """
+        Return True if all columns are set to target types, False otherwise.
+        """
+        table_name = kwargs.get("df")
+        
+        backend = supply_frames[table_name].frame_type
+        
+        for col in self.columns:
+            target_type = self.get_data_type_for_backend(backend, self.target_type)
+            
+            if backend == "pandas":
+                if str(supply_frames[table_name].df[col].dtype) != target_type:
+                    return False
+            elif backend == "polars":
+                if supply_frames[table_name].schema[col] != target_type:
+                    return False
+            elif backend == "pyspark":
+                if supply_frames[table_name].dtypes[col] != target_type + '()':
+                    return False
+        
+        #else conditions satisified
+        return True
 
 class DropNAValues(TableTransform):
     """
