@@ -1417,14 +1417,15 @@ class CastColumnType(TableTransform):
                 'string': pl.Utf8
             }[target_type]
         elif backend == "pyspark":
+            from pyspark.sql.types import ByteType, ShortType, IntegerType, LongType, FloatType, DoubleType, StringType
             return {
-                'int8': 'ByteType',
-                'int16': 'ShortType',
-                'int32': 'IntegerType',
-                'int64': 'LongType',
-                'float32': 'FloatType',
-                'float64': 'DoubleType',
-                'string': 'StringType'
+                'int8': ByteType(),
+                'int16': ShortType(),
+                'int32': IntegerType(),
+                'int64': LongType(),
+                'float32': FloatType(),
+                'float64': DoubleType(),
+                'string': StringType()
             }[target_type]
         else:
             raise NotImplementedError(f"AT011 CastColumnType not implemented for backend '{backend}'")
@@ -1436,6 +1437,8 @@ class CastColumnType(TableTransform):
         for col in self.columns:
             # Use the multitable function to get the backend-specific type
             target_type = self.get_data_type_for_backend(backend, self.target_type)
+            
+            print(f"Attempting to cast column {col} to type {target_type} on backend {backend}")
 
             if backend == "pandas":
                 supply_frames[table_name].df[col] = supply_frames[table_name].df[col].astype(self.target_type)
@@ -1452,6 +1455,8 @@ class CastColumnType(TableTransform):
 
             else:
                 raise NotImplementedError(f"AT011 CastColumnType not implemented for backend '{backend}'")
+            
+            print(f"Finished casting column {col} to type {self.target_type} on backend {backend}")
             
         #log event
         self.log_info = TransformEvent(
