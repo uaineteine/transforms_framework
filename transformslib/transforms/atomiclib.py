@@ -1375,10 +1375,10 @@ class DropNAValues(TableTransform):
         """
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL411 Must specify 'df' parameter with table name")
 
         if self.column not in supply_frames[table_name].columns:
-            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+            raise ValueError(f"AL410 Column '{self.column}' not found in DataFrame '{table_name}'")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
