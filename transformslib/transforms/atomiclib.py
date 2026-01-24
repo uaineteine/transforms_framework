@@ -1497,7 +1497,7 @@ class CastColumnType(TableTransform):
                 if supply_frames[table_name].schema[col] != target_type:
                     return False
             elif backend == "pyspark":
-                if supply_frames[table_name].dtypes[col] != target_type + '()':
+                if supply_frames[table_name].dtypes[col] != str(target_type):
                     return False
         
         #else conditions satisified

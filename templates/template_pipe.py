@@ -133,11 +133,33 @@ if __name__ == "__main__":
     # -------------------------------
     print("Casting tests on various types")
     
-    print("Casting float to an int type")
+    print("Casting float to a string type")
+    print("Original types_table:")
+    print(supply_frames["types_table"].dtypes)
     supply_frames["types_table"].show()
-    supply_frames = CastColumnType("float1", "int32").apply(supply_frames, df="types_table")
+    supply_frames = CastColumnType("float1", "string").apply(supply_frames, df="types_table")
+    print("Post transform types_table:")
+    print(supply_frames["types_table"].dtypes)
     supply_frames["types_table"].show()
 
+    print("Casting int to a float type")
+    print("Original types_table:")
+    print(supply_frames["types_table"].dtypes)
+    supply_frames["types_table"].show()
+    supply_frames = CastColumnType("int", "float32").apply(supply_frames, df="types_table")
+    print("Post transform types_table:")
+    print(supply_frames["types_table"].dtypes)
+    supply_frames["types_table"].show()
+    
+    print("Casting int to a float type to double type")
+    print("Original types_table:")
+    print(supply_frames["types_table"].dtypes)
+    supply_frames["types_table"].show()
+    supply_frames = CastColumnType("float1", "float64").apply(supply_frames, df="types_table")
+    print("Post transform types_table:")
+    print(supply_frames["types_table"].dtypes)
+    supply_frames["types_table"].show()
+    
     # -------------------------------
     # Test 2: DropVariable on positions
     # -------------------------------
