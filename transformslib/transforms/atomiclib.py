@@ -1401,6 +1401,16 @@ class CastColumnType(TableTransform):
     
     @staticmethod
     def get_data_type_for_backend(backend: str, target_type: str):
+        """
+        Map the target_type string to the appropriate data type for the specified backend.
+        
+        Args:
+            backend (str): The backend type ('pandas', 'polars', 'pyspark').
+            target_type (str): The target data type as a string.
+            
+        Returns:
+            The corresponding data type for the backend.
+        """
         if target_type not in CastColumnType.ACCEPTABLE_TYPES:
             raise ValueError(f"AL630 target_type must be one of {CastColumnType.ACCEPTABLE_TYPES}")
         
