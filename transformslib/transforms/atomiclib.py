@@ -1348,6 +1348,161 @@ class ExplodeColumn(TableTransform):
             return False
         return self.column in supply_frames[table_name].columns
 
+class CastColumnType(TableTransform):
+    """
+    Transform class for casting a column to a specified data type.
+    """
+    
+    ACCEPTABLE_TYPES = ['int8', 'int16', 'int32', 'int64', 'float32', 'float64', 'string']
+    
+    def __init__(self, columns: Union[str, List[str]], target_type: str):
+        """
+        Initialise a CastColumnType transform.
+
+        Args:
+            columns (Union[str, List[str]]): Column(s) to cast.
+            target_type (str): Target data type (e.g., 'int8', 'int16', 'int32', 'int64', 'float32', 'float64', 'string').
+        """
+        if not isinstance(columns, str):
+            if not isinstance(columns, list) or not all(isinstance(col, str) for col in columns):
+                raise ValueError("AL625 columns must be a string or a list of strings")
+        elif isinstance(columns, str):
+            #remove whitespace and make a list
+            columns = columns.strip()
+            if columns == "":
+                raise ValueError("AL626 columns string cannot be empty")
+            
+            columns = [columns]
+        
+        if target_type not in CastColumnType.ACCEPTABLE_TYPES:
+            raise ValueError(f"AL627 target_type must be one of {CastColumnType.ACCEPTABLE_TYPES}")
+        
+        super().__init__(
+            "CastColumnType",
+            f"Casts column(s) {columns} to type '{target_type}'",
+            columns,
+            "CastCol",
+            testable_transform=True,
+        )
+        self.columns = columns
+        self.target_type = target_type
+        
+    def error_check(self, supply_frames: "TableCollection", **kwargs):
+        """
+        Validate that the target columns exist in the DataFrame.
+        """
+        table_name = kwargs.get("df")
+        if not table_name:
+            raise ValueError("AL628 Must specify 'df' parameter with table name")
+
+        missing_cols = [col for col in self.columns if col not in supply_frames[table_name].columns]
+        if missing_cols:
+            raise ValueError(f"AL629 Columns {missing_cols} not found in DataFrame '{table_name}'")
+    
+    @staticmethod
+    def get_data_type_for_backend(backend: str, target_type: str):
+        """
+        Map the target_type string to the appropriate data type for the specified backend.
+        
+        Args:
+            backend (str): The backend type ('pandas', 'polars', 'pyspark').
+            target_type (str): The target data type as a string.
+            
+        Returns:
+            The corresponding data type for the backend.
+        """
+        if target_type not in CastColumnType.ACCEPTABLE_TYPES:
+            raise ValueError(f"AL630 target_type must be one of {CastColumnType.ACCEPTABLE_TYPES}")
+        
+        if backend == "pandas":
+            return target_type
+        elif backend == "polars":
+            return {
+                'int8': pl.Int8,
+                'int16': pl.Int16,
+                'int32': pl.Int32,
+                'int64': pl.Int64,
+                'float32': pl.Float32,
+                'float64': pl.Float64,
+                'string': pl.Utf8
+            }[target_type]
+        elif backend == "pyspark":
+            from pyspark.sql.types import ByteType, ShortType, IntegerType, LongType, FloatType, DoubleType, StringType
+            return {
+                'int8': ByteType(),
+                'int16': ShortType(),
+                'int32': IntegerType(),
+                'int64': LongType(),
+                'float32': FloatType(),
+                'float64': DoubleType(),
+                'string': StringType()
+            }[target_type]
+        else:
+            raise NotImplementedError(f"AT011 CastColumnType not implemented for backend '{backend}'")
+    
+    def transforms(self, supply_frames: "TableCollection", **kwargs):
+        table_name = kwargs.get("df")
+        backend = supply_frames[table_name].frame_type
+        
+        for col in self.columns:
+            # Use the multitable function to get the backend-specific type
+            target_type = self.get_data_type_for_backend(backend, self.target_type)
+            
+            print(f"Attempting to cast column {col} to type {target_type} on backend {backend}")
+
+            if backend == "pandas":
+                supply_frames[table_name].df[col] = supply_frames[table_name].df[col].astype(self.target_type)
+            elif backend == "polars":
+                supply_frames[table_name].df = supply_frames[table_name].df.with_columns(
+                    pl.col(col).cast(target_type).alias(col)
+                )
+
+            elif backend == "pyspark":
+                supply_frames[table_name].df = supply_frames[table_name].df.withColumn(
+                    col,
+                    supply_frames[table_name].df[col].cast(target_type)
+                )
+
+            else:
+                raise NotImplementedError(f"AT011 CastColumnType not implemented for backend '{backend}'")
+            
+            print(f"Finished casting column {col} to type {self.target_type} on backend {backend}")
+            
+        #log event
+        self.log_info = TransformEvent(
+            input_tables=[table_name],
+            output_tables=[table_name],
+            input_variables=self.columns,
+            output_variables=self.columns,
+        )
+        supply_frames[table_name].add_event(self)
+        
+        return supply_frames
+    
+    def test(self, supply_frames: "TableCollection", **kwargs) -> bool:
+        """
+        Return True if all columns are set to target types, False otherwise.
+        """
+        table_name = kwargs.get("df")
+        
+        backend = supply_frames[table_name].frame_type
+        
+        for col in self.columns:
+            target_type = self.get_data_type_for_backend(backend, self.target_type)
+            
+            if backend == "pandas":
+                if str(supply_frames[table_name].df[col].dtype) != target_type:
+                    return False
+            elif backend == "polars":
+                if supply_frames[table_name].schema[col] != target_type:
+                    return False
+            elif backend == "pyspark":
+                if supply_frames[table_name].dtypes[col] != str(target_type):
+                    return False
+        
+        #else conditions satisified
+        return True
+
 class DropNAValues(TableTransform):
     """
     Transform class for dropping rows with NA/None/Null values in a specified column.
@@ -1375,10 +1530,10 @@ class DropNAValues(TableTransform):
         """
         table_name = kwargs.get("df")
         if not table_name:
-            raise ValueError("Must specify 'df' parameter with table name")
+            raise ValueError("AL411 Must specify 'df' parameter with table name")
 
         if self.column not in supply_frames[table_name].columns:
-            raise ValueError(f"Column '{self.column}' not found in DataFrame '{table_name}'")
+            raise ValueError(f"AL410 Column '{self.column}' not found in DataFrame '{table_name}'")
 
     def transforms(self, supply_frames: "TableCollection", **kwargs):
         """
@@ -2056,6 +2211,7 @@ class AttachSynID(TableTransform):
             if sum > 0:
                 print(f"TEST FAIL FOR ATTACH SYNID: {sum} NULLS FOUND")
                 return False
+            return True  # FIX: Test passes when column exists and has no NULLs
         else:
             print("TEST FAIL FOR ATTACH SYNID: COLUMN NOT FOUND")
             return False
