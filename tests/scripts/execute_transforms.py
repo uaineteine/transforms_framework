@@ -10,7 +10,7 @@ from pyspark.sql.functions import to_date
 # Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Add the parent directory to sys.path
-parent_dir = os.path.join(current_dir, '..')
+parent_dir = os.path.join(current_dir, '..', "..")
 sys.path.append(os.path.abspath(parent_dir))
 #---TEMPLATE STARTS HERE---
 
