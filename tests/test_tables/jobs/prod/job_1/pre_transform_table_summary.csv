@@ -7,3 +7,4 @@
 1,1,test,"../test_tables/jobs/prod/job_1/state.csv",2025-10-23T10:27:17.391,state,3,csv,,
 1,1,test,"../test_tables/jobs/prod/job_1/positions.csv",2025-10-23T10:27:17.391,positions,3,csv,name,1
 1,1,test,"../test_tables/jobs/prod/job_1/entity_multi_id.csv",2025-10-23T10:27:17.391,entity_multi_id,3,csv,id_part1,1
+1,1,test,"../test_tables/jobs/prod/job_1/types_table.csv",2025-10-23T10:27:17.391,types_table,4,csv,,

@@ -9,9 +9,9 @@ Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
 TEST WORKING
-SUCCESS: The process with PID 1940 (child process of PID 15024) has been terminated.
-SUCCESS: The process with PID 15024 (child process of PID 13964) has been terminated.
-SUCCESS: The process with PID 13964 (child process of PID 15940) has been terminated.
+SUCCESS: The process with PID 3356 (child process of PID 22188) has been terminated.
+SUCCESS: The process with PID 22188 (child process of PID 2640) has been terminated.
+SUCCESS: The process with PID 2640 (child process of PID 23096) has been terminated.
  
  
 ================================================================================ 
@@ -21,7 +21,7 @@ Running: list_transforms.py
 [hash_lib] importing base classes
 [hash_lib] import complete
 
- Transforms Library: 23 transforms available
+ Transforms Library: 24 transforms available
    Use listatomic() to see all available transforms in a table format.
 
 
@@ -29,7 +29,7 @@ Running: list_transforms.py
    Use listmacro() to see all available macro transforms in a table format.
 
 Total macros found: 4
-Total transforms found: 23
+Total transforms found: 24
  
  
 ================================================================================ 
@@ -40,7 +40,7 @@ WARNING: Using incubator modules: jdk.incubator.vector
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-Starting test pipeline execution at Fri Jan 23 23:40:53 2026
+Starting test pipeline execution at Sat Jan 24 03:06:23 2026
 Creating Spark session
 Current setup engine is: pyspark
 Using provided Spark session. Engine set to pyspark.
@@ -101,9 +101,9 @@ TEST LOADING ENTITY MAP TO AVOID DUPLICATES
 No duplicates found after loading entity map with duplicate ID groups
 TEST COMPLETE
 Spark session stopped successfully
-SUCCESS: The process with PID 13140 (child process of PID 18972) has been terminated.
-SUCCESS: The process with PID 18972 (child process of PID 23864) has been terminated.
-SUCCESS: The process with PID 23864 (child process of PID 4752) has been terminated.
+SUCCESS: The process with PID 24032 (child process of PID 4332) has been terminated.
+SUCCESS: The process with PID 4332 (child process of PID 22224) has been terminated.
+SUCCESS: The process with PID 22224 (child process of PID 22108) has been terminated.
  
  
 ================================================================================ 
@@ -114,7 +114,10 @@ WARNING: Using incubator modules: jdk.incubator.vector
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-Starting test pipeline execution at Fri Jan 23 23:41:04 2026
+System.Management.Automation.RemoteException
+[Stage 1:>                                                          (0 + 1) / 1]
+System.Management.Automation.RemoteException
+Starting test pipeline execution at Sat Jan 24 03:06:45 2026
 Creating Spark session
 Current setup engine is: pyspark
 Using provided Spark session. Engine set to pyspark.
@@ -141,7 +144,7 @@ Default environment variables have been set where necessary.
 [hash_lib] importing base classes
 [hash_lib] import complete
 
- Transforms Library: 23 transforms available
+ Transforms Library: 24 transforms available
    Use listatomic() to see all available transforms in a table format.
 
 
@@ -162,6 +165,7 @@ Transformslib has successfully read in the table sources.
 |    positions    |    ../tests/test_tables/jobs/prod/job_1/positions.csv    |
 |   date_table    |   ../tests/test_tables/jobs/prod/job_1/date_table.csv    |
 |  decimal_table  |  ../tests/test_tables/jobs/prod/job_1/decimal_table.csv  |
+|   types_table   |   ../tests/test_tables/jobs/prod/job_1/types_table.csv   |
 +-----------------+----------------------------------------------------------+
 Transformslib will now attempt to load each table in this supply...
 Successfully loaded table: state
@@ -172,8 +176,9 @@ Successfully loaded table: array_like
 Successfully loaded table: positions
 Successfully loaded table: date_table
 Successfully loaded table: decimal_table
+Successfully loaded table: types_table
 
-Successfully loaded 8 tables
+Successfully loaded 9 tables
 Transformslib will now gather the warning messages from the pre-transform column data...
 +------------+-------------+-------------------------------------------------------------------------+---------------------+-----------------+--------------------+
 | table_name | column_name |                            warning_messages                             | processing_comments | review_comments | safe_data_comments |
@@ -193,17 +198,18 @@ Set id_group_cd 2 for entity key 'id' in table 'date_table'
 
 Loading the entity map...
 Loaded the following tables: 
-{'state': state, 'entity_multi_id': entity_multi_id, 'location': location, 'salary': salary, 'array_like': array_like, 'positions': positions, 'date_table': date_table, 'decimal_table': decimal_table, 'entity_map': entity_map}
+{'state': state, 'entity_multi_id': entity_multi_id, 'location': location, 'salary': salary, 'array_like': array_like, 'positions': positions, 'date_table': date_table, 'decimal_table': decimal_table, 'types_table': types_table, 'entity_map': entity_map}
 
 ========================================================================================================================
  TRANSFORMS LIBRARY - Available Transform Classes
 ========================================================================================================================
- Total Transforms: 23
+ Total Transforms: 24
 ========================================================================================================================
 Transform Name     | Description
 -------------------+--------------------------------------------------------------------------------------------------
 Arithmetic         | Transform class for adding, divding, subtracting columns or applying an exponent
 AttachSynID        | Will attach a synthetic ID to the Table from its source ID
+CastColumnType     | Transform class for casting a column to a specified data type.
 ComplexFilter      | Transform class for filtering rows in a DataFrame using a backend-specific condition.
 ConcatColumns      | Transform class for concatenating multiple columns into a single column.
 CreateColumn       | Create a column to a dataframe using a default value
@@ -324,8 +330,9 @@ Table: salary_600
 |   600|Bob Johnson|  1|         600|                 5|               10|                 0|                 50|             3125.0|            625.0|
 |   600|     Twiggy|  1|         600|                 5|               10|                 0|                 50|             3125.0|            625.0|
 +------+-----------+---+------------+------------------+-----------------+------------------+-------------------+-------------------+-----------------+
+                                                                                
 System.Management.Automation.RemoteException
-[Stage 191:>                                                        (0 + 1) / 1]
+[Stage 192:>                                                        (0 + 1) / 1]
 System.Management.Automation.RemoteException
 
 Table: salary_400
@@ -335,6 +342,8 @@ Table: salary_400
 |   400|John Doe|  1|         400|                 5|               10|                 0|                 50|             3125.0|            625.0|
 +------+--------+---+------------+------------------+-----------------+------------------+-------------------+-------------------+-----------------+
 
+Casting tests on various types
+Casting integer types
 Original columns (positions): ['age', 'name', 'var', 'position', 'skill']
 After DropVariable (var) on positions: ['age', 'name', 'position', 'skill']
 +----+----------------+--------+------+
@@ -698,6 +707,17 @@ Table: decimal_table (2 rows) ID Group Code: N/A
 +-------------+------------+
 
 
+Table: types_table (2 rows) ID Group Code: N/A
++-------------+------------+
+| column_name | person_key |
++-------------+------------+
+|   string    |            |
+|   float1    |            |
+|   float2    |            |
+|     int     |            |
++-------------+------------+
+
+
 Table: entity_map (5 rows) ID Group Code: N/A
 +-------------------+------------+
 |    column_name    | person_key |
@@ -775,6 +795,10 @@ Table: salary_600 (2 rows) ID Group Code: N/A
 | new_column_of_fifty |            |
 | new_exponent_result |            |
 |  new_divide_result  |            |
+                                                                                
+System.Management.Automation.RemoteException
+[Stage 476:>                                                        (0 + 1) / 1]
+System.Management.Automation.RemoteException
 +---------------------+------------+
 
 
@@ -939,10 +963,44 @@ Events saved to jobs/prod/job_1/debug_salary_events.json
 save events for table salary_union
 Events saved to jobs/prod/job_1/debug_salary_400_events.json
 Subset of tables with prefix 'salary' saved successfully
-Test pipeline execution completed at Fri Jan 23 23:41:41 2026
-Total execution time: 37.18 seconds
+Test pipeline execution completed at Sat Jan 24 03:08:01 2026
+Total execution time: 76.09 seconds
 Spark session stopped successfully
-SUCCESS: The process with PID 9572 (child process of PID 1716) has been terminated.
-SUCCESS: The process with PID 1716 (child process of PID 14012) has been terminated.
-SUCCESS: The process with PID 14012 (child process of PID 11952) has been terminated.
+SUCCESS: The process with PID 17724 (child process of PID 23712) has been terminated.
+SUCCESS: The process with PID 23712 (child process of PID 17416) has been terminated.
+SUCCESS: The process with PID 17416 (child process of PID 17752) has been terminated.
                                                                                 
+ 
+ 
+================================================================================ 
+Running: make_dag.py 
+================================================================================ 
+ 
+Starting test pipeline execution at Sat Jan 24 03:08:05 2026
+Setting environment variable: TNSFRMS_EXE_ENGINE=pyspark
+Setting environment variable: TNSFRMS_JOB_ID=-1
+Setting environment variable: TNSFRMS_RUN_ID=-1
+Setting environment variable: TNSFRMS_PROD=prod
+Setting environment variable: TNSFRMS_LOG_LOC=jobs/{prodtest}/job_{job_id}/treatments.json
+Setting environment variable: TNSFRMS_OUT_TABLE_LOC=jobs/{prodtest}/job_{job_id}
+Setting environment variable: TNSFRMS_SRC_VAR=src_id
+Setting environment variable: TNSFRMS_SYN_VAR=syn_id
+Setting environment variable: TNSFRMS_ID_VAR=per_id
+Setting environment variable: TNSFRMS_IDMAPS_LOC=../tests/test_tables/id_maps
+Setting environment variable: TNSFRMS_JOB_STATE=../tests/test_tables/jobs/{prodtest}/job_{job_id}/setup/run_state.json
+Setting environment variable: TNSFRMS_JOB_PATH=../tests/test_tables/jobs/{prodtest}/job_{job_id}/{tablename}.json
+Setting environment variable: TNSFRMS_JOB_COLS_PATH=../tests/test_tables/jobs/{prodtest}/job_{job_id}/pre_transform_columns.csv
+Setting environment variable: TNSFRMS_TABLE_SUMMARY_PATH=../tests/test_tables/jobs/{prodtest}/job_{job_id}/pre_transform_table_summary.csv
+Setting environment variable: TNSFRMS_SUPPLY_LOAD_FORMAT=csv
+Setting environment variable: TNSFRMS_ID_MOD=id_mod
+Setting environment variable: TNSFRMS_TAR_PART_SIZE=268435456
+Setting environment variable: HASH_METHOD_LOC=hash_keys
+Setting environment variable: TNSFRMS_RES_LOC=../tests/test_tables/resources/{prodtest}/dss_entity_map_view/id_group={id_group}
+Setting environment variable: TNSFRMS_RES_TYPE=csv
+Default environment variables have been set where necessary.
+Production/Test mode set to: prod
+DAG saved to: transform_dags/transform_dag_job1_run1.html
+Test pipeline execution completed at Sat Jan 24 03:08:24 2026
+Total execution time: 19.11 seconds
+Searching in "..\..\templates\jobs\prod\job_1" ...
+OK: No metadata files found.
